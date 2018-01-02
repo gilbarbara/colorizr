@@ -97,7 +97,7 @@ class Colorizr {
       l: this.constrain(this.lightness, percentage, [0, 100], '+'),
     });
 
-    return this.rgb2hex(this.hsl2rgb(hsl));
+    return this.hsl2hex(hsl);
   }
 
   /**
@@ -111,7 +111,7 @@ class Colorizr {
       l: this.constrain(this.lightness, percentage, [0, 100], '-'),
     });
 
-    return this.rgb2hex(this.hsl2rgb(hsl));
+    return this.hsl2hex(hsl);
   }
 
   /**
@@ -125,7 +125,7 @@ class Colorizr {
       s: this.constrain(this.saturation, percentage, [0, 100], '+'),
     });
 
-    return this.rgb2hex(this.hsl2rgb(hsl));
+    return this.hsl2hex(hsl);
   }
 
   /**
@@ -139,7 +139,7 @@ class Colorizr {
       s: this.constrain(this.saturation, percentage, [0, 100], '-'),
     });
 
-    return this.rgb2hex(this.hsl2rgb(hsl));
+    return this.hsl2hex(hsl);
   }
 
   /**
@@ -153,7 +153,7 @@ class Colorizr {
       h: this.constrainDegrees(this.hue, +degrees),
     });
 
-    return this.rgb2hex(this.hsl2rgb(hsl));
+    return this.hsl2hex(hsl);
   }
 
   /**
@@ -227,13 +227,7 @@ class Colorizr {
    * @returns {{h: number, s: number, l: number}}
    */
   hex2hsl(input: string = this.hex): Object {
-    const hex = this.parseHex(input).substr(1);
-
-    return this.rgb2hsl({
-      r: parseInt(String(hex.charAt(0)) + hex.charAt(1), 16),
-      g: parseInt(String(hex.charAt(2)) + hex.charAt(3), 16),
-      b: parseInt(String(hex.charAt(4)) + hex.charAt(5), 16),
-    });
+    return this.rgb2hsl(this.hex2rgb(input));
   }
 
   /**
@@ -243,7 +237,7 @@ class Colorizr {
    * @returns {{h: number, s: number, l: number}}
    */
   rgb2hsl(input: Object | string = this.rgb): Object {
-    const rgb = typeof input === 'string' ? this.parseRGBString(input) : input;
+    const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
       throw new Error('hex2hsl::invalid object');
@@ -307,7 +301,7 @@ class Colorizr {
    * @returns {string}
    */
   rgb2hex(input: Object = this.rgb): string {
-    const rgb = typeof input === 'string' ? this.parseRGBString(input) : input;
+    const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
       throw new Error('rgb2hex::invalid object');
@@ -328,7 +322,7 @@ class Colorizr {
     let hsl = input;
 
     if (typeof hsl === 'string') {
-      hsl = this.parseHSLString(hsl);
+      hsl = this.parseCSS(hsl);
     }
 
     if (!hasProperty(hsl, 'h') || !hasProperty(hsl, 's') || !hasProperty(hsl, 'l')) {
@@ -440,37 +434,21 @@ class Colorizr {
   }
 
   /**
-   * Parse CSS rgb value.
+   * Parse CSS attribute.
    *
-   * @param {string} rgb
+   * @param {string} input
    * @returns {Object}
    */
-  parseRGBString(rgb: string): Object {
-    const matches = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+  parseCSS(input: string): Object {
+    const model = /^rgb/.test(input) ? 'rgba' : 'hsla';
+    const regex = new RegExp(`^${model}?[\\s+]?\\([\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?`, 'i');
+    const matches = input.match(regex);
+
     if (matches && matches.length === 4) {
       return {
-        r: parseInt(matches[1], 10),
-        g: parseInt(matches[2], 10),
-        b: parseInt(matches[3], 10),
-      };
-    }
-
-    throw new Error('Not a valid color');
-  }
-
-  /**
-   * Parse CSS hsl value.
-   *
-   * @param {string} hsl
-   * @returns {Object}
-   */
-  parseHSLString(hsl: string): Object {
-    const matches = hsl.match(/^hsla?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-    if (matches && matches.length === 4) {
-      return {
-        h: parseInt(matches[1], 10),
-        s: parseInt(matches[2], 10),
-        l: parseInt(matches[3], 10),
+        [model.slice(0, 1)]: parseInt(matches[1], 10),
+        [model.slice(1, 2)]: parseInt(matches[2], 10),
+        [model.slice(2, 3)]: parseInt(matches[3], 10),
       };
     }
 
