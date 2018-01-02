@@ -2,7 +2,9 @@ Colorizr
 ===
 
 [![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr)
-[![build status](https://travis-ci.org/gilbarbara/colorizr.svg)](https://travis-ci.org/gilbarbara/colorizr)
+[![build status](https://travis-ci.org/gilbarbara/colorizr.svg)](https://travis-ci.org/gilbarbara/colorizr) 
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/maintainability)](https://codeclimate.com/github/gilbarbara/colorizr/maintainability) 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/test_coverage)](https://codeclimate.com/github/gilbarbara/colorizr/test_coverage)
 
 ## Setup
 
