@@ -178,27 +178,17 @@ describe('Colorizr', () => {
       });
     });
 
-    describe('parseRGBString', () => {
+    describe('parseCSS', () => {
       it('should work with proper input', () => {
-        expect(colorizr.parseRGBString('rgb(255, 255, 0)')).toEqual({ r: 255, g: 255, b: 0 });
-        expect(colorizr.parseRGBString('rgba(255, 127, 12, 0.5)')).toEqual({ r: 255, g: 127, b: 12 });
+        expect(colorizr.parseCSS('rgb(255, 255, 0)')).toEqual({ r: 255, g: 255, b: 0 });
+        expect(colorizr.parseCSS('rgba(255, 127, 12, 0.5)')).toEqual({ r: 255, g: 127, b: 12 });
+        expect(colorizr.parseCSS('hsl(255, 80, 20)')).toEqual({ h: 255, s: 80, l: 20 });
+        expect(colorizr.parseCSS('hsla(126, 57, 62, 0.5)')).toEqual({ h: 126, s: 57, l: 62 });
       });
 
       it('should throw with invalid input', () => {
-        expect(() => colorizr.parseRGBString('rgs(255, 255, 0)')).toThrow();
-        expect(() => colorizr.parseRGBString([25, 56, 84])).toThrow();
-      });
-    });
-
-    describe('parseHSLString', () => {
-      it('should work with proper input', () => {
-        expect(colorizr.parseHSLString('hsl(255, 80, 20)')).toEqual({ h: 255, s: 80, l: 20 });
-        expect(colorizr.parseHSLString('hsla(126, 57, 62, 0.5)')).toEqual({ h: 126, s: 57, l: 62 });
-      });
-
-      it('should throw with invalid input', () => {
-        expect(() => colorizr.parseHSLString('rgs(200, 55, 50)')).toThrow();
-        expect(() => colorizr.parseHSLString('1,50,50')).toThrow();
+        expect(() => colorizr.parseCSS('rgs(255, 255, 0)')).toThrow();
+        expect(() => colorizr.parseCSS([25, 56, 84])).toThrow();
       });
     });
   });
