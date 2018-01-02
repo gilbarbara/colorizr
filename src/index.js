@@ -42,7 +42,7 @@ class Colorizr {
     if (typeof color === 'string') {
       this.hex = this.parseHex(color);
       this.rgb = this.hex2rgb();
-      this.hsl = this.rgb2hsl();
+      this.hsl = this.hex2hsl();
     }
     else if (Array.isArray(color)) {
       this.setColorFromArray(color);
@@ -249,7 +249,7 @@ class Colorizr {
 
     const min = Math.min(r, g, b);
     const max = Math.max(r, g, b);
-    const d = max - min;
+    const delta = max - min;
 
     let h = 0;
     let s;
@@ -258,15 +258,15 @@ class Colorizr {
 
     switch (max) {
       case r:
-        rate = (g - b) / d;
+        rate = !delta ? 0 : (g - b) / delta;
         h = 60 * rate;
         break;
       case g:
-        rate = (b - r) / d;
+        rate = (b - r) / delta;
         h = (60 * rate) + 120;
         break;
       case b:
-        rate = (r - g) / d;
+        rate = (r - g) / delta;
         h = (60 * rate) + 240;
         break;
       default:
@@ -283,7 +283,7 @@ class Colorizr {
       s = 0;
     }
     else {
-      s = l < 0.5 ? d / (2 * l) : d / (2 - (2 * l));
+      s = l < 0.5 ? delta / (2 * l) : delta / (2 - (2 * l));
     }
 
     return {

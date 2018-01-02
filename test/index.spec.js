@@ -29,16 +29,20 @@ describe('Colorizr', () => {
 
   describe('setColor', () => {
     it('should update the color', () => {
+      colorizr.setColor('#818181');
+      expect(colorizr.hsl).toEqual({ h: 0, s: 0, l: 50.59 });
+      expect(colorizr.rgb).toEqual({ r: 129, g: 129, b: 129 });
+
       colorizr.setColor('#0f4');
       expect(colorizr.hex).toBe('#00ff44');
 
       colorizr.setColor({ h: 240, s: 50, l: 50 });
       expect(colorizr.hex).toBe('#4040bf');
 
-      colorizr.setColor([255, 65, 172]);
+      colorizr.setColor({ r: 255, g: 65, b: 172 });
       expect(colorizr.hex).toBe('#ff41ac');
 
-      colorizr.setColor({ r: 255, g: 0, b: 68 });
+      colorizr.setColor([255, 0, 68]);
       expect(colorizr.hex).toBe('#ff0044');
     });
 
