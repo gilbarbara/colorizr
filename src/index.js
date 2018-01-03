@@ -221,6 +221,110 @@ class Colorizr {
   }
 
   /**
+   * Test 2 colors for compliance.
+   *
+   * @param {Object} left
+   * @param {Object} [right]
+   * @returns {Object}
+   */
+  checkContrast(left: string = isRequired('left'), right: string = this.hex): Object {
+    const LuminanceLeft = this.getLuminance(left);
+    const LuminanceRight = this.getLuminance(right);
+    const colorDifference = this.getColorDifference(left, right);
+    const colorThreshold = 500;
+    const brightnessDifference = this.getBrightnessDifference(left, right);
+    const brightnessThreshold = 125;
+    let ratio = 1;
+
+    if (LuminanceLeft >= LuminanceRight) {
+      ratio = (LuminanceLeft + 0.05) / (LuminanceRight + 0.05);
+    }
+    else {
+      ratio = (LuminanceRight + 0.05) / (LuminanceLeft + 0.05);
+    }
+
+    ratio = round(ratio, 4);
+
+    const isBright = (brightnessDifference >= brightnessThreshold);
+    const hasEnoughDifference = (colorDifference >= colorThreshold);
+
+    let compliant = 0;
+
+    if (isBright && hasEnoughDifference) {
+      compliant = 2;
+    }
+    else if (isBright || hasEnoughDifference) {
+      compliant = 1;
+    }
+
+    return {
+      brightnessDifference,
+      colorDifference,
+      compliant,
+      contrastRatio: ratio,
+      w2a: ratio >= 3,
+      w2aaab: ratio >= 7,
+      w2aaaa: ratio >= 4.5,
+      w2b: ratio >= 4.5,
+    };
+  }
+
+  /**
+   * Get the brightness difference between 2 colors.
+   *
+   * @param {Object} left
+   * @param {Object} [right]
+   * @returns {number}
+   */
+  getBrightnessDifference(left: string = isRequired('left'), right: string = this.hex): number {
+    const RGBLeft = this.hex2rgb(left);
+    const RGBRight = this.hex2rgb(right);
+
+    const rightY = ((RGBRight.r * 299) + (RGBRight.g * 587) + (RGBRight.b * 114)) / 1000;
+    const leftY = ((RGBLeft.r * 299) + (RGBLeft.g * 587) + (RGBLeft.b * 114)) / 1000;
+    return round(Math.abs(rightY - leftY), 4);
+  }
+
+  /**
+   * Get the color difference between 2 colors.
+   *
+   * @param {Object} left
+   * @param {Object} [right]
+   * @returns {number}
+   */
+  getColorDifference(left: string = isRequired('left'), right: string = this.hex): number {
+    const RGBLeft = this.hex2rgb(left);
+    const RGBRight = this.hex2rgb(right);
+
+    return (Math.max(RGBLeft.r, RGBRight.r) - Math.min(RGBLeft.r, RGBRight.r)) +
+      (Math.max(RGBLeft.g, RGBRight.g) - Math.min(RGBLeft.g, RGBRight.g)) +
+      (Math.max(RGBLeft.b, RGBRight.b) - Math.min(RGBLeft.b, RGBRight.b));
+  }
+
+  /**
+   * Get the luminance of a color.
+   *
+   * @param hex
+   * @returns {number}
+   */
+  getLuminance(hex: string = this.hex): number {
+    let rgb = this.hex2rgb(hex);
+
+    rgb = [rgb.r / 255, rgb.g / 255, rgb.b / 255];
+
+    for (let i = 0; i < rgb.length; i++) {
+      if (rgb[i] <= 0.03928) {
+        rgb[i] /= 12.92;
+      }
+      else {
+        rgb[i] = ((rgb[i] + 0.055) / 1.055) ** 2.4;
+      }
+    }
+
+    return round((0.2126 * rgb[0]) + (0.7152 * rgb[1]) + (0.0722 * rgb[2]), 4);
+  }
+
+  /**
    * Parse HEX color.
    *
    * @param {string} input

@@ -25,64 +25,66 @@ describe('Colorizr', () => {
     });
   });
 
-  describe('setColor', () => {
-    it('should update the color', () => {
-      colorizr.setColor('#818181');
-      expect(colorizr.hsl).toEqual({ h: 0, s: 0, l: 50.59 });
-      expect(colorizr.rgb).toEqual({ r: 129, g: 129, b: 129 });
+  describe('setters', () => {
+    describe('setColor', () => {
+      it('should update the color', () => {
+        colorizr.setColor('#818181');
+        expect(colorizr.hsl).toEqual({ h: 0, s: 0, l: 50.59 });
+        expect(colorizr.rgb).toEqual({ r: 129, g: 129, b: 129 });
 
-      colorizr.setColor('#0f4');
-      expect(colorizr.hex).toBe('#00ff44');
+        colorizr.setColor('#0f4');
+        expect(colorizr.hex).toBe('#00ff44');
 
-      colorizr.setColor({ h: 240, s: 50, l: 50 });
-      expect(colorizr.hex).toBe('#4040bf');
+        colorizr.setColor({ h: 240, s: 50, l: 50 });
+        expect(colorizr.hex).toBe('#4040bf');
 
-      colorizr.setColor({ r: 255, g: 65, b: 172 });
-      expect(colorizr.hex).toBe('#ff41ac');
+        colorizr.setColor({ r: 255, g: 65, b: 172 });
+        expect(colorizr.hex).toBe('#ff41ac');
 
-      colorizr.setColor([255, 0, 68]);
-      expect(colorizr.hex).toBe('#ff0044');
+        colorizr.setColor([255, 0, 68]);
+        expect(colorizr.hex).toBe('#ff0044');
 
-      colorizr.setColor();
-      expect(colorizr.hex).toBe('#ff0044');
+        colorizr.setColor();
+        expect(colorizr.hex).toBe('#ff0044');
+      });
+
+      it('should throw with invalid input', () => {
+        expect(() => colorizr.setColor('#abs')).toThrow('Invalid color');
+        expect(() => colorizr.setColor({ h: 240, s: 50, g: 50 })).toThrow('Invalid object');
+        expect(() => colorizr.setColor(838383)).toThrow('Invalid input type');
+      });
     });
 
-    it('should throw with invalid input', () => {
-      expect(() => colorizr.setColor('#abs')).toThrow('Invalid color');
-      expect(() => colorizr.setColor({ h: 240, s: 50, g: 50 })).toThrow('Invalid object');
-      expect(() => colorizr.setColor(838383)).toThrow('Invalid input type');
-    });
-  });
+    describe('setColorFromArray', () => {
+      it('should update the color', () => {
+        colorizr.setColorFromArray([129, 100, 68]);
+        expect(colorizr.hex).toBe('#816444');
 
-  describe('setColorFromArray', () => {
-    it('should update the color', () => {
-      colorizr.setColorFromArray([129, 100, 68]);
-      expect(colorizr.hex).toBe('#816444');
+        colorizr.setColorFromArray([255, 0, 68]);
+        expect(colorizr.hex).toBe('#ff0044');
+      });
 
-      colorizr.setColorFromArray([255, 0, 68]);
-      expect(colorizr.hex).toBe('#ff0044');
-    });
-
-    it('should throw with invalid input', () => {
-      expect(() => colorizr.setColorFromArray('#abs')).toThrow('input is not an array');
-      expect(() => colorizr.setColorFromArray({ h: 100 })).toThrow('input is not an array');
-      expect(() => colorizr.setColorFromArray()).toThrow('input is required');
-    });
-  });
-
-  describe('setColorFromObject', () => {
-    it('should update the color', () => {
-      colorizr.setColorFromObject({ h: 240, s: 50, l: 50 });
-      expect(colorizr.hex).toBe('#4040bf');
-
-      colorizr.setColorFromObject({ r: 255, g: 0, b: 68 });
-      expect(colorizr.hex).toBe('#ff0044');
+      it('should throw with invalid input', () => {
+        expect(() => colorizr.setColorFromArray('#abs')).toThrow('input is not an array');
+        expect(() => colorizr.setColorFromArray({ h: 100 })).toThrow('input is not an array');
+        expect(() => colorizr.setColorFromArray()).toThrow('input is required');
+      });
     });
 
-    it('should throw with invalid input', () => {
-      expect(() => colorizr.setColorFromObject('#abs')).toThrow('input is not an object');
-      expect(() => colorizr.setColorFromObject([])).toThrow('input is not an object');
-      expect(() => colorizr.setColorFromObject()).toThrow('input is required');
+    describe('setColorFromObject', () => {
+      it('should update the color', () => {
+        colorizr.setColorFromObject({ h: 240, s: 50, l: 50 });
+        expect(colorizr.hex).toBe('#4040bf');
+
+        colorizr.setColorFromObject({ r: 255, g: 0, b: 68 });
+        expect(colorizr.hex).toBe('#ff0044');
+      });
+
+      it('should throw with invalid input', () => {
+        expect(() => colorizr.setColorFromObject('#abs')).toThrow('input is not an object');
+        expect(() => colorizr.setColorFromObject([])).toThrow('input is not an object');
+        expect(() => colorizr.setColorFromObject()).toThrow('input is required');
+      });
     });
   });
 
@@ -327,7 +329,135 @@ describe('Colorizr', () => {
     });
   });
 
-  describe('methods', () => {
+  describe('analysis', () => {
+    describe('getColorDifference', () => {
+      it('should return the correct number using the instance color', () => {
+        expect(colorizr.getColorDifference('#dd00ff')).toBe(221);
+        expect(colorizr.getColorDifference('#fff')).toBe(442);
+        expect(colorizr.getColorDifference('#000')).toBe(323);
+      });
+
+      it('should return the correct number using the second parameter', () => {
+        expect(colorizr.getColorDifference('#fff', '#000')).toBe(765);
+        expect(colorizr.getColorDifference('#FF9D64', '#000')).toBe(512);
+      });
+
+      it('should fail for invalid parameters', () => {
+        expect(() => colorizr.getColorDifference()).toThrow('left is required');
+        expect(() => colorizr.getColorDifference([])).toThrow();
+      });
+    });
+
+    describe('getBrightnessDifference', () => {
+      it('should return the correct number using the instance color', () => {
+        expect(colorizr.getBrightnessDifference('#fff')).toBe(171.003);
+        expect(colorizr.getBrightnessDifference('#000')).toBe(83.997);
+      });
+
+      it('should fail for invalid parameters', () => {
+        expect(() => colorizr.getBrightnessDifference()).toThrow('left is required');
+        expect(() => colorizr.getBrightnessDifference([])).toThrow();
+      });
+    });
+
+    describe('getLuminance', () => {
+      it('should return the correct value', () => {
+        expect(colorizr.getLuminance()).toBe(0.2168);
+        expect(colorizr.getLuminance('#24d3d3')).toBe(0.5167);
+        expect(colorizr.getLuminance('#005cff')).toBe(0.1487);
+        expect(colorizr.getLuminance('#fff')).toBe(1);
+        expect(colorizr.getLuminance('#000')).toBe(0);
+      });
+    });
+
+    describe('checkContrast', () => {
+      it('should return the correct number using the instance color', () => {
+        expect(colorizr.checkContrast('#dd00ff')).toEqual({
+          brightnessDifference: 11.152,
+          colorDifference: 221,
+          compliant: 0,
+          contrastRatio: 1.0341,
+          w2a: false,
+          w2aaaa: false,
+          w2aaab: false,
+          w2b: false,
+        });
+
+        expect(colorizr.checkContrast('#00ffbb')).toEqual({
+          brightnessDifference: 87.006,
+          colorDifference: 629,
+          compliant: 1,
+          contrastRatio: 3.0026,
+          w2a: true,
+          w2aaaa: false,
+          w2aaab: false,
+          w2b: false,
+        });
+
+        expect(colorizr.checkContrast('#fff')).toEqual({
+          brightnessDifference: 171.003,
+          colorDifference: 442,
+          compliant: 1,
+          contrastRatio: 3.9355,
+          w2a: true,
+          w2aaaa: false,
+          w2aaab: false,
+          w2b: false,
+        });
+
+        expect(colorizr.checkContrast('#000')).toEqual({
+          brightnessDifference: 83.997,
+          colorDifference: 323,
+          compliant: 0,
+          contrastRatio: 5.336,
+          w2a: true,
+          w2aaaa: true,
+          w2aaab: false,
+          w2b: true,
+        });
+      });
+
+      it('should return the correct number using the second parameter', () => {
+        expect(colorizr.checkContrast('#dd00ff', '#FF0000')).toEqual({
+          brightnessDifference: 18.904,
+          colorDifference: 289,
+          compliant: 0,
+          contrastRatio: 1.0506,
+          w2a: false,
+          w2aaaa: false,
+          w2aaab: false,
+          w2b: false,
+        });
+        expect(colorizr.checkContrast('#fff', '#777')).toEqual({
+          brightnessDifference: 136,
+          colorDifference: 408,
+          compliant: 1,
+          contrastRatio: 4.4776,
+          w2a: true,
+          w2aaaa: false,
+          w2aaab: false,
+          w2b: false,
+        });
+        expect(colorizr.checkContrast('#000', '#fff')).toEqual({
+          brightnessDifference: 255,
+          colorDifference: 765,
+          compliant: 2,
+          contrastRatio: 21,
+          w2a: true,
+          w2aaaa: true,
+          w2aaab: true,
+          w2b: true,
+        });
+      });
+
+      it('should fail for invalid parameters', () => {
+        expect(() => colorizr.checkContrast()).toThrow('left is required');
+        expect(() => colorizr.checkContrast([])).toThrow();
+      });
+    });
+  });
+
+  describe('other', () => {
     describe('textColor', () => {
       it('should return the contrasted color', () => {
         expect(colorizr.textColor()).toBe('#fff');
