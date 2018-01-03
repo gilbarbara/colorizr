@@ -87,6 +87,10 @@ export function isPlainObject(input: any): boolean {
   return toString.call(input) === '[object Object]' && (prototype === null || prototype === Object.getPrototypeOf({}));
 }
 
+export function isRequired(name) {
+  throw new Error(`${name || 'parameter'} is required`);
+}
+
 /**
  * Creates an object composed of the picked source properties.
  *
@@ -120,4 +124,8 @@ export function pick(input: Object, options: Array<string>): Object {
 export function round(input: number, digits: number = 2): number {
   const factor = 10 ** digits;
   return Math.round(input * factor) / factor;
+}
+
+export function validateHex(input: string): boolean {
+  return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(input);
 }

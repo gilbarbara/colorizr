@@ -1,4 +1,4 @@
-import { expr, hasProperty, isPlainObject, pick, round } from '../src/utils';
+import { expr, hasProperty, isPlainObject, isRequired, pick, round, validateHex } from '../src/utils';
 
 describe('expr', () => {
   it('should return the correct value', () => {
@@ -53,5 +53,23 @@ describe('round', () => {
     expect(round(100.291, 2)).toBe(100.29);
     expect(round(1.21792011, 2)).toBe(1.22);
     expect(round(1.21298011, 4)).toBe(1.213);
+  });
+});
+
+describe('validateHex', () => {
+  it('should validate correctly', () => {
+    expect(validateHex('#aabbcc')).toBe(true);
+    expect(validateHex('#ff0044')).toBe(true);
+    expect(validateHex('#mmff00')).toBe(false);
+    expect(validateHex('00ff00')).toBe(false);
+    expect(validateHex('74422')).toBe(false);
+    expect(validateHex()).toBe(false);
+  });
+});
+
+describe('isRequired', () => {
+  it('should throw when executed', () => {
+    expect(() => isRequired('name')).toThrow('name is required');
+    expect(() => isRequired()).toThrow('parameter is required');
   });
 });
