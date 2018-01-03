@@ -30,14 +30,12 @@ class Colorizr {
   }
 
   /**
-   * Change the main color.
+   * Set the main color.
    *
    * @param {string|Array|Object} color
    */
   setColor(color: string | Array<number> | Object) {
-    if (!color) {
-      throw new Error('Not a valid color');
-    }
+    if (!color) return;
 
     if (typeof color === 'string') {
       this.hex = this.parseHex(color);
@@ -51,36 +49,52 @@ class Colorizr {
       this.setColorFromObject(color);
     }
     else {
-      throw new Error('Input not valid');
+      throw new Error('Invalid input type');
     }
   }
 
-  setColorFromArray(color: Array<number>) {
+  /**
+   * Set color from an array.
+   *
+   * @private
+   * @param {Array} input
+   */
+  setColorFromArray(input: Array<number> = isRequired('input')) {
+    if (!Array.isArray(input)) throw new Error('input is not an array');
+
     this.rgb = {
-      r: this.limit(color[0], 'r'),
-      g: this.limit(color[1], 'g'),
-      b: this.limit(color[2], 'b'),
+      r: this.limit(input[0], 'r'),
+      g: this.limit(input[1], 'g'),
+      b: this.limit(input[2], 'b'),
     };
 
     this.hex = this.rgb2hex();
     this.hsl = this.rgb2hsl();
   }
 
-  setColorFromObject(color: Object) {
-    if (hasProperty(color, 'h') && hasProperty(color, 's') && hasProperty(color, 'l')) {
+  /**
+   * Set color from an object.
+   *
+   * @private
+   * @param {Object} input
+   */
+  setColorFromObject(input: Object = isRequired('input')) {
+    if (!isPlainObject(input)) throw new Error('input is not an object');
+
+    if (hasProperty(input, 'h') && hasProperty(input, 's') && hasProperty(input, 'l')) {
       this.hsl = {
-        h: this.limit(color.h, 'h'),
-        s: this.limit(color.s, 's'),
-        l: this.limit(color.l, 'l'),
+        h: this.limit(input.h, 'h'),
+        s: this.limit(input.s, 's'),
+        l: this.limit(input.l, 'l'),
       };
       this.rgb = this.hsl2rgb();
     }
-    else if (hasProperty(color, 'r') && hasProperty(color, 'g') && hasProperty(color, 'b')) {
-      this.rgb = color;
+    else if (hasProperty(input, 'r') && hasProperty(input, 'g') && hasProperty(input, 'b')) {
+      this.rgb = input;
       this.hsl = this.rgb2hsl();
     }
     else {
-      throw new Error('Not a valid object');
+      throw new Error('Invalid object');
     }
 
     this.hex = this.hsl2hex();
