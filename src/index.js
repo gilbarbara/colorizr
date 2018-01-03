@@ -106,7 +106,7 @@ class Colorizr {
    * @param {number} percentage
    * @returns {string}
    */
-  lighten(percentage: number): string {
+  lighten(percentage: number = 10): string {
     const hsl = this.shift({
       l: this.constrain(this.lightness, percentage, [0, 100], '+'),
     });
@@ -120,7 +120,7 @@ class Colorizr {
    * @param {number} percentage
    * @returns {string}
    */
-  darken(percentage: number): string {
+  darken(percentage: number = 10): string {
     const hsl = this.shift({
       l: this.constrain(this.lightness, percentage, [0, 100], '-'),
     });
@@ -134,7 +134,7 @@ class Colorizr {
    * @param {number} percentage
    * @returns {string}
    */
-  saturate(percentage: number): string {
+  saturate(percentage: number = 10): string {
     const hsl = this.shift({
       s: this.constrain(this.saturation, percentage, [0, 100], '+'),
     });
@@ -143,12 +143,12 @@ class Colorizr {
   }
 
   /**
-   * Descrease saturation.
+   * Decrease saturation.
    *
    * @param {number} percentage
    * @returns {string}
    */
-  desaturate(percentage: number): string {
+  desaturate(percentage: number = 10): string {
     const hsl = this.shift({
       s: this.constrain(this.saturation, percentage, [0, 100], '-'),
     });
@@ -162,7 +162,7 @@ class Colorizr {
    * @param {number} degrees
    * @returns {string}
    */
-  adjustHue(degrees: number): string {
+  adjustHue(degrees: number = 15): string {
     const hsl = this.shift({
       h: this.constrainDegrees(this.hue, +degrees),
     });
