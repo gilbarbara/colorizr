@@ -178,7 +178,7 @@ class Colorizr {
    *
    * @returns {string}
    */
-  remix(input: Object, returnHex: boolean = false): Object | string {
+  remix(input: Object = isRequired('input'), returnHex: boolean = false): Object | string {
     const shift = this.shift(input);
 
     if (returnHex) {
@@ -289,7 +289,7 @@ class Colorizr {
   /**
    * Convert a hex string to HSL object.
    *
-   * @param {string} input
+   * @param {string} [input]
    * @returns {{h: number, s: number, l: number}}
    */
   hex2hsl(input: string = this.hex): Object {
@@ -299,7 +299,7 @@ class Colorizr {
   /**
    * Convert a RGB object to HSL.
    *
-   * @param {Object|string} input
+   * @param {Object|string} [input]
    * @returns {{h: number, s: number, l: number}}
    */
   rgb2hsl(input: Object | string = this.rgb): Object {
@@ -362,11 +362,11 @@ class Colorizr {
   /**
    * Convert a RGA object to hex.
    *
-   * @param {Object|string} input
+   * @param {Object|string} [input]
    *
    * @returns {string}
    */
-  rgb2hex(input: Object = this.rgb): string {
+  rgb2hex(input: Object | string = this.rgb): string {
     const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
@@ -381,7 +381,7 @@ class Colorizr {
   /**
    * Convert a HSL object to RGB.
    *
-   * @param {Object|string} input
+   * @param {Object|string} [input]
    * @returns {{r: number, g: number, b: number}}
    */
   hsl2rgb(input: Object | string = this.hsl): Object {
@@ -430,21 +430,26 @@ class Colorizr {
   /**
    * Convert a HSL object to HEX.
    *
-   * @param {Object} hsl
+   * @param {Object|string} [input]
    * @returns {string}
    */
-  hsl2hex(hsl: Object = this.hsl): string {
+  hsl2hex(input: Object | string = this.hsl): string {
+    const hsl = typeof input === 'string' ? this.parseCSS(input) : input;
+
     return this.rgb2hex(this.hsl2rgb(hsl));
   }
 
   /**
+   * Convert hue to RGB using chroma and median point
+   *
+   * @private
    * @param {number} point
    * @param {number} chroma
    * @param {number} h
    *
    * @returns {*}
    */
-  hue2rgb(point: number, chroma: number, h: number): number {
+  hue2rgb(point: number = isRequired('point'), chroma: number = isRequired('chroma'), h: number = isRequired('hue')): number {
     let hue = h;
 
     if (hue < 0) {
@@ -474,12 +479,12 @@ class Colorizr {
    * Get a shifted color object with the same model of the input.
    *
    * @private
-   * @param {Object} color - {r,g,b} or {h,s,l}
+   * @param {Object} input - {r,g,b} or {h,s,l}
    * @returns {Object}
    */
-  shift(color: Object): Object {
     const isHSL = Object.keys(color).some(d => HSL.includes(d));
     const isRGB = Object.keys(color).some(d => RGB.includes(d));
+  shift(input: Object = isRequired('input')): Object {
 
     if (isRGB && isHSL) {
       throw new Error('Only use a single color model');
@@ -517,9 +522,9 @@ class Colorizr {
    * @param {string} type
    * @returns {number}
    */
-  limit(value: number, type: string): number {
-    if (typeof value !== 'number') {
-      throw new Error('not a number');
+  limit(input: number = isRequired('input'), type: string = isRequired('type')): number {
+    if (typeof input !== 'number') {
+      throw new Error('Input is not a number');
     }
 
     if (RGB.includes(type)) {
@@ -542,12 +547,12 @@ class Colorizr {
    * @param {number} input
    * @param {number} amount
    * @param {Array} range
-   * @param {string} direction
+   * @param {string} sign
    * @returns {number}
    */
-  constrain(input: number, amount: number, range: Array<number>, direction: string): number {
+  constrain(input: number = isRequired('input'), amount: number = isRequired('amount'), range: Array<number> = isRequired('range'), sign: string = isRequired('sign')): number {
     const [min, max] = range;
-    let value = expr(input + direction + amount);
+    let value = expr(input + sign + amount);
 
     if (value < min) {
       value = min;
@@ -567,7 +572,7 @@ class Colorizr {
    * @param {number} amount
    * @returns {number}
    */
-  constrainDegrees(input: number, amount: number): number {
+  constrainDegrees(input: number = isRequired('input'), amount: number = isRequired('amount')): number {
     let value = input + amount;
 
     if (value > 360) {
