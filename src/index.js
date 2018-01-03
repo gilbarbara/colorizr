@@ -1,5 +1,5 @@
 // @flow
-import { expr, hasProperty, isPlainObject, pick, round } from './utils';
+import { expr, hasProperty, isPlainObject, isRequired, pick, round, validateHex } from './utils';
 
 const RGB = ['r', 'g', 'b'];
 const HSL = ['h', 's', 'l'];
@@ -174,7 +174,7 @@ class Colorizr {
    * Alter color values.
    *
    * @param {Object} input
-   * @param {boolean} returnHex
+   * @param {boolean} [returnHex]
    *
    * @returns {string}
    */
@@ -186,17 +186,6 @@ class Colorizr {
     }
 
     return shift;
-  }
-
-  /**
-   * Validate HEX color.
-   *
-   * @param {string} hex
-   *
-   * @returns {boolean}
-   */
-  validHex(hex: string): boolean {
-    return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(hex);
   }
 
   /**
@@ -219,7 +208,6 @@ class Colorizr {
   }
 
   /**
-   * Convert a hex string to RGB object.
    * Get the contrasted color for a given hex.
    *
    * @param {string} input
@@ -232,8 +220,60 @@ class Colorizr {
     return (yiq >= 128) ? '#000' : '#fff';
   }
 
+  /**
+   * Parse HEX color.
    *
    * @param {string} input
+   *
+   * @returns {string}
+   */
+  parseHex(input: string = isRequired('input')): string {
+    const color = input.replace('#', '');
+    let hex = color;
+
+    if (color.length === 3) {
+      hex = '';
+
+      color.split('').forEach(d => {
+        hex += d + d;
+      });
+    }
+
+    hex = `#${hex}`;
+
+    if (!validateHex(hex)) {
+      throw new Error('Invalid color');
+    }
+
+    return hex;
+  }
+
+  /**
+   * Parse CSS attribute.
+   *
+   * @param {string} input
+   * @returns {Object}
+   */
+  parseCSS(input: string = isRequired('input')): Object {
+    const model = /^rgb/.test(input) ? 'rgba' : 'hsla';
+    const regex = new RegExp(`^${model}?[\\s+]?\\([\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?`, 'i');
+    const matches = input.match(regex);
+
+    if (matches && matches.length === 4) {
+      return {
+        [model.slice(0, 1)]: parseInt(matches[1], 10),
+        [model.slice(1, 2)]: parseInt(matches[2], 10),
+        [model.slice(2, 3)]: parseInt(matches[3], 10),
+      };
+    }
+
+    throw new Error('Invalid CSS string');
+  }
+
+  /**
+   * Convert a hex string to RGB object.
+   *
+   * @param {string} [input]
    * @returns {{r: number, g: number, b: number}}
    */
   hex2rgb(input: string = this.hex): Object {
@@ -431,57 +471,6 @@ class Colorizr {
   }
 
   /**
-   * Parse HEX color.
-   *
-   * @param {string} hex
-   *
-   * @returns {string}
-   */
-  parseHex(hex: string): string {
-    const color = hex.replace('#', '');
-    let newHex = '';
-
-    if (color.length === 3) {
-      color.split('').forEach(d => {
-        newHex += d + d;
-      });
-    }
-    else {
-      newHex = color;
-    }
-
-    newHex = `#${newHex}`;
-
-    if (!this.validHex(newHex)) {
-      throw new Error('Not a valid color');
-    }
-
-    return newHex;
-  }
-
-  /**
-   * Parse CSS attribute.
-   *
-   * @param {string} input
-   * @returns {Object}
-   */
-  parseCSS(input: string): Object {
-    const model = /^rgb/.test(input) ? 'rgba' : 'hsla';
-    const regex = new RegExp(`^${model}?[\\s+]?\\([\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?,[\\s+]?(\\d+)[\\s+]?`, 'i');
-    const matches = input.match(regex);
-
-    if (matches && matches.length === 4) {
-      return {
-        [model.slice(0, 1)]: parseInt(matches[1], 10),
-        [model.slice(1, 2)]: parseInt(matches[2], 10),
-        [model.slice(2, 3)]: parseInt(matches[3], 10),
-      };
-    }
-
-    throw new Error('Not a valid color');
-  }
-
-  /**
    * Get a shifted color object with the same model of the input.
    *
    * @private
@@ -634,5 +623,7 @@ class Colorizr {
     return Number(this.hsl.l);
   }
 }
+
+export { validateHex };
 
 export default Colorizr;
