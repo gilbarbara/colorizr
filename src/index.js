@@ -220,6 +220,18 @@ class Colorizr {
 
   /**
    * Convert a hex string to RGB object.
+   * Get the contrasted color for a given hex.
+   *
+   * @param {string} input
+   * @returns {string}
+   */
+  textColor(input: string = this.hex): string {
+    const { r, g, b } = this.hex2rgb(input);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+
+    return (yiq >= 128) ? '#000' : '#fff';
+  }
+
    *
    * @param {string} input
    * @returns {{r: number, g: number, b: number}}
