@@ -306,7 +306,7 @@ class Colorizr {
     const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
-      throw new Error('hex2hsl::invalid object');
+      throw new Error('Invalid object');
     }
 
     const r = this.limit(rgb.r, 'r') / 255;
@@ -335,6 +335,7 @@ class Colorizr {
         rate = (r - g) / delta;
         h = (60 * rate) + 240;
         break;
+      /* istanbul ignore next */
       default:
         break;
     }
@@ -370,7 +371,7 @@ class Colorizr {
     const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
-      throw new Error('rgb2hex::invalid object');
+      throw new Error('Invalid object');
     }
 
     const hex = (1 << 24) + (rgb.r << 16) + (rgb.g << 8) + rgb.b;
@@ -385,14 +386,10 @@ class Colorizr {
    * @returns {{r: number, g: number, b: number}}
    */
   hsl2rgb(input: Object | string = this.hsl): Object {
-    let hsl = input;
-
-    if (typeof hsl === 'string') {
-      hsl = this.parseCSS(hsl);
-    }
+    const hsl = typeof input === 'string' ? this.parseCSS(input) : input;
 
     if (!hasProperty(hsl, 'h') || !hasProperty(hsl, 's') || !hasProperty(hsl, 'l')) {
-      throw new Error('hsl2rgb::invalid object');
+      throw new Error('Invalid object');
     }
 
     const h = round(hsl.h) / 360;
@@ -482,12 +479,16 @@ class Colorizr {
    * @param {Object} input - {r,g,b} or {h,s,l}
    * @returns {Object}
    */
-    const isHSL = Object.keys(color).some(d => HSL.includes(d));
-    const isRGB = Object.keys(color).some(d => RGB.includes(d));
   shift(input: Object = isRequired('input')): Object {
+    if (!isPlainObject(input)) {
+      throw new Error('Invalid input');
+    }
+
+    const isHSL = Object.keys(input).some(d => HSL.includes(d));
+    const isRGB = Object.keys(input).some(d => RGB.includes(d));
 
     if (isRGB && isHSL) {
-      throw new Error('Only use a single color model');
+      throw new Error('Use a single color model');
     }
 
     if (!isHSL && !isRGB) {
@@ -495,21 +496,13 @@ class Colorizr {
     }
 
     if (isHSL) {
-      const hsl = pick(color, HSL);
-
-      if (!Object.keys(hsl).length) {
-        return this.hsl;
-      }
+      const hsl = pick(input, HSL);
 
       return { ...this.hsl, ...hsl };
     }
 
     // Not HSL so it must be RGB
-    const rgb = pick(color, RGB);
-
-    if (!Object.keys(rgb).length) {
-      return this.rgb;
-    }
+    const rgb = pick(input, RGB);
 
     return { ...this.rgb, ...rgb };
   }
@@ -518,7 +511,7 @@ class Colorizr {
    * Limit values per type.
    *
    * @private
-   * @param {number} value
+   * @param {number} input
    * @param {string} type
    * @returns {number}
    */
@@ -527,17 +520,18 @@ class Colorizr {
       throw new Error('Input is not a number');
     }
 
+    /* istanbul ignore else */
     if (RGB.includes(type)) {
-      return Math.max(Math.min(value, 255), 0);
+      return Math.max(Math.min(input, 255), 0);
     }
     else if (['s', 'l'].includes(type)) {
-      return Math.max(Math.min(value, 100), 0);
+      return Math.max(Math.min(input, 100), 0);
     }
     else if (type === 'h') {
-      return Math.max(Math.min(value, 360), 0);
+      return Math.max(Math.min(input, 360), 0);
     }
 
-    throw new Error('invalid type');
+    throw new Error('Invalid type');
   }
 
   /**
