@@ -36,3 +36,8 @@ this.colorizr.lighten(10);
 ## API
 
 Coming soon...
+
+**References**  
+https://24ways.org/2010/calculating-color-contrast/  
+https://snook.ca/technical/colour_contrast/colour.html  
+https://webaim.org/resources/contrastchecker/  
