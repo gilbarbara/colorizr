@@ -4,11 +4,13 @@ import { expr, hasProperty, isPlainObject, isRequired, pick, round, validateHex 
 const RGB = ['r', 'g', 'b'];
 const HSL = ['h', 's', 'l'];
 
+export { validateHex };
+
 /**
  * Colorizr
- * @class
+ * @class Colorizr
  */
-class Colorizr {
+export default class Colorizr {
   hex: string = '';
   hsl: Object = {
     h: 0,
@@ -30,7 +32,7 @@ class Colorizr {
   }
 
   /**
-   * Set the main color.
+   * Set the instance color.
    *
    * @param {string|Array|Object} color
    */
@@ -182,7 +184,7 @@ class Colorizr {
     const shift = this.shift(input);
 
     if (returnHex) {
-      return shift.r ? this.rgb2hex(shift) : this.hsl2hex(shift);
+      return this.isRGB(shift) ? this.rgb2hex(shift) : this.hsl2hex(shift);
     }
 
     return shift;
@@ -588,8 +590,8 @@ class Colorizr {
       throw new Error('Invalid input');
     }
 
-    const isHSL = Object.keys(input).some(d => HSL.includes(d));
-    const isRGB = Object.keys(input).some(d => RGB.includes(d));
+    const isHSL = this.isHSL(input);
+    const isRGB = this.isRGB(input);
 
     if (isRGB && isHSL) {
       throw new Error('Use a single color model');
@@ -685,6 +687,26 @@ class Colorizr {
   }
 
   /**
+   * Check if an object contains HSL values.
+   *
+   * @param {Object} input
+   * @returns {boolean}
+   */
+  isHSL(input: Object): boolean {
+    return Object.keys(input).some(d => HSL.includes(d));
+  }
+
+  /**
+   * Check if an object contains RGB values.
+   *
+   * @param {Object} input
+   * @returns {boolean}
+   */
+  isRGB(input: Object): boolean {
+    return Object.keys(input).some(d => RGB.includes(d));
+  }
+
+  /**
    * @type {number}
    */
   get red(): number {
@@ -726,7 +748,3 @@ class Colorizr {
     return Number(this.hsl.l);
   }
 }
-
-export { validateHex };
-
-export default Colorizr;
