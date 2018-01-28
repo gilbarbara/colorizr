@@ -4,7 +4,7 @@ describe('Colorizr', () => {
   const colorizr = new Colorizr('#ff0044');
 
   describe('initialization', () => {
-    it('should create a new instance of Color', () => {
+    it('should create a new instance', () => {
       expect(colorizr).toBeInstanceOf(Colorizr);
     });
 
@@ -186,7 +186,7 @@ describe('Colorizr', () => {
         expect(colorizr.rgb).toEqual({ r: 255, g: 0, b: 68 });
         expect(colorizr.remix({ r: 0, g: 20 })).toEqual({ r: 0, g: 20, b: 68 });
         expect(colorizr.remix({ r: 120, b: 0 })).toEqual({ r: 120, g: 0, b: 0 });
-        expect(colorizr.remix({ g: 30, b: 244 }, true)).toBe('#ff1ef4');
+        expect(colorizr.remix({ r: 0, g: 30, b: 244 }, true)).toBe('#001ef4');
       });
 
       it('should throw with incorrect parameters', () => {
