@@ -1,7 +1,11 @@
 import Colorizr from '../src';
 
 describe('Colorizr', () => {
-  const colorizr = new Colorizr('#ff0044');
+  let colorizr;
+
+  beforeEach(() => {
+    colorizr = new Colorizr('#ff0044');
+  });
 
   describe('initialization', () => {
     it('should create a new instance', () => {
@@ -89,28 +93,36 @@ describe('Colorizr', () => {
   });
 
   describe('getters', () => {
-    it('.hue should get the correct value', () => {
+    it('.hue should return the correct value', () => {
       expect(colorizr.hue).toBe(344);
     });
 
-    it('.saturation should get the correct value', () => {
+    it('.saturation should return the correct value', () => {
       expect(colorizr.saturation).toBe(100);
     });
 
-    it('.lightness should get the correct value', () => {
+    it('.lightness should return the correct value', () => {
       expect(colorizr.lightness).toBe(50);
     });
 
-    it('.red should get the correct value', () => {
+    it('.red should return the correct value', () => {
       expect(colorizr.red).toBe(255);
     });
 
-    it('.blue should get the correct value', () => {
+    it('.blue should return the correct value', () => {
       expect(colorizr.blue).toBe(68);
     });
 
-    it('.green should get the correct value', () => {
+    it('.green should return the correct value', () => {
       expect(colorizr.green).toBe(0);
+    });
+
+    it('.luminance should return the correct value', () => {
+      expect(colorizr.luminance).toBe(0.2168);
+    });
+
+    it('.chroma should return the correct value', () => {
+      expect(colorizr.chroma).toBe(1);
     });
   });
 
@@ -136,21 +148,14 @@ describe('Colorizr', () => {
     });
 
     describe('saturate', () => {
-      const { hex } = colorizr;
-
-      beforeAll(() => {
-        colorizr.setColor('#bf4062');
-      });
-
-      afterAll(() => {
-        colorizr.setColor(hex);
-      });
-
       it('should have saturated the color', () => {
+        colorizr.setColor('#bf4062');
+
         expect(colorizr.hex).toBe('#bf4062');
         expect(colorizr.saturate()).toBe('#cc335c');
         expect(colorizr.saturate(20)).toBe('#d82756');
         expect(colorizr.saturate(50)).toBe('#ff0044');
+        expect(colorizr.saturate(100)).toBe('#ff0044');
       });
     });
 
@@ -164,13 +169,13 @@ describe('Colorizr', () => {
       });
     });
 
-    describe('adjustHue', () => {
+    describe('rotate', () => {
       it('should have changed the color', () => {
         expect(colorizr.hex).toBe('#ff0044');
-        expect(colorizr.adjustHue()).toBe('#ff0004');
-        expect(colorizr.adjustHue(30)).toBe('#ff3b00');
-        expect(colorizr.adjustHue(90)).toBe('#c4ff00');
-        expect(colorizr.adjustHue(180)).toBe('#00ffbb');
+        expect(colorizr.rotate()).toBe('#ff0004');
+        expect(colorizr.rotate(30)).toBe('#ff3b00');
+        expect(colorizr.rotate(90)).toBe('#c4ff00');
+        expect(colorizr.rotate(180)).toBe('#00ffbb');
       });
     });
 
@@ -370,46 +375,46 @@ describe('Colorizr', () => {
       });
     });
 
-    describe('checkContrast', () => {
+    describe('compare', () => {
       it('should return the correct number using the instance color', () => {
-        expect(colorizr.checkContrast('#dd00ff')).toEqual({
+        expect(colorizr.compare('#dd00ff')).toEqual({
           brightnessDifference: 11.152,
           colorDifference: 221,
           compliant: 0,
-          contrastRatio: 1.0341,
+          contrast: 1.0341,
           w2a: false,
           w2aaaa: false,
           w2aaab: false,
           w2b: false,
         });
 
-        expect(colorizr.checkContrast('#00ffbb')).toEqual({
+        expect(colorizr.compare('#00ffbb')).toEqual({
           brightnessDifference: 87.006,
           colorDifference: 629,
           compliant: 1,
-          contrastRatio: 3.0026,
+          contrast: 3.0026,
           w2a: true,
           w2aaaa: false,
           w2aaab: false,
           w2b: false,
         });
 
-        expect(colorizr.checkContrast('#fff')).toEqual({
+        expect(colorizr.compare('#fff')).toEqual({
           brightnessDifference: 171.003,
           colorDifference: 442,
           compliant: 1,
-          contrastRatio: 3.9355,
+          contrast: 3.9355,
           w2a: true,
           w2aaaa: false,
           w2aaab: false,
           w2b: false,
         });
 
-        expect(colorizr.checkContrast('#000')).toEqual({
+        expect(colorizr.compare('#000')).toEqual({
           brightnessDifference: 83.997,
           colorDifference: 323,
           compliant: 0,
-          contrastRatio: 5.336,
+          contrast: 5.336,
           w2a: true,
           w2aaaa: true,
           w2aaab: false,
@@ -418,31 +423,31 @@ describe('Colorizr', () => {
       });
 
       it('should return the correct number using the second parameter', () => {
-        expect(colorizr.checkContrast('#dd00ff', '#FF0000')).toEqual({
+        expect(colorizr.compare('#dd00ff', '#FF0000')).toEqual({
           brightnessDifference: 18.904,
           colorDifference: 289,
           compliant: 0,
-          contrastRatio: 1.0506,
+          contrast: 1.0506,
           w2a: false,
           w2aaaa: false,
           w2aaab: false,
           w2b: false,
         });
-        expect(colorizr.checkContrast('#fff', '#777')).toEqual({
+        expect(colorizr.compare('#fff', '#777')).toEqual({
           brightnessDifference: 136,
           colorDifference: 408,
           compliant: 1,
-          contrastRatio: 4.4776,
+          contrast: 4.4776,
           w2a: true,
           w2aaaa: false,
           w2aaab: false,
           w2b: false,
         });
-        expect(colorizr.checkContrast('#000', '#fff')).toEqual({
+        expect(colorizr.compare('#000', '#fff')).toEqual({
           brightnessDifference: 255,
           colorDifference: 765,
           compliant: 2,
-          contrastRatio: 21,
+          contrast: 21,
           w2a: true,
           w2aaaa: true,
           w2aaab: true,
@@ -451,8 +456,29 @@ describe('Colorizr', () => {
       });
 
       it('should fail for invalid parameters', () => {
-        expect(() => colorizr.checkContrast()).toThrow('left is required');
-        expect(() => colorizr.checkContrast([])).toThrow();
+        expect(() => colorizr.compare()).toThrow('left is required');
+        expect(() => colorizr.compare([])).toThrow();
+      });
+    });
+
+    describe('contrast', () => {
+      it('should return the correct value', () => {
+        expect(colorizr.contrast('#24d3d3')).toBe(2.1241);
+        expect(colorizr.contrast('#005cff')).toBe(1.3427);
+        expect(colorizr.contrast('#fff')).toBe(3.9355);
+        expect(colorizr.contrast('#000')).toBe(5.336);
+      });
+
+      it('should return the correct value using the second parameter', () => {
+        expect(colorizr.contrast('#24d3d3', '#d32424')).toBe(2.7999);
+        expect(colorizr.contrast('#99bfff', '#004cc2')).toBe(4.0007);
+        expect(colorizr.contrast('#fff', '#000')).toBe(21);
+        expect(colorizr.contrast('#000', '#fff')).toBe(21);
+      });
+
+      it('should fail for invalid parameters', () => {
+        expect(() => colorizr.contrast()).toThrow('left is required');
+        expect(() => colorizr.contrast([])).toThrow();
       });
     });
   });

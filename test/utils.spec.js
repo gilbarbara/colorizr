@@ -1,4 +1,4 @@
-import { expr, hasProperty, isPlainObject, isRequired, pick, round, validateHex } from '../src/utils';
+import { expr, isPlainObject, isRequired, pick, round, validateHex } from '../src/utils';
 
 describe('expr', () => {
   it('should return the correct value', () => {
@@ -7,22 +7,6 @@ describe('expr', () => {
     expect(expr('100-20')).toBe(80);
     expect(expr('10/15')).toEqual(0.6666666666666666);
     expect(expr('100|20')).toBe(100);
-  });
-});
-
-describe('hasProperty', () => {
-  const fixture = { a: 1, b: 2 };
-
-  it('should work with proper parameters', () => {
-    expect(hasProperty(fixture, 'a')).toBe(true);
-    expect(hasProperty(fixture, 'c')).toBe(false);
-  });
-
-  it('should return false for missing or incorrect parameters', () => {
-    expect(hasProperty(fixture)).toBe(false);
-    expect(hasProperty([], 'a')).toBe(false);
-    expect(hasProperty(100, 1)).toBe(false);
-    expect(hasProperty()).toBe(false);
   });
 });
 

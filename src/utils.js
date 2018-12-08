@@ -1,5 +1,8 @@
 // @flow
-
+/**
+ * Colorizr Utils
+ * @module Utils
+ */
 /**
  * Parse math string expressions.
  *
@@ -60,19 +63,6 @@ export function expr(input: string): number {
 }
 
 /**
- * Check if an object has a property.
- *
- * @param {*} input
- * @param {string} prop
- * @returns {boolean}
- */
-export function hasProperty(input: any, prop: string): boolean {
-  if (!input || !prop) return false;
-
-  return Object.prototype.hasOwnProperty.call(input, prop);
-}
-
-/**
  * Check if the input is an object
  *
  * @param {*} input
@@ -87,7 +77,7 @@ export function isPlainObject(input: any): boolean {
   return toString.call(input) === '[object Object]' && (prototype === null || prototype === Object.getPrototypeOf({}));
 }
 
-export function isRequired(name) {
+export function isRequired(name: string) {
   throw new Error(`${name || 'parameter'} is required`);
 }
 
