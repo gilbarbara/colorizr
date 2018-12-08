@@ -1,5 +1,5 @@
 // @flow
-import { expr, hasProperty, isPlainObject, isRequired, pick, round, validateHex } from './utils';
+import { expr, isPlainObject, isRequired, pick, round, validateHex } from './utils';
 
 const RGB = ['r', 'g', 'b'];
 const HSL = ['h', 's', 'l'];
@@ -12,11 +12,13 @@ export { validateHex };
  */
 export default class Colorizr {
   hex: string = '';
+
   hsl: Object = {
     h: 0,
     s: 0,
     l: 0,
   };
+
   rgb: Object = {
     r: 0,
     g: 0,
@@ -83,7 +85,7 @@ export default class Colorizr {
   setColorFromObject(input: Object = isRequired('input')) {
     if (!isPlainObject(input)) throw new Error('input is not an object');
 
-    if (hasProperty(input, 'h') && hasProperty(input, 's') && hasProperty(input, 'l')) {
+    if (this.isHSL(input, true)) {
       this.hsl = {
         h: this.limit(input.h, 'h'),
         s: this.limit(input.s, 's'),
@@ -91,7 +93,7 @@ export default class Colorizr {
       };
       this.rgb = this.hsl2rgb();
     }
-    else if (hasProperty(input, 'r') && hasProperty(input, 'g') && hasProperty(input, 'b')) {
+    else if (this.isRGB(input, true)) {
       this.rgb = input;
       this.hsl = this.rgb2hsl();
     }
@@ -103,7 +105,7 @@ export default class Colorizr {
   }
 
   /**
-   * Make the color lighter.
+   * Increase lightness.
    *
    * @param {number} percentage
    * @returns {string}
@@ -117,7 +119,7 @@ export default class Colorizr {
   }
 
   /**
-   * Make the color darker.
+   * Decrease lightness.
    *
    * @param {number} percentage
    * @returns {string}
@@ -164,7 +166,7 @@ export default class Colorizr {
    * @param {number} degrees
    * @returns {string}
    */
-  adjustHue(degrees: number = 15): string {
+  rotate(degrees: number = 15): string {
     const hsl = this.shift({
       h: this.constrainDegrees(this.hue, +degrees),
     });
@@ -223,13 +225,45 @@ export default class Colorizr {
   }
 
   /**
+   * Get the brightness difference between 2 colors.
+   *
+   * @param {Object} left
+   * @param {Object} [right]
+   * @returns {number}
+   */
+  getBrightnessDifference(left: string = isRequired('left'), right: string = this.hex): number {
+    const RGBLeft = this.hex2rgb(left);
+    const RGBRight = this.hex2rgb(right);
+
+    const rightY = ((RGBRight.r * 299) + (RGBRight.g * 587) + (RGBRight.b * 114)) / 1000;
+    const leftY = ((RGBLeft.r * 299) + (RGBLeft.g * 587) + (RGBLeft.b * 114)) / 1000;
+    return round(Math.abs(rightY - leftY), 4);
+  }
+
+  /**
+   * Get the color difference between 2 colors.
+   *
+   * @param {Object} left
+   * @param {Object} [right]
+   * @returns {number}
+   */
+  getColorDifference(left: string = isRequired('left'), right: string = this.hex): number {
+    const RGBLeft = this.hex2rgb(left);
+    const RGBRight = this.hex2rgb(right);
+
+    return (Math.max(RGBLeft.r, RGBRight.r) - Math.min(RGBLeft.r, RGBRight.r))
+      + (Math.max(RGBLeft.g, RGBRight.g) - Math.min(RGBLeft.g, RGBRight.g))
+      + (Math.max(RGBLeft.b, RGBRight.b) - Math.min(RGBLeft.b, RGBRight.b));
+  }
+
+  /**
    * Test 2 colors for compliance.
    *
    * @param {Object} left
    * @param {Object} [right]
    * @returns {Object}
    */
-  checkContrast(left: string = isRequired('left'), right: string = this.hex): Object {
+  compare(left: string = isRequired('left'), right: string = this.hex): Object {
     const LuminanceLeft = this.getLuminance(left);
     const LuminanceRight = this.getLuminance(right);
     const colorDifference = this.getColorDifference(left, right);
@@ -263,7 +297,7 @@ export default class Colorizr {
       brightnessDifference,
       colorDifference,
       compliant,
-      contrastRatio: ratio,
+      contrast: ratio,
       w2a: ratio >= 3,
       w2aaab: ratio >= 7,
       w2aaaa: ratio >= 4.5,
@@ -272,35 +306,16 @@ export default class Colorizr {
   }
 
   /**
-   * Get the brightness difference between 2 colors.
+   * Get contrast ratio.
    *
    * @param {Object} left
    * @param {Object} [right]
-   * @returns {number}
+   * @returns {Object}
    */
-  getBrightnessDifference(left: string = isRequired('left'), right: string = this.hex): number {
-    const RGBLeft = this.hex2rgb(left);
-    const RGBRight = this.hex2rgb(right);
+  contrast(left: string = isRequired('left'), right: string = this.hex): Object {
+    const compare = this.compare(left, right);
 
-    const rightY = ((RGBRight.r * 299) + (RGBRight.g * 587) + (RGBRight.b * 114)) / 1000;
-    const leftY = ((RGBLeft.r * 299) + (RGBLeft.g * 587) + (RGBLeft.b * 114)) / 1000;
-    return round(Math.abs(rightY - leftY), 4);
-  }
-
-  /**
-   * Get the color difference between 2 colors.
-   *
-   * @param {Object} left
-   * @param {Object} [right]
-   * @returns {number}
-   */
-  getColorDifference(left: string = isRequired('left'), right: string = this.hex): number {
-    const RGBLeft = this.hex2rgb(left);
-    const RGBRight = this.hex2rgb(right);
-
-    return (Math.max(RGBLeft.r, RGBRight.r) - Math.min(RGBLeft.r, RGBRight.r)) +
-      (Math.max(RGBLeft.g, RGBRight.g) - Math.min(RGBLeft.g, RGBRight.g)) +
-      (Math.max(RGBLeft.b, RGBRight.b) - Math.min(RGBLeft.b, RGBRight.b));
+    return compare.contrast;
   }
 
   /**
@@ -411,7 +426,7 @@ export default class Colorizr {
   rgb2hsl(input: Object | string = this.rgb): Object {
     const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
-    if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
+    if (!this.isRGB(rgb, true)) {
       throw new Error('Invalid object');
     }
 
@@ -476,7 +491,7 @@ export default class Colorizr {
   rgb2hex(input: Object | string = this.rgb): string {
     const rgb = typeof input === 'string' ? this.parseCSS(input) : input;
 
-    if (!hasProperty(rgb, 'r') || !hasProperty(rgb, 'g') || !hasProperty(rgb, 'b')) {
+    if (!this.isRGB(rgb, true)) {
       throw new Error('Invalid object');
     }
 
@@ -494,7 +509,7 @@ export default class Colorizr {
   hsl2rgb(input: Object | string = this.hsl): Object {
     const hsl = typeof input === 'string' ? this.parseCSS(input) : input;
 
-    if (!hasProperty(hsl, 'h') || !hasProperty(hsl, 's') || !hasProperty(hsl, 'l')) {
+    if (!this.isHSL(hsl, true)) {
       throw new Error('Invalid object');
     }
 
@@ -630,10 +645,12 @@ export default class Colorizr {
     if (RGB.includes(type)) {
       return Math.max(Math.min(input, 255), 0);
     }
-    else if (['s', 'l'].includes(type)) {
+
+    if (['s', 'l'].includes(type)) {
       return Math.max(Math.min(input, 100), 0);
     }
-    else if (type === 'h') {
+
+    if (type === 'h') {
       return Math.max(Math.min(input, 360), 0);
     }
 
@@ -690,23 +707,41 @@ export default class Colorizr {
    * Check if an object contains HSL values.
    *
    * @param {Object} input
+   * @param {boolean} all
+   *
    * @returns {boolean}
    */
-  isHSL(input: Object): boolean {
-    return Object.keys(input).some(d => HSL.includes(d));
+  isHSL(input: Object, all: boolean = false): boolean {
+    const keys = Object.keys(input);
+
+    if (all) {
+      return keys.every(d => HSL.includes(d));
+    }
+
+    return keys.some(d => HSL.includes(d));
   }
 
   /**
    * Check if an object contains RGB values.
    *
    * @param {Object} input
+   * @param {boolean} all
+   *
    * @returns {boolean}
    */
-  isRGB(input: Object): boolean {
-    return Object.keys(input).some(d => RGB.includes(d));
+  isRGB(input: Object, all: boolean = false): boolean {
+    const keys = Object.keys(input);
+
+    if (all) {
+      return keys.every(d => RGB.includes(d));
+    }
+
+    return keys.some(d => RGB.includes(d));
   }
 
   /**
+   * Get red value.
+   *
    * @type {number}
    */
   get red(): number {
@@ -714,6 +749,8 @@ export default class Colorizr {
   }
 
   /**
+   * Get green value.
+   *
    * @type {number}
    */
   get green(): number {
@@ -721,6 +758,8 @@ export default class Colorizr {
   }
 
   /**
+   * Get blue value.
+   *
    * @type {number}
    */
   get blue(): number {
@@ -728,6 +767,8 @@ export default class Colorizr {
   }
 
   /**
+   * Get hue value.
+   *
    * @type {number}
    */
   get hue(): number {
@@ -735,6 +776,8 @@ export default class Colorizr {
   }
 
   /**
+   * Get saturation value,
+   *
    * @type {number}
    */
   get saturation(): number {
@@ -742,9 +785,28 @@ export default class Colorizr {
   }
 
   /**
+   * Get lightness value.
+   *
    * @type {number}
    */
   get lightness(): number {
     return Number(this.hsl.l);
+  }
+
+  /**
+   * Get luminance value.
+   *
+   * @type {number}
+   */
+  get luminance(): number {
+    return this.getLuminance();
+  }
+
+  get chroma(): number {
+    const { r, g, b } = this.rgb;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+
+    return round((max - min) / 255, 4);
   }
 }
