@@ -74,7 +74,7 @@
     "test:watch": "jest --watch",
     "bundlesize": "bundlesize",
     "validate": "npm run lint && npm test && flow && npm run build && bundlesize",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run validate"
   },
   "browserslist": [
     "> 0.2%",
