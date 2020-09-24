@@ -19,7 +19,7 @@ npm install --save colorizr
 And import it:
 
 ```javascript
-import Colorizr from 'Colorizr';
+import Colorizr from 'colorizr';
 ```
 
 ## Usage
@@ -67,6 +67,13 @@ colorizr.chroma // 0-1
 
 *Decrease saturation.*  
 **colorizr.saturate(percentage: number = 10)**
+
+*Text color*
+Get the contrasted color for a given hex.
+
+```js
+colorizr.textColor() // '#000'
+```
 
 
 
