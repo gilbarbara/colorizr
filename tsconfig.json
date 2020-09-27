@@ -1,0 +1,8 @@
+{
+  "extends": "@gilbarbara/tsconfig",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "target": "es5"
+  },
+  "include": ["src/**/*"]
+}

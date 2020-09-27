@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compare "#000" with "#fff" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 255,
+  "colorDifference": 765,
+  "compliant": 2,
+  "contrast": 21,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`compare "#ff0044" with "#000" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 83.997,
+  "colorDifference": 323,
+  "compliant": 0,
+  "contrast": 5.34,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": false,
+}
+`;
+
+exports[`compare "#ff0044" with "#00ffbb" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 87.006,
+  "colorDifference": 629,
+  "compliant": 1,
+  "contrast": 3,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`compare "#ff0044" with "#dd00ff" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 11.152,
+  "colorDifference": 221,
+  "compliant": 0,
+  "contrast": 1.03,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`compare "#ff0044" with "#fff" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 171.003,
+  "colorDifference": 442,
+  "compliant": 1,
+  "contrast": 3.94,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`compare "#fff" with "#777" should return an analysis 1`] = `
+Object {
+  "brightnessDifference": 136,
+  "colorDifference": 408,
+  "compliant": 1,
+  "contrast": 4.48,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
