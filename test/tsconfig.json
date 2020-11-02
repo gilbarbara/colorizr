@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noUnusedLocals": false
+  },
+  "include": ["**/*"]
+}

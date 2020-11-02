@@ -1,31 +1,24 @@
 module.exports = {
-  transform: {
-    '.*': 'babel-jest',
-  },
-  moduleFileExtensions: [
-    'js',
-    'json',
-  ],
-  moduleDirectories: [
-    'node_modules',
-    'src',
-    './',
-  ],
-  setupFiles: [
-    '<rootDir>/test/__setup__/index.js',
-  ],
-  testRegex: '/test/.*?\\.(test|spec)\\.js$',
   collectCoverage: false,
-  collectCoverageFrom: [
-    'src/**/*.js',
-  ],
+  collectCoverageFrom: ['src/**/*.ts'],
   coverageThreshold: {
     global: {
       branches: 90,
       functions: 90,
       lines: 90,
-      statements: 90
+      statements: 90,
     },
   },
-  verbose: true,
+  globals: {
+    'ts-jest': {
+      tsconfig: 'test/tsconfig.json',
+    },
+  },
+  moduleFileExtensions: ['js', 'json', 'ts'],
+  moduleDirectories: ['node_modules', 'src', './'],
+  preset: 'ts-jest',
+  testMatch: null,
+  testRegex: '/test/.*?\\.(test|spec)\\.ts$',
+  verbose: false,
+  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 };

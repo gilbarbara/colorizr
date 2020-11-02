@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`palette "#ff0044" with {"lightness": 90, "size": 10} should return the palette 1`] = `
+Array [
+  "#ffccda",
+  "#ffcfcc",
+  "#ffeecc",
+  "#f1ffcc",
+  "#d3ffcc",
+  "#ccffe4",
+  "#ccfcff",
+  "#ccddff",
+  "#daccff",
+  "#f8ccff",
+]
+`;
+
+exports[`palette "#ff0044" with {"saturation": 70, "size": 5} should return the palette 1`] = `
+Array [
+  "#d92656",
+  "#d99d26",
+  "#3ed926",
+  "#26cdd9",
+  "#5626d9",
+]
+`;
+
+exports[`palette "#ff0044" with {"type": "monochromatic"} should return the palette 1`] = `
+Array [
+  "#ff99b4",
+  "#ff5582",
+  "#ff1150",
+  "#cc0036",
+  "#880024",
+  "#440012",
+]
+`;
+
+exports[`palette "#ff0044" with undefined should return the palette 1`] = `
+Array [
+  "#ff0044",
+  "#ff7700",
+  "#88ff00",
+  "#00ff77",
+  "#0088ff",
+  "#7700ff",
+]
+`;
+
+exports[`palette "blue" with undefined should return the palette 1`] = `
+Array [
+  "#0000ff",
+  "#00ffff",
+  "#0000ff",
+  "#ff00ff",
+  "#ff0000",
+  "#ffff00",
+]
+`;

@@ -5,7 +5,9 @@
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
     "color",
-    "color manipulation"
+    "color manipulation",
+    "wcga",
+    "a11y"
   ],
   "license": "MIT",
   "repository": {
@@ -16,83 +18,78 @@
     "url": "https://github.com/gilbarbara/colorizr/issues"
   },
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "files": [
-    "es",
     "lib",
+    "esm",
     "src"
   ],
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
   "dependencies": {},
   "devDependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/core": "^7.5.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.0",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/plugin-proposal-do-expressions": "^7.5.0",
-    "@babel/plugin-proposal-export-default-from": "^7.5.2",
-    "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
-    "@babel/plugin-proposal-function-sent": "^7.5.0",
-    "@babel/plugin-proposal-json-strings": "^7.2.0",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.2.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
-    "@babel/plugin-proposal-numeric-separator": "^7.2.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.2.0",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-syntax-import-meta": "^7.2.0",
-    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
-    "@babel/preset-env": "^7.5.4",
-    "@babel/preset-flow": "^7.0.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
-    "babel-plugin-array-includes": "^2.0.3",
-    "bundlesize": "^0.18.0",
-    "core-js": "^3.1.4",
-    "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.2.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-flowtype": "^3.11.1",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "flow-bin": "^0.102.0",
-    "husky": "^3.0.0",
-    "jest": "^24.8.0",
-    "rimraf": "^2.6.3",
+    "@gilbarbara/tsconfig": "^0.1.0",
+    "@size-limit/preset-small-lib": "^4.7.0",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.6",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "is-ci-cli": "^2.1.2",
+    "jest": "^26.6.1",
+    "jest-watch-typeahead": "^0.6.1",
+    "prettier": "^2.1.2",
+    "repo-tools": "^0.2.0",
+    "rimraf": "^3.0.2",
+    "size-limit": "^4.7.0",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5",
     "watch-run": "^1.2.5"
   },
   "scripts": {
-    "build": "npm run clean && npm run build:commonjs && npm run build:es",
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src -d lib",
-    "build:es": "cross-env NODE_ENV=production babel src -d es",
-    "watch": "npm run build && watch-run -p 'src/**/*.js' npm run build:es",
-    "clean": "rimraf es && rimraf lib",
-    "lint": "eslint src test",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "bundlesize": "bundlesize",
-    "validate": "npm run lint && npm test && flow && npm run build && bundlesize",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc",
+    "build:esm": "tsc -m es6 --outDir esm",
+    "watch:cjs": "npm run build:cjs -- -w",
+    "watch:esm": "npm run build:esm -- -w",
+    "clean": "rimraf lib && rimraf esm",
+    "lint": "eslint --ext .ts,.tsx src test",
+    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test:coverage": "jest --coverage --bail",
+    "test:watch": "jest --watchAll --verbose",
+    "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
+    "validate": "npm run lint && npm run test:coverage && npm run build && npm run size",
+    "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
-  "browserslist": [
-    "> 0.2%",
-    "not dead"
-  ],
-  "bundlesize": [
+  "prettier": {
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "size-limit": [
     {
-      "path": "./es/index.js",
-      "maxSize": "6 kB"
+      "path": "./lib/*.js",
+      "limit": "7 KB"
     },
     {
-      "path": "./lib/index.js",
-      "maxSize": "6 kB"
+      "path": "./esm/*.js",
+      "limit": "7 KB"
     }
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run validate"
+      "pre-commit": "repo-tools check-remote && npm run validate",
+      "post-merge": "repo-tools install-packages"
     }
   }
 }
