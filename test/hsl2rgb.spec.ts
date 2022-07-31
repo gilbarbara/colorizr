@@ -1,5 +1,6 @@
-import hsl2rgb from '../src/hsl2rgb';
-import { messages } from '../src/utils';
+import hsl2rgb from 'hsl2rgb';
+
+import { messages } from 'modules/utils';
 
 describe('hsl2rgb', () => {
   it.each([

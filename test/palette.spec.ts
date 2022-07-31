@@ -1,5 +1,6 @@
-import palette from '../src/palette';
-import { messages } from '../src/utils';
+import palette from 'palette';
+
+import { messages } from 'modules/utils';
 
 describe('palette', () => {
   it.each([

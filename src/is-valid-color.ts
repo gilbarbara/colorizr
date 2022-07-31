@@ -5,7 +5,7 @@ export default function isValidColor(input: any): boolean {
     parseCSS(input);
 
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }

@@ -1,5 +1,6 @@
-import hex2hsl from '../src/hex2hsl';
-import { messages } from '../src/utils';
+import hex2hsl from 'hex2hsl';
+
+import { messages } from 'modules/utils';
 
 describe('hex2hsl', () => {
   it.each([

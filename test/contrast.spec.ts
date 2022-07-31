@@ -1,5 +1,6 @@
-import contrast from '../src/contrast';
-import { messages } from '../src/utils';
+import contrast from 'contrast';
+
+import { messages } from 'modules/utils';
 
 describe('contrast', () => {
   it.each([

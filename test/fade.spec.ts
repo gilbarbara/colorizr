@@ -1,6 +1,8 @@
-import fade from '../src/fade';
-import { messages } from '../src/utils';
-import { ColorTypes } from '../src/types';
+import fade from 'fade';
+
+import { messages } from 'modules/utils';
+
+import { ColorTypes } from 'types';
 
 describe('fade', () => {
   it.each([

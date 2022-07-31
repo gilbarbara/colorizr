@@ -1,5 +1,6 @@
-import formatHex from '../src/format-hex';
-import { messages } from '../src/utils';
+import formatHex from 'format-hex';
+
+import { messages } from 'modules/utils';
 
 describe('formatHex', () => {
   it.each([

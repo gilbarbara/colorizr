@@ -1,6 +1,8 @@
-import parseCSS from '../src/parse-css';
-import { ColorTypes } from '../src/types';
-import { messages } from '../src/utils';
+import parseCSS from 'parse-css';
+
+import { messages } from 'modules/utils';
+
+import { ColorTypes } from 'types';
 
 describe('parseCSS', () => {
   describe.each([['hex'], ['hsl'], ['rgb']] as ColorTypes[][])('with output %p', type => {

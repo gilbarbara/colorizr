@@ -1,5 +1,6 @@
-import compare from '../src/compare';
-import { messages } from '../src/utils';
+import compare from 'compare';
+
+import { messages } from 'modules/utils';
 
 describe('compare', () => {
   it.each([

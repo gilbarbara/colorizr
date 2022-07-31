@@ -1,5 +1,6 @@
-import name from '../src/name';
-import { messages } from '../src/utils';
+import name from 'name';
+
+import { messages } from 'modules/utils';
 
 describe('name', () => {
   it.each([

@@ -1,9 +1,8 @@
-import { invariant, isRGB, limit, messages } from './utils';
-
-import { RGB, HSL, RGBArray } from './types';
+import { invariant, isRGB, limit, messages } from './modules/utils';
+import { HSL, RGB, RGBArray } from './types';
 
 export default function rgb2hsl(input: RGB | RGBArray): HSL {
-  invariant(!input, messages.input);
+  invariant(!!input, messages.input);
 
   let rgb: RGB = input as RGB;
 
@@ -11,7 +10,7 @@ export default function rgb2hsl(input: RGB | RGBArray): HSL {
     rgb = { r: input[0], g: input[1], b: input[2] };
   }
 
-  invariant(!isRGB(rgb), messages.invalid);
+  invariant(isRGB(rgb), messages.invalid);
 
   const rLimit = limit(rgb.r, 'r') / 255;
   const gLimit = limit(rgb.g, 'g') / 255;

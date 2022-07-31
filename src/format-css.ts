@@ -1,10 +1,10 @@
-import rgb2Hsl from './rgb2hsl';
-import { isRGB, isHSL, isNumber, isPlainObject, invariant, messages } from './utils';
-import { FormatOptions, HSL, RGB } from './types';
 import hsl2rgb from './hsl2rgb';
+import { invariant, isHSL, isNumber, isPlainObject, isRGB, messages } from './modules/utils';
+import rgb2Hsl from './rgb2hsl';
+import { FormatOptions, HSL, RGB } from './types';
 
 export default function formatCSS(input: HSL | RGB, options: FormatOptions = {}): string {
-  invariant(!isPlainObject(input) || (!isRGB(input) && !isHSL(input)), messages.invalid);
+  invariant(isPlainObject(input) && (isRGB(input) || isHSL(input)), messages.invalid);
 
   const { alpha, model = isRGB(input) ? 'rgb' : 'hsl' } = options;
   const prefix = `${model}${isNumber(alpha) ? 'a' : ''}`;

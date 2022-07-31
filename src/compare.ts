@@ -1,16 +1,15 @@
 import getBrightnessDifference from './brightness-difference';
 import getColorDifference from './color-difference';
 import getContrast from './contrast';
-import { invariant, isString, messages } from './utils';
-
+import { invariant, isString, messages } from './modules/utils';
 import { Analysis } from './types';
 
 /**
  * Check 2 colors for WCAG compliance.
  */
 export default function compare(left: string, right: string): Analysis {
-  invariant(!isString(left), messages.left);
-  invariant(!isString(right), messages.right);
+  invariant(isString(left), messages.left);
+  invariant(isString(right), messages.right);
 
   const colorThreshold = 500;
   const brightnessThreshold = 125;

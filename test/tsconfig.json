@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig",
   "compilerOptions": {
+    "baseUrl": "../src",
     "noImplicitAny": true,
     "noUnusedLocals": false
   },

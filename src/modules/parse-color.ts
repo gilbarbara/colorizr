@@ -1,24 +1,24 @@
-import hex2hsl from './hex2hsl';
-import hex2rgb from './hex2rgb';
-import hsl2hex from './hsl2hex';
-import hsl2rgb from './hsl2rgb';
-import isValidHex from './is-valid-hex';
-import parseCSS from './parse-css';
-import rgb2hex from './rgb2hex';
-import rgb2hsl from './rgb2hsl';
 import { invariant, isHSL, isPlainObject, isRGB, isString, limit, messages } from './utils';
 
-import { Colors, HSL, PlainObject, RGB, RGBArray } from './types';
+import hex2hsl from '../hex2hsl';
+import hex2rgb from '../hex2rgb';
+import hsl2hex from '../hsl2hex';
+import hsl2rgb from '../hsl2rgb';
+import isValidHex from '../is-valid-hex';
+import parseCSS from '../parse-css';
+import rgb2hex from '../rgb2hex';
+import rgb2hsl from '../rgb2hsl';
+import { Colors, HSL, PlainObject, RGB, RGBArray } from '../types';
 
 export default function parseColor(color: string | HSL | RGB | RGBArray): Colors {
-  invariant(!color, messages.input);
+  invariant(!!color, messages.input);
 
   const output: PlainObject = {};
 
   if (isString(color)) {
     const hex = parseCSS(color) as string;
 
-    invariant(!isValidHex(hex), 'input is not valid');
+    invariant(isValidHex(hex), 'input is not valid');
 
     output.hex = hex;
     output.rgb = hex2rgb(hex);

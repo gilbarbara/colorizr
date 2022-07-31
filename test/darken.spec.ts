@@ -1,5 +1,6 @@
-import darken from '../src/darken';
-import { messages } from '../src/utils';
+import darken from 'darken';
+
+import { messages } from 'modules/utils';
 
 describe('darken', () => {
   it.each([

@@ -1,4 +1,4 @@
-import isValidHex from '../src/is-valid-hex';
+import isValidHex from 'is-valid-hex';
 
 describe('isValidHex', () => {
   it.each([

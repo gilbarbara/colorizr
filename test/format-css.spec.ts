@@ -1,4 +1,4 @@
-import formatCSS from '../src/format-css';
+import formatCSS from 'format-css';
 
 describe('formatCSS', () => {
   it('should work with proper input', () => {
@@ -19,8 +19,8 @@ describe('formatCSS', () => {
 
   it('should throw with invalid input', () => {
     // @ts-ignore
-    expect(() => formatCSS('#ff0044')).toThrowError('invalid input');
+    expect(() => formatCSS('#ff0044')).toThrow('invalid input');
     // @ts-ignore
-    expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrowError('invalid input');
+    expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
   });
 });
