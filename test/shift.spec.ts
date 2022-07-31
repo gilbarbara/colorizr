@@ -1,5 +1,6 @@
-import { shift } from '../src/shift';
-import { messages } from '../src/utils';
+import { shift } from 'shift';
+
+import { messages } from 'modules/utils';
 
 describe('shift', () => {
   it.each([

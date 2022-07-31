@@ -1,5 +1,6 @@
-import textColor from '../src/text-color';
-import { messages } from '../src/utils';
+import textColor from 'text-color';
+
+import { messages } from 'modules/utils';
 
 describe('textColor', () => {
   it('should return the contrasted color', () => {

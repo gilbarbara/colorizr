@@ -1,4 +1,4 @@
-import updater from './updater';
+import updater from './modules/updater';
 
 /**
  * Decrease color lightness

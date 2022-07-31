@@ -1,5 +1,3 @@
-import { invariant } from './utils';
-
 import chroma from './chroma';
 import compare from './compare';
 import darken from './darken';
@@ -8,11 +6,11 @@ import fade from './fade';
 import formatCSS from './format-css';
 import lighten from './lighten';
 import luminance from './luminance';
-import parseColor from './parse-color';
+import parseColor from './modules/parse-color';
+import { invariant } from './modules/utils';
 import rotate from './rotate';
 import saturate from './saturate';
 import textColor from './text-color';
-
 import { Analysis, HSL, Options, RGB, RGBArray } from './types';
 
 class Colorizr {
@@ -22,7 +20,7 @@ class Colorizr {
   public rgb: RGB;
 
   constructor(color: string | HSL | RGB | RGBArray, options: Options = {}) {
-    invariant(!color, 'color is required');
+    invariant(!!color, 'color is required');
 
     const { model = 'rgb' } = options;
     const { hex, hsl, rgb } = parseColor(color);
@@ -160,23 +158,15 @@ class Colorizr {
   }
 }
 
-export {
-  chroma,
-  compare,
-  darken,
-  desaturate,
-  fade,
-  formatCSS,
-  lighten,
-  luminance,
-  rotate,
-  saturate,
-  textColor,
-};
-
 export { default as brightnessDifference } from './brightness-difference';
+export { default as chroma } from './chroma';
 export { default as colorDifference } from './color-difference';
+export { default as compare } from './compare';
 export { default as contrast } from './contrast';
+export { default as darken } from './darken';
+export { default as desaturate } from './desaturate';
+export { default as fade } from './fade';
+export { default as formatCSS } from './format-css';
 export { default as formatHex } from './format-hex';
 export { default as hex2hsl } from './hex2hsl';
 export { default as hex2rgb } from './hex2rgb';
@@ -184,13 +174,18 @@ export { default as hsl2hex } from './hsl2hex';
 export { default as hsl2rgb } from './hsl2rgb';
 export { default as isValidColor } from './is-valid-color';
 export { default as isValidHex } from './is-valid-hex';
+export { default as lighten } from './lighten';
+export { default as luminance } from './luminance';
 export { default as name } from './name';
 export { default as palette } from './palette';
 export { default as parseCSS } from './parse-css';
 export { default as random } from './random';
 export { default as rgb2hex } from './rgb2hex';
 export { default as rgb2hsl } from './rgb2hsl';
+export { default as rotate } from './rotate';
+export { default as saturate } from './saturate';
 export { default as scheme } from './scheme';
+export { default as textColor } from './text-color';
 
 export * from './types';
 

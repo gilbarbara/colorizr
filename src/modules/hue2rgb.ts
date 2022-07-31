@@ -4,10 +4,7 @@ import { invariant, isNumber, round } from './utils';
  * Convert hue to RGB using chroma and median point
  */
 export default function hue2rgb(point: number, chroma: number, h: number): number {
-  invariant(
-    !isNumber(point) || !isNumber(chroma) || !isNumber(h),
-    'point, chroma and h are required',
-  );
+  invariant(isNumber(point) && isNumber(chroma) && isNumber(h), 'point, chroma and h are required');
   let hue = h;
 
   if (hue < 0) {

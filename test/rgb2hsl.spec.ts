@@ -1,5 +1,6 @@
-import rgb2hsl from '../src/rgb2hsl';
-import { messages } from '../src/utils';
+import rgb2hsl from 'rgb2hsl';
+
+import { messages } from 'modules/utils';
 
 describe('rgb2hsl', () => {
   it('should work with proper input', () => {

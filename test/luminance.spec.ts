@@ -1,5 +1,6 @@
-import luminance from '../src/luminance';
-import { messages } from '../src/utils';
+import luminance from 'luminance';
+
+import { messages } from 'modules/utils';
 
 describe('luminance', () => {
   it.each([

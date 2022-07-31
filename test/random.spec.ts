@@ -1,5 +1,5 @@
-import random from '../src/random';
-import isValidHex from '../src/is-valid-hex';
+import isValidHex from 'is-valid-hex';
+import random from 'random';
 
 describe('random', () => {
   it('should return a valid hex', () => {

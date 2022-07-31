@@ -1,5 +1,6 @@
-import chroma from '../src/chroma';
-import { messages } from '../src/utils';
+import chroma from 'chroma';
+
+import { messages } from 'modules/utils';
 
 describe('chroma', () => {
   it.each([

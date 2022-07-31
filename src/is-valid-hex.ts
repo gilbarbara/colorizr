@@ -1,9 +1,9 @@
-import { isString } from './utils';
+import { isString } from './modules/utils';
 
 export default function isValidHex(input: any): boolean {
   if (!isString(input)) {
     return false;
   }
 
-  return /^#([0-9A-F]{3,4}|[0-9A-F]{6,8})$/i.test(input);
+  return /^#([\da-f]{3,4}|[\da-f]{6,8})$/i.test(input);
 }

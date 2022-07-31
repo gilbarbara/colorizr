@@ -12,7 +12,7 @@ import {
   limit,
   pick,
   round,
-} from '../src/utils';
+} from 'modules/utils';
 
 describe('constrain', () => {
   it('should constrain the input', () => {
@@ -35,7 +35,7 @@ describe('expr', () => {
     expect(expr('10+20')).toBe(30);
     expect(expr('10*20')).toBe(200);
     expect(expr('100-20')).toBe(80);
-    expect(expr('10/15')).toEqual(0.6666666666666666);
+    expect(expr('10/15')).toBe(0.6666666666666666);
     expect(expr('100|20')).toBe(100);
   });
 });
@@ -46,25 +46,22 @@ describe('invariant', () => {
   });
 
   it('should throw', () => {
-    expect(() => invariant(true, 'Fails')).toThrow('Fails');
+    expect(() => invariant(false, 'Fails')).toThrow('Fails');
     // @ts-ignore
-    expect(() => invariant(true)).toThrow('invariant requires an error message argument');
-    expect(() => invariant(true, 'Failed to %s because %s', 'load', 'connection')).toThrow(
-      'Failed to load because connection',
-    );
+    expect(() => invariant(false)).toThrow('invariant requires an error message argument');
   });
 
   it('should throw with NODE_ENV production', () => {
     process.env.NODE_ENV = 'production';
 
     // @ts-ignore
-    expect(() => invariant(true)).toThrow(
+    expect(() => invariant(false)).toThrow(
       'Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.',
     );
   });
 
   it('should not throw', () => {
-    expect(() => invariant(false, 'Fails')).not.toThrow('Fails');
+    expect(() => invariant(true, 'Fails')).not.toThrow('Fails');
   });
 });
 

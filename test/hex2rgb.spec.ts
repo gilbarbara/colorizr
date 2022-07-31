@@ -1,5 +1,6 @@
-import hex2rgb from '../src/hex2rgb';
-import { messages } from '../src/utils';
+import hex2rgb from 'hex2rgb';
+
+import { messages } from 'modules/utils';
 
 describe('hex2rgb', () => {
   it.each([

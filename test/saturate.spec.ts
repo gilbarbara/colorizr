@@ -1,5 +1,6 @@
-import saturate from '../src/saturate';
-import { messages } from '../src/utils';
+import saturate from 'saturate';
+
+import { messages } from 'modules/utils';
 
 describe('saturate', () => {
   it.each([

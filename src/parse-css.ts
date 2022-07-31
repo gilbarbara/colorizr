@@ -2,11 +2,11 @@ import hex2hsl from './hex2hsl';
 import hex2rgb from './hex2rgb';
 import hsl2hex from './hsl2hex';
 import hsl2rgb from './hsl2rgb';
+import isValidHex from './is-valid-hex';
+import { cssColors } from './modules/css-colors';
+import { invariant, isString, messages } from './modules/utils';
 import rgb2hex from './rgb2hex';
 import rgb2hsl from './rgb2hsl';
-import { cssColors, invariant, isString, messages } from './utils';
-import isValidHex from './is-valid-hex';
-
 import { ColorTypes, Return } from './types';
 
 /**
@@ -16,7 +16,7 @@ export default function parseCSS<T extends ColorTypes = 'hex'>(
   input: string,
   output?: T,
 ): Return<T> {
-  invariant(!isString(input), messages.inputString);
+  invariant(isString(input), messages.inputString);
   let result: any;
 
   const parsedInput = cssColors[input.toLowerCase() as keyof typeof cssColors] || input;
@@ -42,9 +42,10 @@ export default function parseCSS<T extends ColorTypes = 'hex'>(
       /(hsl|rgb)a?\((\d+)(?:,\s*|\s+)(\d+)%?(?:,\s*|\s+)(\d+)%?[^)]*\)/i,
     );
 
-    invariant(!matches || matches.length !== 5, 'invalid CSS string');
+    invariant(Array.isArray(matches), 'invalid CSS string');
+    invariant(matches.length === 5, 'invalid CSS string');
 
-    const [, model, hORr, sORg, lORb] = matches!;
+    const [, model, hORr, sORg, lORb] = matches;
     let hex;
     let hsl;
     let rgb;
@@ -76,6 +77,7 @@ export default function parseCSS<T extends ColorTypes = 'hex'>(
         result = rgb;
         break;
       }
+
       case 'hex':
       default: {
         result = hex;

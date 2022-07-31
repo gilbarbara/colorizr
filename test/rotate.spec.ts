@@ -1,13 +1,14 @@
-import rotate from '../src/rotate';
-import { messages } from '../src/utils';
+import rotate from 'rotate';
+
+import { messages } from 'modules/utils';
 
 describe('rotate', () => {
   it('should have changed the color', () => {
     expect(rotate('#ff0044')).toBe('#ff0004');
     expect(rotate('#ff0044', 30)).toBe('#ff3b00');
-    expect(rotate('#ff0044', 90)).toEqual('#c4ff00');
-    expect(rotate('#ff0044', 180)).toEqual('#00ffbb');
-    expect(rotate('#ff0044', 360)).toEqual('#ff0044');
+    expect(rotate('#ff0044', 90)).toBe('#c4ff00');
+    expect(rotate('#ff0044', 180)).toBe('#00ffbb');
+    expect(rotate('#ff0044', 360)).toBe('#ff0044');
   });
 
   it('should fail with invalid parameters', () => {

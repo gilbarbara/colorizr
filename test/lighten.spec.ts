@@ -1,5 +1,6 @@
-import lighten from '../src/lighten';
-import { messages } from '../src/utils';
+import lighten from 'lighten';
+
+import { messages } from 'modules/utils';
 
 describe('lighten', () => {
   it.each([

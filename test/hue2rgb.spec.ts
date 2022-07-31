@@ -1,4 +1,4 @@
-import hue2rgb from '../src/hue2rgb';
+import hue2rgb from 'modules/hue2rgb';
 
 describe('hue2rgb', () => {
   it('should return median', () => {

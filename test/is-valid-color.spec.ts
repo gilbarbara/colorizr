@@ -1,4 +1,4 @@
-import isValidColor from '../src/is-valid-color';
+import isValidColor from 'is-valid-color';
 
 describe('isValidColor', () => {
   it.each([

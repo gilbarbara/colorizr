@@ -1,5 +1,6 @@
-import brightnessDifference from '../src/brightness-difference';
-import { messages } from '../src/utils';
+import brightnessDifference from 'brightness-difference';
+
+import { messages } from 'modules/utils';
 
 describe('brightnessDifference', () => {
   it.each([

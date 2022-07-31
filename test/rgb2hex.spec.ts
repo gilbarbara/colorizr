@@ -1,5 +1,6 @@
-import rgb2hex from '../src/rgb2hex';
-import { messages } from '../src/utils';
+import rgb2hex from 'rgb2hex';
+
+import { messages } from 'modules/utils';
 
 describe('rgb2hex', () => {
   it('should work with proper input', () => {

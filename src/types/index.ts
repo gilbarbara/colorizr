@@ -1,3 +1,4 @@
+/* eslint-disable typescript-sort-keys/interface */
 export interface Analysis {
   brightnessDifference: number;
   colorDifference: number;

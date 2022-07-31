@@ -1,5 +1,6 @@
-import colorDifference from '../src/color-difference';
-import { messages } from '../src/utils';
+import colorDifference from 'color-difference';
+
+import { messages } from 'modules/utils';
 
 describe('colorDifference', () => {
   it.each([

@@ -1,6 +1,6 @@
-import scheme from '../src/scheme';
+import scheme from 'scheme';
 
-import { Scheme } from '../src/types';
+import { Scheme } from 'types';
 
 describe('scheme', () => {
   it.each([
