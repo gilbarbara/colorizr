@@ -1,14 +1,14 @@
 # Colorizr
 
-[![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![build status](https://travis-ci.org/gilbarbara/colorizr.svg)](https://travis-ci.org/gilbarbara/colorizr) [![Maintainability](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/maintainability)](https://codeclimate.com/github/gilbarbara/colorizr/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/test_coverage)](https://codeclimate.com/github/gilbarbara/colorizr/test_coverage)
+[![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![CI](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/maintainability)](https://codeclimate.com/github/gilbarbara/colorizr/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/6d686ce2a9f2a1a47d98/test_coverage)](https://codeclimate.com/github/gilbarbara/colorizr/test_coverage)
 
-Color conversion, manipulation, comparison and analysis.
+Color conversion, manipulation, comparison, and analysis.
 
 ## Highlights
 
 - 🏖 **Easy to use**: Works with HSL and RGB, including CSS strings
-- ♿️ **Acessibility:** WCAG analysis and comparison.
-- 🛠 **Small:** Less than 4k (gzipped) and zero dependencies.
+- ♿️ **Accessibility:** WCAG analysis and comparison.
+- 🛠 **Small:** Less than 6k (gzipped) and zero dependencies.
 - 🟦 **Modern:** Written in Typescript.
 
 ## Setup
@@ -135,7 +135,7 @@ formatCSS({ r: 255, g: 0, b: 68 }, { alpha: 0.5, model: 'hsl' }); // 'hsla(344, 
 ```
 
 **formatHex(input: string): string**  
-_format a short hex string 3 (or 4) digits into a 6 (or 8) digits._
+_format a short hex string of 3 (or 4) digits into 6 (or 8) digits._
 
 ```typescript
 import { formatHex } from 'colorizr';
@@ -145,7 +145,7 @@ formatHex('#f058'); // '#ff005588'
 ```
 
 **hex2hsl(input: string): HSL**  
-_convert a hex string into a HSL object_
+_convert a hex string into an HSL object_
 
 ```typescript
 import { hex2hsl } from 'colorizr';
@@ -154,7 +154,7 @@ hex2hsl('#ff0044'); // { h: 344, s: 100, l: 50 }
 ```
 
 **hex2rgb(input: string): RGB**  
-_convert a hex string into a RGB object_
+_convert a hex string into an RGB object_
 
 ```typescript
 import { hex2rgb } from 'colorizr';
@@ -163,7 +163,7 @@ hex2rgb('#ff0044'); // { r: 255, g: 0, b: 68 }
 ```
 
 **hsl2hex(input: HSL): string**  
-_convert a HSL object into a hex string_
+_convert an HSL object into a hex string_
 
 ```typescript
 import { hsl2hex } from 'colorizr';
@@ -172,7 +172,7 @@ hsl2hex({ h: 344, s: 100, l: 50 }); // '#ff0044'
 ```
 
 **hsl2rgb(input: HSL): RGB**  
-_convert a HSL object into a RGB object_
+_convert an HSL object into an RGB object_
 
 ```typescript
 import { hsl2rgb } from 'colorizr';
@@ -249,7 +249,7 @@ palette('#ff0044', { type: 'monochromatic' });
 ```
 
 **parseCSS(input: string, output: ColorTypes = 'hex'): string | HSL | RGB**  
-_parse a css string to hex, hsl or rgb_
+_parse a css string to hex, hsl, or RGB_
 
 ```typescript
 import { parseCSS } from 'colorizr';
@@ -268,7 +268,7 @@ random(); // '#b385e0'
 ```
 
 **rgb2hex(input: RGB | RGBArray): string**  
-_convert a RGB object into a hex string_
+_convert an RGB object into a hex string_
 
 ```typescript
 import { rgb2hex } from 'colorizr';
@@ -278,7 +278,7 @@ rgb2hex([255, 0, 68]); // '#ff0044'
 ```
 
 **rgb2hsl(input: RGB | RGBArray): HSL**  
-_convert a RGB object into a HSL object_
+_convert an RGB object into an HSL object_
 
 ```typescript
 import { rgb2hsl } from 'colorizr';
@@ -301,7 +301,7 @@ _get a color with increased saturation_
 ```typescript
 import { saturate } from 'colorizr';
 
-saturate('#ff0044', 10); // #ff0044 (alreay at the maximum)
+saturate('#ff0044', 10); // #ff0044 (already at the maximum)
 saturate('pink', 10); // #ffc0cb
 ```
 
@@ -316,7 +316,7 @@ const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff
 ```
 
 **textColor(input: string): string**  
-_get a constrasted color to use with text_
+_get a contrasting color to use with the text_
 
 ```typescript
 import { textColor } from 'colorizr';
@@ -343,10 +343,10 @@ colorizr.rgb; // { r: 255, g: 0, b: 68 };
 _returns the hex_
 
 **colorizr.hsl**  
-_returns the hsl object_
+_returns the HSL object_
 
 **colorizr.rgb**  
-_returns the rgb object_
+_returns the RGB object_
 
 **colorizr.hue**  
 _returns the color hue, between 0 and 360_
