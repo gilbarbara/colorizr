@@ -13,7 +13,7 @@ import { ColorTypes, Return } from './types';
  * Parse CSS color
  */
 export default function parseCSS<T extends ColorTypes = 'hex'>(
-  input: string,
+  input: unknown,
   output?: T,
 ): Return<T> {
   invariant(isString(input), messages.inputString);
