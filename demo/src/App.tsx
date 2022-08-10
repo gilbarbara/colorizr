@@ -1,155 +1,226 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import Colorizr, { scheme, palette, random, rotate } from 'colorizr';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import Colorizr, { formatHex, isValidHex, palette, random, rotate, scheme } from 'colorizr';
 
-const Global = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const Wrapper = styled.main<any>`
-  background-color: ${props => props.bg || '#f7f7f7'};
-  color: ${props => props.color || '#000'};
-  font-family: sans-serif;
-  min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-`;
-
-const H1 = styled.h1`
-  font-size: 44px;
-  margin: 0 0 20px;
-`;
-
-const H2 = styled.h2`
-  font-size: 32px;
-  margin: 30px 0 15px;
-`;
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin: 0 auto 20px;
-  max-width: 640px;
-`;
-
-const Item = styled.div`
-  background-color: #fff;
-  color: #000;
-  padding: 10px;
-`;
-
-const Block = styled.div<any>`
-  background-color: ${props => props.color};
-  height: ${props => (props.size ? `${props.size}px` : '64px')};
-  margin: 0 auto;
-  position: relative;
-  width: ${props => (props.size ? `${props.size}px` : '64px')};
-`;
-
-const Lobby = styled(Block)`
-  &:before {
-    background-color: #fff;
-    background-image: repeating-linear-gradient(
-        -45deg,
-        #666,
-        #666 0.42em,
-        transparent 0.42em,
-        transparent 0.98em,
-        #666 0.98em,
-        #666 1em
-      ),
-      repeating-linear-gradient(
-        45deg,
-        #666,
-        #666 0.42em,
-        transparent 0.42em,
-        transparent 0.98em,
-        #666 0.98em,
-        #666 1em
-      );
-    background-size: 1em 1em;
-    bottom: 0;
-    content: '';
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-`;
-
-const Title = styled.p`
-  margin: 0 0 5px;
-`;
-
-const Footer = styled.p`
-  margin: 5px 0 0;
-`;
-
-const Color = styled.p`
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0 0 5px;
-`;
+import {
+  Block,
+  Box,
+  Checker,
+  ColorPicker,
+  Contrast,
+  Flex,
+  Footer,
+  Grid,
+  H1,
+  H2,
+  H3,
+  H4,
+  InputBox,
+  Item,
+  Label,
+  Pattern,
+  Properties,
+  Title,
+  Wrapper,
+} from './components';
+import Check from './icons/Check';
+import Times from './icons/Times';
 
 export default function App() {
   const [color, setColor] = useState(random());
-  const timeout = useRef<number>();
-  const instance = useRef(new Colorizr(color));
+  const [textColor, setTextColor] = useState('');
+  const [colorInput, setColorInput] = useState(color);
+  const [textColorInput, setTextColorInput] = useState('');
 
-  const colorizr = instance.current;
-  const textColor = colorizr.textColor;
+  const [colorizr, setColorizr] = useState(new Colorizr(color));
+  const timeout = useRef<number>();
+
+  const text = textColor || colorizr.textColor;
+  const analysis = colorizr.compare(text);
+
+  const grade = () => {
+    const { contrast } = analysis;
+
+    let output = 'Very Poor';
+
+    if (contrast > 12) {
+      output = 'Super';
+    } else if (contrast > 7) {
+      output = 'Very good';
+    } else if (contrast > 4.5) {
+      output = 'Good';
+    } else if (contrast > 3) {
+      output = 'Poor';
+    }
+
+    return output;
+  };
+
+  const hsl = () => {
+    const { h, s, l } = colorizr.hsl;
+
+    return `hsl(${h}, ${s}%, ${l}%)`;
+  };
+
+  const rgb = () => {
+    const { r, g, b } = colorizr.rgb;
+
+    return `rgb(${r}, ${g}, ${b})`;
+  };
 
   useEffect(() => {
-    instance.current = new Colorizr(color);
+    setColorizr(new Colorizr(color));
+    setColorInput(color);
   }, [color]);
 
-  const handleChangeColor = useCallback(e => {
-    const { value } = e.target;
+  const handleChangeBgColor = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const hex = `#${value.replace(/[^\da-f]/gi, '')}`;
+
+    if (hex.length > 7) {
+      return;
+    }
+
+    setColorInput(hex);
+
+    if (isValidHex(hex, false)) {
+      setColor(hex);
+    }
+  };
+
+  const handleChangeBgColorPicker = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
     clearTimeout(timeout.current);
 
     timeout.current = setTimeout(() => {
-      console.log(value);
-      instance.current = new Colorizr(value);
       setColor(value);
-    }, 200);
-  }, []);
+    }, 0);
+  };
+
+  const handleChangeTextColor = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    const hex = `#${value.replace(/[^\da-f]/gi, '')}`;
+
+    if (hex.length > 7) {
+      return;
+    }
+
+    setTextColorInput(hex);
+
+    if (isValidHex(hex, false)) {
+      setTextColor(hex);
+    }
+  };
+
+  const handleChangeTextColorPicker = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+
+    setTextColorInput(value);
+    setTextColor(value);
+  };
 
   return (
-    <Wrapper bg={colorizr.hex} color={textColor}>
-      <Global />
+    <Wrapper bg={colorizr.hex} color={text}>
       <H1>Colorizr</H1>
-
-      <Color>
-        {colorizr.hex} <input type="color" onChange={handleChangeColor} value={colorizr.hex} />{' '}
-      </Color>
-      <br />
-      <Title>
-        <strong>luminance:</strong> {colorizr.luminance}
-      </Title>
-      <Title>
-        <strong>chroma:</strong> {colorizr.chroma}
-      </Title>
-      <Title>
-        <strong>css:</strong> {colorizr.css}
-      </Title>
-      <br />
-      <Title>
-        <strong>compare:</strong> {textColor}
-      </Title>
-      <pre>
-        {Object.entries(colorizr.compare(textColor)).map(([key, value]) => (
-          <div key={key}>
-            {key}: {value.toString()}
+      <H2>Color conversion, manipulation, comparison, and analysis.</H2>
+      <Box>
+        <Label>
+          Background color
+          <InputBox>
+            <input onChange={handleChangeBgColor} type="text" value={colorInput} />
+            <ColorPicker>
+              <input onInput={handleChangeBgColorPicker} type="color" value={formatHex(color)} />
+            </ColorPicker>
+          </InputBox>
+        </Label>
+        <Properties>
+          <div>
+            <span>Luminance</span>
+            <span>{colorizr.luminance}</span>
           </div>
-        ))}
-      </pre>
+          <div>
+            <span>Chroma</span>
+            <span>{colorizr.chroma}</span>
+          </div>
+          <div>
+            <span>HSL</span>
+            <span>{hsl()}</span>
+          </div>
+          <div>
+            <span>RGB</span>
+            <span>{rgb()}</span>
+          </div>
+        </Properties>
+      </Box>
+      <Box>
+        <Checker>
+          <Label>
+            Text color
+            <InputBox>
+              <input onChange={handleChangeTextColor} type="text" value={textColorInput || text} />
+              <ColorPicker>
+                <input onInput={handleChangeTextColorPicker} type="color" value={formatHex(text)} />
+              </ColorPicker>
+            </InputBox>
+          </Label>
+          <br />
+          <strong>Contrast</strong>
+          <Contrast
+            contrast={analysis.contrast}
+            largeText={[analysis.largeAA, analysis.largeAAA].filter(Boolean).length}
+            normalText={[analysis.normalAA, analysis.normalAAA].filter(Boolean).length}
+          >
+            <div className="top">
+              <div className="left">{analysis.contrast}</div>
+              <div className="right">{grade()}</div>
+            </div>
+            <div className="bottom">
+              <div className="small">
+                <p>Small text</p>
+                <Flex className="grades">
+                  <Flex>
+                    <span>AA</span>
+                    {analysis.normalAA ? <Check /> : <Times />}
+                  </Flex>
+                  <Flex>
+                    <span>AAA</span> {analysis.normalAAA ? <Check /> : <Times />}
+                  </Flex>
+                </Flex>
+              </div>
+              <div className="large">
+                <p>Large text</p>
+                <Flex className="grades">
+                  <Flex>
+                    <span>AA</span>
+                    {analysis.largeAA ? <Check /> : <Times />}
+                  </Flex>
+                  <Flex>
+                    <span>AAA</span>
+                    {analysis.largeAAA ? <Check /> : <Times />}
+                  </Flex>
+                </Flex>
+              </div>
+            </div>
+          </Contrast>
+          <Properties>
+            <div>
+              <span>Brightness Difference</span>
+              <span>{analysis.brightnessDifference}</span>
+            </div>
+            <div>
+              <span>Color Difference</span>
+              <span>{analysis.colorDifference}</span>
+            </div>
+            <div>
+              <span>Compliant</span>
+              <span>{analysis.compliant}</span>
+            </div>
+          </Properties>
+        </Checker>
+      </Box>
 
-      <br />
+      <H3>utilities</H3>
+
       <Grid>
         <Item>
           <Title>lighten</Title>
@@ -163,21 +234,21 @@ export default function App() {
 
       <Grid>
         <Item>
-          <Title>desaturate</Title>
-          <Block color={colorizr.desaturate(20)} />
-        </Item>
-        <Item>
           <Title>saturate</Title>
           <Block color={colorizr.saturate(20)} />
+        </Item>
+        <Item>
+          <Title>desaturate</Title>
+          <Block color={colorizr.desaturate(20)} />
         </Item>
       </Grid>
 
       <Grid>
         <Item>
           <Title>fade</Title>
-          <Lobby>
+          <Pattern>
             <Block color={colorizr.fade(30)} />
-          </Lobby>
+          </Pattern>
         </Item>
 
         <Item>
@@ -186,131 +257,131 @@ export default function App() {
         </Item>
       </Grid>
 
-      <H2>rotate</H2>
+      <H3>rotate</H3>
 
       <Grid>
-        <Item>
-          <Title>rotate: 60</Title>
-          <Block color={rotate(colorizr.hex, 60)} />
-        </Item>
-        <Item>
-          <Title>rotate: 120</Title>
-          <Block color={rotate(colorizr.hex, 120)} />
-        </Item>
-        <Item>
-          <Title>rotate: 240</Title>
-          <Block color={rotate(colorizr.hex, 240)} />
-        </Item>
+        {Array.from({ length: 360 / 60 - 1 }, (_, index) => index + 1).map(index => {
+          const degrees = index * 60;
+          const color = rotate(colorizr.hex, degrees);
+
+          return (
+            <Item key={degrees}>
+              <Title>{degrees} deg</Title>
+              <Block color={color} />
+              <Footer>{color}</Footer>
+            </Item>
+          );
+        })}
       </Grid>
 
-      <H2>palette</H2>
+      <H3>palette</H3>
 
-      <h3>basic</h3>
+      <H4>basic</H4>
       <Grid>
-        {palette(colorizr.hex).map(d => (
-          <Item key={d}>
+        {palette(colorizr.hex).map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>type: monochromatic, size: 12</h3>
+      <H4>type: monochromatic, size: 12</H4>
       <Grid>
-        {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map(d => (
-          <Item key={d}>
+        {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>lightness(60)</h3>
+      <H4>lightness(60)</H4>
       <Grid>
-        {palette(colorizr.hex, { lightness: 70 }).map(d => (
-          <Item key={d}>
+        {palette(colorizr.hex, { lightness: 70 }).map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>saturation(100); size(20)</h3>
+      <H4>saturation(100); size(20)</H4>
       <Grid>
-        {palette(colorizr.hex, { saturation: 100, size: 24 }).map(d => (
-          <Item key={d}>
+        {palette(colorizr.hex, { saturation: 100, size: 24 }).map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <H2>Scheme</H2>
+      <H3>Scheme</H3>
 
-      <h3>analogous</h3>
+      <H4>analogous</H4>
       <Grid>
-        {scheme(colorizr.hex, 'analogous').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'analogous').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>complementary</h3>
+      <H4>complementary</H4>
       <Grid>
-        {scheme(colorizr.hex, 'complementary').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'complementary').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>split</h3>
+      <H4>split</H4>
       <Grid>
-        {scheme(colorizr.hex, 'split').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'split').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>triadic</h3>
+      <H4>triadic</H4>
       <Grid>
-        {scheme(colorizr.hex, 'triadic').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'triadic').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>tetradic</h3>
+      <H4>tetradic</H4>
       <Grid>
-        {scheme(colorizr.hex, 'tetradic').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'tetradic').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>rectangle</h3>
+      <H4>rectangle</H4>
       <Grid>
-        {scheme(colorizr.hex, 'rectangle').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'rectangle').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
         ))}
       </Grid>
 
-      <h3>square</h3>
+      <H4>square</H4>
       <Grid>
-        {scheme(colorizr.hex, 'square').map(d => (
-          <Item key={d}>
+        {scheme(colorizr.hex, 'square').map((d, index) => (
+          <Item key={d + index}>
             <Block color={d} />
             <Footer>{d}</Footer>
           </Item>
