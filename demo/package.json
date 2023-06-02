@@ -1,6 +1,6 @@
 {
   "name": "colorizr-demo",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Demo for colorizr",
   "homepage": "https://github.com/gilbarbara/colorizr",
   "keywords": [
@@ -11,15 +11,21 @@
   ],
   "main": "src/index.tsx",
   "dependencies": {
-    "colorizr": "^2.1.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@gilbarbara/components": "^0.9.6",
+    "@types/react": "18.2.8",
+    "@types/react-dom": "18.2.4",
+    "colorizr": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "5.3.5",
-    "@types/react": "18.0.17",
-    "@types/react-dom": "18.0.6",
-    "@types/styled-components": "^5.1.26",
     "react-scripts": "^5.0.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@gilbarbara/eslint-config": "^0.4.3",
+    "@gilbarbara/prettier-config": "^0.1.1",
+    "@gilbarbara/tsconfig": "^0.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,6 +33,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "eslintConfig": {
+    "extends": "@gilbarbara/eslint-config"
+  },
+  "prettier": "@gilbarbara/prettier-config",
   "browserslist": [
     ">0.2%",
     "not dead",
