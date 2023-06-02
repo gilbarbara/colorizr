@@ -1,7 +1,5 @@
 import fade from 'fade';
-
 import { messages } from 'modules/utils';
-
 import { ColorTypes } from 'types';
 
 describe('fade', () => {

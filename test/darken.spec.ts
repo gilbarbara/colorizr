@@ -1,5 +1,4 @@
 import darken from 'darken';
-
 import { messages } from 'modules/utils';
 
 describe('darken', () => {

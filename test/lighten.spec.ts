@@ -1,5 +1,4 @@
 import lighten from 'lighten';
-
 import { messages } from 'modules/utils';
 
 describe('lighten', () => {

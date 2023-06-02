@@ -1,7 +1,5 @@
-import parseCSS from 'parse-css';
-
 import { messages } from 'modules/utils';
-
+import parseCSS from 'parse-css';
 import { ColorTypes } from 'types';
 
 describe('parseCSS', () => {

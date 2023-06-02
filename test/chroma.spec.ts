@@ -1,5 +1,4 @@
 import chroma from 'chroma';
-
 import { messages } from 'modules/utils';
 
 describe('chroma', () => {

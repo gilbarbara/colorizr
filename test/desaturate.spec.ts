@@ -1,5 +1,4 @@
 import desaturate from 'desaturate';
-
 import { messages } from 'modules/utils';
 
 describe('desaturate', () => {

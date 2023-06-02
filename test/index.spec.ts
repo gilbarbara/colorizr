@@ -27,6 +27,7 @@ import Colorizr, {
   rotate,
   saturate,
   scheme,
+  swatch,
   textColor,
 } from '../src';
 
@@ -127,6 +128,12 @@ describe('Colorizr with hex', () => {
       });
     });
 
+    describe('rotate', () => {
+      it('should have rotate the color', () => {
+        expect(colorizr.rotate()).toBe('#ff0004');
+      });
+    });
+
     describe('fade', () => {
       it('should have fade the color', () => {
         expect(colorizr.fade()).toBe('rgba(255, 0, 68, 0.9)');
@@ -195,7 +202,7 @@ describe('Colorizr with CSS string', () => {
   });
 });
 
-describe('Colorizr without bad input', () => {
+describe('Colorizr with bad input', () => {
   it.each([[undefined], [[]], [''], [{}], [() => ({})]])('%p should throw', input => {
     expect(() => {
       // @ts-ignore
@@ -233,6 +240,7 @@ describe('helpers', () => {
     expect(rotate).toEqual(expect.any(Function));
     expect(saturate).toEqual(expect.any(Function));
     expect(scheme).toEqual(expect.any(Function));
+    expect(swatch).toEqual(expect.any(Function));
     expect(textColor).toEqual(expect.any(Function));
   });
 });
