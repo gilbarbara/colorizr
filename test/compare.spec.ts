@@ -1,5 +1,4 @@
 import compare from 'compare';
-
 import { messages } from 'modules/utils';
 
 describe('compare', () => {

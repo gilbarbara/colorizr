@@ -1,5 +1,4 @@
 import colorDifference from 'color-difference';
-
 import { messages } from 'modules/utils';
 
 describe('colorDifference', () => {

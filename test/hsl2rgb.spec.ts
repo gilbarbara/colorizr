@@ -1,5 +1,4 @@
 import hsl2rgb from 'hsl2rgb';
-
 import { messages } from 'modules/utils';
 
 describe('hsl2rgb', () => {
