@@ -9,15 +9,20 @@ module.exports = {
       statements: 90,
     },
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: 'test/tsconfig.json',
-    },
-  },
   moduleDirectories: ['node_modules', 'src'],
-  preset: 'ts-jest',
   testMatch: null,
   testRegex: '/test/.*?\\.(test|spec)\\.ts$',
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: 'test/tsconfig.json',
+        diagnostics: {
+          ignoreCodes: ['TS151001'],
+        },
+      },
+    ],
+  },
   verbose: false,
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 };

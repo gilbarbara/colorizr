@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`swatch "#ff0044" with undefined should return the palette 1`] = `
+[
+  "#ffccda",
+  "#ff99b4",
+  "#ff668f",
+  "#ff3369",
+  "#ff0044",
+  "#cc0036",
+  "#990029",
+  "#66001b",
+  "#33000e",
+  "#1a0007",
+]
+`;
+
+exports[`swatch "hsl(344, 100%, 50%) " with "up" should return the palette 1`] = `
+[
+  "#ffccd3",
+  "#ff99aa",
+  "#ff6685",
+  "#ff3362",
+  "#ff0044",
+  "#cc0028",
+  "#990015",
+  "#660007",
+  "#330000",
+  "#1a0200",
+]
+`;
+
+exports[`swatch "rgb(255, 0, 68)" with "down" should return the palette 1`] = `
+[
+  "#ffcce1",
+  "#ff99be",
+  "#ff6699",
+  "#ff3370",
+  "#ff0044",
+  "#cc0044",
+  "#99003d",
+  "#66002f",
+  "#33001c",
+  "#1a0010",
+]
+`;

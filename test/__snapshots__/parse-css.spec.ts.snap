@@ -19,7 +19,7 @@ exports[`parseCSS with output "hex" "rgb(255, 255, 0)" should return properly 1`
 exports[`parseCSS with output "hex" "rgba(255, 127, 12, 0.5)" should return properly 1`] = `"#ff7f0c"`;
 
 exports[`parseCSS with output "hsl" "#ff0044" should return properly 1`] = `
-Object {
+{
   "h": 344,
   "l": 50,
   "s": 100,
@@ -27,7 +27,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "AliceBlue" should return properly 1`] = `
-Object {
+{
   "h": 208,
   "l": 97.06,
   "s": 100,
@@ -35,7 +35,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "greenyellow" should return properly 1`] = `
-Object {
+{
   "h": 83.65,
   "l": 59.22,
   "s": 100,
@@ -43,7 +43,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "hsl(255,80%,20%)" should return properly 1`] = `
-Object {
+{
   "h": 255,
   "l": 20,
   "s": 80,
@@ -51,7 +51,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "hsl(270 60% 70%)" should return properly 1`] = `
-Object {
+{
   "h": 270,
   "l": 70,
   "s": 60,
@@ -59,7 +59,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "hsl(270 60%, 70% / .15)" should return properly 1`] = `
-Object {
+{
   "h": 270,
   "l": 70,
   "s": 60,
@@ -67,7 +67,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "hsla(126,     57%,  62%,0.5)" should return properly 1`] = `
-Object {
+{
   "h": 126,
   "l": 62,
   "s": 57,
@@ -75,7 +75,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "rgb(255, 255, 0)" should return properly 1`] = `
-Object {
+{
   "h": 60,
   "l": 50,
   "s": 100,
@@ -83,7 +83,7 @@ Object {
 `;
 
 exports[`parseCSS with output "hsl" "rgba(255, 127, 12, 0.5)" should return properly 1`] = `
-Object {
+{
   "h": 28.4,
   "l": 52.35,
   "s": 100,
@@ -91,7 +91,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "#ff0044" should return properly 1`] = `
-Object {
+{
   "b": 68,
   "g": 0,
   "r": 255,
@@ -99,7 +99,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "AliceBlue" should return properly 1`] = `
-Object {
+{
   "b": 255,
   "g": 248,
   "r": 240,
@@ -107,7 +107,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "greenyellow" should return properly 1`] = `
-Object {
+{
   "b": 47,
   "g": 255,
   "r": 173,
@@ -115,7 +115,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "hsl(255,80%,20%)" should return properly 1`] = `
-Object {
+{
   "b": 92,
   "g": 10,
   "r": 31,
@@ -123,7 +123,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "hsl(270 60% 70%)" should return properly 1`] = `
-Object {
+{
   "b": 224,
   "g": 133,
   "r": 179,
@@ -131,7 +131,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "hsl(270 60%, 70% / .15)" should return properly 1`] = `
-Object {
+{
   "b": 224,
   "g": 133,
   "r": 179,
@@ -139,7 +139,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "hsla(126,     57%,  62%,0.5)" should return properly 1`] = `
-Object {
+{
   "b": 114,
   "g": 213,
   "r": 103,
@@ -147,7 +147,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "rgb(255, 255, 0)" should return properly 1`] = `
-Object {
+{
   "b": 0,
   "g": 255,
   "r": 255,
@@ -155,7 +155,7 @@ Object {
 `;
 
 exports[`parseCSS with output "rgb" "rgba(255, 127, 12, 0.5)" should return properly 1`] = `
-Object {
+{
   "b": 12,
   "g": 127,
   "r": 255,

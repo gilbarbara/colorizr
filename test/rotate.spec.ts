@@ -1,6 +1,5 @@
-import rotate from 'rotate';
-
 import { messages } from 'modules/utils';
+import rotate from 'rotate';
 
 describe('rotate', () => {
   it('should have changed the color', () => {

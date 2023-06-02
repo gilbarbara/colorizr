@@ -1,5 +1,4 @@
 import brightnessDifference from 'brightness-difference';
-
 import { messages } from 'modules/utils';
 
 describe('brightnessDifference', () => {
