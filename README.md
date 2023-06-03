@@ -315,6 +315,27 @@ const complementary = scheme('rgb(255, 0, 68)'); // ['#ff0044', '#00ffbb']
 const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff']
 ```
 
+**swatch(input: string, variant?: 'up' | 'down'): string[]**  
+_generate a color swatch with 10 shades_
+
+```typescript
+import { swatch } from 'colorizr';
+
+const colors = swatch('#ff0044');
+/* [
+  "#ffccda",
+  "#ff99b4",
+  "#ff668f",
+  "#ff3369",
+  "#ff0044",
+  "#cc0036",
+  "#990029",
+  "#66001b",
+  "#33000e",
+  "#1a0007",
+] */
+```
+
 **textColor(input: string): string**  
 _get a contrasting color to use with the text_
 
