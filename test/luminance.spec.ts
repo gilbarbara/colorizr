@@ -1,5 +1,4 @@
 import luminance from 'luminance';
-
 import { messages } from 'modules/utils';
 
 describe('luminance', () => {

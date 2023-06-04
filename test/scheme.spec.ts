@@ -1,5 +1,4 @@
 import scheme from 'scheme';
-
 import { Scheme } from 'types';
 
 describe('scheme', () => {

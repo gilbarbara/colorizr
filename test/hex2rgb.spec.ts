@@ -1,5 +1,4 @@
 import hex2rgb from 'hex2rgb';
-
 import { messages } from 'modules/utils';
 
 describe('hex2rgb', () => {

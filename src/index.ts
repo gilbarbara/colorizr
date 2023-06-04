@@ -185,6 +185,7 @@ export { default as rgb2hsl } from './rgb2hsl';
 export { default as rotate } from './rotate';
 export { default as saturate } from './saturate';
 export { default as scheme } from './scheme';
+export { default as swatch } from './swatch';
 export { default as textColor } from './text-color';
 
 export * from './types';

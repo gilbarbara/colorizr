@@ -1,91 +1,63 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { ReactNode } from 'react';
+import { css, Global } from '@emotion/react';
+import styled from '@emotion/styled';
+import { Box } from '@gilbarbara/components';
+import { textColor } from 'colorizr';
 
-interface ContrastProps {
-  contrast: number;
-  largeText: number;
-  normalText: number;
+import { getContrastBgColor, getTextBgColor } from './utils';
+
+export function GlobalStyles() {
+  return (
+    <Global
+      styles={css`
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+        }
+
+        body {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          font-family: Rubik, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+      `}
+    />
+  );
 }
 
-function getContrastBgColor({ contrast }: ContrastProps) {
-  let backgroundColor = '#fbd0da';
-
-  if (contrast >= 7) {
-    backgroundColor = '#d2fbd0';
-  } else if (contrast >= 4.5) {
-    backgroundColor = '#f5f5d0';
-  }
-
-  return backgroundColor;
+export function Grid({ children, isLarge }: { children: ReactNode; isLarge?: boolean }) {
+  return (
+    <Box
+      flexBox
+      justify="center"
+      maxWidth={isLarge ? 800 : 768}
+      mb="lg"
+      mx="auto"
+      style={{ gap: 20 }}
+      wrap="wrap"
+    >
+      {children}
+    </Box>
+  );
 }
 
-function getTextBgColor(type: 'normal' | 'large') {
-  return ({ normalText, largeText }: ContrastProps) => {
-    let backgroundColor = '#fbd0da';
-
-    if (type === 'normal' ? normalText === 2 : largeText === 2) {
-      backgroundColor = '#d2fbd0';
-    } else if (type === 'normal' ? normalText === 1 : largeText === 1) {
-      backgroundColor = '#f5f5d0';
-    }
-
-    return backgroundColor;
-  };
+export function Section({ children }: { children: ReactNode }) {
+  return (
+    <Box data-component-name="Section" mb="xxl">
+      {children}
+    </Box>
+  );
 }
 
-export const Global = createGlobalStyle`
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: Rubik, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-export const Wrapper = styled('main')<any>`
+export const Wrapper = styled.main<any>`
   background-color: ${props => props.bg || '#f7f7f7'};
   color: ${props => props.color || '#000'};
   min-height: 100vh;
   padding: 20px;
   text-align: center;
-`;
-
-export const Flex = styled.div`
-  display: flex;
-`;
-
-export const H1 = styled.h1`
-  font-size: 48px;
-  margin: 0 0 24px;
-`;
-
-export const H2 = styled.h2`
-  font-size: 32px;
-  margin: 0 auto 32px;
-  max-width: 600px;
-`;
-
-export const H3 = styled.h3`
-  font-size: 28px;
-  margin: 28px 0 14px;
-`;
-
-export const H4 = styled.h4`
-  font-size: 22px;
-  margin: 32px 0 22px;
-`;
-
-export const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin: 0 auto 20px;
-  max-width: 640px;
 `;
 
 export const Item = styled.div`
@@ -95,19 +67,21 @@ export const Item = styled.div`
   padding: 10px;
 `;
 
-export const Block = styled.div.attrs<any>(props => ({
-  style: {
-    backgroundColor: props.color,
-  },
-}))`
+export const Swatch = styled.div<{ bgColor?: string }>`
+  align-items: center;
+  background-color: ${props => props.bgColor};
   border-radius: 6px;
+  color: ${props => (props.bgColor ? textColor(props.bgColor) : undefined)};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 96px;
   margin: 0 auto;
   position: relative;
   width: 96px;
 `;
 
-export const Pattern = styled(Block)`
+export const Pattern = styled(Swatch)`
   &:before {
     background-color: #fff;
     background-image: repeating-linear-gradient(
@@ -147,7 +121,7 @@ export const Footer = styled.p`
   margin: 5px 0 0;
 `;
 
-export const Box = styled.div`
+export const Block = styled.div`
   background-color: #fff;
   border-radius: 12px;
   color: #000;

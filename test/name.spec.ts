@@ -1,6 +1,5 @@
-import name from 'name';
-
 import { messages } from 'modules/utils';
+import name from 'name';
 
 describe('name', () => {
   it.each([

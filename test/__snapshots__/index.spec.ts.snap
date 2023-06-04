@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Colorizr with hex compare should return a WCAG analysis 1`] = `
-Object {
+{
   "brightnessDifference": 83.997,
   "colorDifference": 323,
   "compliant": 0,
@@ -14,7 +14,7 @@ Object {
 `;
 
 exports[`Colorizr with hex compare should return a WCAG analysis 2`] = `
-Object {
+{
   "brightnessDifference": 171.003,
   "colorDifference": 442,
   "compliant": 1,

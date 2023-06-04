@@ -1,5 +1,4 @@
 import contrast from 'contrast';
-
 import { messages } from 'modules/utils';
 
 describe('contrast', () => {
