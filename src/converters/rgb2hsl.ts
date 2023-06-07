@@ -1,5 +1,5 @@
-import { invariant, isRGB, limit, messages } from './modules/utils';
-import { HSL, RGB, RGBArray } from './types';
+import { invariant, isRGB, limit, messages } from '../modules/utils';
+import { HSL, RGB, RGBArray } from '../types';
 
 export default function rgb2hsl(input: RGB | RGBArray): HSL {
   invariant(!!input, messages.input);

@@ -1,6 +1,6 @@
-import hsl2rgb from './hsl2rgb';
+import hsl2rgb from './converters/hsl2rgb';
+import rgb2Hsl from './converters/rgb2hsl';
 import { invariant, isHSL, isNumber, isPlainObject, isRGB, messages } from './modules/utils';
-import rgb2Hsl from './rgb2hsl';
 import { FormatOptions, HSL, RGB } from './types';
 
 export default function formatCSS(input: HSL | RGB, options: FormatOptions = {}): string {

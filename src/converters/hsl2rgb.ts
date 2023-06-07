@@ -1,6 +1,6 @@
-import hue2rgb from './modules/hue2rgb';
-import { invariant, isHSL, messages, round } from './modules/utils';
-import { HSL, RGB } from './types';
+import hue2rgb from '../modules/hue2rgb';
+import { invariant, isHSL, messages, round } from '../modules/utils';
+import { HSL, RGB } from '../types';
 
 /**
  * Convert an HSL object to RGB.

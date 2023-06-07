@@ -1,4 +1,4 @@
-import hsl2hex from './hsl2hex';
+import hsl2hex from './converters/hsl2hex';
 
 /**
  * Generate a random color.

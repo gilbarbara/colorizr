@@ -168,10 +168,6 @@ export { default as desaturate } from './desaturate';
 export { default as fade } from './fade';
 export { default as formatCSS } from './format-css';
 export { default as formatHex } from './format-hex';
-export { default as hex2hsl } from './hex2hsl';
-export { default as hex2rgb } from './hex2rgb';
-export { default as hsl2hex } from './hsl2hex';
-export { default as hsl2rgb } from './hsl2rgb';
 export { default as isValidColor } from './is-valid-color';
 export { default as isValidHex } from './is-valid-hex';
 export { default as lighten } from './lighten';
@@ -180,13 +176,18 @@ export { default as name } from './name';
 export { default as palette } from './palette';
 export { default as parseCSS } from './parse-css';
 export { default as random } from './random';
-export { default as rgb2hex } from './rgb2hex';
-export { default as rgb2hsl } from './rgb2hsl';
 export { default as rotate } from './rotate';
 export { default as saturate } from './saturate';
 export { default as scheme } from './scheme';
 export { default as swatch } from './swatch';
 export { default as textColor } from './text-color';
+
+export { default as hex2hsl } from './converters/hex2hsl';
+export { default as hex2rgb } from './converters/hex2rgb';
+export { default as hsl2hex } from './converters/hsl2hex';
+export { default as hsl2rgb } from './converters/hsl2rgb';
+export { default as rgb2hex } from './converters/rgb2hex';
+export { default as rgb2hsl } from './converters/rgb2hsl';
 
 export * from './types';
 

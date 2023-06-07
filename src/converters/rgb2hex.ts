@@ -1,5 +1,5 @@
-import { invariant, isRGB, isRGBArray, messages } from './modules/utils';
-import { RGB, RGBArray } from './types';
+import { invariant, isRGB, isRGBArray, messages } from '../modules/utils';
+import { RGB, RGBArray } from '../types';
 
 /**
  * Convert an RGA object to hex.
