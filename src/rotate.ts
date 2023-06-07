@@ -1,4 +1,4 @@
-import hex2hsl from './hex2hsl';
+import hex2hsl from './converters/hex2hsl';
 import { constrainDegrees, invariant, isNumber, isString, messages } from './modules/utils';
 import parseCSS from './parse-css';
 import { shift } from './shift';

@@ -1,4 +1,4 @@
-import hex2rgb from './hex2rgb';
+import hex2rgb from './converters/hex2rgb';
 import { invariant, isString, messages, round } from './modules/utils';
 import parseCSS from './parse-css';
 

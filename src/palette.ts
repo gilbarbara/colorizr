@@ -1,5 +1,5 @@
-import hex2hsl from './hex2hsl';
-import hsl2hex from './hsl2hex';
+import hex2hsl from './converters/hex2hsl';
+import hsl2hex from './converters/hsl2hex';
 import { invariant, isPlainObject, isString, messages } from './modules/utils';
 import parseCSS from './parse-css';
 import rotate from './rotate';

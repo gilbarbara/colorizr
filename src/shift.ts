@@ -1,5 +1,5 @@
-import hex2hsl from './hex2hsl';
-import hsl2hex from './hsl2hex';
+import hex2hsl from './converters/hex2hsl';
+import hsl2hex from './converters/hsl2hex';
 import { HSLKeys, invariant, isPlainObject, isString, messages, pick } from './modules/utils';
 import parseCSS from './parse-css';
 import { HSL, RGB } from './types';

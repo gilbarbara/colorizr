@@ -1,5 +1,5 @@
+import rgb2hsl from 'converters/rgb2hsl';
 import { messages } from 'modules/utils';
-import rgb2hsl from 'rgb2hsl';
 
 describe('rgb2hsl', () => {
   it('should work with proper input', () => {

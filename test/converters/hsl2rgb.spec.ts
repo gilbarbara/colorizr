@@ -1,4 +1,4 @@
-import hsl2rgb from 'hsl2rgb';
+import hsl2rgb from 'converters/hsl2rgb';
 import { messages } from 'modules/utils';
 
 describe('hsl2rgb', () => {

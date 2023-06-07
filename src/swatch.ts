@@ -1,6 +1,6 @@
+import hex2hsl from './converters/hex2hsl';
+import hsl2hex from './converters/hsl2hex';
 import desaturate from './desaturate';
-import hex2hsl from './hex2hsl';
-import hsl2hex from './hsl2hex';
 import { constrainDegrees, invariant, isString, messages } from './modules/utils';
 import parseCSS from './parse-css';
 import saturate from './saturate';

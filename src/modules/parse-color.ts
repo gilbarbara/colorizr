@@ -1,13 +1,13 @@
 import { invariant, isHSL, isPlainObject, isRGB, isString, limit, messages } from './utils';
 
-import hex2hsl from '../hex2hsl';
-import hex2rgb from '../hex2rgb';
-import hsl2hex from '../hsl2hex';
-import hsl2rgb from '../hsl2rgb';
+import hex2hsl from '../converters/hex2hsl';
+import hex2rgb from '../converters/hex2rgb';
+import hsl2hex from '../converters/hsl2hex';
+import hsl2rgb from '../converters/hsl2rgb';
+import rgb2hex from '../converters/rgb2hex';
+import rgb2hsl from '../converters/rgb2hsl';
 import isValidHex from '../is-valid-hex';
 import parseCSS from '../parse-css';
-import rgb2hex from '../rgb2hex';
-import rgb2hsl from '../rgb2hsl';
 import { Colors, HSL, PlainObject, RGB, RGBArray } from '../types';
 
 export default function parseColor(color: string | HSL | RGB | RGBArray): Colors {
