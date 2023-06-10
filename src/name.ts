@@ -1,9 +1,9 @@
 import { cssColors } from './modules/css-colors';
-import { invariant, isString, messages } from './modules/utils';
+import { invariant, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 
 export default function name(input: string): string {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
 
   const hex = parseCSS(input);
 

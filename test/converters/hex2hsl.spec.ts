@@ -1,5 +1,5 @@
 import hex2hsl from 'converters/hex2hsl';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('hex2hsl', () => {
   it.each([
@@ -14,6 +14,6 @@ describe('hex2hsl', () => {
   it('should fail with invalid parameters', () => {
     expect(() => hex2hsl('#mmxxvv')).toThrow('invalid hex');
     // @ts-ignore
-    expect(() => hex2hsl([255, 255, 0])).toThrow(messages.inputString);
+    expect(() => hex2hsl([255, 255, 0])).toThrow(MESSAGES.inputString);
   });
 });

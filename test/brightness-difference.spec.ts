@@ -1,5 +1,5 @@
 import brightnessDifference from 'brightness-difference';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('brightnessDifference', () => {
   it.each([
@@ -15,8 +15,8 @@ describe('brightnessDifference', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => brightnessDifference([])).toThrow(messages.left);
+    expect(() => brightnessDifference([])).toThrow(MESSAGES.left);
     // @ts-ignore
-    expect(() => brightnessDifference('', {})).toThrow(messages.right);
+    expect(() => brightnessDifference('', {})).toThrow(MESSAGES.right);
   });
 });

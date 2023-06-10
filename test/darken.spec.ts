@@ -1,5 +1,5 @@
 import darken from 'darken';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('darken', () => {
   it.each([
@@ -14,8 +14,8 @@ describe('darken', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => darken([])).toThrow(messages.inputString);
+    expect(() => darken([])).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => darken('', {})).toThrow(messages.amount);
+    expect(() => darken('', {})).toThrow(MESSAGES.amount);
   });
 });

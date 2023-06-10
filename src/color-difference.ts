@@ -1,13 +1,13 @@
 import hex2rgb from './converters/hex2rgb';
-import { invariant, isString, messages } from './modules/utils';
+import { invariant, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 
 /**
  * Get the difference between 2 colors.
  */
 export default function colorDifference(left: string, right: string): number {
-  invariant(isString(left), messages.left);
-  invariant(isString(right), messages.right);
+  invariant(isString(left), MESSAGES.left);
+  invariant(isString(right), MESSAGES.right);
 
   const RGBLeft = hex2rgb(parseCSS(left));
   const RGBRight = hex2rgb(parseCSS(right));

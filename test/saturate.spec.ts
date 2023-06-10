@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import saturate from 'saturate';
 
 describe('saturate', () => {
@@ -14,8 +14,8 @@ describe('saturate', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => saturate([])).toThrow(messages.inputString);
+    expect(() => saturate([])).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => saturate('', {})).toThrow(messages.amount);
+    expect(() => saturate('', {})).toThrow(MESSAGES.amount);
   });
 });

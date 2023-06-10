@@ -1,5 +1,5 @@
 import hex2rgb from 'converters/hex2rgb';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('hex2rgb', () => {
   it.each([
@@ -14,6 +14,6 @@ describe('hex2rgb', () => {
   it('should throw with invalid input', () => {
     expect(() => hex2rgb('abs')).toThrow('invalid hex');
     // @ts-ignore
-    expect(() => hex2rgb({ h: 240, s: 45, l: 50 })).toThrow(messages.inputString);
+    expect(() => hex2rgb({ h: 240, s: 45, l: 50 })).toThrow(MESSAGES.inputString);
   });
 });

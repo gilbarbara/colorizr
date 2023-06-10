@@ -1,5 +1,5 @@
 import lighten from 'lighten';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('lighten', () => {
   it.each([
@@ -14,8 +14,8 @@ describe('lighten', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => lighten([])).toThrow(messages.inputString);
+    expect(() => lighten([])).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => lighten('', {})).toThrow(messages.amount);
+    expect(() => lighten('', {})).toThrow(MESSAGES.amount);
   });
 });

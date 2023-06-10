@@ -1,5 +1,5 @@
 import compare from 'compare';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('compare', () => {
   it.each([
@@ -15,10 +15,10 @@ describe('compare', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => compare()).toThrow(messages.left);
+    expect(() => compare()).toThrow(MESSAGES.left);
     // @ts-ignore
-    expect(() => compare([])).toThrow(messages.left);
+    expect(() => compare([])).toThrow(MESSAGES.left);
     // @ts-ignore
-    expect(() => compare('', [])).toThrow(messages.right);
+    expect(() => compare('', [])).toThrow(MESSAGES.right);
   });
 });

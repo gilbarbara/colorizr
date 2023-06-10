@@ -1,7 +1,7 @@
 import hex2hsl from './converters/hex2hsl';
 import hsl2hex from './converters/hsl2hex';
 import desaturate from './desaturate';
-import { constrainDegrees, invariant, isString, messages } from './modules/utils';
+import { constrainDegrees, invariant, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 import saturate from './saturate';
 
@@ -10,7 +10,7 @@ const LIGHTNESS_MAP = [90, 80, 70, 60, 50, 40, 30, 20, 10, 5];
 const SATURATION_MAP = [32, 16, 8, 4, 0, 0, 4, 8, 16, 32];
 
 export default function swatch(input: string, variant?: 'up' | 'down'): string[] {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
   const hsl = parseCSS(input, 'hsl');
 
   const lightnessGoal = hsl.l;

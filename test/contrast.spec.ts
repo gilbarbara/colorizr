@@ -1,5 +1,5 @@
 import contrast from 'contrast';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('contrast', () => {
   it.each([
@@ -20,8 +20,8 @@ describe('contrast', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => contrast([])).toThrow(messages.left);
+    expect(() => contrast([])).toThrow(MESSAGES.left);
     // @ts-ignore
-    expect(() => contrast('', {})).toThrow(messages.right);
+    expect(() => contrast('', {})).toThrow(MESSAGES.right);
   });
 });

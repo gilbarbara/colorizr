@@ -1,5 +1,5 @@
 import chroma from 'chroma';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('chroma', () => {
   it.each([
@@ -17,6 +17,6 @@ describe('chroma', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => chroma([])).toThrow(messages.inputString);
+    expect(() => chroma([])).toThrow(MESSAGES.inputString);
   });
 });

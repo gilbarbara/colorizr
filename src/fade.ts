@@ -1,6 +1,6 @@
 import hex2hsl from './converters/hex2hsl';
 import hex2rgb from './converters/hex2rgb';
-import { invariant, isNumber, isString, messages } from './modules/utils';
+import { invariant, isNumber, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 import { ColorTypes } from './types';
 
@@ -8,8 +8,8 @@ import { ColorTypes } from './types';
  * Fade the color
  */
 export default function fade(input: string, amount = 10, output: ColorTypes = 'rgb'): string {
-  invariant(isString(input), messages.inputString);
-  invariant(isNumber(amount), messages.amount);
+  invariant(isString(input), MESSAGES.inputString);
+  invariant(isNumber(amount), MESSAGES.amount);
 
   const hex = parseCSS(input);
   const percentage = (100 - amount) / 100;

@@ -1,5 +1,5 @@
 import colorDifference from 'color-difference';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('colorDifference', () => {
   it.each([
@@ -14,8 +14,8 @@ describe('colorDifference', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => colorDifference([])).toThrow(messages.left);
+    expect(() => colorDifference([])).toThrow(MESSAGES.left);
     // @ts-ignore
-    expect(() => colorDifference('', {})).toThrow(messages.right);
+    expect(() => colorDifference('', {})).toThrow(MESSAGES.right);
   });
 });

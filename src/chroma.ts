@@ -1,12 +1,12 @@
 import hex2rgb from './converters/hex2rgb';
-import { invariant, isString, messages, round } from './modules/utils';
+import { invariant, isString, MESSAGES, round } from './modules/utils';
 import parseCSS from './parse-css';
 
 /**
  * Get the chroma of a color.
  */
 export default function chroma(input: string): number {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
 
   const { r, g, b } = hex2rgb(parseCSS(input));
 

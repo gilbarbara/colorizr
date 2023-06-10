@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import { shift } from 'shift';
 
 describe('shift', () => {
@@ -13,6 +13,6 @@ describe('shift', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => shift('ABC', [])).toThrow(messages.options);
+    expect(() => shift('ABC', [])).toThrow(MESSAGES.options);
   });
 });

@@ -1,5 +1,5 @@
 import fade from 'fade';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import { ColorTypes } from 'types';
 
 describe('fade', () => {
@@ -16,8 +16,8 @@ describe('fade', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => fade([])).toThrow(messages.inputString);
+    expect(() => fade([])).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => fade('', {})).toThrow(messages.amount);
+    expect(() => fade('', {})).toThrow(MESSAGES.amount);
   });
 });
