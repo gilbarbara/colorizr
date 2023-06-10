@@ -1,5 +1,5 @@
 import rgb2hsl from 'converters/rgb2hsl';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('rgb2hsl', () => {
   it('should work with proper input', () => {
@@ -12,8 +12,8 @@ describe('rgb2hsl', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => rgb2hsl('rgt(255, 255, 0)')).toThrow(messages.invalid);
+    expect(() => rgb2hsl('rgt(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-ignore
-    expect(() => rgb2hsl({ m: 255, t: 55, p: 75 })).toThrow(messages.invalid);
+    expect(() => rgb2hsl({ m: 255, t: 55, p: 75 })).toThrow(MESSAGES.invalid);
   });
 });

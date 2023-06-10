@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import name from 'name';
 
 describe('name', () => {
@@ -15,6 +15,6 @@ describe('name', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => name([])).toThrow(messages.inputString);
+    expect(() => name([])).toThrow(MESSAGES.inputString);
   });
 });

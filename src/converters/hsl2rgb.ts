@@ -1,12 +1,12 @@
 import hue2rgb from '../modules/hue2rgb';
-import { invariant, isHSL, messages, round } from '../modules/utils';
+import { invariant, isHSL, MESSAGES, round } from '../modules/utils';
 import { HSL, RGB } from '../types';
 
 /**
  * Convert an HSL object to RGB.
  */
 export default function hsl2rgb(input: HSL): RGB {
-  invariant(!!input, messages.inputString);
+  invariant(!!input, MESSAGES.inputString);
 
   invariant(isHSL(input), 'invalid input');
 

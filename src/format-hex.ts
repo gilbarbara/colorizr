@@ -1,8 +1,8 @@
 import isValidHex from './is-valid-hex';
-import { invariant, isString, messages } from './modules/utils';
+import { invariant, isString, MESSAGES } from './modules/utils';
 
 export default function formatHex(input: string): string {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
 
   const color = input.replace('#', '');
   let hex = color;

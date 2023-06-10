@@ -1,5 +1,5 @@
 import rgb2hex from 'converters/rgb2hex';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('rgb2hex', () => {
   it('should work with proper input', () => {
@@ -9,14 +9,14 @@ describe('rgb2hex', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => rgb2hex()).toThrow(messages.input);
+    expect(() => rgb2hex()).toThrow(MESSAGES.input);
 
     // @ts-ignore
-    expect(() => rgb2hex('hpv(255, 255, 0)')).toThrow(messages.invalid);
-    expect(() => rgb2hex({ r: 500, g: 55, b: 75 })).toThrow(messages.invalid);
+    expect(() => rgb2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
+    expect(() => rgb2hex({ r: 500, g: 55, b: 75 })).toThrow(MESSAGES.invalid);
 
     // @ts-ignore
-    expect(() => rgb2hex({ m: 255, p: 55, b: 75 })).toThrow(messages.invalid);
-    expect(() => rgb2hex([300, 100, 0])).toThrow(messages.invalid);
+    expect(() => rgb2hex({ m: 255, p: 55, b: 75 })).toThrow(MESSAGES.invalid);
+    expect(() => rgb2hex([300, 100, 0])).toThrow(MESSAGES.invalid);
   });
 });

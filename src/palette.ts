@@ -1,13 +1,13 @@
 import hex2hsl from './converters/hex2hsl';
 import hsl2hex from './converters/hsl2hex';
-import { invariant, isPlainObject, isString, messages } from './modules/utils';
+import { invariant, isPlainObject, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 import rotate from './rotate';
 import { PaletteOptions } from './types';
 
 export default function palette(input: string, options: PaletteOptions = {}): string[] {
-  invariant(isString(input), messages.inputString);
-  invariant(isPlainObject(options), messages.options);
+  invariant(isString(input), MESSAGES.inputString);
+  invariant(isPlainObject(options), MESSAGES.options);
 
   const { lightness, saturation, size = 6, type } = options;
   const hsl = hex2hsl(parseCSS(input));

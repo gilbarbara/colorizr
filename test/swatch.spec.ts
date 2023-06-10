@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import swatch from 'swatch';
 
 describe('swatch', () => {
@@ -12,6 +12,6 @@ describe('swatch', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => swatch(undefined)).toThrow(messages.inputString);
+    expect(() => swatch(undefined)).toThrow(MESSAGES.inputString);
   });
 });

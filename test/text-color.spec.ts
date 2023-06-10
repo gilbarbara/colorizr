@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import textColor from 'text-color';
 
 describe('textColor', () => {
@@ -13,6 +13,6 @@ describe('textColor', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => textColor([])).toThrow(messages.inputString);
+    expect(() => textColor([])).toThrow(MESSAGES.inputString);
   });
 });

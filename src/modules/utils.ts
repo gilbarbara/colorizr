@@ -3,6 +3,16 @@ import { HSL, PlainObject, RGB, RGBArray } from '../types';
 export const HSLKeys = ['h', 's', 'l'];
 export const RGBKeys = ['r', 'g', 'b'];
 
+export const MESSAGES = {
+  amount: 'amount must be a number',
+  left: 'left is required and must be a string',
+  right: 'right is required and must be a string',
+  input: 'input is required',
+  inputString: 'input is required and must be a string',
+  invalid: 'invalid input',
+  options: 'invalid options',
+};
+
 /**
  * Constrain value into the range
  */
@@ -215,16 +225,6 @@ export function limit(input: number, type: string): number {
 
   throw new Error('Invalid type');
 }
-
-export const messages = {
-  amount: 'amount must be a number',
-  left: 'left is required and must be a string',
-  right: 'right is required and must be a string',
-  input: 'input is required',
-  inputString: 'input is required and must be a string',
-  invalid: 'invalid input',
-  options: 'invalid options',
-};
 
 /**
  * Creates an object composed of the picked source properties.

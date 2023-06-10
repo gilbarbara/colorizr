@@ -1,12 +1,12 @@
-import { invariant, isRGB, isRGBArray, messages } from '../modules/utils';
+import { invariant, isRGB, isRGBArray, MESSAGES } from '../modules/utils';
 import { RGB, RGBArray } from '../types';
 
 /**
  * Convert an RGA object to hex.
  */
 export default function rgb2hex(input: RGB | RGBArray): string {
-  invariant(!!input, messages.input);
-  invariant(isRGBArray(input) || isRGB(input), messages.invalid);
+  invariant(!!input, MESSAGES.input);
+  invariant(isRGBArray(input) || isRGB(input), MESSAGES.invalid);
 
   let r: number;
   let g: number;

@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import rotate from 'rotate';
 
 describe('rotate', () => {
@@ -12,7 +12,7 @@ describe('rotate', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => rotate({})).toThrow(messages.inputString);
+    expect(() => rotate({})).toThrow(MESSAGES.inputString);
     // @ts-ignore
     expect(() => rotate('#f04', [])).toThrow('degrees must be a number');
   });

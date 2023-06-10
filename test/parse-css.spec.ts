@@ -1,4 +1,4 @@
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 import parseCSS from 'parse-css';
 import { ColorTypes } from 'types';
 
@@ -21,11 +21,11 @@ describe('parseCSS', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => parseCSS([25, 56, 84])).toThrow(messages.inputString);
+    expect(() => parseCSS([25, 56, 84])).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => parseCSS({ h: 25, s: 56, l: 84 })).toThrow(messages.inputString);
+    expect(() => parseCSS({ h: 25, s: 56, l: 84 })).toThrow(MESSAGES.inputString);
     // @ts-ignore
-    expect(() => parseCSS()).toThrow(messages.inputString);
+    expect(() => parseCSS()).toThrow(MESSAGES.inputString);
     expect(() => parseCSS('rgb(255, 255)')).toThrow('invalid CSS string');
     expect(() => parseCSS('rgs(255, 255, 0)')).toThrow('invalid CSS string');
     expect(() => parseCSS('AliceGreen')).toThrow('invalid CSS string');

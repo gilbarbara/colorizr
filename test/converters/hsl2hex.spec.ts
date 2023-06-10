@@ -1,5 +1,5 @@
 import hsl2hex from 'converters/hsl2hex';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('hsl2hex', () => {
   it.each([
@@ -13,8 +13,8 @@ describe('hsl2hex', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-ignore
-    expect(() => hsl2hex('hpv(255, 255, 0)')).toThrow(messages.invalid);
+    expect(() => hsl2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-ignore
-    expect(() => hsl2hex({ m: 255, p: 55, b: 75 })).toThrow(messages.invalid);
+    expect(() => hsl2hex({ m: 255, p: 55, b: 75 })).toThrow(MESSAGES.invalid);
   });
 });

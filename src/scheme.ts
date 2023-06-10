@@ -1,4 +1,4 @@
-import { invariant, isString, messages } from './modules/utils';
+import { invariant, isString, MESSAGES } from './modules/utils';
 import parseCSS from './parse-css';
 import rotate from './rotate';
 import { Scheme } from './types';
@@ -7,7 +7,7 @@ import { Scheme } from './types';
  * Get the scheme for a color.
  */
 export default function scheme(input: string, type: Scheme = 'complementary'): string[] {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
 
   const hex = parseCSS(input);
   const output: string[] = [];

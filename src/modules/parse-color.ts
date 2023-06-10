@@ -1,4 +1,4 @@
-import { invariant, isHSL, isPlainObject, isRGB, isString, limit, messages } from './utils';
+import { invariant, isHSL, isPlainObject, isRGB, isString, limit, MESSAGES } from './utils';
 
 import hex2hsl from '../converters/hex2hsl';
 import hex2rgb from '../converters/hex2rgb';
@@ -11,7 +11,7 @@ import parseCSS from '../parse-css';
 import { Colors, HSL, PlainObject, RGB, RGBArray } from '../types';
 
 export default function parseColor(color: string | HSL | RGB | RGBArray): Colors {
-  invariant(!!color, messages.input);
+  invariant(!!color, MESSAGES.input);
 
   const output: PlainObject = {};
 
@@ -53,7 +53,7 @@ export default function parseColor(color: string | HSL | RGB | RGBArray): Colors
 
     output.hex = hsl2hex(output.hsl);
   } else {
-    throw new Error(messages.input);
+    throw new Error(MESSAGES.input);
   }
 
   return output as Colors;

@@ -1,5 +1,5 @@
 import formatHex from 'format-hex';
-import { messages } from 'modules/utils';
+import { MESSAGES } from 'modules/utils';
 
 describe('formatHex', () => {
   it.each([
@@ -25,7 +25,7 @@ describe('formatHex', () => {
 
   it('should throw with invalid input', () => {
     // @ts-ignore
-    expect(() => formatHex()).toThrow(messages.inputString);
+    expect(() => formatHex()).toThrow(MESSAGES.inputString);
     expect(() => formatHex('#xyz')).toThrow('invalid hex');
     expect(() => formatHex('blue')).toThrow('invalid hex');
     expect(() => formatHex('#xml')).toThrow('invalid hex');

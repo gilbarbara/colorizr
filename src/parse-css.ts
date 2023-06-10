@@ -6,7 +6,7 @@ import rgb2hex from './converters/rgb2hex';
 import rgb2hsl from './converters/rgb2hsl';
 import isValidHex from './is-valid-hex';
 import { cssColors } from './modules/css-colors';
-import { invariant, isString, messages } from './modules/utils';
+import { invariant, isString, MESSAGES } from './modules/utils';
 import { ColorTypes, Return } from './types';
 
 /**
@@ -16,7 +16,7 @@ export default function parseCSS<T extends ColorTypes = 'hex'>(
   input: unknown,
   output?: T,
 ): Return<T> {
-  invariant(isString(input), messages.inputString);
+  invariant(isString(input), MESSAGES.inputString);
   let result: any;
 
   const parsedInput = cssColors[input.toLowerCase() as keyof typeof cssColors] || input;
