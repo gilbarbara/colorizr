@@ -1,20 +1,14 @@
-import { invariant, isRGB, limit, MESSAGES } from '../modules/utils';
-import { HSL, RGB, RGBArray } from '../types';
+import { limit, parseInput } from '~/modules/utils';
 
-export default function rgb2hsl(input: RGB | RGBArray): HSL {
-  invariant(!!input, MESSAGES.input);
+import { ConverterParameters, HSL, RGB } from '~/types';
 
-  let rgb: RGB = input as RGB;
+/** Convert RGB to HSL */
+export default function rgb2hsl(input: ConverterParameters<RGB>): HSL {
+  const value = parseInput(input, 'rgb');
 
-  if (Array.isArray(input)) {
-    rgb = { r: input[0], g: input[1], b: input[2] };
-  }
-
-  invariant(isRGB(rgb), MESSAGES.invalid);
-
-  const rLimit = limit(rgb.r, 'r') / 255;
-  const gLimit = limit(rgb.g, 'g') / 255;
-  const bLimit = limit(rgb.b, 'b') / 255;
+  const rLimit = limit(value.r, 'rgb', 'r') / 255;
+  const gLimit = limit(value.g, 'rgb', 'g') / 255;
+  const bLimit = limit(value.b, 'rgb', 'b') / 255;
 
   const min = Math.min(rLimit, gLimit, bLimit);
   const max = Math.max(rLimit, gLimit, bLimit);
@@ -38,7 +32,7 @@ export default function rgb2hsl(input: RGB | RGBArray): HSL {
       rate = (rLimit - gLimit) / delta;
       h = 60 * rate + 240;
       break;
-    /* istanbul ignore next */
+    /* c8 ignore next 2 */
     default:
       break;
   }

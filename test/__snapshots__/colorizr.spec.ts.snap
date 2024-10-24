@@ -1,0 +1,921 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Colorizr with 'HEX with alpha' > brightnessDifference > should return the brightness difference 1`] = `83.997`;
+
+exports[`Colorizr with 'HEX with alpha' > brightnessDifference > should return the brightness difference 2`] = `171.003`;
+
+exports[`Colorizr with 'HEX with alpha' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'HEX with alpha' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'HEX with alpha' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 83.997,
+  "colorDifference": 323,
+  "compliant": 0,
+  "contrast": 5.34,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HEX with alpha' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 171.003,
+  "colorDifference": 442,
+  "compliant": 1,
+  "contrast": 3.94,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HEX with alpha' > contrast > should return the contrast 1`] = `5.34`;
+
+exports[`Colorizr with 'HEX with alpha' > contrast > should return the contrast 2`] = `3.94`;
+
+exports[`Colorizr with 'HEX with alpha' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HEX with alpha' > getters > .luminance should return the correct value 1`] = `0.2168`;
+
+exports[`Colorizr with 'HEX with alpha' > getters > .opacity should return the correct value 1`] = `0.9`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 10 1`] = `"#cc0036"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 20 1`] = `"#990029"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 40 1`] = `"#33000e"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 80 1`] = `"#000000"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4a"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61a50"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335c"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"#996674"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > invert > should have invert the color 1`] = `"#00ffbb"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 10 1`] = `"#ff3369"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 20 1`] = `"#ff668f"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 40 1`] = `"#ffccda"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffff"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > opacify > should make the color transparent 1`] = `"#ff0044e6"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3b00"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 120 1`] = `"#44ff00"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbb"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -20 1`] = `"#e61a50"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -40 1`] = `"#cc335c"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -80 1`] = `"#996674"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044b3"`;
+
+exports[`Colorizr with 'HEX' > brightnessDifference > should return the brightness difference 1`] = `83.997`;
+
+exports[`Colorizr with 'HEX' > brightnessDifference > should return the brightness difference 2`] = `171.003`;
+
+exports[`Colorizr with 'HEX' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'HEX' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'HEX' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 83.997,
+  "colorDifference": 323,
+  "compliant": 0,
+  "contrast": 5.34,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HEX' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 171.003,
+  "colorDifference": 442,
+  "compliant": 1,
+  "contrast": 3.94,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HEX' > contrast > should return the contrast 1`] = `5.34`;
+
+exports[`Colorizr with 'HEX' > contrast > should return the contrast 2`] = `3.94`;
+
+exports[`Colorizr with 'HEX' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HEX' > getters > .luminance should return the correct value 1`] = `0.2168`;
+
+exports[`Colorizr with 'HEX' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HEX' > modifiers > darken > should have darken the color with 10 1`] = `"#cc0036"`;
+
+exports[`Colorizr with 'HEX' > modifiers > darken > should have darken the color with 20 1`] = `"#990029"`;
+
+exports[`Colorizr with 'HEX' > modifiers > darken > should have darken the color with 40 1`] = `"#33000e"`;
+
+exports[`Colorizr with 'HEX' > modifiers > darken > should have darken the color with 80 1`] = `"#000000"`;
+
+exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4a"`;
+
+exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61a50"`;
+
+exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335c"`;
+
+exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"#996674"`;
+
+exports[`Colorizr with 'HEX' > modifiers > invert > should have invert the color 1`] = `"#00ffbb"`;
+
+exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the color with 10 1`] = `"#ff3369"`;
+
+exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the color with 20 1`] = `"#ff668f"`;
+
+exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the color with 40 1`] = `"#ffccda"`;
+
+exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffff"`;
+
+exports[`Colorizr with 'HEX' > modifiers > opacify > should make the color transparent 1`] = `"#ff0044e6"`;
+
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004"`;
+
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3b00"`;
+
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00"`;
+
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 120 1`] = `"#44ff00"`;
+
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbb"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -20 1`] = `"#e61a50"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -40 1`] = `"#cc335c"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -80 1`] = `"#996674"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044cc"`;
+
+exports[`Colorizr with 'HSL String' > brightnessDifference > should return the brightness difference 1`] = `157.437`;
+
+exports[`Colorizr with 'HSL String' > brightnessDifference > should return the brightness difference 2`] = `97.563`;
+
+exports[`Colorizr with 'HSL String' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'HSL String' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'HSL String' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 157.437,
+  "colorDifference": 323,
+  "compliant": 1,
+  "contrast": 15.39,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'HSL String' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 97.563,
+  "colorDifference": 442,
+  "compliant": 0,
+  "contrast": 1.36,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HSL String' > contrast > should return the contrast 1`] = `15.39`;
+
+exports[`Colorizr with 'HSL String' > contrast > should return the contrast 2`] = `1.36`;
+
+exports[`Colorizr with 'HSL String' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HSL String' > getters > .luminance should return the correct value 1`] = `0.7194`;
+
+exports[`Colorizr with 'HSL String' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HSL String' > modifiers > darken > should have darken the color with 10 1`] = `"hsl(136 100% 40%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > darken > should have darken the color with 20 1`] = `"hsl(136 100% 30%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > darken > should have darken the color with 40 1`] = `"hsl(136 100% 10%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > darken > should have darken the color with 80 1`] = `"hsl(136 100% 0%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"hsl(136 90% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"hsl(136 80% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"hsl(136 60% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"hsl(136 20% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > invert > should have invert the color 1`] = `"hsl(316 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten the color with 10 1`] = `"hsl(136 100% 60%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten the color with 20 1`] = `"hsl(136 100% 70%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten the color with 40 1`] = `"hsl(136 100% 90%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten the color with 80 1`] = `"hsl(136 100% 100%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > opacify > should make the color transparent 1`] = `"hsl(136 100% 50% / 90%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 15 1`] = `"hsl(151 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 30 1`] = `"hsl(166 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 60 1`] = `"hsl(196 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 120 1`] = `"hsl(256 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 180 1`] = `"hsl(316 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -20 1`] = `"hsl(136 80% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -40 1`] = `"hsl(136 60% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -80 1`] = `"hsl(136 20% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with 10 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
+
+exports[`Colorizr with 'HSL' > brightnessDifference > should return the brightness difference 1`] = `157.437`;
+
+exports[`Colorizr with 'HSL' > brightnessDifference > should return the brightness difference 2`] = `97.563`;
+
+exports[`Colorizr with 'HSL' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'HSL' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'HSL' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 157.437,
+  "colorDifference": 323,
+  "compliant": 1,
+  "contrast": 15.39,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'HSL' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 97.563,
+  "colorDifference": 442,
+  "compliant": 0,
+  "contrast": 1.36,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'HSL' > contrast > should return the contrast 1`] = `15.39`;
+
+exports[`Colorizr with 'HSL' > contrast > should return the contrast 2`] = `1.36`;
+
+exports[`Colorizr with 'HSL' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HSL' > getters > .luminance should return the correct value 1`] = `0.7194`;
+
+exports[`Colorizr with 'HSL' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'HSL' > modifiers > darken > should have darken the color with 10 1`] = `"hsl(136 100% 40%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > darken > should have darken the color with 20 1`] = `"hsl(136 100% 30%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > darken > should have darken the color with 40 1`] = `"hsl(136 100% 10%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > darken > should have darken the color with 80 1`] = `"hsl(136 100% 0%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"hsl(136 90% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"hsl(136 80% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"hsl(136 60% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"hsl(136 20% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > invert > should have invert the color 1`] = `"hsl(316 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the color with 10 1`] = `"hsl(136 100% 60%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the color with 20 1`] = `"hsl(136 100% 70%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the color with 40 1`] = `"hsl(136 100% 90%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the color with 80 1`] = `"hsl(136 100% 100%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > opacify > should make the color transparent 1`] = `"hsl(136 100% 50% / 90%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 15 1`] = `"hsl(151 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 30 1`] = `"hsl(166 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 60 1`] = `"hsl(196 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 120 1`] = `"hsl(256 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 180 1`] = `"hsl(316 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -20 1`] = `"hsl(136 80% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -40 1`] = `"hsl(136 60% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -80 1`] = `"hsl(136 20% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 10 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
+
+exports[`Colorizr with 'OKLAB String' > brightnessDifference > should return the brightness difference 1`] = `140.815`;
+
+exports[`Colorizr with 'OKLAB String' > brightnessDifference > should return the brightness difference 2`] = `114.185`;
+
+exports[`Colorizr with 'OKLAB String' > colorDifference > should return the color difference 1`] = `365`;
+
+exports[`Colorizr with 'OKLAB String' > colorDifference > should return the color difference 2`] = `400`;
+
+exports[`Colorizr with 'OKLAB String' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 140.815,
+  "colorDifference": 365,
+  "compliant": 1,
+  "contrast": 7.48,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'OKLAB String' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 114.185,
+  "colorDifference": 400,
+  "compliant": 0,
+  "contrast": 2.81,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'OKLAB String' > contrast > should return the contrast 1`] = `7.48`;
+
+exports[`Colorizr with 'OKLAB String' > contrast > should return the contrast 2`] = `2.81`;
+
+exports[`Colorizr with 'OKLAB String' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLAB String' > getters > .luminance should return the correct value 1`] = `0.3241`;
+
+exports[`Colorizr with 'OKLAB String' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > darken > should have darken the color with 10 1`] = `"oklab(59.904% 0.11396 0.12118)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > darken > should have darken the color with 20 1`] = `"oklab(48.686% 0.08922 0.09853)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > darken > should have darken the color with 40 1`] = `"oklab(23.846% 0.03261 0.04838)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > darken > should have darken the color with 80 1`] = `"oklab(0% 0 0)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklab(69.021% 0.12176 0.13721)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > invert > should have invert the color 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklab(75.08% 0.10208 0.13556)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklab(80.448% 0.07226 0.10995)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklab(93.088% 0.0221 0.03737)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklab(100% 0 0)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklab(80.878% 0.04309 0.16482)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklab(93.097% -0.04744 0.19075)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklab(89.79% -0.17739 0.18535)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklab(87.269% -0.21232 0.12962)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
+
+exports[`Colorizr with 'OKLAB' > brightnessDifference > should return the brightness difference 1`] = `140.815`;
+
+exports[`Colorizr with 'OKLAB' > brightnessDifference > should return the brightness difference 2`] = `114.185`;
+
+exports[`Colorizr with 'OKLAB' > colorDifference > should return the color difference 1`] = `365`;
+
+exports[`Colorizr with 'OKLAB' > colorDifference > should return the color difference 2`] = `400`;
+
+exports[`Colorizr with 'OKLAB' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 140.815,
+  "colorDifference": 365,
+  "compliant": 1,
+  "contrast": 7.48,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'OKLAB' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 114.185,
+  "colorDifference": 400,
+  "compliant": 0,
+  "contrast": 2.81,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'OKLAB' > contrast > should return the contrast 1`] = `7.48`;
+
+exports[`Colorizr with 'OKLAB' > contrast > should return the contrast 2`] = `2.81`;
+
+exports[`Colorizr with 'OKLAB' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLAB' > getters > .luminance should return the correct value 1`] = `0.3241`;
+
+exports[`Colorizr with 'OKLAB' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > darken > should have darken the color with 10 1`] = `"oklab(59.904% 0.11396 0.12118)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > darken > should have darken the color with 20 1`] = `"oklab(48.686% 0.08922 0.09853)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > darken > should have darken the color with 40 1`] = `"oklab(23.846% 0.03261 0.04838)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > darken > should have darken the color with 80 1`] = `"oklab(0% 0 0)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklab(69.021% 0.12176 0.13721)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > invert > should have invert the color 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklab(75.08% 0.10208 0.13556)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklab(80.448% 0.07226 0.10995)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklab(93.088% 0.0221 0.03737)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklab(100% 0 0)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklab(80.878% 0.04309 0.16482)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklab(93.097% -0.04744 0.19075)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklab(89.79% -0.17739 0.18535)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklab(87.269% -0.21232 0.12962)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
+
+exports[`Colorizr with 'OKLCH String' > brightnessDifference > should return the brightness difference 1`] = `49.402`;
+
+exports[`Colorizr with 'OKLCH String' > brightnessDifference > should return the brightness difference 2`] = `205.598`;
+
+exports[`Colorizr with 'OKLCH String' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'OKLCH String' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'OKLCH String' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 49.402,
+  "colorDifference": 323,
+  "compliant": 0,
+  "contrast": 2.69,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'OKLCH String' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 205.598,
+  "colorDifference": 442,
+  "compliant": 1,
+  "contrast": 7.81,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'OKLCH String' > contrast > should return the contrast 1`] = `2.69`;
+
+exports[`Colorizr with 'OKLCH String' > contrast > should return the contrast 2`] = `7.81`;
+
+exports[`Colorizr with 'OKLCH String' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLCH String' > getters > .luminance should return the correct value 1`] = `0.0845`;
+
+exports[`Colorizr with 'OKLCH String' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.46794)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20355 276.80834)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.34945)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 0)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.75613)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.47832)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.24695)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48387)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 0)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.93693 / 90%)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24156)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.618% 0.30467 314.28723)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9015)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22094)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
+
+exports[`Colorizr with 'OKLCH' > brightnessDifference > should return the brightness difference 1`] = `49.402`;
+
+exports[`Colorizr with 'OKLCH' > brightnessDifference > should return the brightness difference 2`] = `205.598`;
+
+exports[`Colorizr with 'OKLCH' > colorDifference > should return the color difference 1`] = `323`;
+
+exports[`Colorizr with 'OKLCH' > colorDifference > should return the color difference 2`] = `442`;
+
+exports[`Colorizr with 'OKLCH' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 49.402,
+  "colorDifference": 323,
+  "compliant": 0,
+  "contrast": 2.69,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'OKLCH' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 205.598,
+  "colorDifference": 442,
+  "compliant": 1,
+  "contrast": 7.81,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'OKLCH' > contrast > should return the contrast 1`] = `2.69`;
+
+exports[`Colorizr with 'OKLCH' > contrast > should return the contrast 2`] = `7.81`;
+
+exports[`Colorizr with 'OKLCH' > getters > .chroma should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLCH' > getters > .luminance should return the correct value 1`] = `0.0845`;
+
+exports[`Colorizr with 'OKLCH' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.46794)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20355 276.80834)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.34945)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 0)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.75613)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.47832)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.24695)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48387)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 0)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.93693 / 90%)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24156)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.618% 0.30467 314.28723)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9015)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22094)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
+
+exports[`Colorizr with 'RGB String' > brightnessDifference > should return the brightness difference 1`] = `223.681`;
+
+exports[`Colorizr with 'RGB String' > brightnessDifference > should return the brightness difference 2`] = `31.319`;
+
+exports[`Colorizr with 'RGB String' > colorDifference > should return the color difference 1`] = `594`;
+
+exports[`Colorizr with 'RGB String' > colorDifference > should return the color difference 2`] = `171`;
+
+exports[`Colorizr with 'RGB String' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 223.681,
+  "colorDifference": 594,
+  "compliant": 2,
+  "contrast": 16.79,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'RGB String' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 31.319,
+  "colorDifference": 171,
+  "compliant": 0,
+  "contrast": 1.25,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'RGB String' > contrast > should return the contrast 1`] = `16.79`;
+
+exports[`Colorizr with 'RGB String' > contrast > should return the contrast 2`] = `1.25`;
+
+exports[`Colorizr with 'RGB String' > getters > .chroma should return the correct value 1`] = `0.5725`;
+
+exports[`Colorizr with 'RGB String' > getters > .luminance should return the correct value 1`] = `0.7896`;
+
+exports[`Colorizr with 'RGB String' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'RGB String' > modifiers > darken > should have darken the color with 10 1`] = `"rgb(255 221 58)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > darken > should have darken the color with 20 1`] = `"rgb(255 213 7)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > darken > should have darken the color with 40 1`] = `"rgb(160 133 0)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > darken > should have darken the color with 80 1`] = `"rgb(0 0 0)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"rgb(248 225 116)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"rgb(240 220 124)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"rgb(226 211 138)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"rgb(197 192 167)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > invert > should have invert the color 1`] = `"rgb(109 134 255)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten the color with 10 1`] = `"rgb(255 239 160)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten the color with 20 1`] = `"rgb(255 247 211)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten the color with 40 1`] = `"rgb(255 255 255)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten the color with 80 1`] = `"rgb(255 255 255)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > opacify > should make the color transparent 1`] = `"rgb(255 230 109 / 90%)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 15 1`] = `"rgb(243 255 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 30 1`] = `"rgb(207 255 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 60 1`] = `"rgb(134 255 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 120 1`] = `"rgb(109 255 230)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 180 1`] = `"rgb(109 134 255)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -20 1`] = `"rgb(240 220 124)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -40 1`] = `"rgb(226 211 138)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -80 1`] = `"rgb(197 192 167)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with 10 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;
+
+exports[`Colorizr with 'RGB' > brightnessDifference > should return the brightness difference 1`] = `223.681`;
+
+exports[`Colorizr with 'RGB' > brightnessDifference > should return the brightness difference 2`] = `31.319`;
+
+exports[`Colorizr with 'RGB' > colorDifference > should return the color difference 1`] = `594`;
+
+exports[`Colorizr with 'RGB' > colorDifference > should return the color difference 2`] = `171`;
+
+exports[`Colorizr with 'RGB' > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 223.681,
+  "colorDifference": 594,
+  "compliant": 2,
+  "contrast": 16.79,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with 'RGB' > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 31.319,
+  "colorDifference": 171,
+  "compliant": 0,
+  "contrast": 1.25,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with 'RGB' > contrast > should return the contrast 1`] = `16.79`;
+
+exports[`Colorizr with 'RGB' > contrast > should return the contrast 2`] = `1.25`;
+
+exports[`Colorizr with 'RGB' > getters > .chroma should return the correct value 1`] = `0.5725`;
+
+exports[`Colorizr with 'RGB' > getters > .luminance should return the correct value 1`] = `0.7896`;
+
+exports[`Colorizr with 'RGB' > getters > .opacity should return the correct value 1`] = `1`;
+
+exports[`Colorizr with 'RGB' > modifiers > darken > should have darken the color with 10 1`] = `"rgb(255 221 58)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > darken > should have darken the color with 20 1`] = `"rgb(255 213 7)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > darken > should have darken the color with 40 1`] = `"rgb(160 133 0)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > darken > should have darken the color with 80 1`] = `"rgb(0 0 0)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"rgb(248 225 116)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"rgb(240 220 124)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"rgb(226 211 138)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"rgb(197 192 167)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > invert > should have invert the color 1`] = `"rgb(109 134 255)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the color with 10 1`] = `"rgb(255 239 160)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the color with 20 1`] = `"rgb(255 247 211)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the color with 40 1`] = `"rgb(255 255 255)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the color with 80 1`] = `"rgb(255 255 255)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > opacify > should make the color transparent 1`] = `"rgb(255 230 109 / 90%)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 15 1`] = `"rgb(243 255 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 30 1`] = `"rgb(207 255 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 60 1`] = `"rgb(134 255 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 120 1`] = `"rgb(109 255 230)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 180 1`] = `"rgb(109 134 255)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -20 1`] = `"rgb(240 220 124)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -40 1`] = `"rgb(226 211 138)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -80 1`] = `"rgb(197 192 167)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 10 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;

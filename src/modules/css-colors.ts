@@ -1,6 +1,9 @@
 /**
  * CSS named colors
  */
+
+export type CSSColor = keyof typeof cssColors;
+
 export const cssColors = {
   aliceblue: '#f0f8ff',
   antiquewhite: '#faebd7',
@@ -27,7 +30,6 @@ export const cssColors = {
   darkcyan: '#008b8b',
   darkgoldenrod: '#b8860b',
   darkgray: '#a9a9a9',
-  darkgrey: '#a9a9a9',
   darkgreen: '#006400',
   darkkhaki: '#bdb76b',
   darkmagenta: '#8b008b',
@@ -72,10 +74,10 @@ export const cssColors = {
   lightblue: '#add8e6',
   lightcoral: '#f08080',
   lightcyan: '#e0ffff',
-  lightgoldenrodyellow: '#FAFAD2',
+  lightgoldenrodyellow: '#fafad2',
   lightgray: '#d3d3d3',
-  lightgrey: '#d3d3d3',
   lightgreen: '#90ee90',
+  lightgrey: '#d3d3d3',
   lightpink: '#ffb6c1',
   lightsalmon: '#ffa07a',
   lightseagreen: '#20b2aa',
@@ -92,7 +94,7 @@ export const cssColors = {
   mediumaquamarine: '#66cdaa',
   mediumblue: '#0000cd',
   mediumorchid: '#ba55d3',
-  mediumpurple: '#9370d8',
+  mediumpurple: '#9370db',
   mediumseagreen: '#3cb371',
   mediumslateblue: '#7b68ee',
   mediumspringgreen: '#00fa9a',
@@ -113,7 +115,7 @@ export const cssColors = {
   palegoldenrod: '#eee8aa',
   palegreen: '#98fb98',
   paleturquoise: '#afeeee',
-  palevioletred: '#d87093',
+  palevioletred: '#db7093',
   papayawhip: '#ffefd5',
   peachpuff: '#ffdab9',
   peru: '#cd853f',
@@ -121,6 +123,7 @@ export const cssColors = {
   plum: '#dda0dd',
   powderblue: '#b0e0e6',
   purple: '#800080',
+  rebeccapurple: '#663399',
   red: '#ff0000',
   rosybrown: '#bc8f8f',
   royalblue: '#4169e1',

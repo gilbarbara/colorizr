@@ -1,4 +1,4 @@
-import hue2rgb from 'modules/hue2rgb';
+import hue2rgb from '~/modules/hue2rgb';
 
 describe('hue2rgb', () => {
   it('should return median', () => {
@@ -8,11 +8,11 @@ describe('hue2rgb', () => {
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - input is required
     expect(() => hue2rgb()).toThrow('point, chroma and h are required');
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => hue2rgb(0.8)).toThrow('point, chroma and h are required');
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => hue2rgb(0.8, 1)).toThrow('point, chroma and h are required');
   });
 });

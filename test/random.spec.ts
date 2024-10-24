@@ -1,10 +1,16 @@
-import isValidHex from 'is-valid-hex';
-import random from 'random';
+import { isHex } from '~/modules/validators';
+
+import isValidColor from '~/is-valid-color';
+import random from '~/random';
+import { ColorType } from '~/types';
 
 describe('random', () => {
-  it('should return a valid hex', () => {
-    const color = random();
+  it.each(['hex', 'hsl', 'oklab', 'oklch', 'rgb'] as Array<ColorType>)(
+    'should return a valid %s color',
+    type => {
+      const color = random(type);
 
-    expect(isValidHex(color)).toBe(true);
-  });
+      expect(type === 'hex' ? isHex(color) : isValidColor(color)).toBe(true);
+    },
+  );
 });

@@ -1,19 +1,26 @@
-import hex2rgb from 'converters/hex2rgb';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import hex2rgb from '~/converters/hex2rgb';
+import { HEX, RGB } from '~/types';
+
+import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2rgb', () => {
   it.each([
-    ['#ff0044', { r: 255, g: 0, b: 68 }],
-    ['#abc', { r: 170, g: 187, b: 204 }],
+    [brightPink.hex, brightPink.rgb],
+    [green.hex, green.rgb],
+    [orange.hex, orange.rgb],
+    [violet.hex, violet.rgb],
+    [yellow.hex, yellow.rgb],
     ['#fff', { r: 255, g: 255, b: 255 }],
     ['#000', { r: 0, g: 0, b: 0 }],
-  ])('%p should return %p', (input, expected) => {
+  ] as Array<[HEX, RGB]>)('%s should return %s', (input, expected) => {
     expect(hex2rgb(input)).toEqual(expected);
   });
 
   it('should throw with invalid input', () => {
-    expect(() => hex2rgb('abs')).toThrow('invalid hex');
-    // @ts-ignore
-    expect(() => hex2rgb({ h: 240, s: 45, l: 50 })).toThrow(MESSAGES.inputString);
+    expect(() => hex2rgb('abs')).toThrow(MESSAGES.inputHex);
+    // @ts-expect-error - invalid parameters
+    expect(() => hex2rgb({ h: 240, s: 45, l: 50 })).toThrow(MESSAGES.inputHex);
   });
 });

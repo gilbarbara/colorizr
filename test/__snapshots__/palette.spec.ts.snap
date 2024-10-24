@@ -1,42 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`palette "#ff0044" with {"lightness": 90, "size": 10} should return the palette 1`] = `
-[
-  "#ffccda",
-  "#ffcfcc",
-  "#ffeecc",
-  "#f1ffcc",
-  "#d3ffcc",
-  "#ccffe4",
-  "#ccfcff",
-  "#ccddff",
-  "#daccff",
-  "#f8ccff",
-]
-`;
-
-exports[`palette "#ff0044" with {"saturation": 70, "size": 5} should return the palette 1`] = `
-[
-  "#d92656",
-  "#d99d26",
-  "#3ed926",
-  "#26cdd9",
-  "#5626d9",
-]
-`;
-
-exports[`palette "#ff0044" with {"type": "monochromatic"} should return the palette 1`] = `
-[
-  "#ff99b4",
-  "#ff5582",
-  "#ff1150",
-  "#cc0036",
-  "#880024",
-  "#440012",
-]
-`;
-
-exports[`palette "#ff0044" with undefined should return the palette 1`] = `
+exports[`palette > #ff0044 with undefined should return the palette 1`] = `
 [
   "#ff0044",
   "#ff7700",
@@ -47,7 +11,7 @@ exports[`palette "#ff0044" with undefined should return the palette 1`] = `
 ]
 `;
 
-exports[`palette "blue" with undefined should return the palette 1`] = `
+exports[`palette > blue with undefined should return the palette 1`] = `
 [
   "#0000ff",
   "#00ffff",
@@ -55,5 +19,70 @@ exports[`palette "blue" with undefined should return the palette 1`] = `
   "#ff00ff",
   "#ff0000",
   "#ffff00",
+]
+`;
+
+exports[`palette > hsl(136 100% 50%) with { type: 'monochromatic' } should return the palette 1`] = `
+[
+  "hsl(135.88 100% 80%)",
+  "hsl(135.88 100% 66.67%)",
+  "hsl(135.88 100% 53.33%)",
+  "hsl(135.88 100% 40%)",
+  "hsl(135.88 100% 26.67%)",
+  "hsl(135.88 100% 13.33%)",
+]
+`;
+
+exports[`palette > oklab(70.622% 0.1374 0.14283) with { size: 24 } should return the palette 1`] = `
+[
+  "oklab(70.622% 0.1374 0.14283)",
+  "oklab(94.584% -0.10238 0.19437)",
+  "oklab(90.666% -0.16276 0.18699)",
+  "oklab(88.063% -0.20758 0.18213)",
+  "oklab(86.838% -0.2302 0.17986)",
+  "oklab(86.693% -0.23196 0.17514)",
+  "oklab(87.073% -0.21846 0.14412)",
+  "oklab(87.969% -0.19357 0.08364)",
+  "oklab(89.461% -0.16467 0.00609)",
+  "oklab(83.71% -0.12447 -0.07502)",
+  "oklab(69.137% -0.07353 -0.15777)",
+  "oklab(55.788% -0.03735 -0.24134)",
+  "oklab(46.928% -0.03043 -0.29996)",
+  "oklab(45.752% -0.0181 -0.30864)",
+  "oklab(49.482% 0.062 -0.28823)",
+  "oklab(56.342% 0.16055 -0.24879)",
+  "oklab(65.012% 0.23986 -0.19849)",
+  "oklab(68.552% 0.27621 -0.12937)",
+  "oklab(65.697% 0.26965 -0.03907)",
+  "oklab(63.811% 0.25 0.05045)",
+  "oklab(62.933% 0.22951 0.11333)",
+  "oklab(63.491% 0.21645 0.12736)",
+  "oklab(68.37% 0.16101 0.13797)",
+  "oklab(77.705% 0.07017 0.15804)",
+]
+`;
+
+exports[`palette > oklch(47.642% 0.29956 274.93693) with { lightness: 90, size: 10 } should return the palette 1`] = `
+[
+  "oklch(87.316% 0.07112 297.48387)",
+  "oklch(95.055% 0.04601 208.21388)",
+  "oklch(88.969% 0.05328 268.93531)",
+  "oklch(87.559% 0.07169 300.16324)",
+  "oklch(90.238% 0.08548 324.36492)",
+  "oklch(89.645% 0.06506 348.55536)",
+  "oklch(90.26% 0.05068 28.66369)",
+  "oklch(95.989% 0.05036 89.76108)",
+  "oklch(97.473% 0.06852 122.65333)",
+  "oklch(95.357% 0.08365 143.36983)",
+]
+`;
+
+exports[`palette > rgb(255 230 109) with { saturation: 70, size: 5 } should return the palette 1`] = `
+[
+  "rgb(233 216 131)",
+  "rgb(131 233 218)",
+  "rgb(137 131 233)",
+  "rgb(233 131 206)",
+  "rgb(233 178 131)",
 ]
 `;

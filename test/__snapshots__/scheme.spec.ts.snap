@@ -1,0 +1,81 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`scheme > should return properly with '#ff0044' and { type: 'complementary' } 1`] = `
+[
+  "#ff0044",
+  "#00ffbb",
+]
+`;
+
+exports[`scheme > should return properly with '#ff0044' and undefined 1`] = `
+[
+  "#ff0044",
+  "#00ffbb",
+]
+`;
+
+exports[`scheme > should return properly with 'AliceBlue' and undefined 1`] = `
+[
+  "#f0f8ff",
+  "#fff7f0",
+]
+`;
+
+exports[`scheme > should return properly with 'hsl(136 100% 50%)' and { type: 'analogous' } 1`] = `
+[
+  "hsl(106 100% 50%)",
+  "hsl(136 100% 50%)",
+  "hsl(166 100% 50%)",
+]
+`;
+
+exports[`scheme > should return properly with 'hsl(136 100% 50%)' and { type: 'split' } 1`] = `
+[
+  "hsl(136 100% 50%)",
+  "hsl(286 100% 50%)",
+  "hsl(346 100% 50%)",
+]
+`;
+
+exports[`scheme > should return properly with 'oklab(70.622% 0.1374 0.14283)' and { type: 'split-complementary' } 1`] = `
+[
+  "oklab(70.622% 0.1374 0.14283)",
+  "oklab(89.962% -0.15715 -0.01587)",
+  "oklab(45.838% -0.03153 -0.30726)",
+]
+`;
+
+exports[`scheme > should return properly with 'oklab(70.622% 0.1374 0.14283)' and { type: 'triadic' } 1`] = `
+[
+  "oklab(70.622% 0.1374 0.14283)",
+  "oklab(87.269% -0.21232 0.12962)",
+  "oklab(51.156% 0.09061 -0.27875)",
+]
+`;
+
+exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.93693)' and { type: 'rectangle' } 1`] = `
+[
+  "oklch(47.642% 0.29956 274.93693)",
+  "oklch(66.672% 0.28363 344.9015)",
+  "oklch(92.006% 0.23635 126.69487)",
+  "oklch(86.876% 0.27606 144.65534)",
+]
+`;
+
+exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.93693)' and { type: 'tetradic' } 1`] = `
+[
+  "oklch(47.642% 0.29956 274.93693)",
+  "oklch(66.672% 0.28363 344.9015)",
+  "oklch(92.006% 0.23635 126.69487)",
+  "oklch(86.876% 0.27606 144.65534)",
+]
+`;
+
+exports[`scheme > should return properly with 'rgb(255 230 109)' and { type: 'square' } 1`] = `
+[
+  "rgb(255 230 109)",
+  "rgb(109 255 157)",
+  "rgb(109 134 255)",
+  "rgb(255 109 207)",
+]
+`;

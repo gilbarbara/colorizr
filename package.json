@@ -93,7 +93,7 @@
     {
       "name": "commonjs",
       "path": "./dist/index.js",
-      "limit": "7 kB"
+      "limit": "7.5 kB"
     },
     {
       "name": "esm",

@@ -1,22 +1,24 @@
-import brightnessDifference from 'brightness-difference';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import brightnessDifference from '~/brightness-difference';
+
+import { brightPink, green } from './__fixtures__';
 
 describe('brightnessDifference', () => {
   it.each([
-    ['#ff0044', 'rgba(255, 255, 255, 1)', 171.003],
-    ['rgb(255, 0, 68)', '#fff', 171.003],
-    ['hsl(344, 100, 50)', '#fff', 171.003],
-    ['#ff0044', 'hsla(0, 0, 0, 1)', 83.997],
-    ['#ff0044', 'black', 83.997],
-    ['BlanchedAlmond', 'AliceBlue', 8.846],
-  ])('%p with %p should return %p', (left, right, expected) => {
+    [brightPink.hex, 'rgb(255, 255, 255)', 171.003],
+    [brightPink.hslString, '#fff', 171.003],
+    [brightPink.rgbString, 'hsl(0, 0, 0)', 83.997],
+    [green.oklabString, 'hsl(0, 0, 0)', 157.437],
+    [green.hslString, 'black', 157.437],
+    ['blanchedalmond', 'aliceblue', 8.846],
+  ])('%s with %s should return %s', (left, right, expected) => {
     expect(brightnessDifference(left, right)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
-    expect(() => brightnessDifference([])).toThrow(MESSAGES.left);
-    // @ts-ignore
-    expect(() => brightnessDifference('', {})).toThrow(MESSAGES.right);
+    // @ts-expect-error - invalid parameters
+    expect(() => brightnessDifference('')).toThrow(MESSAGES.left);
+    expect(() => brightnessDifference('black', '')).toThrow(MESSAGES.right);
   });
 });

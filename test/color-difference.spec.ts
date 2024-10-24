@@ -1,5 +1,6 @@
-import colorDifference from 'color-difference';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import colorDifference from '~/color-difference';
 
 describe('colorDifference', () => {
   it.each([
@@ -8,14 +9,13 @@ describe('colorDifference', () => {
     ['#FF9D64', '#000', 512],
     ['#ff0044', '#dd00ff', 221],
     ['green', 'lightcoral', 368],
-  ])('%p with %p should return %p', (left, right, expected) => {
+  ])('%s with %s should return %s', (left, right, expected) => {
     expect(colorDifference(left, right)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
-    expect(() => colorDifference([])).toThrow(MESSAGES.left);
-    // @ts-ignore
-    expect(() => colorDifference('', {})).toThrow(MESSAGES.right);
+    // @ts-expect-error - invalid parameters
+    expect(() => colorDifference('')).toThrow(MESSAGES.left);
+    expect(() => colorDifference('black', '')).toThrow(MESSAGES.right);
   });
 });

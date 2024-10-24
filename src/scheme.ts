@@ -1,44 +1,71 @@
-import { invariant, isString, MESSAGES } from './modules/utils';
-import parseCSS from './parse-css';
-import rotate from './rotate';
-import { Scheme } from './types';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { isHex, isNamedColor, isString } from '~/modules/validators';
+
+import convert from '~/convert';
+import extractColorParts from '~/extract-color-parts';
+import rotate from '~/rotate';
+import { ColorType } from '~/types';
+
+export type Scheme =
+  | 'analogous'
+  | 'complementary'
+  | 'rectangle'
+  | 'split'
+  | 'split-complementary'
+  | 'square'
+  | 'tetradic'
+  | 'triadic';
+
+export interface SchemeOptions {
+  format?: ColorType;
+  /**
+   * The type of scheme to generate.
+   * @default 'complementary'
+   */
+  type?: Scheme;
+}
 
 /**
  * Get the scheme for a color.
  */
-export default function scheme(input: string, type: Scheme = 'complementary'): string[] {
+export default function scheme(input: string, typeOrOptions?: Scheme | SchemeOptions): string[] {
   invariant(isString(input), MESSAGES.inputString);
+  const { format, type = 'complementary' } = isString(typeOrOptions)
+    ? { type: typeOrOptions }
+    : (typeOrOptions ?? {});
 
-  const hex = parseCSS(input);
-  const output: string[] = [];
+  const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
+
+  const colors: string[] = [];
 
   switch (type) {
     case 'analogous': {
-      output.push(rotate(hex, -30), hex, rotate(hex, 30));
+      colors.push(rotate(input, -30), input, rotate(input, 30));
       break;
     }
     case 'complementary': {
-      output.push(hex, rotate(hex, 180));
+      colors.push(input, rotate(input, 180));
       break;
     }
 
     case 'split':
     case 'split-complementary': {
-      output.push(hex, rotate(hex, 150), rotate(hex, 210));
+      colors.push(input, rotate(input, 150), rotate(input, 210));
       break;
     }
     case 'triadic': {
-      output.push(hex, rotate(hex, 120), rotate(hex, 240));
+      colors.push(input, rotate(input, 120), rotate(input, 240));
       break;
     }
 
     case 'tetradic':
     case 'rectangle': {
-      output.push(hex, rotate(hex, 60), rotate(hex, 180), rotate(hex, 240));
+      colors.push(input, rotate(input, 60), rotate(input, 180), rotate(input, 240));
       break;
     }
     case 'square': {
-      output.push(hex, rotate(hex, 90), rotate(hex, 180), rotate(hex, 270));
+      colors.push(input, rotate(input, 90), rotate(input, 180), rotate(input, 270));
       break;
     }
     default: {
@@ -46,5 +73,5 @@ export default function scheme(input: string, type: Scheme = 'complementary'): s
     }
   }
 
-  return output;
+  return colors.map(color => convert(color, format ?? output));
 }

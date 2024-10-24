@@ -1,26 +1,40 @@
-import formatCSS from 'format-css';
+import formatCSS, { FormatOptions } from '~/format-css';
+import { ColorModel, HEX } from '~/types';
+
+import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('formatCSS', () => {
-  it('should work with proper input', () => {
-    expect(formatCSS({ h: 344, s: 100, l: 50 })).toBe('hsl(344, 100%, 50%)');
-    expect(formatCSS({ h: 344, s: 100, l: 50 }, { alpha: 0.5 })).toBe('hsla(344, 100%, 50%, 0.5)');
-    expect(formatCSS({ h: 344, s: 100, l: 50 }, { model: 'rgb' })).toBe('rgb(255, 0, 68)');
-    expect(formatCSS({ h: 344, s: 100, l: 50 }, { alpha: 0.5, model: 'rgb' })).toBe(
-      'rgba(255, 0, 68, 0.5)',
-    );
-
-    expect(formatCSS({ r: 255, g: 0, b: 68 })).toBe('rgb(255, 0, 68)');
-    expect(formatCSS({ r: 255, g: 0, b: 68 }, { alpha: 0.5 })).toBe('rgba(255, 0, 68, 0.5)');
-    expect(formatCSS({ r: 255, g: 0, b: 68 }, { model: 'hsl' })).toBe('hsl(344, 100%, 50%)');
-    expect(formatCSS({ r: 255, g: 0, b: 68 }, { alpha: 0.5, model: 'hsl' })).toBe(
-      'hsla(344, 100%, 50%, 0.5)',
-    );
-  });
+  it.each([
+    [brightPink.hex, undefined, brightPink.hex],
+    [
+      brightPink.hex,
+      { alpha: 0.9, format: 'rgb', separator: ', ' },
+      addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 90, true),
+    ],
+    [green.hsl, undefined, green.hex],
+    [green.hsl, { alpha: 0.5, format: 'rgb' }, addOpacityToCssString(green.rgbString, 50, true)],
+    [green.hsl, { format: 'hsl' }, green.hslString],
+    [orange.oklab, undefined, orange.hex],
+    [orange.oklab, { format: 'oklch' }, orange.oklchString],
+    [violet.oklch, undefined, violet.hex],
+    [
+      violet.oklch,
+      { alpha: 0.8, format: 'oklab' },
+      addOpacityToCssString(violet.oklabString, 80, true),
+    ],
+    [yellow.rgb, undefined, yellow.hex],
+    [yellow.rgb, { alpha: 0.8, format: 'hex' }, addOpacityToCssString(yellow.hex, 0.8)],
+  ] as Array<[ColorModel | HEX, FormatOptions | undefined, string]>)(
+    `%s with %s should return %s`,
+    (input, options, expected) => {
+      expect(formatCSS(input, options)).toBe(expected);
+    },
+  );
 
   it('should throw with invalid input', () => {
-    // @ts-ignore
-    expect(() => formatCSS('#ff0044')).toThrow('invalid input');
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
+    // @ts-expect-error
+    expect(() => formatCSS('f04')).toThrow('invalid input');
   });
 });

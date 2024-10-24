@@ -1,5 +1,6 @@
-import luminance from 'luminance';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import luminance from '~/luminance';
 
 describe('luminance', () => {
   it.each([
@@ -8,12 +9,12 @@ describe('luminance', () => {
     ['#005cff', 0.1487],
     ['#fff', 1],
     ['#000', 0],
-  ])('%p should return %p', (input, expected) => {
+  ])('%s should return %s', (input, expected) => {
     expect(luminance(input)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - input is required
     expect(() => luminance()).toThrow(MESSAGES.inputString);
   });
 });

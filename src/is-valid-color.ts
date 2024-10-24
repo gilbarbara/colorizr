@@ -1,6 +1,6 @@
-import parseCSS from './parse-css';
+import parseCSS from '~/parse-css';
 
-export default function isValidColor(input: unknown): boolean {
+export default function isValidColor(input: string): boolean {
   try {
     parseCSS(input);
 

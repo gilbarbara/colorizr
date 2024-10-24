@@ -1,5 +1,6 @@
-import contrast from 'contrast';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import contrast from '~/contrast';
 
 describe('contrast', () => {
   it.each([
@@ -14,14 +15,13 @@ describe('contrast', () => {
     ['#99bfff', '#004cc2', 4],
     ['white', '#000', 21],
     ['black', '#fff', 21],
-  ])('%p with %p should return %p', (left, right, expected) => {
+  ])('%s with %s should return %s', (left, right, expected) => {
     expect(contrast(left, right)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => contrast([])).toThrow(MESSAGES.left);
-    // @ts-ignore
-    expect(() => contrast('', {})).toThrow(MESSAGES.right);
+    expect(() => contrast('white', '')).toThrow(MESSAGES.right);
   });
 });

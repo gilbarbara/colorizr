@@ -1,4 +1,6 @@
-import { invariant, isNumber, round } from './utils';
+import { invariant } from '~/modules/invariant';
+import { round } from '~/modules/utils';
+import { isNumber } from '~/modules/validators';
 
 /**
  * Convert hue to RGB using chroma and median point

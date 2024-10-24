@@ -1,22 +1,34 @@
-import { constrain, invariant, isNumber, isString, MESSAGES } from './utils';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { clamp } from '~/modules/utils';
+import { isHex, isNamedColor, isNumber, isString } from '~/modules/validators';
 
-import hex2hsl from '../converters/hex2hsl';
-import parseCSS from '../parse-css';
-import { shift } from '../shift';
+import extractColorParts from '~/extract-color-parts';
+import formatCSS from '~/format-css';
+import parseCSS from '~/parse-css';
+import { ColorModelKeys, ColorType } from '~/types';
 
 /**
  * Update color properties
  */
-export default function updater(type: 'h' | 's' | 'l', sign: '+' | '-') {
+export default function updater(
+  key: ColorModelKeys<'hsl'>,
+  operator: '+' | '-',
+  format?: ColorType,
+) {
   return (input: string, amount: number) => {
     invariant(isString(input), MESSAGES.inputString);
-    invariant(isNumber(amount), MESSAGES.amount);
+    invariant(isNumber(amount), MESSAGES.alpha);
 
-    const hex = parseCSS(input);
-    const hsl = hex2hsl(hex);
+    const color = parseCSS(input, 'hsl');
+    const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
 
-    return shift(hex, {
-      [type]: constrain(hsl[type], amount, [0, 100], sign),
-    });
+    return formatCSS(
+      {
+        ...color,
+        [key]: clamp(color[key] + (operator === '+' ? amount : -amount), 0, 100),
+      },
+      { format: format ?? output },
+    );
   };
 }

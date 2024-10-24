@@ -1,4 +1,75 @@
-/* eslint-disable typescript-sort-keys/interface */
+/* eslint-disable @typescript-eslint/member-ordering */
+export type ColorType = 'hex' | 'hsl' | 'oklab' | 'oklch' | 'rgb';
+export type ColorModel = HSL | LAB | LCH | RGB;
+export type ColorModelKey = 'hsl' | 'oklab' | 'oklch' | 'rgb';
+export type ColorModelKeys<TModel extends ColorModelKey> = TModel extends 'hsl'
+  ? keyof Omit<HSL, 'alpha'>
+  : TModel extends 'oklab'
+    ? keyof Omit<LAB, 'alpha'>
+    : TModel extends 'oklch'
+      ? keyof Omit<LCH, 'alpha'>
+      : TModel extends 'rgb'
+        ? keyof Omit<RGB, 'alpha'>
+        : never;
+
+export type ColorKeysTuple = [string, string, string];
+export type ColorTuple = [number, number, number];
+export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
+export interface Colors {
+  alpha: Alpha;
+  hex: HEX;
+  hsl: HSL;
+  oklab: LAB;
+  oklch: LCH;
+  rgb: RGB;
+  type: ColorType;
+}
+
+/* A number between 0 and 1 */
+export type Alpha = number;
+
+/* A number between 0 and 100 */
+export type Amount = number;
+
+/* A number between 0 and 360 */
+export type Degrees = number;
+
+/*
+Color types
+ */
+
+export type HEX = `#${string}`;
+
+export type CSS = `('#' | 'hsl' | 'oklab' | 'oklch' | 'rgb')${string}`;
+
+export interface HSL {
+  h: number;
+  s: number;
+  l: number;
+  alpha?: Alpha;
+}
+
+export interface LAB {
+  l: number;
+  a: number;
+  b: number;
+  alpha?: Alpha;
+}
+
+export interface LCH {
+  l: number;
+  c: number;
+  h: number;
+  alpha?: Alpha;
+}
+
+export interface RGB {
+  r: number;
+  g: number;
+  b: number;
+  alpha?: Alpha;
+}
+
 export interface Analysis {
   brightnessDifference: number;
   colorDifference: number;
@@ -10,57 +81,4 @@ export interface Analysis {
   normalAAA: boolean;
 }
 
-export interface Colors {
-  hex: string;
-  hsl: HSL;
-  rgb: RGB;
-}
-
-export type ColorTypes = 'hex' | 'hsl' | 'rgb';
-export type ColorModels = 'hsl' | 'rgb';
-
-export interface FormatOptions {
-  alpha?: number;
-  model?: ColorModels;
-}
-
-export interface HSL {
-  h: number;
-  s: number;
-  l: number;
-}
-
-export interface Options {
-  model?: ColorModels;
-}
-
-export interface PaletteOptions {
-  lightness?: number;
-  saturation?: number;
-  size?: number;
-  type?: string;
-}
-
-export type PlainObject = Record<string, any>;
-
-type ReturnModel<T> = T extends 'rgb' ? RGB : HSL;
-
-export type Return<T> = T extends 'rgb' | 'hsl' ? ReturnModel<T> : string;
-
-export interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
-
-export type RGBArray = [number, number, number];
-
-export type Scheme =
-  | 'analogous'
-  | 'complementary'
-  | 'rectangle'
-  | 'split'
-  | 'split-complementary'
-  | 'square'
-  | 'tetradic'
-  | 'triadic';
+export type PlainObject<T = any> = Record<string, T>;

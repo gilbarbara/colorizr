@@ -1,5 +1,6 @@
-import { MESSAGES } from 'modules/utils';
-import name from 'name';
+import { MESSAGES } from '~/modules/constants';
+
+import name from '~/name';
 
 describe('name', () => {
   it.each([
@@ -9,12 +10,12 @@ describe('name', () => {
     ['hsl(344, 100, 50)', '#ff0044'],
     ['#ffc0cb', 'pink'],
     ['rgb(176, 224, 230)', 'powderblue'],
-  ])('%p should return %p', (input, expected) => {
+  ])('%s should return %s', (input, expected) => {
     expect(name(input)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => name([])).toThrow(MESSAGES.inputString);
   });
 });
