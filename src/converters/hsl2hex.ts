@@ -1,14 +1,12 @@
-import hsl2rgb from './hsl2rgb';
-import rgb2hex from './rgb2hex';
+import { parseInput } from '~/modules/utils';
 
-import { invariant, isHSL, MESSAGES } from '../modules/utils';
-import { HSL } from '../types';
+import hsl2rgb from '~/converters/hsl2rgb';
+import rgb2hex from '~/converters/rgb2hex';
+import { ConverterParameters, HEX, HSL } from '~/types';
 
-/**
- * Convert a HSL object to HEX.
- */
-export default function hsl2hex(input: HSL): string {
-  invariant(isHSL(input), MESSAGES.invalid);
+/** Convert HSL to HEX */
+export default function hsl2hex(input: ConverterParameters<HSL>): HEX {
+  const value = parseInput(input, 'hsl');
 
-  return rgb2hex(hsl2rgb(input));
+  return rgb2hex(hsl2rgb(value));
 }

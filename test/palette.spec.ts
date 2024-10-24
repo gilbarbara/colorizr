@@ -1,21 +1,28 @@
-import { MESSAGES } from 'modules/utils';
-import palette from 'palette';
+import { MESSAGES } from '~/modules/constants';
+
+import palette, { PaletteOptions } from '~/palette';
+
+import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('palette', () => {
   it.each([
-    ['#ff0044', undefined],
-    ['#ff0044', { type: 'monochromatic' }],
-    ['#ff0044', { lightness: 90, size: 10 }],
-    ['#ff0044', { saturation: 70, size: 5 }],
+    [brightPink.hex, undefined],
+    [green.hslString, { type: 'monochromatic' }],
+    [orange.oklabString, { size: 24 }],
+    [violet.oklchString, { lightness: 90, size: 10 }],
+    [yellow.rgbString, { saturation: 70, size: 5 }],
     ['blue', undefined],
-  ])('%p with %p should return the palette', (input, options) => {
-    expect(palette(input, options)).toMatchSnapshot();
-  });
+  ] as Array<[string, PaletteOptions]>)(
+    '%s with %s should return the palette',
+    (input, options) => {
+      expect(palette(input, options)).toMatchSnapshot();
+    },
+  );
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => palette([])).toThrow(MESSAGES.inputString);
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => palette('#f04', [])).toThrow('invalid options');
   });
 });

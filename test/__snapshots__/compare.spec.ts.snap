@@ -1,19 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compare "#000" with "#fff" should return an analysis 1`] = `
-{
-  "brightnessDifference": 255,
-  "colorDifference": 765,
-  "compliant": 2,
-  "contrast": 21,
-  "largeAA": true,
-  "largeAAA": true,
-  "normalAA": true,
-  "normalAAA": true,
-}
-`;
-
-exports[`compare "#ff0044" with "#000" should return an analysis 1`] = `
+exports[`compare > #ff0044 with oklab(0 0 0) should return an analysis 1`] = `
 {
   "brightnessDifference": 83.997,
   "colorDifference": 323,
@@ -26,20 +13,7 @@ exports[`compare "#ff0044" with "#000" should return an analysis 1`] = `
 }
 `;
 
-exports[`compare "#ff0044" with "#00ffbb" should return an analysis 1`] = `
-{
-  "brightnessDifference": 87.006,
-  "colorDifference": 629,
-  "compliant": 1,
-  "contrast": 3,
-  "largeAA": true,
-  "largeAAA": false,
-  "normalAA": false,
-  "normalAAA": false,
-}
-`;
-
-exports[`compare "#ff0044" with "#dd00ff" should return an analysis 1`] = `
+exports[`compare > #ff0044 with rgb(221, 0, 255) should return an analysis 1`] = `
 {
   "brightnessDifference": 11.152,
   "colorDifference": 221,
@@ -52,7 +26,20 @@ exports[`compare "#ff0044" with "#dd00ff" should return an analysis 1`] = `
 }
 `;
 
-exports[`compare "#ff0044" with "#fff" should return an analysis 1`] = `
+exports[`compare > #fff with rgb(119, 119, 119) should return an analysis 1`] = `
+{
+  "brightnessDifference": 136,
+  "colorDifference": 408,
+  "compliant": 1,
+  "contrast": 4.48,
+  "largeAA": true,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`compare > hsl(344, 100%, 50%) with oklch(1 0 0) should return an analysis 1`] = `
 {
   "brightnessDifference": 171.003,
   "colorDifference": 442,
@@ -65,12 +52,25 @@ exports[`compare "#ff0044" with "#fff" should return an analysis 1`] = `
 }
 `;
 
-exports[`compare "#fff" with "#777" should return an analysis 1`] = `
+exports[`compare > oklab(0 0 0) with oklch(1 0 0) should return an analysis 1`] = `
 {
-  "brightnessDifference": 136,
-  "colorDifference": 408,
+  "brightnessDifference": 255,
+  "colorDifference": 765,
+  "compliant": 2,
+  "contrast": 21,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`compare > rgb(255, 0, 68) with #00ffbb should return an analysis 1`] = `
+{
+  "brightnessDifference": 87.006,
+  "colorDifference": 629,
   "compliant": 1,
-  "contrast": 4.48,
+  "contrast": 3,
   "largeAA": true,
   "largeAAA": false,
   "normalAA": false,

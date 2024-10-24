@@ -1,17 +1,28 @@
-import { MESSAGES } from 'modules/utils';
-import swatch from 'swatch';
+import { MESSAGES } from '~/modules/constants';
+
+import swatch, { SwatchOptions } from '~/swatch';
+
+import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('swatch', () => {
   it.each([
-    ['#ff0044', undefined],
-    ['hsl(344, 100%, 50%) ', 'up' as const],
-    ['rgb(255, 0, 68)', 'down' as const],
-  ])('%p with %p should return the palette', (input, variant) => {
-    expect(swatch(input, variant)).toMatchSnapshot();
-  });
+    [brightPink.hex, undefined],
+    [brightPink.hex, { format: 'oklch' }],
+    [green.hslString, undefined],
+    [green.hslString, { scale: 'linear' }],
+    [orange.oklabString, undefined],
+    [violet.oklchString, undefined],
+    [yellow.rgbString, undefined],
+    ['oklch(0.65 0.3 27.34)', undefined],
+  ] as Array<[string, SwatchOptions]>)(
+    'should return properly with %s with %s',
+    (input, variant) => {
+      expect(swatch(input, variant)).toMatchSnapshot();
+    },
+  );
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => swatch(undefined)).toThrow(MESSAGES.inputString);
   });
 });

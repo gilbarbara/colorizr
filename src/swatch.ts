@@ -1,59 +1,106 @@
-import hex2hsl from './converters/hex2hsl';
-import hsl2hex from './converters/hsl2hex';
-import desaturate from './desaturate';
-import { constrainDegrees, invariant, isString, MESSAGES } from './modules/utils';
-import parseCSS from './parse-css';
-import saturate from './saturate';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { isHex, isNamedColor, isString } from '~/modules/validators';
 
-const HUE_MAP = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36];
-const LIGHTNESS_MAP = [90, 80, 70, 60, 50, 40, 30, 20, 10, 5];
-const SATURATION_MAP = [32, 16, 8, 4, 0, 0, 4, 8, 16, 32];
+import convert from '~/convert';
+import { oklch2hex } from '~/converters';
+import oklch2rgb from '~/converters/oklch2rgb';
+import rgb2hex from '~/converters/rgb2hex';
+import extractColorParts from '~/extract-color-parts';
+import parseCSS from '~/parse-css';
+import { ColorType, HEX, LCH } from '~/types';
 
-export default function swatch(input: string, variant?: 'up' | 'down'): string[] {
+type ColorTokens = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
+type Swatch = {
+  [key in ColorTokens]: string;
+};
+
+export interface SwatchOptions {
+  format?: ColorType;
+  /**
+   * The scale of the swatch.
+   * Linear scale will have equal distance between each shade.
+   * @default 'dynamic'
+   */
+  scale?: 'dynamic' | 'linear';
+}
+
+const MIN_LIGHTNESS = 21;
+const MAX_LIGHTNESS = 97;
+
+/**
+ * Generate a shade of a color based its lightness tuning factor
+ */
+function shadeColorDynamic(input: LCH, lightnessTuningFactor: number, chromaTuningFactor = 0): HEX {
+  if (lightnessTuningFactor === 0) {
+    return rgb2hex(oklch2rgb({ ...input, l: input.l / 100 }));
+  }
+
+  // Convert back to RGB and make sure it's within the sRGB gamut
+  return shadeColor(input, input.l + lightnessTuningFactor, chromaTuningFactor);
+}
+
+/**
+ * Generate a shade of a color based its lightness tuning factor
+ */
+function shadeColor(input: LCH, lightness: number, chromaTuningFactor = 0): HEX {
+  const { c, h } = input;
+
+  // Convert back to RGB and make sure it's within the sRGB gamut
+  return oklch2hex({ l: lightness / 100, c: c + chromaTuningFactor, h });
+}
+
+/**
+ * Generate a palette of shades of a color
+ */
+export default function swatch(input: string, options: SwatchOptions = {}): Swatch {
   invariant(isString(input), MESSAGES.inputString);
-  const hsl = parseCSS(input, 'hsl');
+  const { format, scale = 'dynamic' } = options;
 
-  const lightnessGoal = hsl.l;
-  const closestLightness = LIGHTNESS_MAP.reduce((previous, current) =>
-    Math.abs(current - lightnessGoal) < Math.abs(previous - lightnessGoal) ? current : previous,
-  );
-  const baseColorIndex = LIGHTNESS_MAP.findIndex(l => l === closestLightness);
+  const lch = parseCSS(input, 'oklch');
 
-  const colors = LIGHTNESS_MAP.map(l => hsl2hex({ ...hsl, l })).map((color, index) => {
-    const saturationDelta = SATURATION_MAP[index] - SATURATION_MAP[baseColorIndex];
+  lch.l = 50;
 
-    return saturationDelta >= 0
-      ? saturate(color, saturationDelta)
-      : desaturate(color, saturationDelta * -1);
-  });
+  const colorFormat = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
 
-  if (variant === 'up') {
-    return colors.map((color, index) => {
-      const hueDelta = HUE_MAP[index] - HUE_MAP[baseColorIndex];
-      const nextColor = hex2hsl(color);
+  const currentLightness = lch.l;
+  const safeMaxLightness = currentLightness >= 88.5 ? 99.5 : MAX_LIGHTNESS;
+  const safeMinLightness = currentLightness <= 33 ? 0 : MIN_LIGHTNESS;
+  const lightBase = (safeMaxLightness - currentLightness) / 5;
+  const darkBase = (-1 * (currentLightness - safeMinLightness)) / 8;
 
-      return hueDelta >= 0
-        ? hsl2hex({ ...nextColor, h: constrainDegrees(nextColor.h, hueDelta) })
-        : hsl2hex({
-            ...nextColor,
-            h: constrainDegrees(nextColor.h, (hueDelta * -1) / 2),
-          });
-    });
-  }
+  const output: Swatch =
+    scale === 'linear'
+      ? {
+          50: shadeColor(lch, 95, -0.00375),
+          100: shadeColor(lch, 90, -0.00375),
+          200: shadeColor(lch, 80, -0.00375),
+          300: shadeColor(lch, 70, -0.00375),
+          400: shadeColor(lch, 60, -0.00375),
+          500: shadeColor(lch, 50),
+          600: shadeColor(lch, 40, 0.025),
+          700: shadeColor(lch, 30, 0.05),
+          800: shadeColor(lch, 20, 0.075),
+          900: shadeColor(lch, 10, 0.1),
+        }
+      : {
+          50: shadeColorDynamic(lch, 5 * lightBase, -0.00375),
+          100: shadeColorDynamic(lch, 4 * lightBase, -0.00375),
+          200: shadeColorDynamic(lch, 3 * lightBase, -0.00375),
+          300: shadeColorDynamic(lch, 2 * lightBase, -0.00375),
+          400: shadeColorDynamic(lch, lightBase, -0.00375),
+          500: shadeColorDynamic(lch, 0),
+          600: shadeColorDynamic(lch, 1.6 * darkBase, 0.025),
+          700: shadeColorDynamic(lch, 1.875 * 2 * darkBase, 0.05),
+          800: shadeColorDynamic(lch, 3 * 2 * darkBase, 0.075),
+          900: shadeColorDynamic(lch, 4 * 2 * darkBase, 0.1),
+        };
 
-  if (variant === 'down') {
-    return colors.map((color, index) => {
-      const hueDelta = HUE_MAP[index] - HUE_MAP[baseColorIndex];
-      const nextColor = hex2hsl(color);
-
-      return hueDelta >= 0
-        ? hsl2hex({ ...nextColor, h: constrainDegrees(nextColor.h, -hueDelta) })
-        : hsl2hex({
-            ...nextColor,
-            h: constrainDegrees(nextColor.h, -((hueDelta * -1) / 2)),
-          });
-    });
-  }
-
-  return colors;
+  return Object.entries(output).reduce((acc, [key, value]) => {
+    return {
+      ...acc,
+      [key]: convert(value, format ?? colorFormat),
+    };
+  }, {} as Swatch);
 }

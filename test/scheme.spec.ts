@@ -1,27 +1,25 @@
-import scheme from 'scheme';
-import { Scheme } from 'types';
+import scheme, { SchemeOptions } from '~/scheme';
+
+import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('scheme', () => {
-  it.each([
-    [undefined, '#ff0044', ['#ff0044', '#00ffbb']],
-    ['complementary', 'rgb(255, 0, 68)', ['#ff0044', '#00ffbb']],
-    ['analogous', 'hsl(344, 100, 50)', ['#ff00c4', '#ff0044', '#ff3b00']],
-    ['split', '#ff0044', ['#ff0044', '#00ff3b', '#00c4ff']],
-    ['split-complementary', '#ff0044', ['#ff0044', '#00ff3b', '#00c4ff']],
-    ['triadic', '#ff0044', ['#ff0044', '#44ff00', '#0044ff']],
-    ['tetradic', '#ff0044', ['#ff0044', '#ffbb00', '#00ffbb', '#0044ff']],
-    ['rectangle', '#ff0044', ['#ff0044', '#ffbb00', '#00ffbb', '#0044ff']],
-    ['square', '#ff0044', ['#ff0044', '#c4ff00', '#00ffbb', '#3b00ff']],
-    ['complementary', 'AliceBlue', ['#f0f8ff', '#fff7f0']],
-  ] as [Scheme, string, string[]][])(
-    'should return the correct value with %p',
-    (type, input, expected) => {
-      expect(scheme(input, type)).toEqual(expected);
-    },
-  );
+  it.each<[{ input: string; options?: SchemeOptions }]>([
+    [{ input: brightPink.hex, options: undefined }],
+    [{ input: brightPink.hex, options: { type: 'complementary' } }],
+    [{ input: green.hslString, options: { type: 'analogous' } }],
+    [{ input: green.hslString, options: { type: 'split' } }],
+    [{ input: orange.oklabString, options: { type: 'split-complementary' } }],
+    [{ input: orange.oklabString, options: { type: 'triadic' } }],
+    [{ input: violet.oklchString, options: { type: 'tetradic' } }],
+    [{ input: violet.oklchString, options: { type: 'rectangle' } }],
+    [{ input: yellow.rgbString, options: { type: 'square' } }],
+    [{ input: 'AliceBlue', options: undefined }],
+  ])('should return properly with $input and $options', ({ input, options }) => {
+    expect(scheme(input, options)).toMatchSnapshot();
+  });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => scheme('#f04', 'invalidType')).toThrow('invalid type');
   });
 });

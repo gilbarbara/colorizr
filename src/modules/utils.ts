@@ -1,41 +1,62 @@
-import { HSL, PlainObject, RGB, RGBArray } from '../types';
+import { COLOR_KEYS, COLOR_MODELS, MESSAGES, PRECISION } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import {
+  isHSL,
+  isLAB,
+  isLCH,
+  isNumber,
+  isPlainObject,
+  isRGB,
+  isValidColorModel,
+} from '~/modules/validators';
 
-export const HSLKeys = ['h', 's', 'l'];
-export const RGBKeys = ['r', 'g', 'b'];
+import {
+  Alpha,
+  ColorModel,
+  ColorModelKey,
+  ColorModelKeys,
+  ConverterParameters,
+  LAB,
+  LCH,
+  PlainObject,
+} from '~/types';
 
-export const MESSAGES = {
-  amount: 'amount must be a number',
-  left: 'left is required and must be a string',
-  right: 'right is required and must be a string',
-  input: 'input is required',
-  inputString: 'input is required and must be a string',
-  invalid: 'invalid input',
-  options: 'invalid options',
-};
+export function addAlpha<T extends ColorModel>(input: any, alpha?: Alpha): T {
+  invariant(isValidColorModel(input), MESSAGES.invalid);
 
-/**
- * Constrain value into the range
- */
-export function constrain(input: number, amount: number, range: number[], sign: string): number {
-  invariant(arguments.length === 4, 'All parameters are required');
+  let value = alpha;
 
-  const [min, max] = range;
-  let value = expr(input + sign + amount);
-
-  if (value < min) {
-    value = min;
-  } else if (value > max) {
-    value = max;
+  if (!value) {
+    return input;
   }
 
-  return Math.abs(value);
+  /* c8 ignore next 3 */
+  if (value > 1) {
+    value /= 100;
+  }
+
+  if (value === 1) {
+    return input;
+  }
+
+  return { ...input, alpha: value };
 }
 
 /**
- * Constrain an angle
+ * Clamp a value between a min and max
+ * @param value
+ * @param [min=0] - The minimum value
+ * @param [max=100] - The maximum value
+ */
+export function clamp(value: number, min = 0, max = 100) {
+  return Math.min(Math.max(value, min), max);
+}
+
+/**
+ * Constrain the degrees between 0 and 360
  */
 export function constrainDegrees(input: number, amount: number): number {
-  invariant(isNumber(input), 'input is required');
+  invariant(isNumber(input), MESSAGES.inputNumber);
 
   let value = input + amount;
 
@@ -51,179 +72,63 @@ export function constrainDegrees(input: number, amount: number): number {
 }
 
 /**
- * Parse math string expressions
- */
-export function expr(input: string): number {
-  const chars = [...input];
-  const n: string[] = [];
-  const op: string[] = [];
-
-  let parsed;
-  let index = 0;
-  let last = true;
-
-  n[index] = '';
-
-  // Parse the string
-  for (const char of chars) {
-    if (Number.isNaN(parseInt(char, 10)) && char !== '.' && !last) {
-      op[index] = char;
-      index++;
-      n[index] = '';
-      last = true;
-    } else {
-      n[index] += char;
-      last = false;
-    }
-  }
-
-  // Calculate the expression
-  parsed = parseFloat(n[0]);
-
-  for (const [o, element] of op.entries()) {
-    const value = parseFloat(n[o + 1]);
-
-    switch (element) {
-      case '+':
-        parsed += value;
-        break;
-      case '-':
-        parsed -= value;
-        break;
-      case '*':
-        parsed *= value;
-        break;
-      case '/':
-        parsed /= value;
-        break;
-      default:
-        break;
-    }
-  }
-
-  return parsed;
-}
-
-export function invariant(condition: boolean, message: string): asserts condition {
-  if (condition) {
-    return;
-  }
-
-  /* istanbul ignore else */
-  if (process.env.NODE_ENV !== 'production') {
-    if (message === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  let error;
-
-  if (!message) {
-    throw new Error(
-      'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.',
-    );
-  } else {
-    error = new Error(message);
-  }
-
-  error.name = 'colorizr';
-
-  throw error;
-}
-
-/**
- * Check if an object contains HSL values
- */
-export function isHSL(input: any): input is HSL {
-  if (!isPlainObject(input)) {
-    return false;
-  }
-
-  const entries = Object.entries(input);
-
-  return (
-    !!entries.length &&
-    entries.every(
-      ([key, value]) => HSLKeys.includes(key) && value >= 0 && value <= (key === 'h' ? 360 : 100),
-    )
-  );
-}
-
-/**
- * Check if the input is a number and not NaN
- */
-export function isNumber(input: any): input is number {
-  return typeof input === 'number' && !Number.isNaN(input);
-}
-
-/**
- * Check if the input is an object
- */
-export function isPlainObject(input: any): input is PlainObject {
-  if (!input) {
-    return false;
-  }
-
-  const { toString } = Object.prototype;
-  const prototype = Object.getPrototypeOf(input);
-
-  return (
-    toString.call(input) === '[object Object]' &&
-    (prototype === null || prototype === Object.getPrototypeOf({}))
-  );
-}
-
-/**
- * Check if an object contains RGB values.
- */
-export function isRGB(input: any): input is RGB {
-  if (!isPlainObject(input)) {
-    return false;
-  }
-
-  const entries = Object.entries(input);
-
-  return (
-    !!entries.length &&
-    entries.every(([key, value]) => RGBKeys.includes(key) && value >= 0 && value <= 255)
-  );
-}
-
-/**
- * Check if an array contains RGB values.
- */
-export function isRGBArray(input: any): input is RGBArray {
-  return Array.isArray(input) && input.length === 3 && input.every(d => d >= 0 && d <= 255);
-}
-
-/**
- * Check if the input is a string
- */
-export function isString(input: any): input is string {
-  return typeof input === 'string';
-}
-
-/**
  * Limit values per type.
  */
-export function limit(input: number, type: string): number {
+export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
+  input: number,
+  model: TModel,
+  key: ColorModelKeys<TModel>,
+): number {
   invariant(isNumber(input), 'Input is not a number');
+  invariant(COLOR_MODELS.includes(model), `Invalid model${model ? `: ${model}` : ''}`);
+  invariant(COLOR_KEYS[model].includes(key), `Invalid key${key ? `: ${key}` : ''}`);
 
-  /* istanbul ignore else */
-  if (RGBKeys.includes(type)) {
-    return Math.max(Math.min(input, 255), 0);
+  switch (model) {
+    case 'hsl': {
+      invariant(COLOR_KEYS.hsl.includes(key), 'Invalid key');
+
+      if (['s', 'l'].includes(key)) {
+        return clamp(input);
+      }
+
+      return clamp(input, 0, 360);
+    }
+    case 'rgb': {
+      invariant(COLOR_KEYS.rgb.includes(key), 'Invalid key');
+
+      return clamp(input, 0, 255);
+    }
+    /* c8 ignore next 3 */
+    default: {
+      throw new Error('Invalid inputs');
+    }
   }
+}
 
-  if (['s', 'l'].includes(type)) {
-    return Math.max(Math.min(input, 100), 0);
-  }
+/**
+ * Parse the input parameters
+ */
+export function parseInput<T extends ColorModel>(
+  input: ConverterParameters<T>,
+  model: ColorModelKey,
+): T {
+  const keys = COLOR_KEYS[model];
+  const validator = {
+    hsl: isHSL,
+    oklab: isLAB,
+    oklch: isLCH,
+    rgb: isRGB,
+  };
 
-  if (type === 'h') {
-    return Math.max(Math.min(input, 360), 0);
-  }
+  invariant(isPlainObject(input) || Array.isArray(input), MESSAGES.invalid);
 
-  throw new Error('Invalid type');
+  const value = Array.isArray(input)
+    ? ({ [keys[0]]: input[0], [keys[1]]: input[1], [keys[2]]: input[2] } as unknown as T)
+    : input;
+
+  invariant(validator[model](value), `invalid ${model} color`);
+
+  return value;
 }
 
 /**
@@ -244,10 +149,55 @@ export function pick(input: PlainObject, options: string[]): PlainObject {
 }
 
 /**
+ * Restrict the values to a certain number of digits.
+ */
+export function restrictValues<T extends LAB | LCH>(
+  input: T,
+  precision: number = PRECISION,
+  forcePrecision = true,
+): T {
+  const output = new Map(Object.entries(input));
+
+  for (const [key, value] of output.entries()) {
+    output.set(key, round(value, precision, forcePrecision));
+  }
+
+  return Object.fromEntries(output) as T;
+}
+
+/**
  * Round decimal numbers.
  */
-export function round(input: number, digits = 2): number {
-  const factor = 10 ** digits;
+export function round(input: number, precision = 2, forcePrecision = true): number {
+  if (!isNumber(input) || input === 0) {
+    return 0;
+  }
+
+  if (forcePrecision) {
+    const factor = 10 ** precision;
+
+    return Math.round(input * factor) / factor;
+  }
+
+  const absInput = Math.abs(input);
+
+  let digits = Math.abs(Math.ceil(Math.log(absInput) / Math.LN10));
+
+  if (digits === 0) {
+    digits = 2;
+  } else if (digits > precision) {
+    digits = precision;
+  }
+
+  let exponent = precision - (digits < 0 ? 0 : digits);
+
+  if (exponent <= 1 && precision > 1) {
+    exponent = 2;
+  } else if (exponent > precision || exponent === 0) {
+    exponent = precision;
+  }
+
+  const factor = 10 ** exponent;
 
   return Math.round(input * factor) / factor;
 }

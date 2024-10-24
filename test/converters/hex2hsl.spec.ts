@@ -1,19 +1,28 @@
-import hex2hsl from 'converters/hex2hsl';
-import { MESSAGES } from 'modules/utils';
+import { MESSAGES } from '~/modules/constants';
+
+import hex2hsl from '~/converters/hex2hsl';
+import { HEX, HSL } from '~/types';
+
+import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2hsl', () => {
   it.each([
-    ['#ff0044', { h: 344, s: 100, l: 50 }],
-    ['#abc', { h: 210, s: 25, l: 73.33 }],
+    [brightPink.hex, brightPink.hsl],
+    [green.hex, green.hsl],
+    [orange.hex, orange.hsl],
+    [violet.hex, violet.hsl],
+    [yellow.hex, yellow.hsl],
     ['#fff', { h: 0, s: 0, l: 100 }],
     ['#000', { h: 0, s: 0, l: 0 }],
-  ])('%p should return %p', (input, expected) => {
+  ] as Array<[HEX, HSL]>)('%s should return %s', (input, expected) => {
     expect(hex2hsl(input)).toEqual(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    expect(() => hex2hsl('#mmxxvv')).toThrow('invalid hex');
-    // @ts-ignore
-    expect(() => hex2hsl([255, 255, 0])).toThrow(MESSAGES.inputString);
+    // @ts-expect-error - input is required
+    expect(() => hex2hsl()).toThrow(MESSAGES.inputHex);
+    // @ts-expect-error - invalid parameters
+    expect(() => hex2hsl([255, 255, 0])).toThrow(MESSAGES.inputHex);
+    expect(() => hex2hsl('#mmxxvv')).toThrow(MESSAGES.inputHex);
   });
 });

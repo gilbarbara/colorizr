@@ -1,18 +1,15 @@
-import hue2rgb from '../modules/hue2rgb';
-import { invariant, isHSL, MESSAGES, round } from '../modules/utils';
-import { HSL, RGB } from '../types';
+import hue2rgb from '~/modules/hue2rgb';
+import { parseInput, round } from '~/modules/utils';
 
-/**
- * Convert an HSL object to RGB.
- */
-export default function hsl2rgb(input: HSL): RGB {
-  invariant(!!input, MESSAGES.inputString);
+import { ConverterParameters, HSL, RGB } from '~/types';
 
-  invariant(isHSL(input), 'invalid input');
+/** Convert HSL to RGB */
+export default function hsl2rgb(input: ConverterParameters<HSL>): RGB {
+  const value = parseInput(input, 'hsl');
 
-  const h = round(input.h) / 360;
-  const s = round(input.s) / 100;
-  const l = round(input.l) / 100;
+  const h = round(value.h) / 360;
+  const s = round(value.s) / 100;
+  const l = round(value.l) / 100;
 
   let r;
   let g;

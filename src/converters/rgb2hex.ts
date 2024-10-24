@@ -1,24 +1,12 @@
-import { invariant, isRGB, isRGBArray, MESSAGES } from '../modules/utils';
-import { RGB, RGBArray } from '../types';
+import { parseInput } from '~/modules/utils';
 
-/**
- * Convert an RGA object to hex.
- */
-export default function rgb2hex(input: RGB | RGBArray): string {
-  invariant(!!input, MESSAGES.input);
-  invariant(isRGBArray(input) || isRGB(input), MESSAGES.invalid);
+import { ConverterParameters, HEX, RGB } from '~/types';
 
-  let r: number;
-  let g: number;
-  let b: number;
+/** Convert RGB to HEX */
+export default function rgb2hex(input: ConverterParameters<RGB>): HEX {
+  const rgb = parseInput(input, 'rgb');
 
-  if (isRGBArray(input)) {
-    [r, g, b] = input;
-  } else {
-    ({ r, g, b } = input);
-  }
-
-  const output = [r.toString(16), g.toString(16), b.toString(16)];
-
-  return `#${output.map(d => (d.length === 1 ? `0${d}` : d)).join('')}`;
+  return `#${Object.values(rgb)
+    .map(d => `0${Math.floor(d).toString(16)}`.slice(-2))
+    .join('')}`;
 }

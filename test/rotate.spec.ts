@@ -1,19 +1,22 @@
-import { MESSAGES } from 'modules/utils';
-import rotate from 'rotate';
+import { MESSAGES } from '~/modules/constants';
+
+import rotate from '~/rotate';
 
 describe('rotate', () => {
-  it('should have changed the color', () => {
-    expect(rotate('#ff0044')).toBe('#ff0004');
-    expect(rotate('#ff0044', 30)).toBe('#ff3b00');
-    expect(rotate('#ff0044', 90)).toBe('#c4ff00');
-    expect(rotate('#ff0044', 180)).toBe('#00ffbb');
-    expect(rotate('#ff0044', 360)).toBe('#ff0044');
+  it.each([
+    ['#ff0044', 10, '#ff001a'],
+    ['#ff0044', 30, '#ff3b00'],
+    ['#ff0044', 90, '#c4ff00'],
+    ['#ff0044', 180, '#00ffbb'],
+    ['#ff0044', 360, '#ff0044'],
+  ])('should have rotate %s with %d to %s', (input, degrees, expected) => {
+    expect(rotate(input, degrees)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => rotate({})).toThrow(MESSAGES.inputString);
-    // @ts-ignore
+    // @ts-expect-error - invalid parameters
     expect(() => rotate('#f04', [])).toThrow('degrees must be a number');
   });
 });

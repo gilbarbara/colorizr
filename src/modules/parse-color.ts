@@ -1,57 +1,77 @@
-import { invariant, isHSL, isPlainObject, isRGB, isString, limit, MESSAGES } from './utils';
+import { MESSAGES } from '~/modules/constants';
+import { addAlphaToHex } from '~/modules/hex-utils';
+import { invariant } from '~/modules/invariant';
+import { addAlpha, limit } from '~/modules/utils';
+import { isHex, isHSL, isLAB, isLCH, isPlainObject, isRGB, isString } from '~/modules/validators';
 
-import hex2hsl from '../converters/hex2hsl';
-import hex2rgb from '../converters/hex2rgb';
-import hsl2hex from '../converters/hsl2hex';
-import hsl2rgb from '../converters/hsl2rgb';
-import rgb2hex from '../converters/rgb2hex';
-import rgb2hsl from '../converters/rgb2hsl';
-import isValidHex from '../is-valid-hex';
-import parseCSS from '../parse-css';
-import { Colors, HSL, PlainObject, RGB, RGBArray } from '../types';
+import * as converters from '~/converters';
+import extractColorParts from '~/extract-color-parts';
+import parseCSS from '~/parse-css';
+import { Colors, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
 
-export default function parseColor(color: string | HSL | RGB | RGBArray): Colors {
+export default function parseColor(color: string | HSL | LAB | LCH | RGB): Colors {
   invariant(!!color, MESSAGES.input);
 
   const output: PlainObject = {};
 
   if (isString(color)) {
-    const hex = parseCSS(color) as string;
+    const { alpha = 1 } = extractColorParts(color);
+    const type = isHex(color) ? 'hex' : extractColorParts(color).model;
 
-    invariant(isValidHex(hex), 'input is not valid');
+    output.hex = addAlphaToHex(parseCSS(color, 'hex'), alpha);
+    output.hsl = addAlpha(parseCSS(color, 'hsl'), alpha);
+    output.oklab = addAlpha(parseCSS(color, 'oklab'), alpha);
+    output.oklch = addAlpha(parseCSS(color, 'oklch'), alpha);
+    output.rgb = addAlpha(parseCSS(color, 'rgb'), alpha);
 
-    output.hex = hex;
-    output.rgb = hex2rgb(hex);
-    output.hsl = hex2hsl(hex);
-  } else if (Array.isArray(color)) {
-    output.rgb = {
-      r: limit(color[0], 'r'),
-      g: limit(color[1], 'g'),
-      b: limit(color[2], 'b'),
-    };
-
-    output.hex = rgb2hex(output.rgb);
-    output.hsl = rgb2hsl(output.rgb);
+    output.alpha = alpha;
+    output.type = type;
   } else if (isPlainObject(color)) {
+    const { alpha = 1 } = color;
+
     if (isHSL(color)) {
       output.hsl = {
-        h: limit(color.h, 'h'),
-        s: limit(color.s, 's'),
-        l: limit(color.l, 'l'),
+        h: limit(color.h, 'hsl', 'h'),
+        s: limit(color.s, 'hsl', 's'),
+        l: limit(color.l, 'hsl', 'l'),
       };
-      output.rgb = hsl2rgb(output.hsl);
+      output.rgb = converters.hsl2rgb(output.hsl);
+      output.oklab = converters.hsl2oklab(output.hsl);
+      output.oklch = converters.hsl2oklch(output.hsl);
+      output.type = 'hsl';
+    } else if (isLAB(color)) {
+      output.hsl = converters.oklab2hsl(color);
+      output.oklab = color;
+      output.oklch = converters.oklab2oklch(color);
+      output.rgb = converters.oklab2rgb(color);
+      output.type = 'oklab';
+    } else if (isLCH(color)) {
+      output.hsl = converters.oklch2hsl(color);
+      output.oklab = converters.oklch2oklab(color);
+      output.oklch = color;
+      output.rgb = converters.oklch2rgb(color);
+      output.type = 'oklch';
     } else if (isRGB(color)) {
       output.rgb = {
-        r: limit(color.r, 'r'),
-        g: limit(color.g, 'g'),
-        b: limit(color.b, 'b'),
+        r: limit(color.r, 'rgb', 'r'),
+        g: limit(color.g, 'rgb', 'g'),
+        b: limit(color.b, 'rgb', 'b'),
       };
-      output.hsl = rgb2hsl(output.rgb);
+      output.hsl = converters.rgb2hsl(output.rgb);
+      output.oklab = converters.rgb2oklab(output.rgb);
+      output.oklch = converters.rgb2oklch(output.rgb);
+      output.type = 'rgb';
     } else {
       throw new Error('invalid color');
     }
 
-    output.hex = hsl2hex(output.hsl);
+    output.hex = addAlphaToHex(converters.hsl2hex(output.hsl), alpha);
+    output.hsl = addAlpha(output.hsl, alpha);
+    output.oklab = addAlpha(output.oklab, alpha);
+    output.oklch = addAlpha(output.oklch, alpha);
+    output.rgb = addAlpha(output.rgb, alpha);
+
+    output.alpha = alpha;
   } else {
     throw new Error(MESSAGES.input);
   }

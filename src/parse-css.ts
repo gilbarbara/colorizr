@@ -1,90 +1,146 @@
-import hex2hsl from './converters/hex2hsl';
-import hex2rgb from './converters/hex2rgb';
-import hsl2hex from './converters/hsl2hex';
-import hsl2rgb from './converters/hsl2rgb';
-import rgb2hex from './converters/rgb2hex';
-import rgb2hsl from './converters/rgb2hsl';
-import isValidHex from './is-valid-hex';
-import { cssColors } from './modules/css-colors';
-import { invariant, isString, MESSAGES } from './modules/utils';
-import { ColorTypes, Return } from './types';
+import { MESSAGES, PRECISION } from '~/modules/constants';
+import { CSSColor, cssColors } from '~/modules/css-colors';
+import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/hex-utils';
+import { invariant } from '~/modules/invariant';
+import { addAlpha, round } from '~/modules/utils';
+import { isHex, isNamedColor, isString } from '~/modules/validators';
+
+import * as converters from '~/converters';
+import extractColorParts from '~/extract-color-parts';
+import { ColorTuple, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
+
+export type ParseCSSReturn<T extends ColorType> = T extends 'hex'
+  ? HEX
+  : T extends 'hsl'
+    ? HSL
+    : T extends 'oklab'
+      ? LAB
+      : T extends 'oklch'
+        ? LCH
+        : T extends 'rgb'
+          ? RGB
+          : never;
 
 /**
  * Parse CSS color
  */
-export default function parseCSS<T extends ColorTypes = 'hex'>(
-  input: unknown,
-  output?: T,
-): Return<T> {
+export default function parseCSS<T extends ColorType>(
+  input: string,
+  format?: T,
+): ParseCSSReturn<T> {
   invariant(isString(input), MESSAGES.inputString);
+
   let result: any;
 
-  const parsedInput = cssColors[input.toLowerCase() as keyof typeof cssColors] || input;
+  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
 
-  if (isValidHex(parsedInput)) {
-    switch (output) {
-      case 'hsl': {
-        result = hex2hsl(parsedInput);
-        break;
-      }
-      case 'rgb': {
-        result = hex2rgb(parsedInput);
-        break;
-      }
-      default: {
-        result = parsedInput;
-        break;
-      }
-    }
-  } else {
-    // TODO: improve the pattern to require 3 groups
-    const matches = parsedInput.match(
-      /(hsl|rgb)a?\((\d+)(?:,\s*|\s+)(\d+)%?(?:,\s*|\s+)(\d+)%?[^)]*\)/i,
-    );
+  const output = format ?? (isHex(value) ? 'hex' : extractColorParts(value).model);
 
-    invariant(Array.isArray(matches), 'invalid CSS string');
-    invariant(matches.length === 5, 'invalid CSS string');
+  const colorParams = (params: Record<string, number>) => Object.values(params) as ColorTuple;
 
-    const [, model, hORr, sORg, lORb] = matches;
-    let hex;
-    let hsl;
-    let rgb;
-
-    if (model === 'hsl') {
-      hsl = {
-        h: parseInt(hORr, 10),
-        s: parseInt(sORg, 10),
-        l: parseInt(lORb, 10),
-      };
-      hex = hsl2hex(hsl);
-      rgb = hsl2rgb(hsl);
-    } else {
-      rgb = {
-        r: parseInt(hORr, 10),
-        g: parseInt(sORg, 10),
-        b: parseInt(lORb, 10),
-      };
-      hex = rgb2hex(rgb);
-      hsl = rgb2hsl(rgb);
-    }
+  if (isHex(value)) {
+    const alpha = extractAlphaFromHex(value);
 
     switch (output) {
       case 'hsl': {
-        result = hsl;
+        result = addAlpha(converters.hex2hsl(value), alpha);
+        break;
+      }
+      case 'oklab': {
+        result = addAlpha(converters.hex2oklab(value), alpha);
+        break;
+      }
+      case 'oklch': {
+        result = addAlpha(converters.hex2oklch(value), alpha);
         break;
       }
       case 'rgb': {
-        result = rgb;
+        result = addAlpha(converters.hex2rgb(value), alpha);
         break;
+      }
+      default: {
+        result = `${removeAlphaFromHex(value)}${alpha !== 1 ? convertAlphaToHex(alpha) : ''}`;
+        break;
+      }
+    }
+
+    return result as ParseCSSReturn<T>;
+  }
+
+  switch (output) {
+    case 'hsl': {
+      const { alpha, model, ...color } = extractColorParts(value);
+
+      if (['oklab', 'oklch'].includes(model) && color.l > 1) {
+        color.l = round(color.l / 100, PRECISION);
       }
 
-      case 'hex':
-      default: {
-        result = hex;
-        break;
+      result = addAlpha(
+        model === 'hsl' ? color : converters[`${model}2hsl`](colorParams(color)),
+        alpha,
+      );
+
+      break;
+    }
+    case 'oklab': {
+      const { alpha, model, ...color } = extractColorParts(value);
+
+      if (['oklab', 'oklch'].includes(model) && color.l > 1) {
+        color.l = round(color.l / 100, PRECISION);
       }
+
+      result = addAlpha(
+        model === 'oklab' ? color : converters[`${model}2oklab`](colorParams(color)),
+        alpha,
+      );
+
+      break;
+    }
+    case 'oklch': {
+      const { alpha, model, ...color } = extractColorParts(value);
+
+      if (['oklab', 'oklch'].includes(model) && color.l > 1) {
+        color.l = round(color.l / 100, PRECISION);
+      }
+
+      result = addAlpha(
+        model === 'oklch' ? color : converters[`${model}2oklch`](colorParams(color)),
+        alpha,
+      );
+      break;
+    }
+    case 'rgb': {
+      const { alpha, model, ...color } = extractColorParts(value);
+
+      if (['oklab', 'oklch'].includes(model) && color.l > 1) {
+        color.l /= 100;
+      }
+
+      result = addAlpha(
+        model === 'rgb' ? color : converters[`${model}2rgb`](colorParams(color)),
+        alpha,
+      );
+      break;
+    }
+
+    case 'hex':
+    default: {
+      const { alpha, model, ...color } = extractColorParts(value);
+      let alphaPrefix = '';
+
+      if (['oklab', 'oklch'].includes(model) && color.l > 1) {
+        color.l = round(color.l / 100, PRECISION);
+      }
+
+      if (alpha) {
+        alphaPrefix = convertAlphaToHex(alpha);
+      }
+
+      result = `${converters[`${model}2hex`](colorParams(color))}${alphaPrefix}`;
+
+      break;
     }
   }
 
-  return result as Return<T>;
+  return result as ParseCSSReturn<T>;
 }

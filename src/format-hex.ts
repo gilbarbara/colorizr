@@ -1,23 +1,27 @@
-import isValidHex from './is-valid-hex';
-import { invariant, isString, MESSAGES } from './modules/utils';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { isHex } from '~/modules/validators';
 
-export default function formatHex(input: string): string {
-  invariant(isString(input), MESSAGES.inputString);
+import { HEX } from '~/types';
 
-  const color = input.replace('#', '');
-  let hex = color;
+export default function formatHex(input: string): HEX {
+  invariant(isHex(input), MESSAGES.inputHex);
+
+  let color = input.replace('#', '');
 
   if (color.length === 3 || color.length === 4) {
-    hex = '';
+    const values = [...color];
 
-    [...color].forEach(d => {
-      hex += d + d;
+    color = '';
+
+    values.forEach(d => {
+      color += `${d}${d}`;
     });
   }
 
-  hex = `#${hex}`;
+  const hex = `#${color}`;
 
-  invariant(isValidHex(hex), 'invalid hex');
+  invariant(isHex(hex), 'invalid hex');
 
   return hex;
 }

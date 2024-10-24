@@ -1,8 +1,10 @@
-import updater from './modules/updater';
+import updater from '~/modules/updater';
+
+import { ColorType } from '~/types';
 
 /**
  * Increase color saturation
  */
-export default function saturate(input: string, amount = 10): string {
-  return updater('s', '+')(input, amount);
+export default function saturate(input: string, amount: number, format?: ColorType) {
+  return updater('s', '+', format)(input, amount);
 }
