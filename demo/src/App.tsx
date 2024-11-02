@@ -1,10 +1,25 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Box, H1, H2, H3, H4, Icon } from '@gilbarbara/components';
-import Colorizr, { formatHex, isValidHex, palette, random, rotate, scheme, swatch } from 'colorizr';
+import { ButtonUnstyled, Flex, H1, H2, H3, H4, Icon, Paragraph } from '@gilbarbara/components';
+import colorDescription from '@samhaeng/naevner';
+import Colorizr, {
+  ColorType,
+  convert,
+  extractColorParts,
+  HEX,
+  isHex,
+  isValidColor,
+  palette,
+  random,
+  removeAlphaFromHex,
+  rotate,
+  scheme,
+  swatch,
+} from 'colorizr';
 
 import {
   Block,
   Checker,
+  ColorModel,
   ColorPicker,
   Contrast,
   Footer,
@@ -13,33 +28,48 @@ import {
   Item,
   Label,
   Pattern,
-  Properties,
+  Properties, Refresh,
   Section,
   Swatch,
   Title,
   Wrapper,
 } from './components';
-import { getColorNumber, getKey } from './utils';
+import { getKey } from './utils';
+import { useSetState } from '@gilbarbara/hooks';
+
+interface State {
+  color: string;
+  colorInput: string;
+  colorType: ColorType;
+  textColor: string;
+  textColorInput: string;
+  textColorType: ColorType;
+}
 
 function Check() {
-  return <Icon name="check-o" shade="dark" size={20} variant="green" />;
+  return <Icon color="green.600" name="check-o" size={20} />;
 }
 
 function Times() {
-  return <Icon name="close-o" shade="dark" size={20} variant="red" />;
+  return <Icon color="red.600" name="close-o" size={20} />;
 }
 
 export default function App() {
-  const [color, setColor] = useState(random());
-  const [textColor, setTextColor] = useState('');
-  const [colorInput, setColorInput] = useState(color);
-  const [textColorInput, setTextColorInput] = useState('');
+  const [randomColor] = useState(random());
+  const [{ color, colorInput, colorType, textColor, textColorInput, textColorType }, setState] = useSetState<State>({
+      color: randomColor,
+      colorInput: randomColor,
+      colorType: 'hex',
+      textColor: '',
+      textColorInput: '',
+      textColorType: 'hex',
+    });
 
   const [colorizr, setColorizr] = useState(new Colorizr(color));
   const timeout = useRef<number>();
 
   const text = textColor || colorizr.textColor;
-  const analysis = colorizr.compare(text);
+  const analysis = colorizr.compare(text as HEX);
 
   const grade = () => {
     const { contrast } = analysis;
@@ -59,35 +89,21 @@ export default function App() {
     return output;
   };
 
-  const hsl = () => {
-    const { h, l, s } = colorizr.hsl;
-
-    return `hsl(${h}, ${s}%, ${l}%)`;
-  };
-
-  const rgb = () => {
-    const { b, g, r } = colorizr.rgb;
-
-    return `rgb(${r}, ${g}, ${b})`;
-  };
-
   useEffect(() => {
     setColorizr(new Colorizr(color));
-    setColorInput(color);
+    setState({colorInput: color});
   }, [color]);
 
   const handleChangeBgColor = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const hex = `#${value.replace(/[^\da-f]/gi, '')}`;
 
-    if (hex.length > 7) {
-      return;
-    }
+    setState({colorInput: value});
 
-    setColorInput(hex);
-
-    if (isValidHex(hex, false)) {
-      setColor(hex);
+    if (isValidColor(value)) {
+      setState({
+        color: value,
+        colorType: isHex(value) ? 'hex' : extractColorParts(value).model,
+      });
     }
   };
 
@@ -97,134 +113,181 @@ export default function App() {
     clearTimeout(timeout.current);
 
     timeout.current = window.setTimeout(() => {
-      setColor(value);
+      setState({
+        color: convert(value, colorType),
+        colorInput: convert(value, colorType),
+      });
     }, 0);
   };
 
   const handleChangeTextColor = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    const hex = `#${value.replace(/[^\da-f]/gi, '')}`;
+    const { value } = event.target;
 
-    if (hex.length > 7) {
-      return;
-    }
+    setState({
+      textColorInput: value,
+    })
 
-    setTextColorInput(hex);
-
-    if (isValidHex(hex, false)) {
-      setTextColor(hex);
+    if (isValidColor(value)) {
+      setState({
+        textColor: value,
+        textColorType: isHex(value) ? 'hex' : extractColorParts(value).model,
+      });
     }
   };
 
   const handleChangeTextColorPicker = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
+    const nextValue = convert(value, textColorType);
 
-    setTextColorInput(value);
-    setTextColor(value);
+    setState({
+      textColorInput: nextValue,
+      textColor: nextValue
+    });
   };
 
+  const handleClickRandom = () => {
+    const color = random();
+
+    setState({
+      color,
+      colorInput: color,
+    });
+  }
+
   return (
-    <Wrapper bg={colorizr.hex} color={text}>
+    <Wrapper bg={colorizr.format('oklch')} color={text}>
       <H1>Colorizr</H1>
       <H3 mb="xxl">Color conversion, manipulation, comparison, and analysis.</H3>
-      <Block>
-        <Label>
-          Background color
-          <InputBox>
-            <input onChange={handleChangeBgColor} type="text" value={colorInput} />
-            <ColorPicker>
-              <input onInput={handleChangeBgColorPicker} type="color" value={formatHex(color)} />
-            </ColorPicker>
-          </InputBox>
-        </Label>
-        <Properties>
-          <div>
-            <span>Luminance</span>
-            <span>{colorizr.luminance}</span>
-          </div>
-          <div>
-            <span>Chroma</span>
-            <span>{colorizr.chroma}</span>
-          </div>
-          <div>
-            <span>HSL</span>
-            <span>{hsl()}</span>
-          </div>
-          <div>
-            <span>RGB</span>
-            <span>{rgb()}</span>
-          </div>
-        </Properties>
-      </Block>
-      <Block>
-        <Checker>
+      <Flex gap="xl" justify="center" mb="xxl" mx="auto" wrap="wrap">
+        <Block>
           <Label>
-            Text color
+            Background color
             <InputBox>
-              <input onChange={handleChangeTextColor} type="text" value={textColorInput || text} />
+              <input onChange={handleChangeBgColor} type="text" value={colorInput} />
+              <Refresh>
+                <ButtonUnstyled onClick={handleClickRandom}>
+                  <Icon name="sync" size={20} />
+                </ButtonUnstyled>
+              </Refresh>
               <ColorPicker>
-                <input onInput={handleChangeTextColorPicker} type="color" value={formatHex(text)} />
+                <input
+                  onInput={handleChangeBgColorPicker}
+                  type="color"
+                  value={convert(color, 'hex')}
+                />
               </ColorPicker>
             </InputBox>
+            <Paragraph align="center" color="gray.600" mt="xxs" size="sm">
+              Works with hex, hsl, oklab, oklch and rgb
+            </Paragraph>
           </Label>
-          <br />
-          <strong>Contrast</strong>
-          <Contrast
-            contrast={analysis.contrast}
-            largeText={[analysis.largeAA, analysis.largeAAA].filter(Boolean).length}
-            normalText={[analysis.normalAA, analysis.normalAAA].filter(Boolean).length}
-          >
-            <div className="top">
-              <div className="left">{analysis.contrast}</div>
-              <div className="right">{grade()}</div>
-            </div>
-            <div className="bottom">
-              <div className="small">
-                <p>Small text</p>a
-                <Box className="grades" flexBox>
-                  <Box flexBox>
-                    <span>AA</span>
-                    {analysis.normalAA ? <Check /> : <Times />}
-                  </Box>
-                  <Box flexBox>
-                    <span>AAA</span> {analysis.normalAAA ? <Check /> : <Times />}
-                  </Box>
-                </Box>
-              </div>
-              <div className="large">
-                <p>Large text</p>
-                <Box className="grades" flexBox>
-                  <Box flexBox>
-                    <span>AA</span>
-                    {analysis.largeAA ? <Check /> : <Times />}
-                  </Box>
-                  <Box flexBox>
-                    <span>AAA</span>
-                    {analysis.largeAAA ? <Check /> : <Times />}
-                  </Box>
-                </Box>
-              </div>
-            </div>
-          </Contrast>
+          <Paragraph align="center" bold mt="md" size="xl">
+            {colorDescription(removeAlphaFromHex(colorizr.hex))}{' '}
+            {colorizr.alpha !== 1 ? `(${colorizr.alpha * 100})%` : ''}
+          </Paragraph>
           <Properties>
             <div>
-              <span>Brightness Difference</span>
-              <span>{analysis.brightnessDifference}</span>
+              <span>Luminance</span>
+              <span>{colorizr.luminance}</span>
             </div>
             <div>
-              <span>Color Difference</span>
-              <span>{analysis.colorDifference}</span>
+              <span>Chroma</span>
+              <span>{colorizr.chroma}</span>
             </div>
             <div>
-              <span>Compliant</span>
-              <span>{analysis.compliant}</span>
+              <span>Opacity</span>
+              <span>{colorizr.opacity}</span>
             </div>
           </Properties>
-        </Checker>
-      </Block>
+
+          <Flex direction="column" gap="md" mt="md">
+            <ColorModel colorizr={colorizr} format="hsl" />
+            <ColorModel colorizr={colorizr} format="rgb" />
+            <ColorModel colorizr={colorizr} format="oklab" />
+            <ColorModel colorizr={colorizr} format="oklch" />
+          </Flex>
+        </Block>
+        <Block>
+          <Checker>
+            <Label>
+              Text color
+              <InputBox>
+                <input
+                  onChange={handleChangeTextColor}
+                  type="text"
+                  value={textColorInput || text}
+                />
+                <ColorPicker>
+                  <input
+                    onInput={handleChangeTextColorPicker}
+                    type="color"
+                    value={convert(text, 'hex')}
+                  />
+                </ColorPicker>
+              </InputBox>
+              <Paragraph align="center" color="gray.600" mt="xxs" size="sm">
+                Works with hex, hsl, oklab, oklch and rgb
+              </Paragraph>
+            </Label>
+            <br />
+            <strong>Contrast</strong>
+            <Contrast
+              contrast={analysis.contrast}
+              largeText={[analysis.largeAA, analysis.largeAAA].filter(Boolean).length}
+              normalText={[analysis.normalAA, analysis.normalAAA].filter(Boolean).length}
+            >
+              <div className="top">
+                <div className="left">{analysis.contrast}</div>
+                <div className="right">{grade()}</div>
+              </div>
+              <div className="bottom">
+                <div className="small">
+                  <p>Small text</p>
+                  <Flex className="grades">
+                    <Flex>
+                      <span>AA</span>
+                      {analysis.normalAA ? <Check /> : <Times />}
+                    </Flex>
+                    <Flex>
+                      <span>AAA</span> {analysis.normalAAA ? <Check /> : <Times />}
+                    </Flex>
+                  </Flex>
+                </div>
+                <div className="large">
+                  <p>Large text</p>
+                  <Flex className="grades">
+                    <Flex>
+                      <span>AA</span>
+                      {analysis.largeAA ? <Check /> : <Times />}
+                    </Flex>
+                    <Flex>
+                      <span>AAA</span>
+                      {analysis.largeAAA ? <Check /> : <Times />}
+                    </Flex>
+                  </Flex>
+                </div>
+              </div>
+            </Contrast>
+            <Properties>
+              <div>
+                <span>Brightness Difference</span>
+                <span>{analysis.brightnessDifference}</span>
+              </div>
+              <div>
+                <span>Color Difference</span>
+                <span>{analysis.colorDifference}</span>
+              </div>
+              <div>
+                <span>Compliant</span>
+                <span>{analysis.compliant}</span>
+              </div>
+            </Properties>
+          </Checker>
+        </Block>
+      </Flex>
 
       <Section>
-        <H2 mb="xl">utilities</H2>
+        <H2 mb="xl">Manipulation</H2>
 
         <Grid>
           <Item>
@@ -235,9 +298,6 @@ export default function App() {
             <Title>darken</Title>
             <Swatch bgColor={colorizr.darken(10)} />
           </Item>
-        </Grid>
-
-        <Grid>
           <Item>
             <Title>saturate</Title>
             <Swatch bgColor={colorizr.saturate(20)} />
@@ -246,13 +306,10 @@ export default function App() {
             <Title>desaturate</Title>
             <Swatch bgColor={colorizr.desaturate(20)} />
           </Item>
-        </Grid>
-
-        <Grid>
           <Item>
-            <Title>fade</Title>
+            <Title>opacify</Title>
             <Pattern>
-              <Swatch bgColor={colorizr.fade(30)} />
+              <Swatch bgColor={colorizr.opacify(0.8)} />
             </Pattern>
           </Item>
 
@@ -269,6 +326,7 @@ export default function App() {
         <Grid>
           {Array.from({ length: 360 / 60 - 1 }, (_, index) => index + 1).map(index => {
             const degrees = index * 60;
+
             const shade = rotate(colorizr.hex, degrees);
 
             return (
@@ -286,7 +344,7 @@ export default function App() {
         <H2 mb="xl">palette</H2>
 
         <H4 mb="lg">basic</H4>
-        <Grid isLarge>
+        <Grid>
           {palette(colorizr.hex).map((d, index) => (
             <Item key={getKey(d, index)}>
               <Swatch bgColor={d} />
@@ -296,7 +354,7 @@ export default function App() {
         </Grid>
 
         <H4 mb="lg">type: monochromatic, size: 12</H4>
-        <Grid isLarge>
+        <Grid>
           {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map((d, index) => (
             <Item key={getKey(d, index)}>
               <Swatch bgColor={d} />
@@ -306,7 +364,7 @@ export default function App() {
         </Grid>
 
         <H4 mb="lg">lightness(60)</H4>
-        <Grid isLarge>
+        <Grid>
           {palette(colorizr.hex, { lightness: 70 }).map((d, index) => (
             <Item key={getKey(d, index)}>
               <Swatch bgColor={d} />
@@ -316,7 +374,7 @@ export default function App() {
         </Grid>
 
         <H4 mb="lg">saturation(100); size(12)</H4>
-        <Grid isLarge>
+        <Grid>
           {palette(colorizr.hex, { saturation: 100, size: 12 }).map((d, index) => (
             <Item key={getKey(d, index)}>
               <Swatch bgColor={d} />
@@ -329,11 +387,22 @@ export default function App() {
       <Section>
         <H2 mb="xl">swatch</H2>
 
-        <Grid>
-          {swatch(colorizr.hex).map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Swatch bgColor={d}>color-{getColorNumber(index)}</Swatch>
-              <Footer>{d}</Footer>
+        <H4 mb="lg">scale: dynamic (default)</H4>
+        <Grid maxWidth={700}>
+          {Object.entries(swatch(colorizr.hex)).map(([key, color]) => (
+            <Item key={key}>
+              <Swatch bgColor={color}>color-{key}</Swatch>
+              <Footer>{color}</Footer>
+            </Item>
+          ))}
+        </Grid>
+
+        <H4 mb="lg" mt="xl">scale: linear</H4>
+        <Grid maxWidth={700}>
+          {Object.entries(swatch(colorizr.hex, { scale: 'linear' })).map(([key, color]) => (
+            <Item key={key}>
+              <Swatch bgColor={color}>color-{key}</Swatch>
+              <Footer>{color}</Footer>
             </Item>
           ))}
         </Grid>

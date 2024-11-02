@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Box } from '@gilbarbara/components';
-import { textColor } from 'colorizr';
+import { Box, CopyToClipboard, Flex, Text } from '@gilbarbara/components';
+import Colorizr, { ColorType, textColor } from 'colorizr';
 
 import { getContrastBgColor, getTextBgColor } from './utils';
 
@@ -19,6 +19,16 @@ export function GlobalStyles() {
         body {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+          background-image: linear-gradient(45deg, #999 25%, transparent 25%),
+            linear-gradient(135deg, #999 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #999 75%),
+            linear-gradient(135deg, transparent 75%, #999 75%);
+          background-size: 24px 24px;
+          background-position:
+            0 0,
+            12px 0,
+            12px -12px,
+            0 12px;
           font-family: Rubik, sans-serif;
           margin: 0;
           padding: 0;
@@ -28,19 +38,33 @@ export function GlobalStyles() {
   );
 }
 
-export function Grid({ children, isLarge }: { children: ReactNode; isLarge?: boolean }) {
+export function ColorModel({ colorizr, format }: { colorizr: Colorizr; format: ColorType }) {
+  const color = format === 'hex' ? colorizr.hex : colorizr.format(format, 2);
+
   return (
-    <Box
-      flexBox
-      justify="center"
-      maxWidth={isLarge ? 800 : 768}
-      mb="lg"
-      mx="auto"
-      style={{ gap: 20 }}
-      wrap="wrap"
+    <Flex
+      align="center"
+      bg={colorizr.hex}
+      data-component-name="ColorModel"
+      justify="space-between"
+      px="md"
+      py="xs"
+      radius="sm"
     >
+      <Text bold>{format.toUpperCase()}</Text>
+      <Flex gap="xs">
+        <Text size="sm">{color}</Text>
+        <CopyToClipboard value={color} />
+      </Flex>
+    </Flex>
+  );
+}
+
+export function Grid({ children, maxWidth = 800 }: { children: ReactNode; maxWidth?: number }) {
+  return (
+    <Flex justify="center" maxWidth={maxWidth} mb="lg" mx="auto" style={{ gap: 20 }} wrap="wrap">
       {children}
-    </Box>
+    </Flex>
   );
 }
 
@@ -83,26 +107,16 @@ export const Swatch = styled.div<{ bgColor?: string }>`
 
 export const Pattern = styled(Swatch)`
   &:before {
-    background-color: #fff;
-    background-image: repeating-linear-gradient(
-        -45deg,
-        #666,
-        #666 0.42em,
-        transparent 0.42em,
-        transparent 0.98em,
-        #666 0.98em,
-        #666 1em
-      ),
-      repeating-linear-gradient(
-        45deg,
-        #666,
-        #666 0.42em,
-        transparent 0.42em,
-        transparent 0.98em,
-        #666 0.98em,
-        #666 1em
-      );
-    background-size: 1em 1em;
+    background-image: linear-gradient(45deg, #999 25%, transparent 25%),
+      linear-gradient(135deg, #999 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #999 75%),
+      linear-gradient(135deg, transparent 75%, #999 75%);
+    background-size: 24px 24px;
+    background-position:
+      0 0,
+      12px 0,
+      12px -12px,
+      0 12px;
     bottom: 0;
     content: '';
     left: 0;
@@ -125,11 +139,14 @@ export const Block = styled.div`
   background-color: #fff;
   border-radius: 12px;
   color: #000;
-  margin: 0 auto 32px;
   max-width: 500px;
-  padding: 24px;
+  padding: 16px;
   text-align: left;
   width: 100%;
+
+  @media (min-width: 480px) {
+    padding: 24px;
+  }
 `;
 
 export const Label = styled.label`
@@ -139,8 +156,8 @@ export const Label = styled.label`
   input[type='text'] {
     appearance: none;
     border: 0;
-    font-size: 18px;
-    line-height: 46px;
+    font-size: 16px;
+    line-height: 40px;
     outline: none;
     padding: 0 48px 0 10px;
     width: 100%;
@@ -205,10 +222,6 @@ export const Contrast = styled.div`
     justify-content: space-between;
     padding: 16px;
 
-    @media (min-width: 480px) {
-      padding: 32px;
-    }
-
     div:first-of-type {
       font-size: 40px;
       font-weight: bold;
@@ -272,6 +285,26 @@ export const Contrast = styled.div`
   }
 `;
 
+export const Formats = styled.div`
+  margin-top: 24px;
+  width: 100%;
+
+  > div {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    span:last-of-type {
+      font-weight: 500;
+    }
+  }
+`;
+
 export const Properties = styled.div`
   margin-top: 24px;
   width: 100%;
@@ -290,4 +323,17 @@ export const Properties = styled.div`
       font-weight: 500;
     }
   }
+`;
+
+export const Refresh = styled.div`
+  border-radius: 6px;
+  display: flex;
+  height: 32px;
+  position: absolute;
+  place-items: center;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  overflow: hidden;
+  width: 32px;
 `;
