@@ -1,0 +1,9 @@
+{
+  "name": "Colorizr Demo",
+  "short_name": "Colorizr",
+  "description": "Color conversion, generation, manipulation, comparison, and analysis.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff0044"
+}
