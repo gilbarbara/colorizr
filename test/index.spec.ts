@@ -11,6 +11,7 @@ import Colorizr, {
   extractColorParts,
   formatCSS,
   formatHex,
+  getP3Color,
   hex2hsl,
   hex2oklab,
   hex2oklch,
@@ -45,8 +46,8 @@ import Colorizr, {
   transparentize,
 } from '~/index';
 
-describe('helpers', () => {
-  it('should have all the helpers', () => {
+describe('exports', () => {
+  it('should have all the exports', () => {
     expect(Colorizr).toEqual(expect.any(Function));
     expect(brightnessDifference).toEqual(expect.any(Function));
     expect(chroma).toEqual(expect.any(Function));
@@ -60,6 +61,7 @@ describe('helpers', () => {
     expect(extractColorParts).toEqual(expect.any(Function));
     expect(formatCSS).toEqual(expect.any(Function));
     expect(formatHex).toEqual(expect.any(Function));
+    expect(getP3Color).toEqual(expect.any(Function));
     expect(hex2hsl).toEqual(expect.any(Function));
     expect(hex2oklab).toEqual(expect.any(Function));
     expect(hex2oklch).toEqual(expect.any(Function));

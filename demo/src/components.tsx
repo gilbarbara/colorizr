@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
 import { css, Global } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Box, CopyToClipboard, Flex, Text } from '@gilbarbara/components';
+import { Box, BoxProps, CopyToClipboard, Flex, FlexProps, Text } from '@gilbarbara/components';
 import Colorizr, { ColorType, textColor } from 'colorizr';
 
 import { getContrastBgColor, getTextBgColor } from './utils';
@@ -38,7 +37,12 @@ export function GlobalStyles() {
   );
 }
 
-export function ColorModel({ colorizr, format }: { colorizr: Colorizr; format: ColorType }) {
+interface ColorModelProps {
+  colorizr: Colorizr;
+  format: ColorType;
+}
+
+export function ColorModel({ colorizr, format }: ColorModelProps) {
   const color = format === 'hex' ? colorizr.hex : colorizr.format(format, 2);
 
   return (
@@ -60,17 +64,17 @@ export function ColorModel({ colorizr, format }: { colorizr: Colorizr; format: C
   );
 }
 
-export function Grid({ children, maxWidth = 800 }: { children: ReactNode; maxWidth?: number }) {
+export function Grid({ children, maxWidth = 800 }: FlexProps) {
   return (
-    <Flex justify="center" maxWidth={maxWidth} mb="lg" mx="auto" style={{ gap: 20 }} wrap="wrap">
+    <Flex gap="md" justify="center" maxWidth={maxWidth} mb="lg" mx="auto" wrap="wrap">
       {children}
     </Flex>
   );
 }
 
-export function Section({ children }: { children: ReactNode }) {
+export function Section({ children, ...rest }: BoxProps) {
   return (
-    <Box data-component-name="Section" mb="xxl">
+    <Box data-component-name="Section" mb="xxl" {...rest}>
       {children}
     </Box>
   );
@@ -91,7 +95,7 @@ export const Item = styled.div`
   padding: 10px;
 `;
 
-export const Swatch = styled.div<{ bgColor?: string }>`
+export const Color = styled.div<{ bgColor?: string }>`
   align-items: center;
   background-color: ${props => props.bgColor};
   border-radius: 6px;
@@ -105,7 +109,7 @@ export const Swatch = styled.div<{ bgColor?: string }>`
   width: 96px;
 `;
 
-export const Pattern = styled(Swatch)`
+export const Pattern = styled(Color)`
   &:before {
     background-image: linear-gradient(45deg, #999 25%, transparent 25%),
       linear-gradient(135deg, #999 25%, transparent 25%),
@@ -139,7 +143,7 @@ export const Block = styled.div`
   background-color: #fff;
   border-radius: 12px;
   color: #000;
-  max-width: 500px;
+  max-width: 460px;
   padding: 16px;
   text-align: left;
   width: 100%;
@@ -281,26 +285,6 @@ export const Contrast = styled.div`
         font-weight: 500;
         margin-right: 4px;
       }
-    }
-  }
-`;
-
-export const Formats = styled.div`
-  margin-top: 24px;
-  width: 100%;
-
-  > div {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-
-    &:first-of-type {
-      margin-top: 0;
-    }
-
-    span:last-of-type {
-      font-weight: 500;
     }
   }
 `;

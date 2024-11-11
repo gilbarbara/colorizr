@@ -28,19 +28,26 @@ export const LSM_TO_RGB = {
   g: [-1.2684379732850315, 2.6097573492876882, -0.341319376002657],
   b: [-0.0041960761386756, -0.7034186179359362, 1.7076146940746117],
 };
+export const SRGB_TO_P3 = [
+  [0.8224270476, 0.1775729524, 0],
+  [0.0331008087, 0.9668991913, 0],
+  [0.0170720188, 0.0723477973, 0.9105801839],
+];
 export const PRECISION = 5;
 export const RAD2DEG = 180 / Math.PI;
 
 export const MESSAGES = {
   alpha: 'amount must be a number between 0 and 1',
-  left: 'left is required and must be a string',
-  right: 'right is required and must be a string',
+  hueRange: 'hue must be a number between 0 and 360',
   input: 'input is required',
   inputHex: 'input is required and must be a hex',
   inputNumber: 'input is required and must be a number',
   inputString: 'input is required and must be a string',
   invalid: 'invalid input',
   invalidCSS: 'invalid CSS string',
+  left: 'left is required and must be a string',
+  lightnessRange: 'lightness must be a number between 0 and 1',
   options: 'invalid options',
+  right: 'right is required and must be a string',
   threshold: 'threshold must be a number between 0 and 255',
 } as const;

@@ -1,5 +1,18 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { ButtonUnstyled, Flex, H1, H2, H3, H4, Icon, Paragraph } from '@gilbarbara/components';
+import {
+  Box,
+  ButtonUnstyled,
+  CopyToClipboard,
+  Flex,
+  FlexInline,
+  H1,
+  H2,
+  H3,
+  H4,
+  Icon,
+  Paragraph,
+} from '@gilbarbara/components';
+import { useSetState } from '@gilbarbara/hooks';
 import colorDescription from '@samhaeng/naevner';
 import Colorizr, {
   ColorType,
@@ -19,6 +32,7 @@ import Colorizr, {
 import {
   Block,
   Checker,
+  Color,
   ColorModel,
   ColorPicker,
   Contrast,
@@ -28,14 +42,13 @@ import {
   Item,
   Label,
   Pattern,
-  Properties, Refresh,
+  Properties,
+  Refresh,
   Section,
-  Swatch,
   Title,
   Wrapper,
 } from './components';
 import { getKey } from './utils';
-import { useSetState } from '@gilbarbara/hooks';
 
 interface State {
   color: string;
@@ -45,6 +58,8 @@ interface State {
   textColorInput: string;
   textColorType: ColorType;
 }
+
+const colorTypes: ColorType[] = ['hex', 'hsl', 'oklab', 'oklch', 'rgb'];
 
 function Check() {
   return <Icon color="green.600" name="check-o" size={20} />;
@@ -56,7 +71,8 @@ function Times() {
 
 export default function App() {
   const [randomColor] = useState(random());
-  const [{ color, colorInput, colorType, textColor, textColorInput, textColorType }, setState] = useSetState<State>({
+  const [{ color, colorInput, colorType, textColor, textColorInput, textColorType }, setState] =
+    useSetState<State>({
       color: randomColor,
       colorInput: randomColor,
       colorType: 'hex',
@@ -91,13 +107,13 @@ export default function App() {
 
   useEffect(() => {
     setColorizr(new Colorizr(color));
-    setState({colorInput: color});
-  }, [color]);
+    setState({ colorInput: color });
+  }, [color, setState]);
 
   const handleChangeBgColor = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
-    setState({colorInput: value});
+    setState({ colorInput: value });
 
     if (isValidColor(value)) {
       setState({
@@ -125,7 +141,7 @@ export default function App() {
 
     setState({
       textColorInput: value,
-    })
+    });
 
     if (isValidColor(value)) {
       setState({
@@ -141,25 +157,25 @@ export default function App() {
 
     setState({
       textColorInput: nextValue,
-      textColor: nextValue
+      textColor: nextValue,
     });
   };
 
   const handleClickRandom = () => {
-    const color = random();
+    const nextRandomColor = random();
 
     setState({
-      color,
-      colorInput: color,
+      color: nextRandomColor,
+      colorInput: nextRandomColor,
     });
-  }
+  };
 
   return (
     <Wrapper bg={colorizr.format('oklch')} color={text}>
       <H1>Colorizr</H1>
       <H3 mb="xxl">Color conversion, manipulation, comparison, and analysis.</H3>
       <Flex gap="xl" justify="center" mb="xxl" mx="auto" wrap="wrap">
-        <Block>
+        <Block data-component-name="BackgroundColor">
           <Label>
             Background color
             <InputBox>
@@ -201,13 +217,14 @@ export default function App() {
           </Properties>
 
           <Flex direction="column" gap="md" mt="md">
-            <ColorModel colorizr={colorizr} format="hsl" />
-            <ColorModel colorizr={colorizr} format="rgb" />
-            <ColorModel colorizr={colorizr} format="oklab" />
-            <ColorModel colorizr={colorizr} format="oklch" />
+            {colorTypes
+              .filter(d => d !== colorType)
+              .map(type => (
+                <ColorModel colorizr={colorizr} format={type} />
+              ))}
           </Flex>
         </Block>
-        <Block>
+        <Block data-component-name="TextColor">
           <Checker>
             <Label>
               Text color
@@ -286,41 +303,41 @@ export default function App() {
         </Block>
       </Flex>
 
-      <Section>
+      <Section data-component-name="Manipulation">
         <H2 mb="xl">Manipulation</H2>
 
         <Grid>
           <Item>
             <Title>lighten</Title>
-            <Swatch bgColor={colorizr.lighten(10)} />
+            <Color bgColor={colorizr.lighten(10)} />
           </Item>
           <Item>
             <Title>darken</Title>
-            <Swatch bgColor={colorizr.darken(10)} />
+            <Color bgColor={colorizr.darken(10)} />
           </Item>
           <Item>
             <Title>saturate</Title>
-            <Swatch bgColor={colorizr.saturate(20)} />
+            <Color bgColor={colorizr.saturate(20)} />
           </Item>
           <Item>
             <Title>desaturate</Title>
-            <Swatch bgColor={colorizr.desaturate(20)} />
+            <Color bgColor={colorizr.desaturate(20)} />
           </Item>
           <Item>
             <Title>opacify</Title>
             <Pattern>
-              <Swatch bgColor={colorizr.opacify(0.8)} />
+              <Color bgColor={colorizr.opacify(0.8)} />
             </Pattern>
           </Item>
 
           <Item>
             <Title>invert</Title>
-            <Swatch bgColor={colorizr.invert()} />
+            <Color bgColor={colorizr.invert()} />
           </Item>
         </Grid>
       </Section>
 
-      <Section>
+      <Section data-component-name="Rotate">
         <H2 mb="xl">rotate</H2>
 
         <Grid>
@@ -332,7 +349,7 @@ export default function App() {
             return (
               <Item key={degrees}>
                 <Title>{degrees} deg</Title>
-                <Swatch bgColor={shade} />
+                <Color bgColor={shade} />
                 <Footer>{shade}</Footer>
               </Item>
             );
@@ -340,14 +357,54 @@ export default function App() {
         </Grid>
       </Section>
 
-      <Section>
+      <Section data-component-name="Swatch">
+        <H2 mb="xl">swatch</H2>
+
+        <H4 mb="lg">scale: dynamic (default)</H4>
+        <FlexInline bg="white" p="xs" wrap="wrap">
+          {Object.entries(swatch(colorizr.hex)).map(([key, swatchColor]) => (
+            <CopyToClipboard
+              key={key}
+              tooltipProps={{
+                bg: swatchColor,
+                size: 'md',
+              }}
+              tooltipText={swatchColor}
+              value={swatchColor}
+            >
+              <Box key={key} bg={swatchColor} height={100} width={65} />
+            </CopyToClipboard>
+          ))}
+        </FlexInline>
+
+        <H4 mb="lg" mt="xl">
+          scale: linear
+        </H4>
+        <FlexInline bg="white" p="xs" wrap="wrap">
+          {Object.entries(swatch(colorizr.hex, { scale: 'linear' })).map(([key, swatchColor]) => (
+            <CopyToClipboard
+              key={key}
+              tooltipProps={{
+                bg: swatchColor,
+                size: 'md',
+              }}
+              tooltipText={swatchColor}
+              value={swatchColor}
+            >
+              <Box key={key} bg={swatchColor} height={100} width={65} />
+            </CopyToClipboard>
+          ))}
+        </FlexInline>
+      </Section>
+
+      <Section data-component-name="Palette">
         <H2 mb="xl">palette</H2>
 
         <H4 mb="lg">basic</H4>
         <Grid>
           {palette(colorizr.hex).map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -357,7 +414,7 @@ export default function App() {
         <Grid>
           {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -367,7 +424,7 @@ export default function App() {
         <Grid>
           {palette(colorizr.hex, { lightness: 70 }).map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -377,45 +434,21 @@ export default function App() {
         <Grid>
           {palette(colorizr.hex, { saturation: 100, size: 12 }).map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
         </Grid>
       </Section>
 
-      <Section>
-        <H2 mb="xl">swatch</H2>
-
-        <H4 mb="lg">scale: dynamic (default)</H4>
-        <Grid maxWidth={700}>
-          {Object.entries(swatch(colorizr.hex)).map(([key, color]) => (
-            <Item key={key}>
-              <Swatch bgColor={color}>color-{key}</Swatch>
-              <Footer>{color}</Footer>
-            </Item>
-          ))}
-        </Grid>
-
-        <H4 mb="lg" mt="xl">scale: linear</H4>
-        <Grid maxWidth={700}>
-          {Object.entries(swatch(colorizr.hex, { scale: 'linear' })).map(([key, color]) => (
-            <Item key={key}>
-              <Swatch bgColor={color}>color-{key}</Swatch>
-              <Footer>{color}</Footer>
-            </Item>
-          ))}
-        </Grid>
-      </Section>
-
-      <Section>
+      <Section data-component-name="Scheme">
         <H2 mb="xl">scheme</H2>
 
         <H4 mb="lg">analogous</H4>
         <Grid>
           {scheme(colorizr.hex, 'analogous').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -425,7 +458,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'complementary').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -435,7 +468,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'split').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -445,7 +478,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'triadic').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -455,7 +488,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'tetradic').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -465,7 +498,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'rectangle').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}
@@ -475,7 +508,7 @@ export default function App() {
         <Grid>
           {scheme(colorizr.hex, 'square').map((d, index) => (
             <Item key={getKey(d, index)}>
-              <Swatch bgColor={d} />
+              <Color bgColor={d} />
               <Footer>{d}</Footer>
             </Item>
           ))}

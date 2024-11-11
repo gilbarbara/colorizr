@@ -40,8 +40,6 @@ Color types
 
 export type HEX = `#${string}`;
 
-export type CSS = `('#' | 'hsl' | 'oklab' | 'oklch' | 'rgb')${string}`;
-
 export interface HSL {
   h: number;
   s: number;

@@ -8,7 +8,7 @@ Color conversion, generation, manipulation, comparison, and analysis.
 
 - 🏖 **Easy to use**: Works with Hex, HSL, OkLab, OkLCH, and RGB.
 - ♿️ **Accessibility:** WCAG analysis and comparison.
-- 🛠 **Small:** Less than 7k (gzipped) and tree-shakable.
+- 🛠 **Small:** 7kB (gzipped) and tree-shakable.
 - 🟦 **Modern:** Written in Typescript.
 
 ## Setup
@@ -544,6 +544,27 @@ import { formatHex } from 'colorizr';
 formatHex('#07e'); // '#0077ee'
 formatHex('#f058'); // '#ff005588'
 ```
+
+**getOkLCHMaxChroma(input: string | LCH, precision?: number): number**  
+Get the maximum chroma for a given lightness and hue in the OkLCH color space.
+
+```typescript
+import { getOkLCHMaxChroma } from 'colorizr';
+
+getOkLCHMaxChroma({ l: 0.63269, c: 0.25404, h: 19.90218 }); // 0.28643
+getOkLCHMaxChroma('#00ff44'); // 0.30921 
+```
+
+**getP3Color(input: string | LCH): string**  
+Get a OkLCH color in the P3 color space.
+
+```typescript
+import { getP3Color } from 'colorizr';
+
+getP3Color({ l: 0.63269, c: 0.25404, h: 19.90218 }); // oklch(0.63269 0.28643 19.90218)
+getP3Color('#00ff44'); // oklch(0.86876 0.30921 144.65534) 
+```
+
 **parseCSS(input: string, format?: ColorType): string | HSL | RGB**  
 Parse a css string to hex, HSL, OKLAB, OKLCH, or RGB.  
 If the format isn't set, it will return the same format as the input.

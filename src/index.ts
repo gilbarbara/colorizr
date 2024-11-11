@@ -18,6 +18,7 @@ export { default as name } from '~/name';
 export { default as palette } from '~/palette';
 export { default as opacify } from '~/opacify';
 export { default as opacity } from '~/opacity';
+export { getOkLCHMaxChroma, getP3Color } from '~/p3';
 export { default as parseCSS } from '~/parse-css';
 export { default as random } from '~/random';
 export { default as rotate } from '~/rotate';
