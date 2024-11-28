@@ -220,7 +220,7 @@ export default function App() {
             {colorTypes
               .filter(d => d !== colorType)
               .map(type => (
-                <ColorModel colorizr={colorizr} format={type} />
+                <ColorModel key={type} colorizr={colorizr} format={type} />
               ))}
           </Flex>
         </Block>
