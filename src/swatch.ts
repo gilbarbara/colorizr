@@ -1,5 +1,6 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { clamp } from '~/modules/utils';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import convert from '~/convert';
@@ -48,7 +49,7 @@ function shadeColor(input: LCH, lightness: number, chromaTuningFactor = 0): HEX 
   const { c, h } = input;
 
   // Convert back to RGB and make sure it's within the sRGB gamut
-  return oklch2hex({ l: lightness / 100, c: c + chromaTuningFactor, h });
+  return oklch2hex({ l: lightness / 100, c: clamp(c + chromaTuningFactor, 0, 0.4), h });
 }
 
 /**
