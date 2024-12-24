@@ -395,6 +395,25 @@ export default function App() {
             </CopyToClipboard>
           ))}
         </FlexInline>
+
+        <H4 mb="lg" mt="xl">
+          monochromatic
+        </H4>
+        <FlexInline bg="white" p="xs" wrap="wrap">
+          {Object.entries(swatch(colorizr.hex, { monochromatic: true })).map(([key, swatchColor]) => (
+            <CopyToClipboard
+              key={key}
+              tooltipProps={{
+                bg: swatchColor,
+                size: 'md',
+              }}
+              tooltipText={swatchColor}
+              value={swatchColor}
+            >
+              <Box key={key} bg={swatchColor} height={100} width={65} />
+            </CopyToClipboard>
+          ))}
+        </FlexInline>
       </Section>
 
       <Section data-component-name="Palette">

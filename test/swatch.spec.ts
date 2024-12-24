@@ -14,6 +14,8 @@ describe('swatch', () => {
     [violet.oklchString, undefined],
     [yellow.rgbString, undefined],
     ['oklch(0.65 0.3 27.34)', undefined],
+    ['#808080', { monochromatic: true }],
+    ['#808080', { monochromatic: true, scale: 'linear' }],
   ] as Array<[string, SwatchOptions]>)(
     'should return properly with %s with %s',
     (input, variant) => {

@@ -20,11 +20,16 @@ type Swatch = {
 export interface SwatchOptions {
   format?: ColorType;
   /**
+   * Generate a monochromatic swatch.
+   * @default false
+   */
+  monochromatic?: boolean;
+  /**
    * The scale of the swatch.
    * Linear scale will have equal distance between each shade.
    * @default 'dynamic'
    */
-  scale?: 'dynamic' | 'linear';
+  scale?: 'dynamic' | 'linear' | 'monochromatic';
 }
 
 const MIN_LIGHTNESS = 21;
@@ -57,7 +62,7 @@ function shadeColor(input: LCH, lightness: number, chromaTuningFactor = 0): HEX 
  */
 export default function swatch(input: string, options: SwatchOptions = {}): Swatch {
   invariant(isString(input), MESSAGES.inputString);
-  const { format, scale = 'dynamic' } = options;
+  const { format, monochromatic = false, scale = 'dynamic' } = options;
 
   const lch = parseCSS(input, 'oklch');
 
@@ -74,28 +79,28 @@ export default function swatch(input: string, options: SwatchOptions = {}): Swat
   const output: Swatch =
     scale === 'linear'
       ? {
-          50: shadeColor(lch, 95, -0.00375),
-          100: shadeColor(lch, 90, -0.00375),
-          200: shadeColor(lch, 80, -0.00375),
-          300: shadeColor(lch, 70, -0.00375),
-          400: shadeColor(lch, 60, -0.00375),
-          500: shadeColor(lch, 50),
-          600: shadeColor(lch, 40, 0.025),
-          700: shadeColor(lch, 30, 0.05),
-          800: shadeColor(lch, 20, 0.075),
-          900: shadeColor(lch, 10, 0.1),
+          50: shadeColor(lch, 95, monochromatic ? 0 : -0.00375),
+          100: shadeColor(lch, 90, monochromatic ? 0 : -0.00375),
+          200: shadeColor(lch, 80, monochromatic ? 0 : -0.00375),
+          300: shadeColor(lch, 70, monochromatic ? 0 : -0.00375),
+          400: shadeColor(lch, 60, monochromatic ? 0 : -0.00375),
+          500: shadeColor(lch, 50, 0),
+          600: shadeColor(lch, 40, monochromatic ? 0 : 0.025),
+          700: shadeColor(lch, 30, monochromatic ? 0 : 0.05),
+          800: shadeColor(lch, 20, monochromatic ? 0 : 0.075),
+          900: shadeColor(lch, 10, monochromatic ? 0 : 0.1),
         }
       : {
-          50: shadeColorDynamic(lch, 5 * lightBase, -0.00375),
-          100: shadeColorDynamic(lch, 4 * lightBase, -0.00375),
-          200: shadeColorDynamic(lch, 3 * lightBase, -0.00375),
-          300: shadeColorDynamic(lch, 2 * lightBase, -0.00375),
-          400: shadeColorDynamic(lch, lightBase, -0.00375),
+          50: shadeColorDynamic(lch, 5 * lightBase, monochromatic ? 0 : -0.00375),
+          100: shadeColorDynamic(lch, 4 * lightBase, monochromatic ? 0 : -0.00375),
+          200: shadeColorDynamic(lch, 3 * lightBase, monochromatic ? 0 : -0.00375),
+          300: shadeColorDynamic(lch, 2 * lightBase, monochromatic ? 0 : -0.00375),
+          400: shadeColorDynamic(lch, lightBase, monochromatic ? 0 : -0.00375),
           500: shadeColorDynamic(lch, 0),
-          600: shadeColorDynamic(lch, 1.6 * darkBase, 0.025),
-          700: shadeColorDynamic(lch, 1.875 * 2 * darkBase, 0.05),
-          800: shadeColorDynamic(lch, 3 * 2 * darkBase, 0.075),
-          900: shadeColorDynamic(lch, 4 * 2 * darkBase, 0.1),
+          600: shadeColorDynamic(lch, 1.6 * darkBase, monochromatic ? 0 : 0.025),
+          700: shadeColorDynamic(lch, 1.875 * 2 * darkBase, monochromatic ? 0 : 0.05),
+          800: shadeColorDynamic(lch, 3 * 2 * darkBase, monochromatic ? 0 : 0.075),
+          900: shadeColorDynamic(lch, 4 * 2 * darkBase, monochromatic ? 0 : 0.1),
         };
 
   return Object.entries(output).reduce((acc, [key, value]) => {
