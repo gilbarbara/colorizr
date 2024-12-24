@@ -1,5 +1,35 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`swatch > should return properly with #808080 with { monochromatic: true } 1`] = `
+{
+  "100": "#d6d6d6",
+  "200": "#b8b8b8",
+  "300": "#9b9b9b",
+  "400": "#7e7e7e",
+  "50": "#f5f5f5",
+  "500": "#636363",
+  "600": "#535353",
+  "700": "#3e3e3e",
+  "800": "#292929",
+  "900": "#181818",
+}
+`;
+
+exports[`swatch > should return properly with #808080 with { monochromatic: true, scale: 'linear' } 1`] = `
+{
+  "100": "#dedede",
+  "200": "#bebebe",
+  "300": "#9e9e9e",
+  "400": "#808080",
+  "50": "#eeeeee",
+  "500": "#636363",
+  "600": "#484848",
+  "700": "#2e2e2e",
+  "800": "#161616",
+  "900": "#030303",
+}
+`;
+
 exports[`swatch > should return properly with #ff0044 with { format: 'oklch' } 1`] = `
 {
   "100": "oklch(74.782% 0.1546 14.17197)",
