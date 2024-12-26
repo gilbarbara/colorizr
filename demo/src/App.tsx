@@ -1,10 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import {
-  Box,
   ButtonUnstyled,
-  CopyToClipboard,
   Flex,
-  FlexInline,
   H1,
   H2,
   H3,
@@ -26,29 +23,29 @@ import Colorizr, {
   removeAlphaFromHex,
   rotate,
   scheme,
-  swatch,
 } from 'colorizr';
 
 import {
   Block,
   Checker,
   Color,
-  ColorModel,
   ColorPicker,
   Contrast,
   Footer,
-  Grid,
   InputBox,
   Item,
   Label,
   Pattern,
   Properties,
   Refresh,
-  Section,
   Title,
   Wrapper,
-} from './components';
+} from './styled';
 import { getKey } from './utils';
+import { ColorModel } from './components/ColorModel';
+import { Grid } from './components/Grid';
+import { Section } from './components/Section';
+import Swatch from './components/Swatch';
 
 interface State {
   color: string;
@@ -359,61 +356,7 @@ export default function App() {
 
       <Section data-component-name="Swatch">
         <H2 mb="xl">swatch</H2>
-
-        <H4 mb="lg">scale: dynamic (default)</H4>
-        <FlexInline bg="white" p="xs" wrap="wrap">
-          {Object.entries(swatch(colorizr.hex)).map(([key, swatchColor]) => (
-            <CopyToClipboard
-              key={key}
-              tooltipProps={{
-                bg: swatchColor,
-                size: 'md',
-              }}
-              tooltipText={swatchColor}
-              value={swatchColor}
-            >
-              <Box key={key} bg={swatchColor} height={100} width={65} />
-            </CopyToClipboard>
-          ))}
-        </FlexInline>
-
-        <H4 mb="lg" mt="xl">
-          scale: linear
-        </H4>
-        <FlexInline bg="white" p="xs" wrap="wrap">
-          {Object.entries(swatch(colorizr.hex, { scale: 'linear' })).map(([key, swatchColor]) => (
-            <CopyToClipboard
-              key={key}
-              tooltipProps={{
-                bg: swatchColor,
-                size: 'md',
-              }}
-              tooltipText={swatchColor}
-              value={swatchColor}
-            >
-              <Box key={key} bg={swatchColor} height={100} width={65} />
-            </CopyToClipboard>
-          ))}
-        </FlexInline>
-
-        <H4 mb="lg" mt="xl">
-          monochromatic
-        </H4>
-        <FlexInline bg="white" p="xs" wrap="wrap">
-          {Object.entries(swatch(colorizr.hex, { monochromatic: true })).map(([key, swatchColor]) => (
-            <CopyToClipboard
-              key={key}
-              tooltipProps={{
-                bg: swatchColor,
-                size: 'md',
-              }}
-              tooltipText={swatchColor}
-              value={swatchColor}
-            >
-              <Box key={key} bg={swatchColor} height={100} width={65} />
-            </CopyToClipboard>
-          ))}
-        </FlexInline>
+        <Swatch color={colorizr.hex} />
       </Section>
 
       <Section data-component-name="Palette">
