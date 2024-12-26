@@ -3,7 +3,6 @@ export function invariant(condition: boolean, message: string): asserts conditio
     return;
   }
 
-  /* istanbul ignore else */
   if (process.env.NODE_ENV !== 'production') {
     if (message === undefined) {
       throw new Error('invariant requires an error message argument');

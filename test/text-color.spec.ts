@@ -1,8 +1,20 @@
+import { MockInstance } from 'vitest';
+
 import { MESSAGES } from '~/modules/constants';
 
 import textColor from '~/text-color';
 
 describe('textColor', () => {
+  let consoleWarn: MockInstance;
+
+  beforeAll(() => {
+    consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
+  });
+
   it.each([
     {
       input: '#ff0044',
@@ -50,6 +62,16 @@ describe('textColor', () => {
     },
   ])('should return $expected for $input', ({ input, expected, options }) => {
     expect(textColor(input, options)).toBe(expected);
+  });
+
+  it('should throw with invalid string', () => {
+    const error = new Error('invalid CSS string');
+
+    error.name = 'colorizr';
+
+    expect(textColor('abcdef')).toBe('#000000');
+    expect(consoleWarn).toHaveBeenNthCalledWith(1, `Invalid color input: abcdef`);
+    expect(consoleWarn).toHaveBeenNthCalledWith(2, error);
   });
 
   it('should fail with invalid parameters', () => {
