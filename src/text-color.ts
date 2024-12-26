@@ -5,7 +5,7 @@ import { isString } from '~/modules/validators';
 import hex2rgb from '~/converters/hex2rgb';
 import parseCSS from '~/parse-css';
 
-interface Options {
+export interface TextColorOptions {
   /**
    * The dark color to return if the input is light.
    * @default '#000000'
@@ -18,6 +18,7 @@ interface Options {
   lightColor?: string;
   /**
    * The threshold to determine if the color is light or dark.
+   *
    * A number between 0 and 255.
    * @default 128
    */
@@ -27,7 +28,7 @@ interface Options {
 /**
  * Get the contrasted color for a given hex.
  */
-export default function textColor(input: string, options: Options = {}): string {
+export default function textColor(input: string, options: TextColorOptions = {}): string {
   const { darkColor = '#000000', lightColor = '#ffffff', threshold = 128 } = options;
 
   invariant(isString(input), MESSAGES.inputString);

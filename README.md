@@ -241,7 +241,7 @@ palette('#ff0044', { type: 'monochromatic' });
 // ['#ff99b4', '#ff5582', '#ff1150', '#cc0036', '#880024', '#440012']
 ```
 
-**scheme(input: string, type: Scheme): string[]**  
+**scheme(input: string, type: SchemeOptions): string[]**  
 Get a color scheme.
 
 ```typescript
@@ -291,6 +291,8 @@ swatch('#ff0044', { mode: 'light' });
 ```
 
 ### Converters
+
+The default precision is 5.
 
 **convert(input: string, format: ColorType): string**  
 Convert a color string to another format.
@@ -478,7 +480,7 @@ rgb2hsl({ r: 255, g: 0, b: 68 }); // { h: 344, s: 100, l: 50 }
 rgb2hsl([255, 0, 68]); // { h: 344, s: 100, l: 50 }
 ```
 
-**rgb2oklab(input: RGB | ColorTuple, precision: number): LAB**  
+**rgb2oklab(input: RGB | ColorTuple, precision?: number): LAB**  
 Convert RGB to OKLAB.
 
 ```typescript
@@ -488,7 +490,7 @@ rgb2oklab({ r: 255, g: 0, b: 68 }); // { l: 0.63269, a: 0.23887, b: 0.08648 }
 rgb2oklab([255, 0, 68]); // { l: 0.63269, a: 0.23887, b: 0.08648 }
 ```
 
-**rgb2oklch(input: RGB | ColorTuple, precision: number): LCH**  
+**rgb2oklch(input: RGB | ColorTuple, precision?: number): LCH**  
 Convert RGB to OKLCH.
 
 ```typescript
@@ -542,7 +544,7 @@ extractColorParts('rgb(255 0 68)') // { model: 'rgb', r: 255, g: 0, b: 68 }
 extractColorParts('hsl(344 100% 50% / 90%)') // { alpha: 0.9, model: 'hsl', h: 344, g: 100, l: 50 }
 ```
 
-**formatCSS(input: HSL | RGB, options?: FormatOptions): string**  
+**formatCSS(input: HSL | RGB, options?: FormatCSSOptions): string**  
 Get a css string from a color object.
 
 ```typescript
@@ -612,7 +614,7 @@ import { removeAlphaFromHex } from 'colorizr';
 removeAlphaFromHex('#ff0044cc'); // '#ff0044'
 ```
 
-**textColor(input: string): string**  
+**textColor(input: string, options?: TextColorOptions): string**  
 Get a contrasting color (black or white) for the input color.
 
 ```typescript

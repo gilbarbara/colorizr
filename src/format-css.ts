@@ -7,10 +7,13 @@ import { isHex, isHSL, isLAB, isLCH, isValidColorModel } from '~/modules/validat
 import * as converters from '~/converters';
 import { Alpha, ColorModel, ColorType, HEX, HSL } from '~/types';
 
-export interface FormatOptions {
+export interface FormatCSSOptions {
+  /**
+   * The alpha value of the color.
+   */
   alpha?: Alpha;
   /**
-   * The output color type.
+   * Output color format.
    * @default 'hex'
    */
   format?: ColorType;
@@ -21,6 +24,7 @@ export interface FormatOptions {
   precision?: number;
   /**
    * The separator between the values.
+   *
    * oklab and oklch always use space as a separator.
    * @default ' '
    */
@@ -29,7 +33,7 @@ export interface FormatOptions {
 
 export default function formatCSS<T extends ColorModel | HEX>(
   input: T,
-  options: FormatOptions = {},
+  options: FormatCSSOptions = {},
 ): string {
   invariant(isHex(input) || isValidColorModel(input), MESSAGES.invalid);
 

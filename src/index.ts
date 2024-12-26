@@ -33,5 +33,12 @@ export * from '~/types';
 export * from '~/modules/hex-utils';
 export { isHex, isHSL, isLAB, isLCH, isRGB } from '~/modules/validators';
 
+export type { ColorizrOptions } from '~/colorizr';
+export type { FormatCSSOptions } from '~/format-css';
+export type { PaletteOptions } from '~/palette';
+export type { Scheme, SchemeOptions } from '~/scheme';
+export type { Swatch, SwatchOptions, SwatchVariant } from '~/swatch';
+export type { TextColorOptions } from '~/text-color';
+
 // eslint-disable-next-line unicorn/prefer-export-from
 export default Colorizr;

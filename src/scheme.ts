@@ -18,6 +18,11 @@ export type Scheme =
   | 'triadic';
 
 export interface SchemeOptions {
+  /**
+   * Output color format.
+   *
+   * If not specified, the output will use the same format as the input color.
+   */
   format?: ColorType;
   /**
    * The type of scheme to generate.
