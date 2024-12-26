@@ -11,14 +11,36 @@ import rotate from '~/rotate';
 import { ColorType, HEX } from '~/types';
 
 export interface PaletteOptions {
+  /**
+   * Output color format.
+   *
+   * If not specified, the output will use the same format as the input color.
+   */
   format?: ColorType;
+  /**
+   * Adjusts the lightness of the base color before generating the palette.
+   *
+   * Value should be between 0 and 100.
+   */
   lightness?: number;
+  /**
+   * Adjusts the saturation of the base color before generating the palette.
+   *
+   * Value should be between 0 and 100.
+   */
   saturation?: number;
   /**
-   * The number of colors to generate
+   * The number of colors to generate in the palette.
+   *
+   * Minimum value is 2.
    * @default 6
    */
   size?: number;
+  /**
+   * Generate a monochromatic palette.
+   *
+   * For more options, use the `swatch` function.
+   */
   type?: 'monochromatic';
 }
 
@@ -28,31 +50,25 @@ export default function palette(input: string, options: PaletteOptions = {}): st
 
   const { format, lightness, saturation, size = 6, type } = options;
   const hsl = parseCSS(input, 'hsl');
-  const output: string[] = [];
   const colorFormat = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
 
-  switch (type) {
-    case 'monochromatic': {
-      const step = 80 / size;
+  const output: string[] = [];
 
-      for (let index = size; index > 0; index--) {
-        output.push(hsl2hex({ ...hsl, l: step * index }));
-      }
+  if (type === 'monochromatic') {
+    const step = 80 / size;
 
-      break;
+    for (let index = size; index > 0; index--) {
+      output.push(hsl2hex({ ...hsl, l: step * index }));
     }
-    default: {
-      const step = 360 / size;
+  } else {
+    const step = 360 / size;
 
-      output.push(hsl2hex({ ...hsl, l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
+    output.push(hsl2hex({ ...hsl, l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
 
-      for (let index = 1; index < size; index++) {
-        const color = rotate(input, hsl.h + step * index, 'hex') as HEX;
+    for (let index = 1; index < size; index++) {
+      const color = rotate(input, hsl.h + step * index, 'hex') as HEX;
 
-        output.push(hsl2hex({ ...hex2hsl(color), l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
-      }
-
-      break;
+      output.push(hsl2hex({ ...hex2hsl(color), l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
     }
   }
 

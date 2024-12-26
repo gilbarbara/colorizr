@@ -20,9 +20,11 @@ import textColor from '~/text-color';
 import transparentize from '~/transparentize';
 import { Alpha, Amount, Analysis, ColorType, Degrees, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
-export interface Options {
+export interface ColorizrOptions {
   /**
-   * The output color type
+   * Output color format.
+   *
+   * If not specified, the output will use the same format as the input color.
    */
   format?: ColorType;
 }
@@ -36,7 +38,7 @@ export default class Colorizr {
   public rgb: RGB;
   public type: ColorType;
 
-  constructor(color: string | HSL | LAB | LCH | RGB, options: Options = {}) {
+  constructor(color: string | HSL | LAB | LCH | RGB, options: ColorizrOptions = {}) {
     invariant(!!color, 'color is required');
 
     const { alpha, hex, hsl, oklab, oklch, rgb, type } = parseColor(color);
