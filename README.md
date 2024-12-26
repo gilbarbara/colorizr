@@ -251,26 +251,43 @@ const complementary = scheme('rgb(255 0 68)'); // ['#ff0044', '#00ffbb']
 const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff']
 ```
 
-**swatch(input: string, variant?: 'up' | 'down'): string[]**  
-Generate a color swatch with ten shades.  
-The `variant` can be used to generate a lighter or darker swatch.
+**swatch(input: string, options?: SwatchOptions): Swatch**  
+Generate a color swatch with ten shades, from lightest (50) to darkest (900).
 
 ```typescript
 import { swatch } from 'colorizr';
 
-const colors = swatch('#ff0044');
-/* [
-  "#ffccda",
-  "#ff99b4",
-  "#ff668f",
-  "#ff3369",
-  "#ff0044",
-  "#cc0036",
-  "#990029",
-  "#66001b",
-  "#33000e",
-  "#1a0007",
-] */
+swatch('#ff0044');
+/*
+{
+  "50": "#ff9aa7",
+  "100": "#ff7a8a",
+  "200": "#ff586f",
+  "300": "#ff3053",
+  "400": "#ed0039",
+  "500": "#cd001b",
+  "600": "#b30000",
+  "700": "#970000",
+  "800": "#7a0000",
+  "900": "#5b0000",
+}
+*/
+
+swatch('#ff0044', { mode: 'light' });
+/*
+{
+  "50": "#ffd0d8",
+  "100": "#ffa5b0",
+  "200": "#ff7a8a",
+  "300": "#ff4c65",
+  "400": "#f90041",
+  "500": "#cd001b",
+  "600": "#ba0000",
+  "700": "#a50000",
+  "800": "#900000",
+  "900": "#790000",
+}
+*/
 ```
 
 ### Converters

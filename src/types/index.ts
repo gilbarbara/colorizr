@@ -14,7 +14,8 @@ export type ColorModelKeys<TModel extends ColorModelKey> = TModel extends 'hsl'
 
 export type ColorKeysTuple = [string, string, string];
 export type ColorTuple = [number, number, number];
-export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
+export type ColorTokens = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
 export interface Colors {
   alpha: Alpha;
   hex: HEX;
@@ -24,6 +25,8 @@ export interface Colors {
   rgb: RGB;
   type: ColorType;
 }
+
+export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
 
 /* A number between 0 and 1 */
 export type Alpha = number;
