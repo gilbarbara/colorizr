@@ -5,7 +5,7 @@ interface SwatchProps {
   color: string;
 }
 
-export default function Swatch({ color}: SwatchProps) {
+export default function Swatch({ color }: SwatchProps) {
   const options: Array<SwatchOptions & { title: string }> = [
     { title: 'scale: linear', scale: 'linear' },
     { title: 'scale: dynamic (default)' },
@@ -16,7 +16,8 @@ export default function Swatch({ color}: SwatchProps) {
     { title: 'variant: neutral', variant: 'neutral' },
     { title: 'variant: pastel', variant: 'pastel' },
     { title: 'variant: subtle', variant: 'subtle' },
-  ]
+  ];
+
   return (
     <Box bg="white" padding="xxs" maxWidth={640} mx="auto">
       {options.map(({ title, ...options }) => (
@@ -25,7 +26,7 @@ export default function Swatch({ color}: SwatchProps) {
             <Box key={key} bg={swatchColor} height="75" width="10%" />
           ))}
           <Box position="absolute" right={8} bottom={8}>
-          <Paragraph color="white">{title}</Paragraph>
+            <Paragraph color="white">{title}</Paragraph>
           </Box>
         </Flex>
       ))}
