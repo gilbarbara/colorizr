@@ -1,4 +1,4 @@
-import { Box, Flex, Paragraph } from '@gilbarbara/components';
+import { Box, Flex, FlexCenter, Paragraph } from '@gilbarbara/components';
 import { swatch, type SwatchOptions } from 'colorizr';
 
 interface SwatchProps {
@@ -16,17 +16,19 @@ export default function Swatch({ color }: SwatchProps) {
     { title: 'variant: neutral', variant: 'neutral' },
     { title: 'variant: pastel', variant: 'pastel' },
     { title: 'variant: subtle', variant: 'subtle' },
-  ];
+  ]
 
   return (
     <Box bg="white" padding="xxs" maxWidth={640} mx="auto">
       {options.map(({ title, ...options }) => (
         <Flex border={{ side: 'top', color: 'white' }} key={title} position="relative">
           {Object.entries(swatch(color, options)).map(([key, swatchColor]) => (
-            <Box key={key} bg={swatchColor} height="75" width="10%" />
+            <FlexCenter key={key} bg={swatchColor} height="75" width="10%">
+              {key}
+            </FlexCenter>
           ))}
-          <Box position="absolute" right={8} bottom={8}>
-            <Paragraph color="white">{title}</Paragraph>
+          <Box position="absolute" right={5} bottom={5}>
+            <Paragraph bold color="white">{title}</Paragraph>
           </Box>
         </Flex>
       ))}

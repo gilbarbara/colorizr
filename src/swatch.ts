@@ -28,7 +28,7 @@ const MAX_LIGHTNESS = 0.95;
 
 function adjustLightnessForChroma(target: number, chroma: number): number {
   // Reduce the compression effect based on chroma to balance lighter tones
-  const compressionFactor = Math.min(chroma * 0.75, 0.15);
+  const compressionFactor = Math.min(chroma * 0.001, 0.5);
   const midPoint = 0.5;
 
   if (target > midPoint) {
@@ -68,7 +68,7 @@ export default function swatch(input: string, options: SwatchOptions = {}): Swat
     vibrant: 1.25,
   }[variant];
 
-  lch.l = 0.65;
+  lch.l = 0.7;
   lch.c *= chromaScale;
 
   if (variant === 'deep') {
@@ -114,10 +114,10 @@ export default function swatch(input: string, options: SwatchOptions = {}): Swat
           300: currentLightness + 2 * lightStepSize,
           400: currentLightness + lightStepSize,
           500: currentLightness,
-          600: currentLightness + 1.6 * darkStepSize,
-          700: currentLightness + 3.2 * darkStepSize,
-          800: currentLightness + 4.8 * darkStepSize,
-          900: currentLightness + 6.4 * darkStepSize,
+          600: currentLightness + darkStepSize,
+          700: currentLightness + 2 * darkStepSize,
+          800: currentLightness + 3 * darkStepSize,
+          900: currentLightness + 4 * darkStepSize,
         };
 
   // Adjust lightness values based on the input color's characteristics
