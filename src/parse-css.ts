@@ -7,27 +7,12 @@ import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import * as converters from '~/converters';
 import extractColorParts from '~/extract-color-parts';
-import { ColorTuple, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
-
-export type ParseCSSReturn<T extends ColorType> = T extends 'hex'
-  ? HEX
-  : T extends 'hsl'
-    ? HSL
-    : T extends 'oklab'
-      ? LAB
-      : T extends 'oklch'
-        ? LCH
-        : T extends 'rgb'
-          ? RGB
-          : never;
+import { ColorReturn, ColorTuple, ColorType } from '~/types';
 
 /**
  * Parse CSS color
  */
-export default function parseCSS<T extends ColorType>(
-  input: string,
-  format?: T,
-): ParseCSSReturn<T> {
+export default function parseCSS<T extends ColorType>(input: string, format?: T): ColorReturn<T> {
   invariant(isString(input), MESSAGES.inputString);
 
   let result: any;
@@ -64,7 +49,7 @@ export default function parseCSS<T extends ColorType>(
       }
     }
 
-    return result as ParseCSSReturn<T>;
+    return result as ColorReturn<T>;
   }
 
   switch (output) {
@@ -142,5 +127,5 @@ export default function parseCSS<T extends ColorType>(
     }
   }
 
-  return result as ParseCSSReturn<T>;
+  return result as ColorReturn<T>;
 }

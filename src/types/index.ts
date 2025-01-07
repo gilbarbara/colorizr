@@ -16,6 +16,18 @@ export type ColorKeysTuple = [string, string, string];
 export type ColorTuple = [number, number, number];
 export type ColorTokens = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
+export type ColorReturn<T extends ColorType> = T extends 'hex'
+  ? HEX
+  : T extends 'hsl'
+    ? HSL
+    : T extends 'oklab'
+      ? LAB
+      : T extends 'oklch'
+        ? LCH
+        : T extends 'rgb'
+          ? RGB
+          : never;
+
 export interface Colors {
   alpha: Alpha;
   hex: HEX;

@@ -5,7 +5,11 @@ import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from
 
 describe('formatCSS', () => {
   it.each([
-    [brightPink.hex, undefined, brightPink.hex],
+    [
+      addOpacityToCssString(brightPink.hex, 0.8),
+      { alpha: 0.9 },
+      addOpacityToCssString(brightPink.hex, 0.9),
+    ],
     [
       brightPink.hex,
       { alpha: 0.9, format: 'rgb', separator: ', ' },

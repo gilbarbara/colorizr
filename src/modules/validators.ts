@@ -1,5 +1,5 @@
 import { COLOR_KEYS } from '~/modules/constants';
-import { cssColors } from '~/modules/css-colors';
+import { CSSColor, cssColors } from '~/modules/css-colors';
 
 import { ColorModel, HEX, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
 
@@ -10,7 +10,7 @@ export function hasValidMatches(input: unknown): input is string[] {
 /**
  * Check if the input is a CSS named color
  */
-export function isNamedColor(input: unknown): input is keyof typeof cssColors {
+export function isNamedColor(input: unknown): input is CSSColor {
   return isString(input) && Object.keys(cssColors).includes(input.toLowerCase());
 }
 
