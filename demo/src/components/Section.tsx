@@ -1,8 +1,13 @@
-import { Box, BoxProps } from '@gilbarbara/components';
+import { Box, BoxProps, H2 } from '@gilbarbara/components';
 
-export function Section({ children, ...rest }: BoxProps) {
+interface SectionProps extends BoxProps {
+  title: string;
+}
+
+export default function Section({ children, title, ...rest }: SectionProps) {
   return (
-    <Box data-component-name="Section" mb="xxl" {...rest}>
+    <Box data-component-name={title} mb="xxl" textAlign="center" {...rest}>
+      <H2 mb="xl">{title}</H2>
       {children}
     </Box>
   );

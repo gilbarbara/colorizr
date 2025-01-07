@@ -252,7 +252,7 @@ const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff
 ```
 
 **swatch(input: string, options?: SwatchOptions): Swatch**  
-Generate a color swatch with ten shades, from lightest (50) to darkest (900).
+Generate a color swatch with eleven shades, from lightest (50) to darkest (950).
 
 ```typescript
 import { swatch } from 'colorizr';
@@ -260,32 +260,34 @@ import { swatch } from 'colorizr';
 swatch('#ff0044');
 /*
 {
-  "50": "#ff9aa7",
-  "100": "#ff7a8a",
-  "200": "#ff586f",
-  "300": "#ff3053",
-  "400": "#ed0039",
-  "500": "#cd001b",
-  "600": "#b30000",
-  "700": "#970000",
-  "800": "#7a0000",
-  "900": "#5b0000",
+  '50': '#ffeeed',
+  '100': '#ffe0df',
+  '200': '#ffc7c6',
+  '300': '#ffa7a7',
+  '400': '#ff8186',
+  '500': '#ff5464',
+  '600': '#f20f42',
+  '700': '#d40021',
+  '800': '#ad0000',
+  '900': '#7d0000',
+  '950': '#470000'
 }
 */
 
-swatch('#ff0044', { mode: 'light' });
+swatch('#ff0044', { lightnessFactor: 1.2, maxLightness: 0.9, minLightness: 0.1 });
 /*
 {
-  "50": "#ffd0d8",
-  "100": "#ffa5b0",
-  "200": "#ff7a8a",
-  "300": "#ff4c65",
-  "400": "#f90041",
-  "500": "#cd001b",
-  "600": "#ba0000",
-  "700": "#a50000",
-  "800": "#900000",
-  "900": "#790000",
+  '50': '#ffc6c5',
+  '100': '#ffaaaa',
+  '200': '#ff868a',
+  '300': '#ff5c6a',
+  '400': '#f8284a',
+  '500': '#df002d',
+  '600': '#c0000f',
+  '700': '#9b0000',
+  '800': '#710000',
+  '900': '#450000',
+  '950': '#180000'
 }
 */
 ```

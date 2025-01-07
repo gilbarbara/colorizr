@@ -1,14 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import {
-  ButtonUnstyled,
-  Flex,
-  H1,
-  H2,
-  H3,
-  H4,
-  Icon,
-  Paragraph,
-} from '@gilbarbara/components';
+import { ButtonUnstyled, Flex, H1, Icon, Paragraph } from '@gilbarbara/components';
 import { useSetState } from '@gilbarbara/hooks';
 import colorDescription from '@samhaeng/naevner';
 import Colorizr, {
@@ -25,27 +16,25 @@ import Colorizr, {
   scheme,
 } from 'colorizr';
 
+import Color from './components/Color';
+import ColorGrid from './components/ColorGrid';
+import ColorModel from './components/ColorModel';
+import Example from './components/Example';
+import Section from './components/Section';
+import Swatch from './components/Swatch';
 import {
   Block,
   Checker,
-  Color,
   ColorPicker,
   Contrast,
-  Footer,
   InputBox,
   Item,
   Label,
-  Pattern,
+  Main,
   Properties,
   Refresh,
-  Title,
-  Wrapper,
 } from './styled';
 import { getKey } from './utils';
-import { ColorModel } from './components/ColorModel';
-import { Grid } from './components/Grid';
-import { Section } from './components/Section';
-import Swatch from './components/Swatch';
 
 interface State {
   color: string;
@@ -168,9 +157,11 @@ export default function App() {
   };
 
   return (
-    <Wrapper bg={colorizr.format('oklch')} color={text}>
-      <H1>Colorizr</H1>
-      <H3 mb="xxl">Color conversion, manipulation, comparison, and analysis.</H3>
+    <Main bg={colorizr.format('oklch')} color={text}>
+      <H1 align="center">Colorizr</H1>
+      <Paragraph align="center" bold mb="xxl" size="xl">
+        Color conversion, manipulation, comparison, and analysis.
+      </Paragraph>
       <Flex gap="xl" justify="center" mb="xxl" mx="auto" wrap="wrap">
         <Block data-component-name="BackgroundColor">
           <Label>
@@ -300,182 +291,162 @@ export default function App() {
         </Block>
       </Flex>
 
-      <Section data-component-name="Manipulation">
-        <H2 mb="xl">Manipulation</H2>
-
-        <Grid>
+      <Section title="Manipulation">
+        <ColorGrid>
           <Item>
-            <Title>lighten</Title>
-            <Color bgColor={colorizr.lighten(10)} />
+            <Color bg={colorizr.lighten(10)} title="lighten" />
           </Item>
           <Item>
-            <Title>darken</Title>
-            <Color bgColor={colorizr.darken(10)} />
+            <Color bg={colorizr.darken(10)} title="darken" />
           </Item>
           <Item>
-            <Title>saturate</Title>
-            <Color bgColor={colorizr.saturate(20)} />
+            <Color bg={colorizr.saturate(20)} title="saturate" />
           </Item>
           <Item>
-            <Title>desaturate</Title>
-            <Color bgColor={colorizr.desaturate(20)} />
+            <Color bg={colorizr.desaturate(20)} title="desaturate" />
           </Item>
           <Item>
-            <Title>opacify</Title>
-            <Pattern>
-              <Color bgColor={colorizr.opacify(0.8)} />
-            </Pattern>
+            <Color bg={colorizr.opacify(0.8)} showPattern title="opacify" />
           </Item>
 
           <Item>
-            <Title>invert</Title>
-            <Color bgColor={colorizr.invert()} />
+            <Color bg={colorizr.invert()} title="invert" />
           </Item>
-        </Grid>
+        </ColorGrid>
       </Section>
 
-      <Section data-component-name="Rotate">
-        <H2 mb="xl">rotate</H2>
-
-        <Grid>
-          {Array.from({ length: 360 / 60 - 1 }, (_, index) => index + 1).map(index => {
+      <Section title="rotate">
+        <ColorGrid>
+          {Array.from({ length: 360 / 60 }, (_, index) => index).map(index => {
             const degrees = index * 60;
-
             const shade = rotate(colorizr.hex, degrees);
 
             return (
               <Item key={degrees}>
-                <Title>{degrees} deg</Title>
-                <Color bgColor={shade} />
-                <Footer>{shade}</Footer>
+                <Color bg={shade} footer={shade} title={`${degrees} deg`} />
               </Item>
             );
           })}
-        </Grid>
+        </ColorGrid>
       </Section>
 
-      <Section data-component-name="Swatch">
-        <H2 mb="xl">swatch</H2>
+      <Section title="swatch">
         <Swatch color={colorizr.hex} />
       </Section>
 
-      <Section data-component-name="Palette">
-        <H2 mb="xl">palette</H2>
+      <Section title="palette">
+        <Example mb="xl" title="default">
+          <ColorGrid>
+            {palette(colorizr.hex).map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">basic</H4>
-        <Grid>
-          {palette(colorizr.hex).map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="type: monochromatic, size: 12">
+          <ColorGrid>
+            {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">type: monochromatic, size: 12</H4>
-        <Grid>
-          {palette(colorizr.hex, { size: 12, type: 'monochromatic' }).map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="lightness(60)">
+          <ColorGrid>
+            {palette(colorizr.hex, { lightness: 70 }).map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">lightness(60)</H4>
-        <Grid>
-          {palette(colorizr.hex, { lightness: 70 }).map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
-
-        <H4 mb="lg">saturation(100); size(12)</H4>
-        <Grid>
-          {palette(colorizr.hex, { saturation: 100, size: 12 }).map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example title="saturation(100); size(12)">
+          <ColorGrid>
+            {palette(colorizr.hex, { saturation: 100, size: 12 }).map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
       </Section>
 
-      <Section data-component-name="Scheme">
-        <H2 mb="xl">scheme</H2>
+      <Section title="scheme">
+        <Example mb="xl" title="analogous">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'analogous').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">analogous</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'analogous').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="complementary">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'complementary').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">complementary</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'complementary').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="split">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'split').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">split</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'split').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="triadic">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'triadic').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">triadic</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'triadic').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="tetradic">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'tetradic').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">tetradic</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'tetradic').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example mb="xl" title="rectangle">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'rectangle').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
 
-        <H4 mb="lg">rectangle</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'rectangle').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
-
-        <H4 mb="lg">square</H4>
-        <Grid>
-          {scheme(colorizr.hex, 'square').map((d, index) => (
-            <Item key={getKey(d, index)}>
-              <Color bgColor={d} />
-              <Footer>{d}</Footer>
-            </Item>
-          ))}
-        </Grid>
+        <Example title="square">
+          <ColorGrid>
+            {scheme(colorizr.hex, 'square').map((d, index) => (
+              <Item key={getKey(d, index)}>
+                <Color bg={d} title={d} />
+              </Item>
+            ))}
+          </ColorGrid>
+        </Example>
       </Section>
-    </Wrapper>
+    </Main>
   );
 }
