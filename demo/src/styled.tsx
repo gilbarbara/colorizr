@@ -1,103 +1,20 @@
 import styled from '@emotion/styled';
-import { textColor } from 'colorizr';
+import { theme } from '@gilbarbara/components';
 
 import { getContrastBgColor, getTextBgColor } from './utils';
 
-export const Wrapper = styled.main<any>`
-  background-color: ${props => props.bg || '#f7f7f7'};
-  color: ${props => props.color || '#000'};
-  min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-`;
-
-export const Item = styled.div`
-  background-color: #fff;
-  border-radius: 6px;
-  color: #000;
-  padding: 10px;
-`;
-
-export const Color = styled.div<{ bgColor?: string }>`
-  align-items: center;
-  background-color: ${props => props.bgColor};
-  border-radius: 6px;
-  color: ${props => (props.bgColor ? textColor(props.bgColor) : undefined)};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 96px;
-  margin: 0 auto;
-  position: relative;
-  width: 96px;
-`;
-
-export const Pattern = styled(Color)`
-  &:before {
-    background-image: linear-gradient(45deg, #999 25%, transparent 25%),
-      linear-gradient(135deg, #999 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #999 75%),
-      linear-gradient(135deg, transparent 75%, #999 75%);
-    background-size: 24px 24px;
-    background-position:
-      0 0,
-      12px 0,
-      12px -12px,
-      0 12px;
-    bottom: 0;
-    content: '';
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-`;
-
-export const Title = styled.p`
-  font-size: 18px;
-  margin: 0 0 5px;
-`;
-
-export const Footer = styled.p`
-  margin: 5px 0 0;
-`;
-
 export const Block = styled.div`
   background-color: #fff;
-  border-radius: 12px;
+  border-radius: ${theme.radius.md};
   color: #000;
   max-width: 460px;
-  padding: 16px;
+  padding: ${theme.spacing.md};
   text-align: left;
   width: 100%;
 
   @media (min-width: 480px) {
-    padding: 24px;
+    padding: ${theme.radius.lg};
   }
-`;
-
-export const Label = styled.label`
-  text-align: left;
-  width: 100%;
-
-  input[type='text'] {
-    appearance: none;
-    border: 0;
-    font-size: 16px;
-    line-height: 40px;
-    outline: none;
-    padding: 0 48px 0 10px;
-    width: 100%;
-  }
-`;
-
-export const InputBox = styled.div`
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  display: flex;
-  margin-top: 8px;
-  overflow: hidden;
-  position: relative;
 `;
 
 export const Checker = styled.div`
@@ -107,7 +24,7 @@ export const Checker = styled.div`
   width: 100%;
 
   strong {
-    margin-bottom: 12px;
+    margin-bottom: ${theme.spacing.sm};
   }
 `;
 
@@ -210,6 +127,45 @@ export const Contrast = styled.div`
       }
     }
   }
+`;
+
+export const InputBox = styled.div`
+  border: 1px solid #ccc;
+  border-radius: ${theme.radius.xs};
+  display: flex;
+  margin-top: 8px;
+  overflow: hidden;
+  position: relative;
+`;
+
+export const Item = styled.div`
+  background-color: #fff;
+  border-radius: ${theme.radius.xs};
+  color: #000;
+  padding: ${theme.spacing.xs};
+  text-align: center;
+`;
+
+export const Label = styled.label`
+  text-align: left;
+  width: 100%;
+
+  input[type='text'] {
+    appearance: none;
+    border: 0;
+    font-size: 16px;
+    line-height: 40px;
+    outline: none;
+    padding: 0 48px 0 10px;
+    width: 100%;
+  }
+`;
+
+export const Main = styled.main<any>`
+  background-color: ${props => props.bg || '#f7f7f7'};
+  color: ${props => props.color || '#000'};
+  min-height: 100vh;
+  padding: ${theme.spacing.md};
 `;
 
 export const Properties = styled.div`

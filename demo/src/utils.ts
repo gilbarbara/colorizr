@@ -4,10 +4,6 @@ export interface ContrastProps {
   normalText: number;
 }
 
-export function getColorNumber(index: number) {
-  return index === 0 ? 50 : index * 100;
-}
-
 export function getContrastBgColor({ contrast }: ContrastProps) {
   let backgroundColor = '#fbd0da';
 
