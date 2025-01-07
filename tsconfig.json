@@ -2,6 +2,8 @@
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
       "~/*": ["src/*"]
