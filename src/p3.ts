@@ -1,11 +1,17 @@
+import { oklch2oklab } from '~/converters';
 import { LAB_TO_LMS, LSM_TO_RGB, MESSAGES, PRECISION, SRGB_TO_P3 } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
 import { isNumber, isString } from '~/modules/validators';
-
-import { oklch2oklab } from '~/converters';
 import parseCSS from '~/parse-css';
+
 import { ColorTuple, LCH } from '~/types';
+
+function isInP3Gamut(color: ColorTuple): boolean {
+  const epsilon = 0.000001;
+
+  return color.every(component => component >= 0 - epsilon && component <= 1 + epsilon);
+}
 
 function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
   return [
@@ -15,10 +21,10 @@ function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
   ];
 }
 
-function isInP3Gamut(color: ColorTuple): boolean {
-  const epsilon = 0.000001;
+function oklabToLinearP3(L: number, a: number, b: number): ColorTuple {
+  const srgb = oklabToLinearSRGB(L, a, b);
 
-  return color.every(component => component >= 0 - epsilon && component <= 1 + epsilon);
+  return multiplyMatrix(SRGB_TO_P3, srgb);
 }
 
 function oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple {
@@ -31,12 +37,6 @@ function oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple {
     LSM_TO_RGB.g[0] * l + LSM_TO_RGB.g[1] * m + LSM_TO_RGB.g[2] * s,
     LSM_TO_RGB.b[0] * l + LSM_TO_RGB.b[1] * m + LSM_TO_RGB.b[2] * s,
   ];
-}
-
-function oklabToLinearP3(L: number, a: number, b: number): ColorTuple {
-  const srgb = oklabToLinearSRGB(L, a, b);
-
-  return multiplyMatrix(SRGB_TO_P3, srgb);
 }
 
 /**

@@ -1,9 +1,9 @@
+import hex2rgb from '~/converters/hex2rgb';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { extractAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
 import { hasValidMatches, isHex, isString } from '~/modules/validators';
 
-import hex2rgb from '~/converters/hex2rgb';
 import { ColorModelKey, PlainObject } from '~/types';
 
 export type ExtractColorPartsReturn = {

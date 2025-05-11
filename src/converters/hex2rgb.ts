@@ -1,8 +1,8 @@
+import formatHex from '~/format-hex';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isHex } from '~/modules/validators';
 
-import formatHex from '~/format-hex';
 import { RGB } from '~/types';
 
 /** Convert HEX to RGB */

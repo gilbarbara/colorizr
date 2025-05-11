@@ -1,9 +1,8 @@
+import getLuminance from '~/luminance';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
 import { isString } from '~/modules/validators';
-
-import getLuminance from '~/luminance';
 
 /**
  * Get the color contrast between 2 colors.

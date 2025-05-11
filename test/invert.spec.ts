@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import invert from '~/invert';
+import { MESSAGES } from '~/modules/constants';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 

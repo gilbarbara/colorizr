@@ -1,4 +1,5 @@
 import formatCSS from '~/format-css';
+
 import { ColorType } from '~/types';
 
 /**

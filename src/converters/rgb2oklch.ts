@@ -1,7 +1,7 @@
-import { parseInput } from '~/modules/utils';
-
 import oklab2oklch from '~/converters/oklab2oklch';
 import rgb2oklab from '~/converters/rgb2oklab';
+import { parseInput } from '~/modules/utils';
+
 import { ConverterParameters, LCH, RGB } from '~/types';
 
 /** Convert RGB to oklch */

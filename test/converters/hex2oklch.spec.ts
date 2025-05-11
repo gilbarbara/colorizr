@@ -1,6 +1,6 @@
+import hex2oklch from '~/converters/hex2oklch';
 import { MESSAGES } from '~/modules/constants';
 
-import hex2oklch from '~/converters/hex2oklch';
 import { HEX, LCH } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

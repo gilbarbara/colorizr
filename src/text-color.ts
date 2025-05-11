@@ -1,8 +1,7 @@
+import hex2rgb from '~/converters/hex2rgb';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isString } from '~/modules/validators';
-
-import hex2rgb from '~/converters/hex2rgb';
 import parseCSS from '~/parse-css';
 
 export interface TextColorOptions {

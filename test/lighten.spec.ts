@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import lighten from '~/lighten';
+import { MESSAGES } from '~/modules/constants';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 

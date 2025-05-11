@@ -1,7 +1,6 @@
 import { MockInstance } from 'vitest';
 
 import { MESSAGES } from '~/modules/constants';
-
 import textColor from '~/text-color';
 
 describe('textColor', () => {

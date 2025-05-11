@@ -1,10 +1,10 @@
+import convert from '~/convert';
+import extractColorParts from '~/extract-color-parts';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
-
-import convert from '~/convert';
-import extractColorParts from '~/extract-color-parts';
 import rotate from '~/rotate';
+
 import { ColorType } from '~/types';
 
 export type Scheme =

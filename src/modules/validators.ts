@@ -7,54 +7,6 @@ export function hasValidMatches(input: unknown): input is string[] {
   return Array.isArray(input) && input.length === 6;
 }
 
-/**
- * Check if the input is a CSS named color
- */
-export function isNamedColor(input: unknown): input is CSSColor {
-  return isString(input) && Object.keys(cssColors).includes(input.toLowerCase());
-}
-
-/**
- * Check if the input is a number and not NaN
- */
-export function isNumber(input: unknown): input is number {
-  return typeof input === 'number' && !Number.isNaN(input);
-}
-
-/**
- * Check if the input is an object
- */
-export function isPlainObject(input: unknown): input is PlainObject {
-  if (!input) {
-    return false;
-  }
-
-  const { toString } = Object.prototype;
-  const prototype = Object.getPrototypeOf(input);
-
-  return (
-    toString.call(input) === '[object Object]' &&
-    (prototype === null || prototype === Object.getPrototypeOf({}))
-  );
-}
-
-/**
- * Check if the input is a string
- */
-export function isString(input: unknown, validate = true): input is string {
-  const isValid = typeof input === 'string';
-
-  if (validate) {
-    return isValid && !!input.trim().length;
-  }
-
-  return isValid;
-}
-
-export function isValidColorModel<T extends ColorModel>(input: T): input is T {
-  return isHSL(input) || isRGB(input) || isLAB(input) || isLCH(input);
-}
-
 export function isHex(input: any): input is HEX {
   if (!isString(input)) {
     return false;
@@ -146,6 +98,37 @@ export function isLCH(input: unknown): input is LCH {
 }
 
 /**
+ * Check if the input is a CSS named color
+ */
+export function isNamedColor(input: unknown): input is CSSColor {
+  return isString(input) && Object.keys(cssColors).includes(input.toLowerCase());
+}
+
+/**
+ * Check if the input is a number and not NaN
+ */
+export function isNumber(input: unknown): input is number {
+  return typeof input === 'number' && !Number.isNaN(input);
+}
+
+/**
+ * Check if the input is an object
+ */
+export function isPlainObject(input: unknown): input is PlainObject {
+  if (!input) {
+    return false;
+  }
+
+  const { toString } = Object.prototype;
+  const prototype = Object.getPrototypeOf(input);
+
+  return (
+    toString.call(input) === '[object Object]' &&
+    (prototype === null || prototype === Object.getPrototypeOf({}))
+  );
+}
+
+/**
  * Check if an object contains RGB values.
  * The input must be an object with keys 'r', 'g', and 'b' with values between 0 and 255.
  */
@@ -166,4 +149,21 @@ export function isRGB(input: unknown): input is RGB {
       return COLOR_KEYS.rgb.includes(key) && value >= 0 && value <= 255;
     })
   );
+}
+
+/**
+ * Check if the input is a string
+ */
+export function isString(input: unknown, validate = true): input is string {
+  const isValid = typeof input === 'string';
+
+  if (validate) {
+    return isValid && !!input.trim().length;
+  }
+
+  return isValid;
+}
+
+export function isValidColorModel<T extends ColorModel>(input: T): input is T {
+  return isHSL(input) || isRGB(input) || isLAB(input) || isLCH(input);
 }

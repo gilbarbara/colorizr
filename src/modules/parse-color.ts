@@ -1,12 +1,12 @@
+import * as converters from '~/converters';
+import extractColorParts from '~/extract-color-parts';
 import { MESSAGES } from '~/modules/constants';
 import { addAlphaToHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
 import { addAlpha, limit } from '~/modules/utils';
 import { isHex, isHSL, isLAB, isLCH, isPlainObject, isRGB, isString } from '~/modules/validators';
-
-import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import parseCSS from '~/parse-css';
+
 import { Colors, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
 
 export default function parseColor(color: string | HSL | LAB | LCH | RGB): Colors {

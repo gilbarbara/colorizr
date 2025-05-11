@@ -1,6 +1,6 @@
+import hsl2rgb from '~/converters/hsl2rgb';
 import { MESSAGES } from '~/modules/constants';
 
-import hsl2rgb from '~/converters/hsl2rgb';
 import { ColorTuple, RGB } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

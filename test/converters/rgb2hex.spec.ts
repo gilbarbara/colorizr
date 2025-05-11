@@ -1,6 +1,6 @@
+import rgb2hex from '~/converters/rgb2hex';
 import { MESSAGES } from '~/modules/constants';
 
-import rgb2hex from '~/converters/rgb2hex';
 import { ColorTuple } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

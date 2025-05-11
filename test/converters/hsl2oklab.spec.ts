@@ -1,6 +1,6 @@
+import hsl2oklab from '~/converters/hsl2oklab';
 import { MESSAGES } from '~/modules/constants';
 
-import hsl2oklab from '~/converters/hsl2oklab';
 import { ColorTuple, HSL, LAB } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

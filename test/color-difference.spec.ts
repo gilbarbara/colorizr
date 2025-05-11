@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import colorDifference from '~/color-difference';
+import { MESSAGES } from '~/modules/constants';
 
 describe('colorDifference', () => {
   it.each([

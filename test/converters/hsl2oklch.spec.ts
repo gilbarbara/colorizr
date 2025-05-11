@@ -1,6 +1,6 @@
+import hsl2oklch from '~/converters/hsl2oklch';
 import { MESSAGES } from '~/modules/constants';
 
-import hsl2oklch from '~/converters/hsl2oklch';
 import { ColorTuple, HSL, LCH } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

@@ -1,3 +1,5 @@
+import * as converters from '~/converters';
+import extractColorParts from '~/extract-color-parts';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/hex-utils';
@@ -14,8 +16,6 @@ import {
   isValidColorModel,
 } from '~/modules/validators';
 
-import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import { Alpha, ColorModel, ColorReturn, ColorType, HEX } from '~/types';
 
 export interface FormatCSSOptions {
