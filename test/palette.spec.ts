@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import palette, { PaletteOptions } from '~/palette';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';

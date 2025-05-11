@@ -1,6 +1,6 @@
+import hex2oklab from '~/converters/hex2oklab';
 import { MESSAGES } from '~/modules/constants';
 
-import hex2oklab from '~/converters/hex2oklab';
 import { HEX, LAB } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

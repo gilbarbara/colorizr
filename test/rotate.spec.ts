@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import rotate from '~/rotate';
 
 describe('rotate', () => {

@@ -1,13 +1,13 @@
-import { MESSAGES } from '~/modules/constants';
-import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isPlainObject, isString } from '~/modules/validators';
-
 import convert from '~/convert';
 import hex2hsl from '~/converters/hex2hsl';
 import hsl2hex from '~/converters/hsl2hex';
 import extractColorParts from '~/extract-color-parts';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { isHex, isNamedColor, isPlainObject, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 import rotate from '~/rotate';
+
 import { ColorType, HEX } from '~/types';
 
 export interface PaletteOptions {

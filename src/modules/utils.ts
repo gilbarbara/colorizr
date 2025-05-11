@@ -87,7 +87,7 @@ export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
     case 'hsl': {
       invariant(COLOR_KEYS.hsl.includes(key), 'Invalid key');
 
-      if (['s', 'l'].includes(key)) {
+      if (['l', 's'].includes(key)) {
         return clamp(input);
       }
 

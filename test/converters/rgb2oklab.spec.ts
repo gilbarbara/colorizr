@@ -1,6 +1,6 @@
+import rgb2oklab from '~/converters/rgb2oklab';
 import { MESSAGES } from '~/modules/constants';
 
-import rgb2oklab from '~/converters/rgb2oklab';
 import { ColorTuple, LAB, RGB } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

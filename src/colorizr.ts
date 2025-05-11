@@ -1,6 +1,3 @@
-import { invariant } from '~/modules/invariant';
-import parseColor from '~/modules/parse-color';
-
 import brightnessDifference from '~/brightness-difference';
 import chroma from '~/chroma';
 import colorDifference from '~/color-difference';
@@ -12,12 +9,15 @@ import formatCSS from '~/format-css';
 import invert from '~/invert';
 import lighten from '~/lighten';
 import luminance from '~/luminance';
+import { invariant } from '~/modules/invariant';
+import parseColor from '~/modules/parse-color';
 import opacify from '~/opacify';
 import opacity from '~/opacity';
 import rotate from '~/rotate';
 import saturate from '~/saturate';
 import textColor from '~/text-color';
 import transparentize from '~/transparentize';
+
 import { Alpha, Amount, Analysis, ColorType, Degrees, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
 export interface ColorizrOptions {

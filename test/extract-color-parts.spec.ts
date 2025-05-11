@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import extractColorParts from '~/extract-color-parts';
+import { MESSAGES } from '~/modules/constants';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 

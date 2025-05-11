@@ -1,8 +1,7 @@
-import { addAlpha } from '~/modules/utils';
-import { isString } from '~/modules/validators';
-
 import Colorizr from '~/colorizr';
 import { Alpha, ColorModel, ColorType, HSL, LAB, LCH, RGB } from '~/index';
+import { addAlpha } from '~/modules/utils';
+import { isString } from '~/modules/validators';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 

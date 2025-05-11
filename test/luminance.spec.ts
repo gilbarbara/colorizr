@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import luminance from '~/luminance';
+import { MESSAGES } from '~/modules/constants';
 
 describe('luminance', () => {
   it.each([

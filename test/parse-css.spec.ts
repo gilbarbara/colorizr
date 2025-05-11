@@ -1,6 +1,6 @@
 import { MESSAGES } from '~/modules/constants';
-
 import parseCSS from '~/parse-css';
+
 import { ColorType } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';

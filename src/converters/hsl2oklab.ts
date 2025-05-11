@@ -1,7 +1,7 @@
-import { parseInput } from '~/modules/utils';
-
 import hsl2rgb from '~/converters/hsl2rgb';
 import rgb2oklab from '~/converters/rgb2oklab';
+import { parseInput } from '~/modules/utils';
+
 import { ConverterParameters, HSL, LAB } from '~/types';
 
 /** Convert HSL to oklab */

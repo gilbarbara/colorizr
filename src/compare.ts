@@ -1,10 +1,10 @@
+import getBrightnessDifference from '~/brightness-difference';
+import getColorDifference from '~/color-difference';
+import getContrast from '~/contrast';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isString } from '~/modules/validators';
 
-import getBrightnessDifference from '~/brightness-difference';
-import getColorDifference from '~/color-difference';
-import getContrast from '~/contrast';
 import { Analysis } from '~/types';
 
 /**

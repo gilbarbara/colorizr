@@ -1,6 +1,6 @@
+import formatHex from '~/format-hex';
 import { MESSAGES } from '~/modules/constants';
 
-import formatHex from '~/format-hex';
 import { HEX } from '~/types';
 
 describe('formatHex', () => {

@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import { getOkLCHMaxChroma, getP3Color } from '~/p3';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';

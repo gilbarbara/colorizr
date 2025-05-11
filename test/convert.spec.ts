@@ -1,4 +1,5 @@
 import convert from '~/convert';
+
 import { ColorType } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';

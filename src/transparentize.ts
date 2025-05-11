@@ -1,11 +1,11 @@
+import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { clamp, round } from '~/modules/utils';
 import { isNumber, isString } from '~/modules/validators';
-
-import formatCSS from '~/format-css';
 import opacity from '~/opacity';
 import parseCSS from '~/parse-css';
+
 import { Alpha, ColorType } from '~/types';
 
 /**

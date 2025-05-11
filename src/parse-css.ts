@@ -1,3 +1,5 @@
+import * as converters from '~/converters';
+import extractColorParts from '~/extract-color-parts';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/hex-utils';
@@ -5,8 +7,6 @@ import { invariant } from '~/modules/invariant';
 import { addAlpha, round } from '~/modules/utils';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
 
-import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import { ColorReturn, ColorTuple, ColorType } from '~/types';
 
 /**

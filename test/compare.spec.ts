@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import compare from '~/compare';
+import { MESSAGES } from '~/modules/constants';
 
 describe('compare', () => {
   it.each([

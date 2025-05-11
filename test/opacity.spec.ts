@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import opacity from '~/opacity';
 
 describe('opacity', () => {

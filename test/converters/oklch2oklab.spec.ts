@@ -1,6 +1,6 @@
+import oklch2oklab from '~/converters/oklch2oklab';
 import { MESSAGES } from '~/modules/constants';
 
-import oklch2oklab from '~/converters/oklch2oklab';
 import { ColorTuple, LAB, LCH } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

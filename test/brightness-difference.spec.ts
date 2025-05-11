@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import brightnessDifference from '~/brightness-difference';
+import { MESSAGES } from '~/modules/constants';
 
 import { brightPink, green } from './__fixtures__';
 

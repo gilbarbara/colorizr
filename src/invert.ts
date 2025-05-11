@@ -1,11 +1,11 @@
+import extractColorParts from '~/extract-color-parts';
+import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
-
-import extractColorParts from '~/extract-color-parts';
-import formatCSS from '~/format-css';
 import parseCSS from '~/parse-css';
 import rotate from '~/rotate';
+
 import { HEX } from '~/types';
 
 /**

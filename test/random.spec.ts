@@ -1,7 +1,7 @@
-import { isHex } from '~/modules/validators';
-
 import isValidColor from '~/is-valid-color';
+import { isHex } from '~/modules/validators';
 import random from '~/random';
+
 import { ColorType } from '~/types';
 
 describe('random', () => {

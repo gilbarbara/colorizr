@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import contrast from '~/contrast';
+import { MESSAGES } from '~/modules/constants';
 
 describe('contrast', () => {
   it.each([

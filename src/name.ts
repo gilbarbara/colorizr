@@ -2,7 +2,6 @@ import { MESSAGES } from '~/modules/constants';
 import { cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
 import { isString } from '~/modules/validators';
-
 import parseCSS from '~/parse-css';
 
 /**

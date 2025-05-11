@@ -1,4 +1,5 @@
 import formatCSS, { FormatCSSOptions } from '~/format-css';
+
 import { ColorModel, HEX } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';

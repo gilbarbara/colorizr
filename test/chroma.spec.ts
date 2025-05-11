@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import chroma from '~/chroma';
+import { MESSAGES } from '~/modules/constants';
 
 import { brightPink } from './__fixtures__';
 

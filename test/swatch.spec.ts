@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import swatch, { type SwatchOptions } from '~/swatch';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';

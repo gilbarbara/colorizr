@@ -1,6 +1,6 @@
+import oklch2hex from '~/converters/oklch2hex';
 import { MESSAGES } from '~/modules/constants';
 
-import oklch2hex from '~/converters/oklch2hex';
 import { ColorTuple, HEX, LCH } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

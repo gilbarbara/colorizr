@@ -1,6 +1,6 @@
+import hex2hsl from '~/converters/hex2hsl';
 import { MESSAGES } from '~/modules/constants';
 
-import hex2hsl from '~/converters/hex2hsl';
 import { HEX, HSL } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

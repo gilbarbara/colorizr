@@ -1,5 +1,4 @@
 import { MESSAGES } from '~/modules/constants';
-
 import name from '~/name';
 
 describe('name', () => {

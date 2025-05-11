@@ -1,7 +1,7 @@
-import { parseInput } from '~/modules/utils';
-
 import hsl2rgb from '~/converters/hsl2rgb';
 import rgb2oklch from '~/converters/rgb2oklch';
+import { parseInput } from '~/modules/utils';
+
 import { ConverterParameters, HSL, LCH } from '~/types';
 
 /** Convert HSL to oklch */

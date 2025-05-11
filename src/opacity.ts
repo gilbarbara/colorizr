@@ -1,10 +1,9 @@
+import extractColorParts from '~/extract-color-parts';
 import { MESSAGES } from '~/modules/constants';
 import { cssColors } from '~/modules/css-colors';
 import { extractAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
 import { isHex, isString } from '~/modules/validators';
-
-import extractColorParts from '~/extract-color-parts';
 
 export default function opacity(input: string): number {
   invariant(isString(input), MESSAGES.inputString);

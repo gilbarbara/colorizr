@@ -1,6 +1,6 @@
 import { MESSAGES } from '~/modules/constants';
-
 import transparentize from '~/transparentize';
+
 import { ColorModelKey } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, violet, yellow } from './__fixtures__';

@@ -1,6 +1,5 @@
-import { MESSAGES } from '~/modules/constants';
-
 import desaturate from '~/desaturate';
+import { MESSAGES } from '~/modules/constants';
 import saturate from '~/saturate';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';

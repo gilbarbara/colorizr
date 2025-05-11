@@ -1,6 +1,6 @@
+import oklch2rgb from '~/converters/oklch2rgb';
 import { MESSAGES } from '~/modules/constants';
 
-import oklch2rgb from '~/converters/oklch2rgb';
 import { ColorTuple, LCH, RGB } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';

@@ -1,7 +1,7 @@
-import { parseInput } from '~/modules/utils';
-
 import hsl2rgb from '~/converters/hsl2rgb';
 import rgb2hex from '~/converters/rgb2hex';
+import { parseInput } from '~/modules/utils';
+
 import { ConverterParameters, HEX, HSL } from '~/types';
 
 /** Convert HSL to HEX */
