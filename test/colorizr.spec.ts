@@ -230,7 +230,7 @@ describe('Colorizr with invalid input', () => {
     expect(() => {
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const colorizr = new Colorizr(input);
+      const _colorizr = new Colorizr(input);
     }).toThrow();
   });
 });

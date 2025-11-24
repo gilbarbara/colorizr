@@ -1,10 +1,8 @@
-import { MockInstance } from 'vitest';
-
 import { MESSAGES } from '~/modules/constants';
 import textColor from '~/text-color';
 
 describe('textColor', () => {
-  let consoleWarn: MockInstance;
+  let consoleWarn: ReturnType<typeof vi.spyOn>;
 
   beforeAll(() => {
     consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
