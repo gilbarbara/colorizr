@@ -33,7 +33,7 @@ export default function extractColorParts(input: string) {
   }
 
   const colorRegex =
-    /(?:(rgb|hsl|oklab|oklch)a?\s*\(\s*([\d%.-]+)\s*[ ,/]\s*([\d%.-]+)\s*[ ,/]\s*([\d%.-]+)(?:\s*[ ,/]\s*([\d%.-]+))?\s*\))/i;
+    /(rgb|hsl|oklab|oklch)a?\s*\(\s*([\d%.-]+)(?:\s*[,/]\s*|\s+)([\d%.-]+)(?:\s*[,/]\s*|\s+)([\d%.-]+)(?:(?:\s*[,/]\s*|\s+)([\d%.-]+))?\s*\)/i;
 
   const matches = colorRegex.exec(input);
 
