@@ -2,7 +2,7 @@ import convert from '~/convert';
 import hex2hsl from '~/converters/hex2hsl';
 import hsl2hex from '~/converters/hsl2hex';
 import extractColorParts from '~/extract-color-parts';
-import { MESSAGES } from '~/modules/constants';
+import { MESSAGES, MONOCHROMATIC_LIGHTNESS_MAX } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isHex, isNamedColor, isPlainObject, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
@@ -49,13 +49,16 @@ export default function palette(input: string, options: PaletteOptions = {}): st
   invariant(isPlainObject(options), MESSAGES.options);
 
   const { format, lightness, saturation, size = 6, type } = options;
+
+  invariant(size >= 2, 'palette size must be at least 2');
+
   const hsl = parseCSS(input, 'hsl');
   const colorFormat = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
 
   const output: string[] = [];
 
   if (type === 'monochromatic') {
-    const step = 80 / size;
+    const step = MONOCHROMATIC_LIGHTNESS_MAX / size;
 
     for (let index = size; index > 0; index--) {
       output.push(hsl2hex({ ...hsl, l: step * index }));

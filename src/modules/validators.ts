@@ -3,16 +3,18 @@ import { CSSColor, cssColors } from '~/modules/css-colors';
 
 import { ColorModel, HEX, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
 
+const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i;
+
 export function hasValidMatches(input: unknown): input is string[] {
   return Array.isArray(input) && input.length === 6;
 }
 
-export function isHex(input: any): input is HEX {
+export function isHex(input: unknown): input is HEX {
   if (!isString(input)) {
     return false;
   }
 
-  return /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i.test(input);
+  return hexRegex.test(input);
 }
 
 /**

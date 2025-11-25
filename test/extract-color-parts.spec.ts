@@ -46,6 +46,37 @@ describe('extractColorParts', () => {
       expected: { model: 'oklab', l: 0.63, a: 0.24, b: 0.09 },
     },
     {
+      input: 'oklab(50% 25% -30%)',
+      expected: { model: 'oklab', l: 50, a: 0.1, b: -0.12 },
+    },
+    {
+      input: 'oklch(75% 49% 180)',
+      expected: { model: 'oklch', l: 75, c: 0.196, h: 180 },
+    },
+    // 0% boundary values
+    {
+      input: 'oklab(0% 0% 0%)',
+      expected: { model: 'oklab', l: 0, a: 0, b: 0 },
+    },
+    {
+      input: 'oklch(0% 0% 0)',
+      expected: { model: 'oklch', l: 0, c: 0, h: 0 },
+    },
+    // 100% boundary values
+    {
+      input: 'oklab(100% 100% 100%)',
+      expected: { model: 'oklab', l: 100, a: 0.4, b: 0.4 },
+    },
+    {
+      input: 'oklch(100% 100% 360)',
+      expected: { model: 'oklch', l: 100, c: 0.4, h: 360 },
+    },
+    // Negative percentages for OkLab a/b
+    {
+      input: 'oklab(50% -100% -100%)',
+      expected: { model: 'oklab', l: 50, a: -0.4, b: -0.4 },
+    },
+    {
       input: 'hsla(344 ,   100%,    50%   ,  0.4)',
       expected: { model: 'hsl', h: 344, s: 100, l: 50, alpha: 0.4 },
     },
@@ -59,5 +90,9 @@ describe('extractColorParts', () => {
     expect(() => extractColorParts('hsl(255, 80)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('oklab(0.34, 0.5)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('oklch(34%, 0.5)')).toThrow(MESSAGES.invalidCSS);
+
+    // Invalid percentage ranges
+    expect(() => extractColorParts('oklab(50% 200% 0%)')).toThrow(MESSAGES.invalidRange);
+    expect(() => extractColorParts('oklch(50% 150% 180)')).toThrow(MESSAGES.invalidRange);
   });
 });

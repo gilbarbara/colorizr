@@ -21,7 +21,7 @@ import {
   PlainObject,
 } from '~/types';
 
-export function addAlpha<T extends ColorModel>(input: any, alpha?: Alpha): T {
+export function addAlpha<T extends ColorModel>(input: T, alpha?: Alpha): T {
   invariant(isValidColorModel(input), MESSAGES.invalid);
 
   let value = alpha;

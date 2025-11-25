@@ -64,42 +64,42 @@ export default class Colorizr {
    * Get the red value
    */
   get red(): number {
-    return Number(this.rgb.r);
+    return this.rgb.r;
   }
 
   /**
    * Get the green value
    */
   get green(): number {
-    return Number(this.rgb.g);
+    return this.rgb.g;
   }
 
   /**
    * Get the blue value
    */
   get blue(): number {
-    return Number(this.rgb.b);
+    return this.rgb.b;
   }
 
   /**
    * Get the hue value
    */
   get hue(): number {
-    return Number(this.hsl.h);
+    return this.hsl.h;
   }
 
   /**
    * Get the saturation value
    */
   get saturation(): number {
-    return Number(this.hsl.s);
+    return this.hsl.s;
   }
 
   /**
    * Get the lightness value
    */
   get lightness(): number {
-    return Number(this.hsl.l);
+    return this.hsl.l;
   }
 
   /**

@@ -6,6 +6,16 @@ import { hasValidMatches, isHex, isString } from '~/modules/validators';
 
 import { ColorModelKey, PlainObject } from '~/types';
 
+// Regex components for parsing CSS color strings
+const MODEL = '(rgb|hsl|oklab|oklch)a?';
+const SEP = '(?:\\s*[,/]\\s*|\\s+)';
+const VALUE = '([\\d%.-]+)';
+
+const colorRegex = new RegExp(
+  `${MODEL}\\s*\\(\\s*${VALUE}${SEP}${VALUE}${SEP}${VALUE}(?:${SEP}${VALUE})?\\s*\\)`,
+  'i',
+);
+
 export type ExtractColorPartsReturn = {
   alpha?: number;
   model: ColorModelKey;
@@ -32,9 +42,6 @@ export default function extractColorParts(input: string) {
     } as ExtractColorPartsReturn;
   }
 
-  const colorRegex =
-    /(rgb|hsl|oklab|oklch)a?\s*\(\s*([\d%.-]+)(?:\s*[,/]\s*|\s+)([\d%.-]+)(?:\s*[,/]\s*|\s+)([\d%.-]+)(?:(?:\s*[,/]\s*|\s+)([\d%.-]+))?\s*\)/i;
-
   const matches = colorRegex.exec(input);
 
   invariant(hasValidMatches(matches), MESSAGES.invalidCSS);
@@ -47,11 +54,50 @@ export default function extractColorParts(input: string) {
     alpha /= 100;
   }
 
+  // Parse values and convert percentages for oklab/oklch
+  const parseValue = (value: string, index: number): number => {
+    const parsedValue = parseFloat(value);
+    const isPercent = value.includes('%');
+
+    if (!isPercent) {
+      return parsedValue;
+    }
+
+    // Convert percentages based on color model and position
+    if (model === 'oklch') {
+      // oklch: L (0-100), C (0-0.4), H (0-360)
+      if (index === 1) {
+        // Chroma: 100% = 0.4
+        return (parsedValue * 0.4) / 100;
+      }
+    } else if (model === 'oklab') {
+      // oklab: L (0-100), a (-0.4 to 0.4), b (-0.4 to 0.4)
+      if (index === 1 || index === 2) {
+        // a/b: ±100% = ±0.4
+        return (parsedValue * 0.4) / 100;
+      }
+    }
+
+    return parsedValue;
+  };
+
+  const values = [parseValue(matches[2], 0), parseValue(matches[3], 1), parseValue(matches[4], 2)];
+
+  // Validate ranges for oklab/oklch after percentage conversion
+  if (model === 'oklab') {
+    // a and b must be in range -0.4 to 0.4
+    invariant(values[1] >= -0.4 && values[1] <= 0.4, MESSAGES.invalidRange);
+    invariant(values[2] >= -0.4 && values[2] <= 0.4, MESSAGES.invalidRange);
+  } else if (model === 'oklch') {
+    // chroma must be in range 0 to 0.4
+    invariant(values[1] >= 0 && values[1] <= 0.4, MESSAGES.invalidRange);
+  }
+
   return {
     model,
-    [keys[0]]: parseFloat(matches[2]),
-    [keys[1]]: parseFloat(matches[3]),
-    [keys[2]]: parseFloat(matches[4]),
+    [keys[0]]: values[0],
+    [keys[1]]: values[1],
+    [keys[2]]: values[2],
     alpha: alpha < 1 ? alpha : undefined,
   } as ExtractColorPartsReturn;
 }

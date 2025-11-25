@@ -37,9 +37,9 @@ describe('formatCSS', () => {
   );
 
   it('should throw with invalid input', () => {
-    // @ts-expect-error
+    // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
-    // @ts-expect-error
+    // @ts-expect-error - invalid hex (no #)
     expect(() => formatCSS('f04')).toThrow('invalid input');
   });
 });

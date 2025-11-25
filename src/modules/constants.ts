@@ -45,9 +45,12 @@ export const MESSAGES = {
   inputString: 'input is required and must be a string',
   invalid: 'invalid input',
   invalidCSS: 'invalid CSS string',
+  invalidRange: 'color value out of range',
   left: 'left is required and must be a string',
   lightnessRange: 'lightness must be a number between 0 and 1',
   options: 'invalid options',
   right: 'right is required and must be a string',
   threshold: 'threshold must be a number between 0 and 255',
 } as const;
+
+export const MONOCHROMATIC_LIGHTNESS_MAX = 80;

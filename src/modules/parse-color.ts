@@ -7,12 +7,12 @@ import { addAlpha, limit } from '~/modules/utils';
 import { isHex, isHSL, isLAB, isLCH, isPlainObject, isRGB, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
-import { Colors, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
+import { Colors, HSL, LAB, LCH, RGB } from '~/types';
 
 export default function parseColor(color: string | HSL | LAB | LCH | RGB): Colors {
   invariant(!!color, MESSAGES.input);
 
-  const output: PlainObject = {};
+  const output: Partial<Colors> = {};
 
   if (isString(color)) {
     const { alpha = 1 } = extractColorParts(color);
