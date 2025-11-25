@@ -3,12 +3,12 @@ import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
 import { isHex, isNumber } from '~/modules/validators';
 
-import { Alpha } from '~/types';
+import { Alpha, HEX } from '~/types';
 
 /**
  * Add an alpha value to a hex string
  */
-export function addAlphaToHex(input: string, alpha: Alpha): string {
+export function addAlphaToHex(input: string, alpha: Alpha): HEX {
   invariant(isHex(input), MESSAGES.inputHex);
   invariant(isNumber(alpha), MESSAGES.inputNumber);
 
@@ -16,7 +16,7 @@ export function addAlphaToHex(input: string, alpha: Alpha): string {
     return removeAlphaFromHex(input);
   }
 
-  return `${removeAlphaFromHex(input)}${convertAlphaToHex(alpha)}`;
+  return `${removeAlphaFromHex(input)}${convertAlphaToHex(alpha)}` as HEX;
 }
 
 /**
@@ -58,12 +58,12 @@ export function hexadecimalToNumber(input: string) {
 /**
  * Remove the alpha value from a hex string
  */
-export function removeAlphaFromHex(input: string) {
+export function removeAlphaFromHex(input: string): HEX {
   invariant(isHex(input), MESSAGES.inputHex);
 
   if (input.length === 5) {
-    return input.substring(0, 4);
+    return input.substring(0, 4) as HEX;
   }
 
-  return input.substring(0, 7);
+  return input.substring(0, 7) as HEX;
 }

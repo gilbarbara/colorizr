@@ -15,7 +15,7 @@ export default function luminance(input: string): number {
   const rgb = [r / 255, g / 255, b / 255];
 
   for (let index = 0; index < rgb.length; index++) {
-    if (rgb[index] <= 0.03928) {
+    if (rgb[index] <= 0.04045) {
       rgb[index] /= 12.92;
     } else {
       rgb[index] = ((rgb[index] + 0.055) / 1.055) ** 2.4;

@@ -2,16 +2,6 @@ import { MESSAGES } from '~/modules/constants';
 import textColor from '~/text-color';
 
 describe('textColor', () => {
-  let consoleWarn: ReturnType<typeof vi.spyOn>;
-
-  beforeAll(() => {
-    consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-  });
-
-  afterAll(() => {
-    vi.restoreAllMocks();
-  });
-
   it.each([
     {
       input: '#ff0044',
@@ -62,13 +52,7 @@ describe('textColor', () => {
   });
 
   it('should throw with invalid string', () => {
-    const error = new Error('invalid CSS string');
-
-    error.name = 'colorizr';
-
-    expect(textColor('abcdef')).toBe('#000000');
-    expect(consoleWarn).toHaveBeenNthCalledWith(1, `Invalid color input: abcdef`);
-    expect(consoleWarn).toHaveBeenNthCalledWith(2, error);
+    expect(() => textColor('abcdef')).toThrow('invalid CSS string');
   });
 
   it('should fail with invalid parameters', () => {

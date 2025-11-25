@@ -33,17 +33,8 @@ export default function textColor(input: string, options: TextColorOptions = {})
   invariant(isString(input), MESSAGES.inputString);
   invariant(threshold >= 0 && threshold <= 255, MESSAGES.threshold);
 
-  try {
-    const { r, g, b } = hex2rgb(parseCSS(input, 'hex'));
-    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  const { r, g, b } = hex2rgb(parseCSS(input, 'hex'));
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
 
-    return yiq >= threshold ? darkColor : lightColor;
-  } catch (error) {
-    /* eslint-disable no-console */
-    console.warn(`Invalid color input: ${input}`);
-    console.warn(error);
-    /* eslint-enable no-console */
-
-    return darkColor; // Default to dark color in case of error
-  }
+  return yiq >= threshold ? darkColor : lightColor;
 }

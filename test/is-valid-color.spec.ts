@@ -13,6 +13,8 @@ describe('isValidColor', () => {
     [addOpacityToCssString(orange.oklabString, 80, true), true],
     [violet.oklchString, true],
     [addOpacityToCssString(violet.oklchString, 90, true), true],
+    ['oklch(75% 49% 180)', true],
+    ['oklab(50% 25% -30%)', true],
     [yellow.rgbString, true],
     [addOpacityToCssString(yellow.rgbString, 0.9), true],
     [addOpacityToCssString(yellow.rgbString, 90, true), true],

@@ -1,5 +1,4 @@
 import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/hex-utils';
@@ -12,7 +11,6 @@ import {
   isLCH,
   isNamedColor,
   isRGB,
-  isString,
   isValidColorModel,
 } from '~/modules/validators';
 
@@ -47,15 +45,19 @@ function getColorModel<T extends ColorModel | string>(input: T): ColorType {
     return 'hex';
   }
 
-  if (isString(input)) {
-    return extractColorParts(input).model;
-  } else if (isHSL(input)) {
+  if (isHSL(input)) {
     return 'hsl';
-  } else if (isLAB(input)) {
+  }
+
+  if (isLAB(input)) {
     return 'oklab';
-  } else if (isLCH(input)) {
+  }
+
+  if (isLCH(input)) {
     return 'oklch';
-  } else if (isRGB(input)) {
+  }
+
+  if (isRGB(input)) {
     return 'rgb';
   }
 
@@ -67,57 +69,20 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
   output: TOutput,
 ): ColorReturn<TOutput> {
   const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
-
   const from = getColorModel(value);
 
   if (from === output) {
     return value as ColorReturn<TOutput>;
   }
 
-  const converterKey = `${from}2${output}` as keyof typeof converters; // Retrieve the converter function dynamically
+  const converterKey = `${from}2${output}` as keyof typeof converters;
   const converter = (converters as Record<string, (x: any) => any>)[converterKey];
 
   if (!converter) {
     throw new Error(`Converter not found for ${from} to ${output}`);
   }
 
-  switch (from) {
-    case 'hex': {
-      if (output === 'hex') {
-        return value as ColorReturn<TOutput>;
-      }
-
-      return converter(value);
-    }
-    case 'hsl': {
-      if (output === 'hsl') {
-        return value as ColorReturn<TOutput>;
-      }
-
-      return converter(value);
-    }
-    case 'oklab': {
-      if (output === 'oklab') {
-        return value as ColorReturn<TOutput>;
-      }
-
-      return converter(value);
-    }
-    case 'oklch': {
-      if (output === 'oklch') {
-        return value as ColorReturn<TOutput>;
-      }
-
-      return converter(value);
-    }
-    default: {
-      if (output === 'rgb') {
-        return value as ColorReturn<TOutput>;
-      }
-
-      return converter(value);
-    }
-  }
+  return converter(value);
 }
 
 export default function formatCSS<T extends ColorModel | HEX>(
