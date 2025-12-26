@@ -1,5 +1,5 @@
 import { LAB_TO_LMS, LSM_TO_RGB } from '~/modules/constants';
-import { clamp, parseInput, round } from '~/modules/utils';
+import { addAlpha, clamp, extractAlpha, parseInput, round } from '~/modules/utils';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
 
@@ -19,6 +19,7 @@ function lrgb2rgb(input: number) {
 /** Convert oklab to RGB */
 export default function oklab2rgb(input: ConverterParameters<LAB>, precision = 0): RGB {
   const { l: L, a: A, b: B } = parseInput(input, 'oklab');
+  const alpha = extractAlpha(input);
 
   const l = (L + LAB_TO_LMS.l[0] * A + LAB_TO_LMS.l[1] * B) ** 3;
   const m = (L + LAB_TO_LMS.m[0] * A + LAB_TO_LMS.m[1] * B) ** 3;
@@ -28,9 +29,12 @@ export default function oklab2rgb(input: ConverterParameters<LAB>, precision = 0
   const g = 255 * lrgb2rgb(LSM_TO_RGB.g[0] * l + LSM_TO_RGB.g[1] * m + LSM_TO_RGB.g[2] * s);
   const b = 255 * lrgb2rgb(LSM_TO_RGB.b[0] * l + LSM_TO_RGB.b[1] * m + LSM_TO_RGB.b[2] * s);
 
-  return {
-    r: clamp(round(r, precision), 0, 255),
-    g: clamp(round(g, precision), 0, 255),
-    b: clamp(round(b, precision), 0, 255),
-  };
+  return addAlpha(
+    {
+      r: clamp(round(r, precision), 0, 255),
+      g: clamp(round(g, precision), 0, 255),
+      b: clamp(round(b, precision), 0, 255),
+    },
+    alpha,
+  );
 }

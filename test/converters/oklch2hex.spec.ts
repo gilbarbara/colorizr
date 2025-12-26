@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, HEX, LCH } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklch2hex', () => {
   it.each([
@@ -39,5 +39,22 @@ describe('oklch2hex', () => {
     expect(() => oklch2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
     expect(() => oklch2hex({ m: 255, p: 55, b: 75 })).toThrow('invalid oklch color');
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [{ ...brightPink.oklch, alpha: alphaCases.semi }, brightPink.hexAlpha],
+      [{ ...green.oklch, alpha: alphaCases.semi }, green.hexAlpha],
+    ])('%s should return %s', (input, expected) => {
+      expect(oklch2hex(input)).toEqual(expected);
+    });
+
+    it('should not add alpha when alpha is 1', () => {
+      expect(oklch2hex({ ...brightPink.oklch, alpha: alphaCases.opaque })).toBe(brightPink.hex);
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      expect(oklch2hex({ ...brightPink.oklch, alpha: alphaCases.transparent })).toBe('#ff004400');
+    });
   });
 });

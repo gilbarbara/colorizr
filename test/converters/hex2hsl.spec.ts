@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { HEX, HSL } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2hsl', () => {
   it.each([
@@ -24,5 +24,26 @@ describe('hex2hsl', () => {
     // @ts-expect-error - invalid parameters
     expect(() => hex2hsl([255, 255, 0])).toThrow(MESSAGES.inputHex);
     expect(() => hex2hsl('#mmxxvv')).toThrow(MESSAGES.inputHex);
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [brightPink.hexAlpha, { ...brightPink.hsl, alpha: alphaCases.semi }],
+      [green.hexAlpha, { ...green.hsl, alpha: alphaCases.semi }],
+    ])('%s should return %s', (input, expected) => {
+      expect(hex2hsl(input)).toEqual(expected);
+    });
+
+    it('should not include alpha for 6-char hex', () => {
+      const result = hex2hsl(brightPink.hex);
+
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = hex2hsl('#ff004400');
+
+      expect(result).toEqual({ ...brightPink.hsl, alpha: alphaCases.transparent });
+    });
   });
 });

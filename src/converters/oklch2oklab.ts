@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { DEG2RAD } from '~/modules/constants';
-import { parseInput, restrictValues } from '~/modules/utils';
+import { addAlpha, extractAlpha, parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, LCH } from '~/types';
 
@@ -16,11 +16,15 @@ export default function oklch2oklab(input: ConverterParameters<LCH>, precision?:
   A saturation multiplier was added by Gregor Aisch
   */
   let { l, c, h } = parseInput(input, 'oklch');
+  const alpha = extractAlpha(input);
 
-  /* c8 ignore next 3 */
+  /* v8 ignore next 3  -- @preserve */
   if (Number.isNaN(h) || h < 0) {
     h = 0;
   }
 
-  return restrictValues({ l, a: c * cos(h * DEG2RAD), b: c * sin(h * DEG2RAD) }, precision);
+  return addAlpha(
+    restrictValues({ l, a: c * cos(h * DEG2RAD), b: c * sin(h * DEG2RAD) }, precision),
+    alpha,
+  );
 }

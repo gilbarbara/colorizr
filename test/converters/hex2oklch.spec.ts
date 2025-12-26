@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { HEX, LCH } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2oklch', () => {
   it.each([
@@ -25,5 +25,26 @@ describe('hex2oklch', () => {
     expect(() => hex2oklch('#mmxxvv')).toThrow(MESSAGES.inputHex);
     // @ts-expect-error - invalid parameters
     expect(() => hex2oklch([255, 255, 0])).toThrow(MESSAGES.inputHex);
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [brightPink.hexAlpha, { ...brightPink.oklch, alpha: alphaCases.semi }],
+      [green.hexAlpha, { ...green.oklch, alpha: alphaCases.semi }],
+    ])('%s should return %s', (input, expected) => {
+      expect(hex2oklch(input)).toEqual(expected);
+    });
+
+    it('should not include alpha for 6-char hex', () => {
+      const result = hex2oklch(brightPink.hex);
+
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = hex2oklch('#ff004400');
+
+      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+    });
   });
 });

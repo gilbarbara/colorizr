@@ -1,12 +1,13 @@
 import oklab2oklch from '~/converters/oklab2oklch';
 import rgb2oklab from '~/converters/rgb2oklab';
-import { parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, LCH, RGB } from '~/types';
 
 /** Convert RGB to oklch */
 export default function rgb2oklch(input: ConverterParameters<RGB>, precision?: number): LCH {
   const value = parseInput(input, 'rgb');
+  const alpha = extractAlpha(input);
 
-  return oklab2oklch(rgb2oklab(value, precision), precision);
+  return addAlpha(oklab2oklch(rgb2oklab(value, precision), precision), alpha);
 }

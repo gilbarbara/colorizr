@@ -26,11 +26,11 @@ export function addAlpha<T extends ColorModel>(input: T, alpha?: Alpha): T {
 
   let value = alpha;
 
-  if (!value) {
+  if (value === undefined) {
     return input;
   }
 
-  /* c8 ignore next 3 */
+  /* v8 ignore next 3  -- @preserve */
   if (value > 1) {
     value /= 100;
   }
@@ -72,6 +72,20 @@ export function constrainDegrees(input: number, amount: number): number {
 }
 
 /**
+ * Extract alpha from converter input.
+ * Returns undefined for tuple inputs (arrays can't carry alpha).
+ */
+export function extractAlpha<T extends ColorModel>(
+  input: ConverterParameters<T>,
+): Alpha | undefined {
+  if (Array.isArray(input)) {
+    return undefined;
+  }
+
+  return input.alpha;
+}
+
+/**
  * Limit values per type.
  */
 export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
@@ -98,7 +112,7 @@ export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
 
       return clamp(input, 0, 255);
     }
-    /* c8 ignore next 3 */
+    /* v8 ignore next 3  -- @preserve */
     default: {
       throw new Error('Invalid inputs');
     }

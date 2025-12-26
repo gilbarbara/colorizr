@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('rgb2hex', () => {
   it.each([
@@ -34,5 +34,26 @@ describe('rgb2hex', () => {
     expect(() => rgb2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // invalid color
     expect(() => rgb2hex({ r: 500, g: 55, b: 75 })).toThrow('invalid rgb color');
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [{ ...brightPink.rgb, alpha: alphaCases.semi }, brightPink.hexAlpha],
+      [{ ...green.rgb, alpha: alphaCases.semi }, green.hexAlpha],
+    ])('%s should return %s', (input, expected) => {
+      expect(rgb2hex(input)).toEqual(expected);
+    });
+
+    it('should not add alpha when alpha is 1', () => {
+      expect(rgb2hex({ ...brightPink.rgb, alpha: alphaCases.opaque })).toBe(brightPink.hex);
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      expect(rgb2hex({ ...brightPink.rgb, alpha: alphaCases.transparent })).toBe('#ff004400');
+    });
+
+    it('should preserve alpha values close to 1', () => {
+      expect(rgb2hex({ ...brightPink.rgb, alpha: alphaCases.nearOpaque })).toBe('#ff0044fc');
+    });
   });
 });

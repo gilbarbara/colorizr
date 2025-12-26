@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, LAB, RGB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklab2rgb', () => {
   it.each([
@@ -43,5 +43,27 @@ describe('oklab2rgb', () => {
     expect(() => oklab2rgb('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
     expect(() => oklab2rgb({ m: 255, p: 55, b: 75 })).toThrow('invalid oklab color');
+  });
+
+  describe('alpha handling', () => {
+    it('should preserve alpha from object input', () => {
+      const result = oklab2rgb({ ...brightPink.oklab, alpha: alphaCases.semi });
+
+      expect(result).toMatchObject(brightPink.rgb);
+      expect(result.alpha).toBe(alphaCases.semi);
+    });
+
+    it('should not include alpha when alpha is 1', () => {
+      const result = oklab2rgb({ ...brightPink.oklab, alpha: alphaCases.opaque });
+
+      expect(result).toEqual(brightPink.rgb);
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = oklab2rgb({ ...brightPink.oklab, alpha: alphaCases.transparent });
+
+      expect(result).toEqual({ ...brightPink.rgb, alpha: alphaCases.transparent });
+    });
   });
 });

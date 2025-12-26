@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, HEX, LAB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklab2hex', () => {
   it.each([
@@ -34,5 +34,22 @@ describe('oklab2hex', () => {
     expect(() => oklab2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
     expect(() => oklab2hex({ m: 255, p: 55, b: 75 })).toThrow('invalid oklab color');
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [{ ...brightPink.oklab, alpha: alphaCases.semi }, brightPink.hexAlpha],
+      [{ ...green.oklab, alpha: alphaCases.semi }, green.hexAlpha],
+    ])('%s should return %s', (input, expected) => {
+      expect(oklab2hex(input)).toEqual(expected);
+    });
+
+    it('should not add alpha when alpha is 1', () => {
+      expect(oklab2hex({ ...brightPink.oklab, alpha: alphaCases.opaque })).toBe(brightPink.hex);
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      expect(oklab2hex({ ...brightPink.oklab, alpha: alphaCases.transparent })).toBe('#ff004400');
+    });
   });
 });

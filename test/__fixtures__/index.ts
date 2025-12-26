@@ -2,8 +2,16 @@ import { convertAlphaToHex } from '~/modules/hex-utils';
 import { round } from '~/modules/utils';
 import { isHex } from '~/modules/validators';
 
+export const alphaCases = {
+  semi: 0.5,
+  transparent: 0,
+  nearOpaque: 0.99,
+  opaque: 1,
+};
+
 export const brightPink = {
   hex: '#ff0044' as const,
+  hexAlpha: '#ff004480' as const,
   hsl: { h: 344, s: 100, l: 50 },
   hslString: 'hsl(344 100% 50%)',
   oklab: { l: 0.63269, a: 0.23887, b: 0.08648 },
@@ -18,6 +26,7 @@ export const brightPink = {
 
 export const green = {
   hex: '#00ff44' as const,
+  hexAlpha: '#00ff4480' as const,
   hsl: { h: 136, s: 100, l: 50 },
   hslString: 'hsl(136 100% 50%)',
   oklab: { l: 0.86876, a: -0.22518, b: 0.1597 },
@@ -32,6 +41,7 @@ export const green = {
 
 export const orange = {
   hex: '#ff6e00' as const,
+  hexAlpha: '#ff6e0080' as const,
   hsl: { h: 25.88, s: 100, l: 50 },
   hslString: 'hsl(25.88 100% 50%)',
   oklab: { l: 0.70622, a: 0.1374, b: 0.14283 },
@@ -46,6 +56,7 @@ export const orange = {
 
 export const violet = {
   hex: '#4400ff' as const,
+  hexAlpha: '#4400ff80' as const,
   hsl: { h: 256, s: 100, l: 50 },
   hslString: 'hsl(256 100% 50%)',
   oklab: { l: 0.47642, a: 0.02578, b: -0.29845 },
@@ -60,6 +71,7 @@ export const violet = {
 
 export const yellow = {
   hex: '#ffe66d' as const,
+  hexAlpha: '#ffe66d80' as const,
   hsl: { h: 49.73, s: 100, l: 71.37 },
   hslString: 'hsl(49.73 100% 71.37%)',
   oklab: { l: 0.92235, a: -0.01932, b: 0.14143 },

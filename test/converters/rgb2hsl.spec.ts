@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, HSL, RGB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('rgb2hsl', () => {
   it.each([
@@ -37,5 +37,33 @@ describe('rgb2hsl', () => {
     expect(() => rgb2hsl('rgt(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
     expect(() => rgb2hsl({ m: 255, t: 55, p: 75 })).toThrow('invalid rgb color');
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [
+        { ...brightPink.rgb, alpha: alphaCases.semi },
+        { ...brightPink.hsl, alpha: alphaCases.semi },
+      ],
+      [
+        { ...green.rgb, alpha: alphaCases.semi },
+        { ...green.hsl, alpha: alphaCases.semi },
+      ],
+    ])('%s should return %s', (input, expected) => {
+      expect(rgb2hsl(input)).toEqual(expected);
+    });
+
+    it('should not include alpha when alpha is 1', () => {
+      const result = rgb2hsl({ ...brightPink.rgb, alpha: alphaCases.opaque });
+
+      expect(result).toEqual(brightPink.hsl);
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = rgb2hsl({ ...brightPink.rgb, alpha: alphaCases.transparent });
+
+      expect(result).toEqual({ ...brightPink.hsl, alpha: alphaCases.transparent });
+    });
   });
 });

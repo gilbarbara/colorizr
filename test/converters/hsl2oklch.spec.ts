@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, HSL, LCH } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hsl2oklch', () => {
   it.each([
@@ -37,5 +37,27 @@ describe('hsl2oklch', () => {
     expect(() => hsl2oklch('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
     expect(() => hsl2oklch({ m: 255, p: 55, b: 75 })).toThrow('invalid hsl color');
+  });
+
+  describe('alpha handling', () => {
+    it('should preserve alpha through conversion chain', () => {
+      const result = hsl2oklch({ ...brightPink.hsl, alpha: alphaCases.semi });
+
+      expect(result).toMatchObject(brightPink.oklch);
+      expect(result.alpha).toBe(alphaCases.semi);
+    });
+
+    it('should not include alpha when alpha is 1', () => {
+      const result = hsl2oklch({ ...brightPink.hsl, alpha: alphaCases.opaque });
+
+      expect(result).toEqual(brightPink.oklch);
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = hsl2oklch({ ...brightPink.hsl, alpha: alphaCases.transparent });
+
+      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+    });
   });
 });
