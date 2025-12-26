@@ -14,6 +14,7 @@ export { default as extractColorParts } from '~/extract-color-parts';
 export { default as formatCSS } from '~/format-css';
 export type { FormatCSSOptions } from '~/format-css';
 export { default as formatHex } from '~/format-hex';
+export { default as invert } from '~/invert';
 export { default as isValidColor } from '~/is-valid-color';
 export { default as lighten } from '~/lighten';
 export { default as luminance } from '~/luminance';
