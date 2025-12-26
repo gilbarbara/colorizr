@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { HEX, LAB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2oklab', () => {
   it.each([
@@ -24,5 +24,26 @@ describe('hex2oklab', () => {
     // @ts-expect-error - invalid parameters
     expect(() => hex2oklab([255, 255, 0])).toThrow(MESSAGES.inputHex);
     expect(() => hex2oklab('#mmxxvv')).toThrow(MESSAGES.inputHex);
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [brightPink.hexAlpha, { ...brightPink.oklab, alpha: alphaCases.semi }],
+      [green.hexAlpha, { ...green.oklab, alpha: alphaCases.semi }],
+    ])('%s should return %s', (input, expected) => {
+      expect(hex2oklab(input)).toEqual(expected);
+    });
+
+    it('should not include alpha for 6-char hex', () => {
+      const result = hex2oklab(brightPink.hex);
+
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = hex2oklab('#ff004400');
+
+      expect(result).toEqual({ ...brightPink.oklab, alpha: alphaCases.transparent });
+    });
   });
 });

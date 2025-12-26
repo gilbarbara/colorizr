@@ -1,7 +1,9 @@
 import hex2rgb from '~/converters/hex2rgb';
 import rgb2oklab from '~/converters/rgb2oklab';
 import { MESSAGES } from '~/modules/constants';
+import { extractAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
+import { addAlpha } from '~/modules/utils';
 import { isHex } from '~/modules/validators';
 
 import { LAB } from '~/types';
@@ -10,5 +12,7 @@ import { LAB } from '~/types';
 export default function hex2oklab(input: string, precision?: number): LAB {
   invariant(isHex(input), MESSAGES.inputHex);
 
-  return rgb2oklab(hex2rgb(input), precision);
+  const alpha = extractAlphaFromHex(input);
+
+  return addAlpha(rgb2oklab(hex2rgb(input), precision), alpha);
 }

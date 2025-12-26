@@ -1,12 +1,16 @@
 import oklab2rgb from '~/converters/oklab2rgb';
 import rgb2hex from '~/converters/rgb2hex';
-import { parseInput } from '~/modules/utils';
+import { addAlphaToHex } from '~/modules/hex-utils';
+import { extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HEX, LAB } from '~/types';
 
 /** Convert oklab to HEX */
 export default function oklab2hex(input: ConverterParameters<LAB>): HEX {
   const value = parseInput(input, 'oklab');
+  const alpha = extractAlpha(input);
 
-  return rgb2hex(oklab2rgb(value));
+  const hex = rgb2hex(oklab2rgb(value));
+
+  return alpha !== undefined && alpha < 1 ? addAlphaToHex(hex, alpha) : hex;
 }

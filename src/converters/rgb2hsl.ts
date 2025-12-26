@@ -1,10 +1,11 @@
-import { limit, parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha, limit, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
 /** Convert RGB to HSL */
 export default function rgb2hsl(input: ConverterParameters<RGB>): HSL {
   const value = parseInput(input, 'rgb');
+  const alpha = extractAlpha(input);
 
   const rLimit = limit(value.r, 'rgb', 'r') / 255;
   const gLimit = limit(value.g, 'rgb', 'g') / 255;
@@ -32,7 +33,7 @@ export default function rgb2hsl(input: ConverterParameters<RGB>): HSL {
       rate = (rLimit - gLimit) / delta;
       h = 60 * rate + 240;
       break;
-    /* c8 ignore next 2 */
+    /* v8 ignore next 2  -- @preserve */
     default:
       break;
   }
@@ -47,9 +48,12 @@ export default function rgb2hsl(input: ConverterParameters<RGB>): HSL {
     s = l < 0.5 ? delta / (2 * l) : delta / (2 - 2 * l);
   }
 
-  return {
-    h: Math.abs(+(h % 360).toFixed(2)),
-    s: +(s * 100).toFixed(2),
-    l: +(l * 100).toFixed(2),
-  };
+  return addAlpha(
+    {
+      h: Math.abs(+(h % 360).toFixed(2)),
+      s: +(s * 100).toFixed(2),
+      l: +(l * 100).toFixed(2),
+    },
+    alpha,
+  );
 }

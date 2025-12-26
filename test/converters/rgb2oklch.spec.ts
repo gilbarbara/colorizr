@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple, LCH, RGB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('rgb2oklch', () => {
   it.each([
@@ -33,5 +33,27 @@ describe('rgb2oklch', () => {
     expect(() => rgb2oklch('rgt(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid parameters
     expect(() => rgb2oklch({ m: 255, t: 55, p: 75 })).toThrow('invalid rgb color');
+  });
+
+  describe('alpha handling', () => {
+    it('should preserve alpha from object input', () => {
+      const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.semi });
+
+      expect(result).toMatchObject(brightPink.oklch);
+      expect(result.alpha).toBe(alphaCases.semi);
+    });
+
+    it('should not include alpha when alpha is 1', () => {
+      const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.opaque });
+
+      expect(result).toEqual(brightPink.oklch);
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.transparent });
+
+      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+    });
   });
 });

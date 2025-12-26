@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { ColorTuple } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hsl2hex', () => {
   it.each([
@@ -34,5 +34,22 @@ describe('hsl2hex', () => {
     expect(() => hsl2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid parameters
     expect(() => hsl2hex({ m: 255, p: 55, b: 75 })).toThrow('invalid hsl color');
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [{ ...brightPink.hsl, alpha: alphaCases.semi }, brightPink.hexAlpha],
+      [{ ...green.hsl, alpha: alphaCases.semi }, green.hexAlpha],
+    ])('%s should return %s', (input, expected) => {
+      expect(hsl2hex(input)).toEqual(expected);
+    });
+
+    it('should not add alpha when alpha is 1', () => {
+      expect(hsl2hex({ ...brightPink.hsl, alpha: alphaCases.opaque })).toBe(brightPink.hex);
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      expect(hsl2hex({ ...brightPink.hsl, alpha: alphaCases.transparent })).toBe('#ff004400');
+    });
   });
 });

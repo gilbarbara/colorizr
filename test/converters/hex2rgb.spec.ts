@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 
 import { HEX, RGB } from '~/types';
 
-import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
+import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2rgb', () => {
   it.each([
@@ -22,5 +22,33 @@ describe('hex2rgb', () => {
     expect(() => hex2rgb('abs')).toThrow(MESSAGES.inputHex);
     // @ts-expect-error - invalid parameters
     expect(() => hex2rgb({ h: 240, s: 45, l: 50 })).toThrow(MESSAGES.inputHex);
+  });
+
+  describe('alpha handling', () => {
+    it.each([
+      [brightPink.hexAlpha, { ...brightPink.rgb, alpha: alphaCases.semi }],
+      [green.hexAlpha, { ...green.rgb, alpha: alphaCases.semi }],
+    ])('%s should return %s', (input, expected) => {
+      expect(hex2rgb(input)).toEqual(expected);
+    });
+
+    it('should not include alpha for 6-char hex', () => {
+      const result = hex2rgb(brightPink.hex);
+
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should not include alpha for fully opaque 8-char hex', () => {
+      const result = hex2rgb('#ff0044ff');
+
+      expect(result).toEqual(brightPink.rgb);
+      expect(result).not.toHaveProperty('alpha');
+    });
+
+    it('should handle alpha=0 (fully transparent)', () => {
+      const result = hex2rgb('#ff004400');
+
+      expect(result).toEqual({ ...brightPink.rgb, alpha: alphaCases.transparent });
+    });
   });
 });
