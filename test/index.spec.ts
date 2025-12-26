@@ -20,6 +20,7 @@ import Colorizr, {
   hsl2oklab,
   hsl2oklch,
   hsl2rgb,
+  invert,
   isHex,
   isHSL,
   isLAB,
@@ -70,6 +71,7 @@ describe('exports', () => {
     expect(hsl2oklab).toEqual(expect.any(Function));
     expect(hsl2oklch).toEqual(expect.any(Function));
     expect(hsl2rgb).toEqual(expect.any(Function));
+    expect(invert).toEqual(expect.any(Function));
     expect(isHSL).toEqual(expect.any(Function));
     expect(isLAB).toEqual(expect.any(Function));
     expect(isLCH).toEqual(expect.any(Function));
