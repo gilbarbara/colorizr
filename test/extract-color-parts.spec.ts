@@ -80,6 +80,53 @@ describe('extractColorParts', () => {
       input: 'hsla(344 ,   100%,    50%   ,  0.4)',
       expected: { model: 'hsl', h: 344, s: 100, l: 50, alpha: 0.4 },
     },
+    // Angle units for HSL hue
+    {
+      input: 'hsl(120deg 100% 50%)',
+      expected: { model: 'hsl', h: 120, s: 100, l: 50 },
+    },
+    {
+      input: 'hsl(0.5turn 100% 50%)',
+      expected: { model: 'hsl', h: 180, s: 100, l: 50 },
+    },
+    {
+      input: 'hsl(3.141592653589793rad 100% 50%)',
+      expected: { model: 'hsl', h: 180, s: 100, l: 50 },
+    },
+    {
+      input: 'hsl(200grad 100% 50%)',
+      expected: { model: 'hsl', h: 180, s: 100, l: 50 },
+    },
+    // Angle units for OkLCH hue
+    {
+      input: 'oklch(0.5 0.2 180deg)',
+      expected: { model: 'oklch', l: 0.5, c: 0.2, h: 180 },
+    },
+    {
+      input: 'oklch(0.5 0.2 0.5turn)',
+      expected: { model: 'oklch', l: 0.5, c: 0.2, h: 180 },
+    },
+    {
+      input: 'oklch(0.5 0.2 3.141592653589793rad)',
+      expected: { model: 'oklch', l: 0.5, c: 0.2, h: 180 },
+    },
+    // none keyword (CSS Color Level 4)
+    {
+      input: 'rgb(none 128 255)',
+      expected: { model: 'rgb', r: 0, g: 128, b: 255 },
+    },
+    {
+      input: 'hsl(none 50% 50%)',
+      expected: { model: 'hsl', h: 0, s: 50, l: 50 },
+    },
+    {
+      input: 'oklab(none 0.1 -0.1)',
+      expected: { model: 'oklab', l: 0, a: 0.1, b: -0.1 },
+    },
+    {
+      input: 'oklch(0.5 none 180)',
+      expected: { model: 'oklch', l: 0.5, c: 0, h: 180 },
+    },
   ])('should return properly for $input', ({ input, expected }) => {
     expect(extractColorParts(input)).toEqual(expected);
   });

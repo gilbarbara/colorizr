@@ -9,7 +9,8 @@ import { ColorModelKey, PlainObject } from '~/types';
 // Regex components for parsing CSS color strings
 const MODEL = '(rgb|hsl|oklab|oklch)a?';
 const SEP = '(?:\\s*[,/]\\s*|\\s+)';
-const VALUE = '([\\d%.-]+)';
+// Accepts: numbers, percentages, 'none', and angle units (deg, grad, rad, turn)
+const VALUE = '(none|[\\d%.-]+(?:deg|grad|rad|turn)?)';
 
 const colorRegex = new RegExp(
   `${MODEL}\\s*\\(\\s*${VALUE}${SEP}${VALUE}${SEP}${VALUE}(?:${SEP}${VALUE})?\\s*\\)`,
@@ -20,6 +21,28 @@ export type ExtractColorPartsReturn = {
   alpha?: number;
   model: ColorModelKey;
 } & PlainObject<number>;
+
+/**
+ * Convert angle value with units to degrees
+ */
+function parseAngle(value: string): number {
+  const number_ = parseFloat(value);
+  let result: number;
+
+  if (value.endsWith('grad')) {
+    result = number_ * 0.9; // 400grad = 360deg
+  } else if (value.endsWith('rad')) {
+    result = number_ * (180 / Math.PI); // radians to degrees
+  } else if (value.endsWith('turn')) {
+    result = number_ * 360; // 1turn = 360deg
+  } else {
+    // 'deg' suffix or unitless - return as-is
+    result = number_;
+  }
+
+  // Round to 5 decimal places for consistency
+  return Math.round(result * 100000) / 100000;
+}
 
 /**
  * Extract the color parts from a CSS color string.
@@ -54,8 +77,20 @@ export default function extractColorParts(input: string) {
     alpha /= 100;
   }
 
-  // Parse values and convert percentages for oklab/oklch
+  // Parse values and convert percentages/angles for color models
   const parseValue = (value: string, index: number): number => {
+    // Handle 'none' keyword - treated as 0 for rendering (CSS Color Level 4)
+    if (value === 'none') {
+      return 0;
+    }
+
+    // Handle hue values with angle units (HSL index 0, OkLCH index 2)
+    const isHue = (model === 'hsl' && index === 0) || (model === 'oklch' && index === 2);
+
+    if (isHue) {
+      return parseAngle(value);
+    }
+
     const parsedValue = parseFloat(value);
     const isPercent = value.includes('%');
 
