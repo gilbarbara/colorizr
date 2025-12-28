@@ -566,6 +566,21 @@ formatHex('#07e'); // '#0077ee'
 formatHex('#f058'); // '#ff005588'
 ```
 
+**getColorType(input: string): ColorTypeInput | null**  
+Detect the color type from a CSS color string.
+
+```typescript
+import { getColorType } from 'colorizr';
+
+getColorType('#ff0044'); // 'hex'
+getColorType('red'); // 'named'
+getColorType('hsl(344 100% 50%)'); // 'hsl'
+getColorType('rgb(255 0 68)'); // 'rgb'
+getColorType('oklab(0.63 0.24 0.09)'); // 'oklab'
+getColorType('oklch(0.63 0.25 20)'); // 'oklch'
+getColorType('invalid'); // null
+```
+
 **getOkLCHMaxChroma(input: string | LCH, precision?: number): number**  
 Get the maximum chroma for a given lightness and hue in the OkLCH color space.
 

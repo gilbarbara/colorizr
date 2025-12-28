@@ -1,11 +1,15 @@
 /* A number between 0 and 1 */
 export type Alpha = number;
+
 /* A number between 0 and 100 */
 export type Amount = number;
+
 export type ColorKeysTuple = [string, string, string];
+
 export type ColorModel = HSL | LAB | LCH | RGB;
 
 export type ColorModelKey = 'hsl' | 'oklab' | 'oklch' | 'rgb';
+
 export type ColorModelKeys<TModel extends ColorModelKey> = TModel extends 'hsl'
   ? keyof Omit<HSL, 'alpha'>
   : TModel extends 'oklab'
@@ -33,16 +37,14 @@ export type ColorTuple = [number, number, number];
 
 export type ColorType = 'hex' | 'hsl' | 'oklab' | 'oklch' | 'rgb';
 
+export type ColorTypeInput = ColorType | 'named';
+
 export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
 
 /* A number between 0 and 360 */
 export type Degrees = number;
 
 export type HEX = `#${string}`;
-
-/*
-Color types
- */
 
 export type PlainObject<T = any> = Record<string, T>;
 
