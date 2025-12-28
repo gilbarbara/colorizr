@@ -11,6 +11,7 @@ import Colorizr, {
   extractColorParts,
   formatCSS,
   formatHex,
+  getColorType,
   getP3Color,
   hex2hsl,
   hex2oklab,
@@ -62,6 +63,7 @@ describe('exports', () => {
     expect(extractColorParts).toEqual(expect.any(Function));
     expect(formatCSS).toEqual(expect.any(Function));
     expect(formatHex).toEqual(expect.any(Function));
+    expect(getColorType).toEqual(expect.any(Function));
     expect(getP3Color).toEqual(expect.any(Function));
     expect(hex2hsl).toEqual(expect.any(Function));
     expect(hex2oklab).toEqual(expect.any(Function));
