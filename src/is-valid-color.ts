@@ -1,11 +1,21 @@
-import parseCSS from '~/parse-css';
+import getColorType from '~/get-color-type';
 
-export default function isValidColor(input: string): boolean {
-  try {
-    parseCSS(input);
+import { ColorTypeInput } from '~/types';
 
-    return true;
-  } catch {
+/**
+ * Check if a string is a valid CSS color.
+ * Optionally validate against a specific color type.
+ */
+export default function isValidColor(input: string, type?: ColorTypeInput): boolean {
+  const detectedType = getColorType(input);
+
+  if (detectedType === null) {
     return false;
   }
+
+  if (type === undefined) {
+    return true;
+  }
+
+  return detectedType === type;
 }

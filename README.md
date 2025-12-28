@@ -643,8 +643,8 @@ textColor('#fff800'); // #000000
 
 ### Validators
 
-**isValidColor(input: any): boolean**  
-Check if the input is a valid color.
+**isValidColor(input: string, type?: ColorTypeInput): boolean**
+Check if the input is a valid color. Optionally validate against a specific color type.
 
 ```typescript
 import { isValidColor } from 'colorizr';
@@ -660,6 +660,13 @@ isValidColor('blue'); // true
 isValidColor('aliceblue'); // true
 isValidColor('#mmff00'); // false
 isValidColor('blue-ish'); // false
+
+// With type validation
+isValidColor('#ff0044', 'hex'); // true
+isValidColor('#ff0044', 'hsl'); // false
+isValidColor('hsl(0 100% 50%)', 'hsl'); // true
+isValidColor('blue', 'named'); // true
+isValidColor('blue', 'hex'); // false
 ```
 
 **isHex(input: unknown): boolean**  

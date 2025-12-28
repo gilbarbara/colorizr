@@ -47,4 +47,35 @@ describe('isValidColor', () => {
     // @ts-expect-error - invalid parameters
     expect(isValidColor({})).toBe(false);
   });
+
+  describe('with type parameter', () => {
+    it.each([
+      // hex validation
+      ['#ff0000', 'hex', true],
+      ['#ff000080', 'hex', true],
+      ['#ff0000', 'hsl', false],
+      ['#ff0000', 'rgb', false],
+      // hsl validation
+      ['hsl(0 100% 50%)', 'hsl', true],
+      ['hsl(0 100% 50%)', 'hex', false],
+      ['hsl(0 100% 50%)', 'rgb', false],
+      // rgb validation
+      ['rgb(255 0 0)', 'rgb', true],
+      ['rgb(255 0 0)', 'hex', false],
+      ['rgb(255 0 0)', 'hsl', false],
+      // oklab validation
+      ['oklab(0.5 0.1 -0.1)', 'oklab', true],
+      ['oklab(0.5 0.1 -0.1)', 'oklch', false],
+      // oklch validation
+      ['oklch(0.5 0.2 180)', 'oklch', true],
+      ['oklch(0.5 0.2 180)', 'oklab', false],
+      // named color validation
+      ['blue', 'named', true],
+      ['coral', 'named', true],
+      ['blue', 'hex', false],
+      ['blue', 'hsl', false],
+    ] as const)('should validate %s as %s to be %s', (input, type, expected) => {
+      expect(isValidColor(input, type)).toBe(expected);
+    });
+  });
 });
