@@ -1,5 +1,5 @@
 import { MESSAGES } from '~/modules/constants';
-import { getOkLCHMaxChroma, getP3Color } from '~/p3';
+import { getOkLCHMaxChroma, getP3MaxColor } from '~/p3';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
@@ -25,19 +25,19 @@ describe('getMaxOkLCHChroma', () => {
   });
 
   it('should fail with invalid parameters', () => {
-    expect(() => getP3Color({ l: -0.1, c: 0.1, h: 0 })).toThrow(MESSAGES.lightnessRange);
-    expect(() => getP3Color({ l: 1.1, c: 0.1, h: 0 })).toThrow(MESSAGES.lightnessRange);
-    expect(() => getP3Color({ l: 0.5, c: 0.1, h: -20 })).toThrow(MESSAGES.hueRange);
-    expect(() => getP3Color({ l: 0.5, c: 0.1, h: 420 })).toThrow(MESSAGES.hueRange);
+    expect(() => getP3MaxColor({ l: -0.1, c: 0.1, h: 0 })).toThrow(MESSAGES.lightnessRange);
+    expect(() => getP3MaxColor({ l: 1.1, c: 0.1, h: 0 })).toThrow(MESSAGES.lightnessRange);
+    expect(() => getP3MaxColor({ l: 0.5, c: 0.1, h: -20 })).toThrow(MESSAGES.hueRange);
+    expect(() => getP3MaxColor({ l: 0.5, c: 0.1, h: 420 })).toThrow(MESSAGES.hueRange);
 
     // @ts-expect-error - invalid parameters
-    expect(() => getP3Color({ l: '0.5', c: 0.2, h: 20 }, 0)).toThrow(MESSAGES.lightnessRange);
+    expect(() => getP3MaxColor({ l: '0.5', c: 0.2, h: 20 }, 0)).toThrow(MESSAGES.lightnessRange);
     // @ts-expect-error - invalid parameters
-    expect(() => getP3Color({ l: 0.5, c: 0.1, h: '120' })).toThrow(MESSAGES.hueRange);
+    expect(() => getP3MaxColor({ l: 0.5, c: 0.1, h: '120' })).toThrow(MESSAGES.hueRange);
   });
 });
 
-describe('getP3Color', () => {
+describe('getP3MaxColor', () => {
   it.each([
     [{ input: brightPink.oklch, expected: 'oklch(0.63269 0.28643 19.90218)' }],
     [{ input: brightPink.hex, expected: 'oklch(0.63269 0.28643 19.90218)' }],
@@ -46,6 +46,6 @@ describe('getP3Color', () => {
     [{ input: violet.oklchString, expected: 'oklch(0.47642 0.30223 274.93693)' }],
     [{ input: yellow.rgbString, expected: 'oklch(0.92235 0.16984 97.77872)' }],
   ])('should return $expected for $input', ({ input, expected }) => {
-    expect(getP3Color(input)).toBe(expected);
+    expect(getP3MaxColor(input)).toBe(expected);
   });
 });

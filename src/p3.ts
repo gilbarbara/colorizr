@@ -70,9 +70,9 @@ export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): n
 }
 
 /**
- * Get a OkLCH color in the P3 color space.
+ * Get a OkLCH color with maxed chroma in the P3 color space.
  */
-export function getP3Color(input: string | LCH): string {
+export function getP3MaxColor(input: string | LCH): string {
   const lch = isString(input) ? parseCSS(input, 'oklch') : input;
 
   return `oklch(${lch.l} ${getOkLCHMaxChroma(lch)} ${lch.h})`;
