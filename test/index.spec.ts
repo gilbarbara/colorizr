@@ -1,4 +1,5 @@
 import Colorizr, {
+  apcaContrast,
   brightnessDifference,
   chroma,
   colorDifference,
@@ -36,6 +37,8 @@ import Colorizr, {
   palette,
   parseCSS,
   random,
+  readableColor,
+  readableColorAPCA,
   rgb2hex,
   rgb2hsl,
   rgb2oklab,
@@ -44,13 +47,13 @@ import Colorizr, {
   saturate,
   scale,
   scheme,
-  textColor,
   transparentize,
 } from '~/index';
 
 describe('exports', () => {
   it('should have all the exports', () => {
     expect(Colorizr).toEqual(expect.any(Function));
+    expect(apcaContrast).toEqual(expect.any(Function));
     expect(brightnessDifference).toEqual(expect.any(Function));
     expect(chroma).toEqual(expect.any(Function));
     expect(colorDifference).toEqual(expect.any(Function));
@@ -88,6 +91,8 @@ describe('exports', () => {
     expect(palette).toEqual(expect.any(Function));
     expect(parseCSS).toEqual(expect.any(Function));
     expect(random).toEqual(expect.any(Function));
+    expect(readableColor).toEqual(expect.any(Function));
+    expect(readableColorAPCA).toEqual(expect.any(Function));
     expect(rgb2hex).toEqual(expect.any(Function));
     expect(rgb2hsl).toEqual(expect.any(Function));
     expect(rgb2oklab).toEqual(expect.any(Function));
@@ -96,7 +101,6 @@ describe('exports', () => {
     expect(saturate).toEqual(expect.any(Function));
     expect(scheme).toEqual(expect.any(Function));
     expect(scale).toEqual(expect.any(Function));
-    expect(textColor).toEqual(expect.any(Function));
     expect(transparentize).toEqual(expect.any(Function));
   });
 });

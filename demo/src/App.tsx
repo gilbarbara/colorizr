@@ -70,7 +70,7 @@ export default function App() {
   const [colorizr, setColorizr] = useState(new Colorizr(color));
   const timeout = useRef<number>();
 
-  const text = textColor || colorizr.textColor;
+  const text = textColor || colorizr.readableColor;
   const analysis = colorizr.compare(text as HEX);
 
   const grade = () => {
