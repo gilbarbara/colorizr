@@ -615,11 +615,56 @@ parseCSS('#ff0044', 'hsl'); // { h: 344, l: 50, s: 100 }
 **random(type: ColorType = 'hex'): string**  
 Get a random color.
 
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface RandomOptions {
+  /**
+   * The color format to return.
+   * @default 'hex'
+   */
+  format?: ColorType;
+  /**
+   * Maximum hue value (0-360).
+   * @default 360
+   */
+  maxHue?: number;
+  /**
+   * Maximum lightness value (0-100).
+   * @default 90
+   */
+  maxLightness?: number;
+  /**
+   * Maximum saturation value (0-100).
+   * @default 100
+   */
+  maxSaturation?: number;
+  /**
+   * Minimum hue value (0-360).
+   * If minHue > maxHue, the range wraps around 0° (e.g., 330-30 for reds).
+   * @default 0
+   */
+  minHue?: number;
+  /**
+   * Minimum lightness value (0-100).
+   * @default 10
+   */
+  minLightness?: number;
+  /**
+   * Minimum saturation value (0-100).
+   * @default 10
+   */
+  minSaturation?: number;
+}
+  ```
+</details>
+
 ```typescript
 import { random } from 'colorizr';
 
 random(); // '#b385e0'
-random('oklch') // oklab(86.876% -0.22518 0.1597)
+random({ format: 'oklch', minLightness: 40 }) // oklch(58.443% 0.2934 306.42895)
 ```
 
 **removeAlphaFromHex(input: string): string**  
