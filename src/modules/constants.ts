@@ -51,6 +51,7 @@ export const MESSAGES = {
   options: 'invalid options',
   right: 'right is required and must be a string',
   threshold: 'threshold must be a number between 0 and 255',
+  thresholdNormalized: 'threshold must be a number between 0 and 1',
 } as const;
 
 export const MONOCHROMATIC_LIGHTNESS_MAX = 80;

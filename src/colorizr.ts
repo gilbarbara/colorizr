@@ -13,9 +13,9 @@ import { invariant } from '~/modules/invariant';
 import parseColor from '~/modules/parse-color';
 import opacify from '~/opacify';
 import opacity from '~/opacity';
+import readableColor from '~/readable-color';
 import rotate from '~/rotate';
 import saturate from '~/saturate';
-import textColor from '~/text-color';
 import transparentize from '~/transparentize';
 
 import { Alpha, Amount, Analysis, ColorType, Degrees, HEX, HSL, LAB, LCH, RGB } from '~/types';
@@ -121,10 +121,10 @@ export default class Colorizr {
   }
 
   /**
-   * Get the contrasted color
+   * Get the most readable color (light or dark) for this color as a background.
    */
-  get textColor(): string {
-    return textColor(this.selectedColor);
+  get readableColor(): string {
+    return readableColor(this.selectedColor);
   }
 
   private get selectedColor(): string {

@@ -1,6 +1,6 @@
 # Colorizr
 
-[![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![CI](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr)
+[![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![CI](https://github.com/gilbarbara/colorizr/actions/workflows/ci.yml/badge.svg)](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr)
 
 Color conversion, generation, manipulation, comparison, and analysis.
 
@@ -612,6 +612,21 @@ addAlphaToHex('#ff0044', 0.9); // '#ff0044e6'
 addAlphaToHex('#ff0044cc', 0.9); // '#ff0044e6'
 ```
 
+**apcaContrast(background: string, foreground: string): number**  
+Calculate APCA contrast between two colors. APCA (Accessible Perceptual Contrast Algorithm) is the contrast method proposed for WCAG 3.0.
+
+Returns the Lc (Lightness contrast) value:
+- Positive values indicate dark text on light background
+- Negative values indicate light text on dark background
+
+```typescript
+import { apcaContrast } from 'colorizr';
+
+apcaContrast('#ffffff', '#000000'); // 106 (black text on white bg)
+apcaContrast('#000000', '#ffffff'); // -108 (white text on black bg)
+apcaContrast('#888888', '#ffffff'); // 63 (gray text on white bg)
+```
+
 **convertAlphaToHex(input: number): string**  
 Convert an alpha value to a hex value.
 
@@ -774,14 +789,49 @@ import { removeAlphaFromHex } from 'colorizr';
 removeAlphaFromHex('#ff0044cc'); // '#ff0044'
 ```
 
-**textColor(input: string, options?: TextColorOptions): string**  
-Get a contrasting color (black or white) for the input color.
+**readableColor(backgroundColor: string, options?: ReadableColorOptions): string**  
+Get the most readable color (light or dark) for a given background.
+
+Supports multiple methods:
+- `yiq` (default): Simple YIQ brightness formula
+- `wcag`: WCAG 2.x relative luminance threshold
+- `contrast`: WCAG 2.x contrast ratio comparison
+- `oklab`: OkLab perceptual lightness threshold
+- `apca`: APCA contrast comparison (WCAG 3.0 candidate)
 
 ```typescript
-import { textColor } from 'colorizr';
+import { readableColor } from 'colorizr';
 
-textColor('#ff0044'); // #ffffff
-textColor('#fff800'); // #000000
+readableColor('#ff0044'); // '#ffffff' (using yiq)
+readableColor('#fff800'); // '#000000'
+
+// Using different methods
+readableColor('#808080', { method: 'wcag' }); // '#ffffff'
+readableColor('#808080', { method: 'contrast' }); // '#000000'
+readableColor('#808080', { method: 'apca' }); // '#ffffff'
+
+// Custom colors and threshold
+readableColor('#ff0044', {
+  darkColor: '#111',
+  lightColor: '#eee',
+  threshold: 150  // for yiq method (0-255)
+});
+
+readableColor('#ff0044', {
+  method: 'wcag',
+  threshold: 0.4  // for wcag/oklab methods (0-1)
+});
+```
+
+**readableColorAPCA(backgroundColor: string, options?: ReadableColorAPCAOptions): string**  
+Get the most readable color using APCA contrast. Standalone function for APCA method.
+
+```typescript
+import { readableColorAPCA } from 'colorizr';
+
+readableColorAPCA('#ffffff'); // '#000000'
+readableColorAPCA('#000000'); // '#ffffff'
+readableColorAPCA('#888888'); // '#ffffff' (APCA favors light text on mid-grays)
 ```
 
 ### Validators
@@ -918,8 +968,8 @@ Get the opacity (0-1).
 **colorizr.css**  
 Get the css string of the same type as the input.
 
-**colorizr.textColor**
-Get a contrasting color (black or white).
+**colorizr.readableColor**
+Get the most readable color (black or white) for this color as a background.
 
 #### Methods
 
