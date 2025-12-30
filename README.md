@@ -226,6 +226,7 @@ import { contrast } from 'colorizr';
 
 contrast('hsl(0 0% 100%)', 'rgb(255 0 68)'); // 3.94
 ```
+
 ### Generators
 
 **palette(input: string, options?: PaletteOptions): string[]**  
@@ -251,43 +252,140 @@ const complementary = scheme('rgb(255 0 68)'); // ['#ff0044', '#00ffbb']
 const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff']
 ```
 
-**swatch(input: string, options?: SwatchOptions): Swatch**  
-Generate a color swatch with eleven shades, from lightest (50) to darkest (950).
+**scale(input: string, options?: ScaleOptions): Record<number, string>**  
+Generate a perceptual color scale with advanced options.
+
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface ScaleOptions {
+  /**
+   * Controls chroma adjustment across lightness levels.
+   * Values between 0-1 interpolate between these behaviors.
+   *
+   * @default 0
+   */
+  chromaCurve?: number;
+  /**
+   * Output color format.
+   *
+   * Determines the format of the generated colors (e.g., HEX, RGB, OKLCH, etc.).
+   *
+   * If not specified, the output will match the format of the input color.
+   */
+  format?: ColorType;
+  /**
+   * The lightness tuning factor for the scale.
+   * - 1: Linear lightness distribution.
+   * - >1: Lighter tones are emphasized.
+   * - <1: Darker tones are emphasized.
+   * @default 1.5
+   */
+  lightnessCurve?: number;
+  /**
+   * Lock input color at specific step position.
+   *
+   * The input color will appear exactly at this step, and other steps
+   * will be calculated relative to this anchor point.
+   *
+   * Must be a valid key for the current step count.
+   */
+  lock?: number;
+  /**
+   * The maximum lightness value for the scale.
+   *
+   * Defines the upper bound for the lightest color in the palette.
+   *
+   * A number between 0 and 1.
+   * @default 0.97
+   */
+  maxLightness?: number;
+  /**
+   * The minimum lightness value for the scale.
+   *
+   * Defines the lower bound for the darkest color in the palette.
+   *
+   * A number between 0 and 1.
+   *
+   * @default 0.2
+   */
+  minLightness?: number;
+  /**
+   * Theme-aware lightness direction.
+   *
+   * - 'light': Low keys (50) are lightest, high keys (950) are darkest
+   * - 'dark': Low keys (50) are darkest, high keys (950) are lightest
+   *
+   * @default 'light'
+   */
+  mode?: ScaleMode;
+  /**
+   * Global saturation override (0-100).
+   *
+   * When set, overrides the chroma for all generated shades.
+   * Maps to chroma in OKLCH space.
+   *
+   * Overrides `variant` if both are set.
+   */
+  saturation?: number;
+  /**
+   * Number of steps in the scale (3-20).
+   *
+   * Controls how many color shades are generated.
+   *
+   * @default 11
+   */
+  steps?: number;
+  /**
+   * The variant of the scale.
+   * - 'deep': Generates rich and bold tones with significantly reduced lightness.
+   * - 'neutral': Generates muted tones by reducing chroma.
+   * - 'pastel': Produces soft and airy tones with significant chroma reduction.
+   * - 'subtle': Creates extremely desaturated tones, close to grayscale.
+   * - 'vibrant': Enhances chroma for bold and striking tones.
+   */
+  variant?: ScaleVariant;
+}
+  ```
+</details>
 
 ```typescript
-import { swatch } from 'colorizr';
+import { scale } from 'colorizr';
 
-swatch('#ff0044');
+scale('#ff0044');
 /*
 {
-  '50': '#ffeeed',
-  '100': '#ffe0df',
-  '200': '#ffc7c6',
-  '300': '#ffa7a7',
-  '400': '#ff8186',
-  '500': '#ff5464',
-  '600': '#f20f42',
-  '700': '#d40021',
-  '800': '#ad0000',
-  '900': '#7d0000',
-  '950': '#470000'
+  50: '#ffeeed',
+  100: '#ffe0df',
+  200: '#ffc7c6',
+  300: '#ffa7a7',
+  400: '#ff8186',
+  500: '#ff5464',
+  600: '#f20f42',
+  700: '#d40021',
+  800: '#ad0000',
+  900: '#7d0000',
+  950: '#470000'
 }
 */
 
-swatch('#ff0044', { lightnessFactor: 1.2, maxLightness: 0.9, minLightness: 0.1 });
+scale(
+  '#ff0044',
+  { lightnessCurve: 1.6, lock: 500, steps: 10, format: 'oklch' },
+);
 /*
 {
-  '50': '#ffc6c5',
-  '100': '#ffaaaa',
-  '200': '#ff868a',
-  '300': '#ff5c6a',
-  '400': '#f8284a',
-  '500': '#df002d',
-  '600': '#c0000f',
-  '700': '#9b0000',
-  '800': '#710000',
-  '900': '#450000',
-  '950': '#180000'
+  50: 'oklch(97% 0.25404 19.90218)',
+  100: 'oklch(94.432% 0.25404 19.90218)',
+  200: 'oklch(89.214% 0.25404 19.90218)',
+  300: 'oklch(82.104% 0.25404 19.90218)',
+  400: 'oklch(73.397% 0.25404 19.90218)',
+  500: 'oklch(63.269% 0.25404 19.90218)',
+  600: 'oklch(58.561% 0.25404 19.90218)',
+  700: 'oklch(48.996% 0.25404 19.90218)',
+  800: 'oklch(35.962% 0.25404 19.90218)',
+  900: 'oklch(20% 0.25404 19.90218)'
 }
 */
 ```
@@ -612,8 +710,8 @@ parseCSS('hsl(344 100% 50%)'); // { h: 344, l: 50, s: 100 }
 parseCSS('#ff0044', 'hsl'); // { h: 344, l: 50, s: 100 }
 ```
 
-**random(type: ColorType = 'hex'): string**  
-Get a random color.
+**random(options?: RandomOptions): string**  
+Generate a random color.
 
 <details>
   <summary>Type Definition</summary>

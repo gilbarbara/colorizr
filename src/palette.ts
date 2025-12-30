@@ -39,7 +39,7 @@ export interface PaletteOptions {
   /**
    * Generate a monochromatic palette.
    *
-   * For more options, use the `swatch` function.
+   * For more options, use the `scale` function.
    */
   type?: 'monochromatic';
 }

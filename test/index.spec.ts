@@ -12,7 +12,7 @@ import Colorizr, {
   formatCSS,
   formatHex,
   getColorType,
-  getP3Color,
+  getP3MaxColor,
   hex2hsl,
   hex2oklab,
   hex2oklch,
@@ -42,8 +42,8 @@ import Colorizr, {
   rgb2oklch,
   rotate,
   saturate,
+  scale,
   scheme,
-  swatch,
   textColor,
   transparentize,
 } from '~/index';
@@ -64,7 +64,7 @@ describe('exports', () => {
     expect(formatCSS).toEqual(expect.any(Function));
     expect(formatHex).toEqual(expect.any(Function));
     expect(getColorType).toEqual(expect.any(Function));
-    expect(getP3Color).toEqual(expect.any(Function));
+    expect(getP3MaxColor).toEqual(expect.any(Function));
     expect(hex2hsl).toEqual(expect.any(Function));
     expect(hex2oklab).toEqual(expect.any(Function));
     expect(hex2oklch).toEqual(expect.any(Function));
@@ -95,7 +95,7 @@ describe('exports', () => {
     expect(rotate).toEqual(expect.any(Function));
     expect(saturate).toEqual(expect.any(Function));
     expect(scheme).toEqual(expect.any(Function));
-    expect(swatch).toEqual(expect.any(Function));
+    expect(scale).toEqual(expect.any(Function));
     expect(textColor).toEqual(expect.any(Function));
     expect(transparentize).toEqual(expect.any(Function));
   });

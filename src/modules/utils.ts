@@ -215,3 +215,58 @@ export function round(input: number, precision = 2, forcePrecision = true): numb
 
   return Math.round(input * factor) / factor;
 }
+
+/**
+ * Log a warning in development mode.
+ */
+export function warn(message: string): void {
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line no-console
+    console.warn(`[colorizr] ${message}`);
+  }
+}
+
+/**
+ * Pre-computed step keys for each step count (3-20).
+ *
+ * Based on Tailwind CSS color scale conventions:
+ * - Standard keys: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950
+ * - 500 is typically the "base" color
+ * - Lower numbers = lighter, higher numbers = darker (in light mode)
+ *
+ * Keys are symmetrically distributed to maintain visual balance.
+ */
+const STEP_KEYS: Record<number, number[]> = {
+  3: [100, 500, 900],
+  4: [100, 400, 600, 900],
+  5: [100, 300, 500, 700, 900],
+  6: [100, 200, 400, 600, 800, 900],
+  7: [100, 200, 400, 500, 600, 800, 900],
+  8: [100, 200, 300, 500, 600, 700, 800, 900],
+  9: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+  10: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+  11: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+  12: [50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 900, 950],
+  13: [50, 100, 150, 200, 300, 400, 500, 600, 700, 800, 850, 900, 950],
+  14: [50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 950],
+  15: [50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 750, 800, 850, 900, 950],
+  16: [50, 100, 150, 200, 250, 300, 350, 400, 500, 600, 700, 750, 800, 850, 900, 950],
+  17: [50, 100, 150, 200, 250, 300, 350, 400, 500, 600, 650, 700, 750, 800, 850, 900, 950],
+  18: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 650, 700, 750, 800, 850, 900, 950],
+  19: [
+    50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950,
+  ],
+  20: [
+    50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950,
+    1000,
+  ],
+};
+
+/**
+ * Get the step keys for a given step count.
+ */
+export function getScaleStepKeys(steps: number): number[] {
+  const value = clamp(Math.round(steps), 3, 20);
+
+  return STEP_KEYS[value];
+}
