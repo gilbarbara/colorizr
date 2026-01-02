@@ -170,6 +170,18 @@ describe.each([
         });
       });
 
+      describe('grayscale', () => {
+        it('should convert to grayscale', () => {
+          expect(colorizr.grayscale()).toMatchSnapshot();
+        });
+      });
+
+      describe('mix', () => {
+        it.each([[0.25], [0.5], [0.75]])('should mix with another color at %s ratio', ratio => {
+          expect(colorizr.mix('#0000ff', ratio)).toMatchSnapshot();
+        });
+      });
+
       describe('rotate', () => {
         it.each([[15], [30], [60], [120], [180]])(
           'should have rotated the color with %s',
