@@ -178,6 +178,29 @@ transparentize('hsl(344, 100, 50)', 10); // hsl(344 100 50 / 90%)
 transparentize('#ff0044', 50, 'hsl'); // #ff004480
 ```
 
+**grayscale(input: string, format?: ColorType): string**  
+Convert a color to grayscale using OkLCH (perceptually uniform).
+
+```typescript
+import { grayscale } from 'colorizr';
+
+grayscale('#ff0044'); // '#888888'
+grayscale('hsl(180, 50%, 50%)'); // 'hsl(0 0% 66.67%)'
+grayscale('#ff0000', 'oklch'); // 'oklch(62.796% 0 29.23494)'
+```
+
+**mix(color1: string, color2: string, ratio?: number, format?: ColorType): string**  
+Mix two colors in OkLCH space with shortest-path hue interpolation.
+
+```typescript
+import { mix } from 'colorizr';
+
+mix('#ff0000', '#0000ff'); // '#ba00c2' (50% mix)
+mix('#ff0000', '#0000ff', 0.25); // '#e30090'
+mix('#000000', '#ffffff', 0.5); // '#636363'
+mix('hsl(0, 100%, 50%)', '#0000ff', 0.5); // 'hsl(297.53 100% 38.04%)'
+```
+
 ### Comparison
 
 **brightnessDifference(left: string, right: string): number**  

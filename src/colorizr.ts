@@ -6,9 +6,11 @@ import contrast from '~/contrast';
 import darken from '~/darken';
 import desaturate from '~/desaturate';
 import formatCSS from '~/format-css';
+import grayscale from '~/grayscale';
 import invert from '~/invert';
 import lighten from '~/lighten';
 import luminance from '~/luminance';
+import mix from '~/mix';
 import { invariant } from '~/modules/invariant';
 import parseColor from '~/modules/parse-color';
 import opacify from '~/opacify';
@@ -54,10 +56,10 @@ export default class Colorizr {
   }
 
   /**
-   * Get css string
+   * Get CSS string
    */
   get css(): string {
-    return this.selectedColor;
+    return this.currentColor;
   }
 
   /**
@@ -106,48 +108,48 @@ export default class Colorizr {
    * Get the luminance value
    */
   get luminance(): number {
-    return luminance(this.selectedColor);
+    return luminance(this.currentColor);
   }
 
   /**
    * Get the chroma value
    */
   get chroma(): number {
-    return chroma(this.selectedColor);
+    return chroma(this.currentColor);
   }
 
   get opacity(): number {
-    return opacity(this.selectedColor);
+    return opacity(this.currentColor);
   }
 
   /**
    * Get the most readable color (light or dark) for this color as a background.
    */
   get readableColor(): string {
-    return readableColor(this.selectedColor);
+    return readableColor(this.currentColor);
   }
 
-  private get selectedColor(): string {
+  private get currentColor(): string {
     return formatCSS(this[this.type], { format: this.type, alpha: this.alpha });
   }
 
   public brightnessDifference(input: string): number {
-    return brightnessDifference(this.selectedColor, input);
+    return brightnessDifference(this.currentColor, input);
   }
 
   public colorDifference(input: string): number {
-    return colorDifference(this.selectedColor, input);
+    return colorDifference(this.currentColor, input);
   }
 
   /**
    * Test 2 colors for compliance
    */
   public compare(input: string): Analysis {
-    return compare(this.selectedColor, input);
+    return compare(this.currentColor, input);
   }
 
   public contrast(input: string): number {
-    return contrast(this.selectedColor, input);
+    return contrast(this.currentColor, input);
   }
 
   public format(type: ColorType, precision?: number): string {
@@ -162,55 +164,69 @@ export default class Colorizr {
    * Increase lightness
    */
   public lighten(amount: Amount): string {
-    return lighten(this.selectedColor, amount);
+    return lighten(this.currentColor, amount);
   }
 
   /**
    * Decrease lightness
    */
   public darken(amount: Amount): string {
-    return darken(this.selectedColor, amount);
+    return darken(this.currentColor, amount);
   }
 
   /**
    * Increase saturation
    */
   public saturate(amount: Amount): string {
-    return saturate(this.selectedColor, amount);
+    return saturate(this.currentColor, amount);
   }
 
   /**
    * Decrease saturation
    */
   public desaturate(amount: Amount): string {
-    return desaturate(this.selectedColor, amount);
+    return desaturate(this.currentColor, amount);
+  }
+
+  /**
+   * Convert to grayscale
+   */
+  public grayscale(): string {
+    return grayscale(this.currentColor);
   }
 
   /**
    * Invert color
    */
   public invert(): string {
-    return invert(this.selectedColor);
+    return invert(this.currentColor);
+  }
+
+  /**
+   * Mix with another color
+   */
+  public mix(color: string, ratio?: number): string {
+    return mix(this.currentColor, color, ratio);
   }
 
   /**
    * Add opacity to the color.
    */
   public opacify(alpha: Alpha = 0.9): string {
-    return opacify(this.selectedColor, alpha, this.type);
+    return opacify(this.currentColor, alpha, this.type);
   }
 
   /**
    * Rotate color
    */
   public rotate(degrees: Degrees): string {
-    return rotate(this.selectedColor, degrees);
+    return rotate(this.currentColor, degrees);
   }
 
   /**
    * Make the color more transparent
    */
   public transparentize(alpha: Alpha = 0.1): string {
-    return transparentize(this.selectedColor, alpha, this.type);
+    return transparentize(this.currentColor, alpha, this.type);
   }
 }

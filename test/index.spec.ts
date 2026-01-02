@@ -14,6 +14,7 @@ import Colorizr, {
   formatHex,
   getColorType,
   getP3MaxColor,
+  grayscale,
   hex2hsl,
   hex2oklab,
   hex2oklch,
@@ -31,6 +32,7 @@ import Colorizr, {
   isValidColor,
   lighten,
   luminance,
+  mix,
   name,
   opacify,
   opacity,
@@ -68,6 +70,7 @@ describe('exports', () => {
     expect(formatHex).toEqual(expect.any(Function));
     expect(getColorType).toEqual(expect.any(Function));
     expect(getP3MaxColor).toEqual(expect.any(Function));
+    expect(grayscale).toEqual(expect.any(Function));
     expect(hex2hsl).toEqual(expect.any(Function));
     expect(hex2oklab).toEqual(expect.any(Function));
     expect(hex2oklch).toEqual(expect.any(Function));
@@ -85,6 +88,7 @@ describe('exports', () => {
     expect(isHex).toEqual(expect.any(Function));
     expect(lighten).toEqual(expect.any(Function));
     expect(luminance).toEqual(expect.any(Function));
+    expect(mix).toEqual(expect.any(Function));
     expect(name).toEqual(expect.any(Function));
     expect(opacify).toEqual(expect.any(Function));
     expect(opacity).toEqual(expect.any(Function));
