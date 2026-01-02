@@ -41,7 +41,7 @@ describe('oklab2oklch', () => {
     // @ts-expect-error - invalid input
     expect(() => oklab2oklch('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
-    expect(() => oklab2oklch({ m: 255, p: 55, b: 75 })).toThrow('invalid oklab color');
+    expect(() => oklab2oklch({ m: 255, p: 55, b: 75 })).toThrow('invalid color: oklab');
   });
 
   describe('alpha handling', () => {

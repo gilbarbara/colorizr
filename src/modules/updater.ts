@@ -3,7 +3,7 @@ import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { clamp } from '~/modules/utils';
-import { isHex, isNamedColor, isNumber, isString } from '~/modules/validators';
+import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 import { ColorModelKeys, ColorType } from '~/types';
@@ -18,7 +18,7 @@ export default function updater(
 ) {
   return (input: string, amount: number) => {
     invariant(isString(input), MESSAGES.inputString);
-    invariant(isNumber(amount), MESSAGES.alpha);
+    invariant(isNumberInRange(amount, 0, 100), MESSAGES.amount);
 
     const color = parseCSS(input, 'hsl');
     const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;

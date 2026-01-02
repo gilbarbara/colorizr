@@ -19,6 +19,6 @@ describe('darken', () => {
     // @ts-expect-error - invalid parameters
     expect(() => darken([])).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => darken('#ff0044', {})).toThrow(MESSAGES.alpha);
+    expect(() => darken('#ff0044', {})).toThrow(MESSAGES.amount);
   });
 });

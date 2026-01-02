@@ -1,3 +1,4 @@
+import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
 import { isNumber } from '~/modules/validators';
@@ -6,7 +7,7 @@ import { isNumber } from '~/modules/validators';
  * Convert hue to RGB using chroma and median point
  */
 export default function hue2rgb(point: number, chroma: number, h: number): number {
-  invariant(isNumber(point) && isNumber(chroma) && isNumber(h), 'point, chroma and h are required');
+  invariant(isNumber(point) && isNumber(chroma) && isNumber(h), MESSAGES.hueArgs);
   let hue = h;
 
   if (hue < 0) {

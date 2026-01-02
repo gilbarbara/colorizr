@@ -14,10 +14,10 @@ describe('formatCSS', () => {
     [
       brightPink.hex,
       { alpha: 0.9, format: 'rgb', separator: ', ' },
-      addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 90, true),
+      addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 0.9, true),
     ],
     [green.hsl, undefined, green.hex],
-    [green.hsl, { alpha: 0.5, format: 'rgb' }, addOpacityToCssString(green.rgbString, 50, true)],
+    [green.hsl, { alpha: 0.5, format: 'rgb' }, addOpacityToCssString(green.rgbString, 0.5, true)],
     [green.hsl, { format: 'hsl' }, green.hslString],
     [orange.oklab, undefined, orange.hex],
     [orange.oklab, { format: 'oklch' }, orange.oklchString],
@@ -25,7 +25,7 @@ describe('formatCSS', () => {
     [
       violet.oklch,
       { alpha: 0.8, format: 'oklab' },
-      addOpacityToCssString(violet.oklabString, 80, true),
+      addOpacityToCssString(violet.oklabString, 0.8, true),
     ],
     [yellow.rgb, undefined, yellow.hex],
     [yellow.rgb, { alpha: 0.8, format: 'hex' }, addOpacityToCssString(yellow.hex, 0.8)],

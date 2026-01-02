@@ -50,7 +50,7 @@ export default function palette(input: string, options: PaletteOptions = {}): st
 
   const { format, lightness, saturation, size = 6, type } = options;
 
-  invariant(size >= 2, 'palette size must be at least 2');
+  invariant(size >= 2, MESSAGES.paletteSize);
 
   const hsl = parseCSS(input, 'hsl');
   const colorFormat = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;

@@ -11,6 +11,7 @@ import invert from '~/invert';
 import lighten from '~/lighten';
 import luminance from '~/luminance';
 import mix from '~/mix';
+import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import parseColor from '~/modules/parse-color';
 import opacify from '~/opacify';
@@ -41,7 +42,7 @@ export default class Colorizr {
   public type: ColorType;
 
   constructor(color: string | HSL | LAB | LCH | RGB, options: ColorizrOptions = {}) {
-    invariant(!!color, 'color is required');
+    invariant(!!color, MESSAGES.colorRequired);
 
     const { alpha, hex, hsl, oklab, oklch, rgb, type } = parseColor(color);
 

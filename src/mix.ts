@@ -2,7 +2,7 @@ import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isNumber, isString } from '~/modules/validators';
+import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 import { ColorType } from '~/types';
@@ -60,7 +60,7 @@ export default function mix(
 ): string {
   invariant(isString(color1), MESSAGES.inputString);
   invariant(isString(color2), MESSAGES.inputString);
-  invariant(isNumber(ratio) && ratio >= 0 && ratio <= 1, 'ratio must be a number between 0 and 1');
+  invariant(isNumberInRange(ratio, 0, 1), MESSAGES.ratioRange);
 
   const output = isHex(color1) || isNamedColor(color1) ? 'hex' : extractColorParts(color1).model;
 

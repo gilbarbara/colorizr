@@ -93,13 +93,13 @@ export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
   model: TModel,
   key: ColorModelKeys<TModel>,
 ): number {
-  invariant(isNumber(input), 'Input is not a number');
-  invariant(COLOR_MODELS.includes(model), `Invalid model${model ? `: ${model}` : ''}`);
-  invariant(COLOR_KEYS[model].includes(key), `Invalid key${key ? `: ${key}` : ''}`);
+  invariant(isNumber(input), MESSAGES.inputNumber);
+  invariant(COLOR_MODELS.includes(model), `${MESSAGES.invalidModel}${model ? `: ${model}` : ''}`);
+  invariant(COLOR_KEYS[model].includes(key), `${MESSAGES.invalidKey}${key ? `: ${key}` : ''}`);
 
   switch (model) {
     case 'hsl': {
-      invariant(COLOR_KEYS.hsl.includes(key), 'Invalid key');
+      invariant(COLOR_KEYS.hsl.includes(key), MESSAGES.invalidKey);
 
       if (['l', 's'].includes(key)) {
         return clamp(input);
@@ -108,7 +108,7 @@ export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
       return clamp(input, 0, 360);
     }
     case 'rgb': {
-      invariant(COLOR_KEYS.rgb.includes(key), 'Invalid key');
+      invariant(COLOR_KEYS.rgb.includes(key), MESSAGES.invalidKey);
 
       return clamp(input, 0, 255);
     }
@@ -140,7 +140,7 @@ export function parseInput<T extends ColorModel>(
     ? ({ [keys[0]]: input[0], [keys[1]]: input[1], [keys[2]]: input[2] } as unknown as T)
     : input;
 
-  invariant(validator[model](value), `invalid ${model} color`);
+  invariant(validator[model](value), `${MESSAGES.invalidColor}: ${model}`);
 
   return value;
 }

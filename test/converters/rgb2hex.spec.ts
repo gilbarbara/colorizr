@@ -33,7 +33,7 @@ describe('rgb2hex', () => {
     // @ts-expect-error - invalid color
     expect(() => rgb2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // invalid color
-    expect(() => rgb2hex({ r: 500, g: 55, b: 75 })).toThrow('invalid rgb color');
+    expect(() => rgb2hex({ r: 500, g: 55, b: 75 })).toThrow('invalid color: rgb');
   });
 
   describe('alpha handling', () => {

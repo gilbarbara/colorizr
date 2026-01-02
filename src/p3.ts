@@ -2,7 +2,7 @@ import { oklch2oklab } from '~/converters';
 import { LAB_TO_LMS, LSM_TO_RGB, MESSAGES, PRECISION, SRGB_TO_P3 } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
-import { isNumber, isString } from '~/modules/validators';
+import { isNumberInRange, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 import { ColorTuple, LCH } from '~/types';
@@ -45,8 +45,8 @@ function oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple {
 export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): number {
   const { l, h } = isString(input) ? parseCSS(input, 'oklch') : input;
 
-  invariant(isNumber(l) && l >= 0 && l <= 1, MESSAGES.lightnessRange);
-  invariant(isNumber(h) && h >= 0 && h <= 360, MESSAGES.hueRange);
+  invariant(isNumberInRange(l, 0, 1), MESSAGES.lightnessRange);
+  invariant(isNumberInRange(h, 0, 360), MESSAGES.hueRange);
 
   // Binary search parameters
   const epsilon = 0.000001;

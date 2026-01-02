@@ -20,10 +20,10 @@ describe('addAlphaToHex', () => {
         expected: addOpacityToCssString(brightPink.hex, 0.8),
       },
     ],
-    [{ input: green.hex, alpha: 2, expected: green.hex }],
+    [{ input: green.hex, alpha: 1, expected: green.hex }],
     [
       {
-        input: addOpacityToCssString(green.hex, 2),
+        input: addOpacityToCssString(green.hex, 0.02),
         alpha: 0.9,
         expected: addOpacityToCssString(green.hex, 0.9),
       },
