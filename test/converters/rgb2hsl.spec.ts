@@ -36,7 +36,7 @@ describe('rgb2hsl', () => {
     // @ts-expect-error - invalid parameters
     expect(() => rgb2hsl('rgt(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
-    expect(() => rgb2hsl({ m: 255, t: 55, p: 75 })).toThrow('invalid rgb color');
+    expect(() => rgb2hsl({ m: 255, t: 55, p: 75 })).toThrow('invalid color: rgb');
   });
 
   describe('alpha handling', () => {

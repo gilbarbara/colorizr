@@ -21,6 +21,6 @@ describe('saturate', () => {
     // @ts-expect-error - invalid parameters
     expect(() => saturate([])).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => saturate('blue', '')).toThrow(MESSAGES.alpha);
+    expect(() => saturate('blue', '')).toThrow(MESSAGES.amount);
   });
 });

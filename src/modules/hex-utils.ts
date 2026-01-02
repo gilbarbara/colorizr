@@ -1,7 +1,7 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
-import { isHex, isNumber } from '~/modules/validators';
+import { isHex, isNumber, isNumberInRange } from '~/modules/validators';
 
 import { Alpha, HEX } from '~/types';
 
@@ -10,7 +10,7 @@ import { Alpha, HEX } from '~/types';
  */
 export function addAlphaToHex(input: string, alpha: Alpha): HEX {
   invariant(isHex(input), MESSAGES.inputHex);
-  invariant(isNumber(alpha), MESSAGES.inputNumber);
+  invariant(isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
 
   if (alpha >= 1) {
     return removeAlphaFromHex(input);

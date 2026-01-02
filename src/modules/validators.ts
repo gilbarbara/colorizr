@@ -114,6 +114,13 @@ export function isNumber(input: unknown): input is number {
 }
 
 /**
+ * Check if the input is a number within a specific range (inclusive)
+ */
+export function isNumberInRange(input: unknown, min: number, max: number): input is number {
+  return isNumber(input) && input >= min && input <= max;
+}
+
+/**
  * Check if the input is an object
  */
 export function isPlainObject(input: unknown): input is PlainObject {

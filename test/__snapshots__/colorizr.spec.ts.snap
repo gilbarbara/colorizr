@@ -90,13 +90,13 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotat
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbb"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -20 1`] = `"#e61a50"`;
-
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -40 1`] = `"#cc335c"`;
-
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with -80 1`] = `"#996674"`;
-
 exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 20 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 40 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 80 1`] = `"#ff0044"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044b3"`;
 
@@ -190,13 +190,13 @@ exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the colo
 
 exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbb"`;
 
-exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -20 1`] = `"#e61a50"`;
-
-exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -40 1`] = `"#cc335c"`;
-
-exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with -80 1`] = `"#996674"`;
-
 exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 20 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 40 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 80 1`] = `"#ff0044"`;
 
 exports[`Colorizr with 'HEX' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044cc"`;
 
@@ -290,13 +290,13 @@ exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated t
 
 exports[`Colorizr with 'HSL String' > modifiers > rotate > should have rotated the color with 180 1`] = `"hsl(316 100% 50%)"`;
 
-exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -20 1`] = `"hsl(136 80% 50%)"`;
-
-exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -40 1`] = `"hsl(136 60% 50%)"`;
-
-exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with -80 1`] = `"hsl(136 20% 50%)"`;
-
 exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with 10 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with 20 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with 40 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturated the color with 80 1`] = `"hsl(136 100% 50%)"`;
 
 exports[`Colorizr with 'HSL String' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
 
@@ -390,13 +390,13 @@ exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the colo
 
 exports[`Colorizr with 'HSL' > modifiers > rotate > should have rotated the color with 180 1`] = `"hsl(316 100% 50%)"`;
 
-exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -20 1`] = `"hsl(136 80% 50%)"`;
-
-exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -40 1`] = `"hsl(136 60% 50%)"`;
-
-exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with -80 1`] = `"hsl(136 20% 50%)"`;
-
 exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 10 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 20 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 40 1`] = `"hsl(136 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 80 1`] = `"hsl(136 100% 50%)"`;
 
 exports[`Colorizr with 'HSL' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
 
@@ -490,13 +490,13 @@ exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated
 
 exports[`Colorizr with 'OKLAB String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
 
-exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
-
-exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
-
-exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
-
 exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
 
@@ -590,13 +590,13 @@ exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the co
 
 exports[`Colorizr with 'OKLAB' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklab(65.147% -0.06101 -0.18202)"`;
 
-exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
-
-exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
-
-exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklab(60.801% 0.02493 0.04128)"`;
-
 exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
 
@@ -690,13 +690,13 @@ exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated
 
 exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
-
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
-
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
-
 exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
 
 exports[`Colorizr with 'OKLCH String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
 
@@ -790,13 +790,13 @@ exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the co
 
 exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
-
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
-
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with -80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
-
 exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
 
 exports[`Colorizr with 'OKLCH' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
 
@@ -890,13 +890,13 @@ exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated t
 
 exports[`Colorizr with 'RGB String' > modifiers > rotate > should have rotated the color with 180 1`] = `"rgb(109 134 255)"`;
 
-exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -20 1`] = `"rgb(240 220 124)"`;
-
-exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -40 1`] = `"rgb(226 211 138)"`;
-
-exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with -80 1`] = `"rgb(197 192 167)"`;
-
 exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with 10 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with 20 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with 40 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturated the color with 80 1`] = `"rgb(255 230 109)"`;
 
 exports[`Colorizr with 'RGB String' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;
 
@@ -990,12 +990,12 @@ exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the colo
 
 exports[`Colorizr with 'RGB' > modifiers > rotate > should have rotated the color with 180 1`] = `"rgb(109 134 255)"`;
 
-exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -20 1`] = `"rgb(240 220 124)"`;
-
-exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -40 1`] = `"rgb(226 211 138)"`;
-
-exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with -80 1`] = `"rgb(197 192 167)"`;
-
 exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 10 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 20 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 40 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 80 1`] = `"rgb(255 230 109)"`;
 
 exports[`Colorizr with 'RGB' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;

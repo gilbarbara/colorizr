@@ -13,12 +13,12 @@ describe('transparentize', () => {
     ['forestgreen', 0.1, 'rgb', 'rgb(34 139 34 / 90%)'],
     [brightPink.hex, 0.1, 'hex', `${brightPink.hex}e6`],
     [`${brightPink.hex}00`, -0.2, 'hex', `${brightPink.hex}33`],
-    [brightPink.hex, 0.1, 'hsl', addOpacityToCssString(brightPink.hslString, 90, true)],
-    [green.hex, 0.1, 'oklab', addOpacityToCssString(green.oklabString, 90, true)],
-    [green.hex, 0.1, 'oklch', addOpacityToCssString(green.oklchString, 90, true)],
-    [violet.hex, 0.1, 'rgb', addOpacityToCssString(violet.rgbString, 90, true)],
-    [violet.hslString, 0.1, 'oklch', addOpacityToCssString(violet.oklchString, 90, true)],
-    ['hsl(344, 100, 50, 0.4)', 0.1, 'rgb', addOpacityToCssString(brightPink.rgbString, 30, true)],
+    [brightPink.hex, 0.1, 'hsl', addOpacityToCssString(brightPink.hslString, 0.9, true)],
+    [green.hex, 0.1, 'oklab', addOpacityToCssString(green.oklabString, 0.9, true)],
+    [green.hex, 0.1, 'oklch', addOpacityToCssString(green.oklchString, 0.9, true)],
+    [violet.hex, 0.1, 'rgb', addOpacityToCssString(violet.rgbString, 0.9, true)],
+    [violet.hslString, 0.1, 'oklch', addOpacityToCssString(violet.oklchString, 0.9, true)],
+    ['hsl(344, 100, 50, 0.4)', 0.1, 'rgb', addOpacityToCssString(brightPink.rgbString, 0.3, true)],
     [violet.oklabString, 0.1, 'hex', `${violet.hex}e6`],
     [yellow.oklchString, 0.1, 'hex', `${yellow.hex}e6`],
     [yellow.rgbString, 0.5, 'hsl', yellow.hslString.replace(')', ' / 50%)')],
@@ -34,6 +34,6 @@ describe('transparentize', () => {
     // @ts-expect-error - invalid parameters
     expect(() => transparentize('')).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => transparentize('black', '')).toThrow(MESSAGES.alpha);
+    expect(() => transparentize('black', '')).toThrow(MESSAGES.alphaAdjustment);
   });
 });

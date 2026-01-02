@@ -20,6 +20,6 @@ describe('lighten', () => {
     // @ts-expect-error - invalid parameters
     expect(() => lighten('')).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => lighten('pink', {})).toThrow(MESSAGES.alpha);
+    expect(() => lighten('pink', {})).toThrow(MESSAGES.amount);
   });
 });

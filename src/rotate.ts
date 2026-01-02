@@ -13,7 +13,7 @@ import { ColorType, Degrees } from '~/types';
  */
 export default function rotate(input: string, degrees: Degrees, format?: ColorType) {
   invariant(isString(input), MESSAGES.inputString);
-  invariant(isNumber(degrees), 'degrees must be a number');
+  invariant(isNumber(degrees), MESSAGES.degreesNumber);
 
   const color = parseCSS(input, 'hsl');
 

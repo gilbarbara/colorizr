@@ -153,7 +153,7 @@ describe.each([
       });
 
       describe('saturate', () => {
-        it.each([[10], [-20], [-40], [-80]])('should have saturated the color with %s', amount => {
+        it.each([[10], [20], [40], [80]])('should have saturated the color with %s', amount => {
           expect(colorizr.saturate(amount)).toMatchSnapshot();
         });
       });

@@ -38,7 +38,7 @@ describe('oklch2hex', () => {
     // @ts-expect-error - invalid input
     expect(() => oklch2hex('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
-    expect(() => oklch2hex({ m: 255, p: 55, b: 75 })).toThrow('invalid oklch color');
+    expect(() => oklch2hex({ m: 255, p: 55, b: 75 })).toThrow('invalid color: oklch');
   });
 
   describe('alpha handling', () => {

@@ -20,6 +20,6 @@ describe('desaturate', () => {
     // @ts-expect-error - invalid parameters
     expect(() => desaturate([])).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => desaturate('pink', '')).toThrow(MESSAGES.alpha);
+    expect(() => desaturate('pink', '')).toThrow(MESSAGES.amount);
   });
 });

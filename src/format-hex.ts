@@ -21,7 +21,7 @@ export default function formatHex(input: string): HEX {
 
   const hex = `#${color}`;
 
-  invariant(isHex(hex), 'invalid hex');
+  invariant(isHex(hex), MESSAGES.invalidHex);
 
   return hex;
 }

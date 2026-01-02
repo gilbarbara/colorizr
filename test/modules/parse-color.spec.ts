@@ -65,7 +65,7 @@ describe('parseColor', () => {
       },
     },
     {
-      input: addOpacityToCssString(orange.oklabString, 90, true),
+      input: addOpacityToCssString(orange.oklabString, 0.9, true),
       expected: {
         alpha: 0.9,
         hex: addOpacityToCssString(orange.hex, 0.9),

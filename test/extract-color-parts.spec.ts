@@ -30,7 +30,7 @@ describe('extractColorParts', () => {
       expected: { model: 'oklab', ...violet.oklab, l: 47.642 },
     },
     {
-      input: addOpacityToCssString(violet.oklabString, 85, true),
+      input: addOpacityToCssString(violet.oklabString, 0.85, true),
       expected: { model: 'oklab', ...violet.oklab, l: 47.642, alpha: 0.85 },
     },
     {
@@ -38,7 +38,7 @@ describe('extractColorParts', () => {
       expected: { model: 'oklch', ...yellow.oklch, l: 92.235 },
     },
     {
-      input: addOpacityToCssString(yellow.oklchString, 95, true),
+      input: addOpacityToCssString(yellow.oklchString, 0.95, true),
       expected: { model: 'oklch', ...yellow.oklch, l: 92.235, alpha: 0.95 },
     },
     {

@@ -36,7 +36,7 @@ describe('hsl2oklab', () => {
     // @ts-expect-error - invalid input
     expect(() => hsl2oklab('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
-    expect(() => hsl2oklab({ m: 255, p: 55, b: 75 })).toThrow('invalid hsl color');
+    expect(() => hsl2oklab({ m: 255, p: 55, b: 75 })).toThrow('invalid color: hsl');
   });
 
   describe('alpha handling', () => {

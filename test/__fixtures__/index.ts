@@ -84,16 +84,19 @@ export const yellow = {
   rgbString: 'rgb(255 230 109)',
 };
 
+/**
+ * Test helper to add opacity to a CSS color string.
+ *
+ * @param cssString - The CSS color string (hex, hsl, rgb, oklab, oklch)
+ * @param alpha - A value between 0 and 1
+ * @param withPercentage - If true, output percentage format for non-hex strings
+ */
 export function addOpacityToCssString(
   cssString: string,
-  amount: number,
+  alpha: number,
   withPercentage = false,
 ): string {
-  let alpha = amount;
-
   if (isHex(cssString)) {
-    alpha = amount > 1 ? round(amount / 100) : amount;
-
     if (alpha === 1) {
       return cssString;
     }
@@ -101,11 +104,11 @@ export function addOpacityToCssString(
     return `${cssString}${convertAlphaToHex(alpha)}`;
   }
 
-  alpha = withPercentage && alpha <= 1 ? round(alpha * 100) : alpha;
+  const alphaValue = withPercentage ? round(alpha * 100) : alpha;
 
-  if (alpha === 100 || alpha === 1) {
+  if (alpha === 1) {
     return cssString;
   }
 
-  return cssString.replace(')', ` / ${alpha}${withPercentage ? '%' : ''})`);
+  return cssString.replace(')', ` / ${alphaValue}${withPercentage ? '%' : ''})`);
 }

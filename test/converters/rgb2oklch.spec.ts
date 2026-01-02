@@ -32,7 +32,7 @@ describe('rgb2oklch', () => {
     // @ts-expect-error - invalid parameters
     expect(() => rgb2oklch('rgt(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid parameters
-    expect(() => rgb2oklch({ m: 255, t: 55, p: 75 })).toThrow('invalid rgb color');
+    expect(() => rgb2oklch({ m: 255, t: 55, p: 75 })).toThrow('invalid color: rgb');
   });
 
   describe('alpha handling', () => {

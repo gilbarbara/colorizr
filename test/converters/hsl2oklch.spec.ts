@@ -36,7 +36,7 @@ describe('hsl2oklch', () => {
     // @ts-expect-error - invalid parameters
     expect(() => hsl2oklch('hpv(255, 255, 0)')).toThrow(MESSAGES.invalid);
     // @ts-expect-error - invalid input
-    expect(() => hsl2oklch({ m: 255, p: 55, b: 75 })).toThrow('invalid hsl color');
+    expect(() => hsl2oklch({ m: 255, p: 55, b: 75 })).toThrow('invalid color: hsl');
   });
 
   describe('alpha handling', () => {

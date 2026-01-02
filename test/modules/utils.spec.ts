@@ -1,3 +1,4 @@
+import { MESSAGES } from '~/modules/constants';
 import {
   clamp,
   constrainDegrees,
@@ -44,17 +45,17 @@ describe('limit', () => {
 
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required
-    expect(() => limit()).toThrow('Input is not a number');
+    expect(() => limit()).toThrow(MESSAGES.inputNumber);
     // @ts-expect-error - invalid input
-    expect(() => limit('123', 'hsl', 'x')).toThrow('Input is not a number');
+    expect(() => limit('123', 'hsl', 'x')).toThrow(MESSAGES.inputNumber);
     // @ts-expect-error - missing model
-    expect(() => limit(360)).toThrow('Invalid model');
+    expect(() => limit(360)).toThrow(MESSAGES.invalidModel);
     // @ts-expect-error - invalid model
-    expect(() => limit(360, 'abc')).toThrow('Invalid model: abc');
+    expect(() => limit(360, 'abc')).toThrow(`${MESSAGES.invalidModel}: abc`);
     // @ts-expect-error - missing key
-    expect(() => limit(360, 'hsl')).toThrow('Invalid key');
+    expect(() => limit(360, 'hsl')).toThrow(MESSAGES.invalidKey);
     // @ts-expect-error - invalid key
-    expect(() => limit(360, 'hsl', 'x')).toThrow('Invalid key: x');
+    expect(() => limit(360, 'hsl', 'x')).toThrow(`${MESSAGES.invalidKey}: x`);
   });
 });
 
