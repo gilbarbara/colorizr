@@ -69,7 +69,7 @@ export default function palette(input: string, options: PaletteOptions = {}): st
     output.push(hsl2hex({ ...hsl, l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
 
     for (let index = 1; index < size; index++) {
-      const color = rotate(input, hsl.h + step * index, 'hex') as HEX;
+      const color = rotate(input, step * index, 'hex') as HEX;
 
       output.push(hsl2hex({ ...hex2hsl(color), l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
     }
