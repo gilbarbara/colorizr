@@ -2,14 +2,15 @@
 
 [![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![CI](https://github.com/gilbarbara/colorizr/actions/workflows/ci.yml/badge.svg)](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr)
 
-Color conversion, generation, manipulation, comparison, and analysis.
+A modern color library focused on perceptual correctness and accessibility.
 
 ## Highlights
 
-- 🏖 **Easy to use**: Works with Hex, HSL, OkLab, OkLCH, and RGB.
-- ♿️ **Accessibility:** WCAG analysis and comparison.
-- 🛠 **Small:** 7kB (gzipped) and tree-shakable.
-- 🟦 **Modern:** Written in Typescript.
+- 🏖 **Easy to use**: Works with Hex, HSL, RGB, OKLAB, and OKLCH.
+- ♿️ **Accessibility**: WCAG 2.x contrast and **APCA (WCAG 3.0)** support.
+- 🎨 **Design Systems**: Generate perceptual color scales with variants.
+- 🖥 **Modern Displays**: P3 gamut optimization and OkLCH operations.
+- 🟦 **TypeScript**: Full type safety, zero dependencies.
 
 ## Setup
 
@@ -21,18 +22,26 @@ npm i colorizr
 
 ## Usage
 
-You can use all the functions standalone:
+You can use the functions standalone or compose them freely:
 
 ```typescript
-import { luminance } from 'colorizr';
+import { scale, readableColor } from 'colorizr';
 
-const lux = luminance('#ff0044'); // 0.2168
+const swatches = scale('#ff0044');
+
+const accessibleSwatches = Object.entries(swatches).map(
+  ([key, color]) => ({
+    key,
+    color,
+    text: readableColor(color),
+  }),
+);
 ```
 
 Or you can create an instance to use all the methods for the same color:
 
 ```typescript
-import Colorizr from 'Colorizr';
+import Colorizr from 'colorizr';
 
 const colorInstance = new Colorizr('#ff0044');
 colorInstance.luminance; // 0.2168
@@ -44,14 +53,14 @@ colorInstance.opacity; // 1
 
 > String inputs accept css values: hex, hsl, oklab, oklch, rgb, and named colors.
 
-- [Info](#Info)
-- [Manipulators](#Manipulators)
-- [Converters](#Converters)
-- [Generators](#Generators)
-- [Comparison](#Comparison)
-- [Utilities](#Utilities)
-- [Validators](#Validators)
-- [Class](#Class)
+- [Info](#Info) – basic color properties and metadata
+- [Manipulators](#Manipulators) – adjust lightness, saturation, hue, alpha
+- [Converters](#Converters) – between color spaces
+- [Generators](#Generators)  – palettes, schemes, scales
+- [Comparison](#Comparison) – WCAG & APCA
+- [Utilities](#Utilities) – helpers for parsing, formatting, random colors
+- [Validators](#Validators) – type and format validation
+- [Class](#Class) – object-oriented API for a single color
 
 ### Info
 
@@ -86,7 +95,7 @@ name('rgb(176 224 230)'); // 'powderblue'
 name('hsl(344 100 50)'); // #ff0044
 ```
 
-**opacity(input: string): string**  
+**opacity(input: string): number**  
 Get the opacity of a color.
 
 ```typescript
@@ -129,7 +138,7 @@ saturate('#ff0044', 10); // #ff0044 (already at the maximum)
 saturate('pink', 10); // #ffc0cb
 ```
 
-**desaturate(input: string, alpha: number): string**  
+**desaturate(input: string, amount: number): string**  
 Get a color with decreased saturation.
 
 ```typescript
@@ -140,13 +149,13 @@ desaturate('oklab(70.622% 0.1374 0.14283)', 10); // oklab(69.021% 0.12176 0.1372
 ```
 
 **invert(input: string): string**  
-Invert the color.
+Invert the color by rotating the hue 180 degrees.
 
 ```typescript
 import { invert } from 'colorizr';
 
-invert('#07e'); // '#0077ee'
-invert('#f058'); // '#ff005588'
+invert('#07e'); // '#ee7700'
+invert('#f058'); // '#00ffaa'
 ```
 
 **rotate(input: string, degrees: number): string**  
@@ -164,18 +173,19 @@ Add opacity to a color
 ```typescript
 import { opacify } from 'colorizr';
 
-opacify('hsl(344, 100, 50)', 0.9); // hsl(344 100 50 / 90%)
+opacify('hsl(344 100% 50%)', 0.9); // hsl(344 100% 50% / 90%)
 opacify('#ff0044', 0.8); // #ff0044cc
 ```
 
 **transparentize(input: string, alpha: number, format?: ColorType): string**  
-Increase/decrease the color opacity.
+Increase/decrease the color opacity. The alpha range is -1 to 1 (positive decreases opacity, negative increases it).
 
 ```typescript
 import { transparentize } from 'colorizr';
 
-transparentize('hsl(344, 100, 50)', 10); // hsl(344 100 50 / 90%)
-transparentize('#ff0044', 50, 'hsl'); // #ff004480
+transparentize('hsl(344 100% 50%)', 0.1); // hsl(344 100% 50% / 90%)
+transparentize('#ff0044', 0.5); // #ff004480
+transparentize('#ff004480', -0.2); // #ff0044b3 (increases opacity)
 ```
 
 **grayscale(input: string, format?: ColorType): string**  
@@ -184,7 +194,7 @@ Convert a color to grayscale using OkLCH (perceptually uniform).
 ```typescript
 import { grayscale } from 'colorizr';
 
-grayscale('#ff0044'); // '#888888'
+grayscale('#ff0044'); // '#8a8a8a'
 grayscale('hsl(180, 50%, 50%)'); // 'hsl(0 0% 66.67%)'
 grayscale('#ff0000', 'oklch'); // 'oklch(62.796% 0 29.23494)'
 ```
@@ -196,7 +206,7 @@ Mix two colors in OkLCH space with shortest-path hue interpolation.
 import { mix } from 'colorizr';
 
 mix('#ff0000', '#0000ff'); // '#ba00c2' (50% mix)
-mix('#ff0000', '#0000ff', 0.25); // '#e30090'
+mix('#ff0000', '#0000ff', 0.25); // '#e8007b'
 mix('#000000', '#ffffff', 0.5); // '#636363'
 mix('hsl(0, 100%, 50%)', '#0000ff', 0.5); // 'hsl(297.53 100% 38.04%)'
 ```
@@ -255,6 +265,46 @@ contrast('hsl(0 0% 100%)', 'rgb(255 0 68)'); // 3.94
 **palette(input: string, options?: PaletteOptions): string[]**  
 Generate a palette of colors.
 
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface PaletteOptions {
+	/**
+	 * Output color format.
+	 *
+	 * If not specified, the output will use the same format as the input color.
+	 */
+	format?: ColorType;
+	/**
+	 * Adjusts the lightness of the base color before generating the palette.
+	 *
+	 * Value should be between 0 and 100.
+	 */
+	lightness?: number;
+	/**
+	 * Adjusts the saturation of the base color before generating the palette.
+	 *
+	 * Value should be between 0 and 100.
+	 */
+	saturation?: number;
+	/**
+	 * The number of colors to generate in the palette.
+	 *
+	 * Minimum value is 2.
+	 * @default 6
+	 */
+	size?: number;
+	/**
+	 * Generate a monochromatic palette.
+	 *
+	 * For more options, use the `scale` function.
+	 */
+	type?: 'monochromatic';
+}
+  ```
+</details>
+
 ```typescript
 import { palette } from 'colorizr';
 
@@ -268,10 +318,30 @@ palette('#ff0044', { type: 'monochromatic' });
 **scheme(input: string, type: SchemeOptions): string[]**  
 Get a color scheme.
 
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface SchemeOptions {
+	/**
+	 * Output color format.
+	 *
+	 * If not specified, the output will use the same format as the input color.
+	 */
+	format?: ColorType;
+	/**
+	 * The type of scheme to generate.
+	 * @default 'complementary'
+	 */
+	type?: Scheme;
+}
+  ```
+</details>
+
 ```typescript
 import { scheme } from 'colorizr';
 
-const complementary = scheme('rgb(255 0 68)'); // ['#ff0044', '#00ffbb']
+const complementary = scheme('rgb(255 0 68)'); // ['rgb(255 0 68)', 'rgb(0 255 187)']
 const triadic = scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff']
 ```
 
@@ -283,92 +353,92 @@ Generate a perceptual color scale with advanced options.
 
   ```typescript
 interface ScaleOptions {
-  /**
-   * Controls chroma adjustment across lightness levels.
-   * Values between 0-1 interpolate between these behaviors.
-   *
-   * @default 0
-   */
-  chromaCurve?: number;
-  /**
-   * Output color format.
-   *
-   * Determines the format of the generated colors (e.g., HEX, RGB, OKLCH, etc.).
-   *
-   * If not specified, the output will match the format of the input color.
-   */
-  format?: ColorType;
-  /**
-   * The lightness tuning factor for the scale.
-   * - 1: Linear lightness distribution.
-   * - >1: Lighter tones are emphasized.
-   * - <1: Darker tones are emphasized.
-   * @default 1.5
-   */
-  lightnessCurve?: number;
-  /**
-   * Lock input color at specific step position.
-   *
-   * The input color will appear exactly at this step, and other steps
-   * will be calculated relative to this anchor point.
-   *
-   * Must be a valid key for the current step count.
-   */
-  lock?: number;
-  /**
-   * The maximum lightness value for the scale.
-   *
-   * Defines the upper bound for the lightest color in the palette.
-   *
-   * A number between 0 and 1.
-   * @default 0.97
-   */
-  maxLightness?: number;
-  /**
-   * The minimum lightness value for the scale.
-   *
-   * Defines the lower bound for the darkest color in the palette.
-   *
-   * A number between 0 and 1.
-   *
-   * @default 0.2
-   */
-  minLightness?: number;
-  /**
-   * Theme-aware lightness direction.
-   *
-   * - 'light': Low keys (50) are lightest, high keys (950) are darkest
-   * - 'dark': Low keys (50) are darkest, high keys (950) are lightest
-   *
-   * @default 'light'
-   */
-  mode?: ScaleMode;
-  /**
-   * Global saturation override (0-100).
-   *
-   * When set, overrides the chroma for all generated shades.
-   * Maps to chroma in OKLCH space.
-   *
-   * Overrides `variant` if both are set.
-   */
-  saturation?: number;
-  /**
-   * Number of steps in the scale (3-20).
-   *
-   * Controls how many color shades are generated.
-   *
-   * @default 11
-   */
-  steps?: number;
-  /**
-   * The variant of the scale.
-   * - 'deep': Generates rich and bold tones with significantly reduced lightness.
-   * - 'neutral': Generates muted tones by reducing chroma.
-   * - 'pastel': Produces soft and airy tones with significant chroma reduction.
-   * - 'subtle': Creates extremely desaturated tones, close to grayscale.
-   * - 'vibrant': Enhances chroma for bold and striking tones.
-   */
-  variant?: ScaleVariant;
+	/**
+	 * Controls chroma adjustment across lightness levels.
+	 * Values between 0-1 interpolate between these behaviors.
+	 *
+	 * @default 0
+	 */
+	chromaCurve?: number;
+	/**
+	 * Output color format.
+	 *
+	 * Determines the format of the generated colors (e.g., HEX, RGB, OKLCH, etc.).
+	 *
+	 * If not specified, the output will match the format of the input color.
+	 */
+	format?: ColorType;
+	/**
+	 * The lightness tuning factor for the scale.
+	 * - 1: Linear lightness distribution.
+	 * - >1: Lighter tones are emphasized.
+	 * - <1: Darker tones are emphasized.
+	 * @default 1.5
+	 */
+	lightnessCurve?: number;
+	/**
+	 * Lock input color at specific step position.
+	 *
+	 * The input color will appear exactly at this step, and other steps
+	 * will be calculated relative to this anchor point.
+	 *
+	 * Must be a valid key for the current step count.
+	 */
+	lock?: number;
+	/**
+	 * The maximum lightness value for the scale.
+	 *
+	 * Defines the upper bound for the lightest color in the palette.
+	 *
+	 * A number between 0 and 1.
+	 * @default 0.97
+	 */
+	maxLightness?: number;
+	/**
+	 * The minimum lightness value for the scale.
+	 *
+	 * Defines the lower bound for the darkest color in the palette.
+	 *
+	 * A number between 0 and 1.
+	 *
+	 * @default 0.2
+	 */
+	minLightness?: number;
+	/**
+	 * Theme-aware lightness direction.
+	 *
+	 * - 'light': Low keys (50) are lightest, high keys (950) are darkest
+	 * - 'dark': Low keys (50) are darkest, high keys (950) are lightest
+	 *
+	 * @default 'light'
+	 */
+	mode?: ScaleMode;
+	/**
+	 * Global saturation override (0-100).
+	 *
+	 * When set, overrides the chroma for all generated shades.
+	 * Maps to chroma in OKLCH space.
+	 *
+	 * Overrides `variant` if both are set.
+	 */
+	saturation?: number;
+	/**
+	 * Number of steps in the scale (3-20).
+	 *
+	 * Controls how many color shades are generated.
+	 *
+	 * @default 11
+	 */
+	steps?: number;
+	/**
+	 * The variant of the scale.
+	 * - 'deep': Generates rich and bold tones with significantly reduced lightness.
+	 * - 'neutral': Generates muted tones by reducing chroma.
+	 * - 'pastel': Produces soft and airy tones with significant chroma reduction.
+	 * - 'subtle': Creates extremely desaturated tones, close to grayscale.
+	 * - 'vibrant': Enhances chroma for bold and striking tones.
+	 */
+	variant?: ScaleVariant;
 }
   ```
 </details>
@@ -411,6 +481,17 @@ scale(
   900: 'oklch(20% 0.25404 19.90218)'
 }
 */
+```
+
+**getScaleStepKeys(steps: number): number[]**  
+Get the step keys for a given step count (3-20).
+
+```typescript
+import { getScaleStepKeys } from 'colorizr';
+
+getScaleStepKeys(3);  // [100, 500, 900]
+getScaleStepKeys(5);  // [100, 300, 500, 700, 900]
+getScaleStepKeys(11); // [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 ```
 
 ### Converters
@@ -645,9 +726,9 @@ Returns the Lc (Lightness contrast) value:
 ```typescript
 import { apcaContrast } from 'colorizr';
 
-apcaContrast('#ffffff', '#000000'); // 106 (black text on white bg)
-apcaContrast('#000000', '#ffffff'); // -108 (white text on black bg)
-apcaContrast('#888888', '#ffffff'); // 63 (gray text on white bg)
+apcaContrast('#ffffff', '#000000'); // 106.04 (black text on white bg)
+apcaContrast('#000000', '#ffffff'); // -107.88 (white text on black bg)
+apcaContrast('#888888', '#ffffff'); // -68.54 (white text on gray bg)
 ```
 
 **convertAlphaToHex(input: number): string**  
@@ -665,7 +746,7 @@ Extract the alpha value from a hex string
 ```typescript
 import { extractAlphaFromHex } from 'colorizr';
 
-convertAlphaToHex('#ff004480'); // 0.5
+extractAlphaFromHex('#ff004480'); // 0.5
 ```
 
 **extractColorParts(input: string): ExtractColorPartsReturn**  
@@ -679,11 +760,41 @@ type ExtractColorPartsReturn = {
 } & Record<string, number>;
 
 extractColorParts('rgb(255 0 68)') // { model: 'rgb', r: 255, g: 0, b: 68 }
-extractColorParts('hsl(344 100% 50% / 90%)') // { alpha: 0.9, model: 'hsl', h: 344, g: 100, l: 50 }
+extractColorParts('hsl(344 100% 50% / 90%)') // { alpha: 0.9, model: 'hsl', h: 344, s: 100, l: 50 }
 ```
 
 **formatCSS(input: HSL | RGB, options?: FormatCSSOptions): string**  
-Get a css string from a color object.
+Get a CSS string from a color object.
+
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface FormatCSSOptions {
+	/**
+	 * The alpha value of the color (0-1).
+	 */
+	alpha?: number;
+	/**
+	 * Output color format.
+	 * @default 'hex'
+	 */
+	format?: ColorType;
+	/**
+	 * The number of digits of the output.
+	 * @default 5
+	 */
+	precision?: number;
+	/**
+	 * The separator between the values.
+	 *
+	 * oklab and oklch always use space as a separator.
+	 * @default ' '
+	 */
+	separator?: string;
+}
+  ```
+</details>
 
 ```typescript
 import { formatCSS } from 'colorizr';
@@ -756,42 +867,42 @@ Generate a random color.
 
   ```typescript
 interface RandomOptions {
-  /**
-   * The color format to return.
-   * @default 'hex'
-   */
-  format?: ColorType;
-  /**
-   * Maximum hue value (0-360).
-   * @default 360
-   */
-  maxHue?: number;
-  /**
-   * Maximum lightness value (0-100).
-   * @default 90
-   */
-  maxLightness?: number;
-  /**
-   * Maximum saturation value (0-100).
-   * @default 100
-   */
-  maxSaturation?: number;
-  /**
-   * Minimum hue value (0-360).
-   * If minHue > maxHue, the range wraps around 0° (e.g., 330-30 for reds).
-   * @default 0
-   */
-  minHue?: number;
-  /**
-   * Minimum lightness value (0-100).
-   * @default 10
-   */
-  minLightness?: number;
-  /**
-   * Minimum saturation value (0-100).
-   * @default 10
-   */
-  minSaturation?: number;
+	/**
+	 * The color format to return.
+	 * @default 'hex'
+	 */
+	format?: ColorType;
+	/**
+	 * Maximum hue value (0-360).
+	 * @default 360
+	 */
+	maxHue?: number;
+	/**
+	 * Maximum lightness value (0-100).
+	 * @default 90
+	 */
+	maxLightness?: number;
+	/**
+	 * Maximum saturation value (0-100).
+	 * @default 100
+	 */
+	maxSaturation?: number;
+	/**
+	 * Minimum hue value (0-360).
+	 * If minHue > maxHue, the range wraps around 0° (e.g., 330-30 for reds).
+	 * @default 0
+	 */
+	minHue?: number;
+	/**
+	 * Minimum lightness value (0-100).
+	 * @default 10
+	 */
+	minLightness?: number;
+	/**
+	 * Minimum saturation value (0-100).
+	 * @default 10
+	 */
+	minSaturation?: number;
 }
   ```
 </details>
@@ -815,12 +926,45 @@ removeAlphaFromHex('#ff0044cc'); // '#ff0044'
 **readableColor(backgroundColor: string, options?: ReadableColorOptions): string**  
 Get the most readable color (light or dark) for a given background.
 
-Supports multiple methods:
-- `yiq` (default): Simple YIQ brightness formula
-- `wcag`: WCAG 2.x relative luminance threshold
-- `contrast`: WCAG 2.x contrast ratio comparison
-- `oklab`: OkLab perceptual lightness threshold
-- `apca`: APCA contrast comparison (WCAG 3.0 candidate)
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface ReadableColorOptions {
+	/**
+	 * The dark color to return if the background is light.
+	 * @default '#000000'
+	 */
+	darkColor?: string;
+	/**
+	 * The light color to return if the background is dark.
+	 * @default '#ffffff'
+	 */
+	lightColor?: string;
+	/**
+	 * The method to use for determining contrast.
+	 *
+	 * - `yiq`: YIQ brightness formula (fast, simple)
+	 * - `wcag`: WCAG 2.x relative luminance threshold
+	 * - `contrast`: WCAG 2.x contrast ratio comparison
+	 * - `oklab`: OkLab perceptual lightness threshold
+	 * - `apca`: APCA contrast comparison (WCAG 3.0 candidate)
+	 *
+	 * @default 'yiq'
+	 */
+	method?: ReadableColorMethod;
+	/**
+	 * The threshold for threshold-based methods.
+	 *
+	 * - `yiq`: 0-255 (default: 128)
+	 * - `wcag`: 0-1 (default: 0.5)
+	 * - `oklab`: 0-1 (default: 0.5)
+	 * - `contrast` and `apca`: ignored (comparison-based)
+	 */
+	threshold?: number;
+}
+  ```
+</details>
 
 ```typescript
 import { readableColor } from 'colorizr';
@@ -849,6 +993,25 @@ readableColor('#ff0044', {
 **readableColorAPCA(backgroundColor: string, options?: ReadableColorAPCAOptions): string**  
 Get the most readable color using APCA contrast. Standalone function for APCA method.
 
+<details>
+  <summary>Type Definition</summary>
+
+  ```typescript
+interface ReadableColorAPCAOptions {
+	/**
+	 * The dark color to return if it has better contrast.
+	 * @default '#000000'
+	 */
+	darkColor?: string;
+	/**
+	 * The light color to return if it has better contrast.
+	 * @default '#ffffff'
+	 */
+	lightColor?: string;
+}
+  ```
+</details>
+
 ```typescript
 import { readableColorAPCA } from 'colorizr';
 
@@ -859,7 +1022,7 @@ readableColorAPCA('#888888'); // '#ffffff' (APCA favors light text on mid-grays)
 
 ### Validators
 
-**isValidColor(input: string, type?: ColorTypeInput): boolean**
+**isValidColor(input: string, type?: ColorTypeInput): boolean**  
 Check if the input is a valid color. Optionally validate against a specific color type.
 
 ```typescript
@@ -914,13 +1077,13 @@ import { isLAB } from 'colorizr';
 isLAB({ l: 0.63269, a: 0.23887, b: 0.08648 }); // true
 ```
 
-**isLHC(input: unknown): boolean**  
+**isLCH(input: unknown): boolean**  
 Check if the input is a valid LCH color.
 
 ```typescript
-import { isLHC } from 'colorizr';
+import { isLCH } from 'colorizr';
 
-isLHC({ l: 0.63269, c: 0.25404, h: 19.90218 }); // true
+isLCH({ l: 0.63269, c: 0.25404, h: 19.90218 }); // true
 ```
 
 **isRGB(input: unknown): boolean**  
@@ -935,7 +1098,7 @@ isRGB({ r: 255, g: 0, b: 68 }); // true
 ### Class
 
 ```typescript
-import Colorizr from 'Colorizr';
+import Colorizr from 'colorizr';
 
 const colorizr = new Colorizr('#ff0044');
 
@@ -979,7 +1142,7 @@ Get the green level (0-255).
 **colorizr.blue**  
 Get the blue level (0-255).
 
-**colorizr.chroma**
+**colorizr.chroma**  
 Get the chroma (0-1).
 
 **colorizr.luminance**  
@@ -991,17 +1154,15 @@ Get the opacity (0-1).
 **colorizr.css**  
 Get the css string of the same type as the input.
 
-**colorizr.readableColor**
+**colorizr.readableColor**  
 Get the most readable color (black or white) for this color as a background.
 
 #### Methods
 
 **colorizr.format(type: ColorType, precision?: number)**  
-Returns the formatted color with the type
+Returns the formatted color in the specified format.
 
-...
-
-Also, all the [manipulators](#Manipulators) and [comparison](#Comparison) utilities.
+The class also includes all [Manipulators](#Manipulators) (`lighten`, `darken`, `saturate`, `desaturate`, `invert`, `rotate`, `opacify`, `transparentize`, `grayscale`, `mix`) and [Comparison](#Comparison) methods (`contrast`, `brightnessDifference`, `colorDifference`, `compare`).
 
 ## Credits / References
 
@@ -1009,7 +1170,10 @@ Also, all the [manipulators](#Manipulators) and [comparison](#Comparison) utilit
 [chroma-js](https://gka.github.io/chroma.js/)  
 [calculating-color-contrast](https://24ways.org/2010/calculating-color-contrast/)  
 [Colour Contrast Check](https://snook.ca/technical/colour_contrast/colour.html)  
-[Contrast Checker](https://webaim.org/resources/contrastchecker/)  
 [Converting Color Spaces in typescript](https://css-tricks.com/converting-color-spaces-in-typescript/)  
-[A perceptual color space for image processing](https://bottosson.github.io/posts/oklab/)
+[A perceptual color space for image processing](https://bottosson.github.io/posts/oklab/)  
+[SAPC-APCA](https://github.com/Myndex/SAPC-APCA)
 
+## License
+
+MIT
