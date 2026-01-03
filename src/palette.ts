@@ -44,6 +44,13 @@ export interface PaletteOptions {
   type?: 'monochromatic';
 }
 
+/**
+ * Generate a color palette from a base color.
+ *
+ * @param input - The base color string.
+ * @param options - Palette generation options.
+ * @returns An array of color strings.
+ */
 export default function palette(input: string, options: PaletteOptions = {}): string[] {
   invariant(isString(input), MESSAGES.inputString);
   invariant(isPlainObject(options), MESSAGES.options);

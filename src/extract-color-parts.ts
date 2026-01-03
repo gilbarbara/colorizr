@@ -46,9 +46,12 @@ function parseAngle(value: string): number {
 
 /**
  * Extract the color parts from a CSS color string.
- * Hex colors are not supported.
+ * Hex colors are supported via conversion.
+ *
+ * @param input - The CSS color string.
+ * @returns An object with the color model and component values.
  */
-export default function extractColorParts(input: string) {
+export default function extractColorParts(input: string): ExtractColorPartsReturn {
   invariant(isString(input), MESSAGES.inputString);
 
   if (isHex(input)) {

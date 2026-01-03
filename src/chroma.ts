@@ -6,6 +6,9 @@ import parseCSS from '~/parse-css';
 
 /**
  * Get the chroma of a color.
+ *
+ * @param input - The input color string.
+ * @returns The chroma value (0-1).
  */
 export default function chroma(input: string): number {
   invariant(isString(input), MESSAGES.inputString);

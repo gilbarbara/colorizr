@@ -4,7 +4,11 @@ import { isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 /**
- * Get the difference between 2 colors.
+ * Get the color difference between 2 colors.
+ *
+ * @param left - The first color string.
+ * @param right - The second color string.
+ * @returns The color difference value.
  */
 export default function colorDifference(left: string, right: string): number {
   invariant(isString(left), MESSAGES.left);

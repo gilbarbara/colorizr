@@ -1,9 +1,3 @@
-/* A number between 0 and 1 */
-export type Alpha = number;
-
-/* A number between 0 and 100 */
-export type Amount = number;
-
 export type ColorKeysTuple = [string, string, string];
 
 export type ColorModel = HSL | LAB | LCH | RGB;
@@ -39,9 +33,6 @@ export type ColorTypeInput = ColorType | 'named';
 
 export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
 
-/* A number between 0 and 360 */
-export type Degrees = number;
-
 export type HEX = `#${string}`;
 
 export type PlainObject<T = any> = Record<string, T>;
@@ -58,7 +49,8 @@ export interface Analysis {
 }
 
 export interface Colors {
-  alpha: Alpha;
+  /** The alpha/opacity value (0-1). */
+  alpha: number;
   hex: HEX;
   hsl: HSL;
   oklab: LAB;
@@ -68,7 +60,8 @@ export interface Colors {
 }
 
 export interface HSL {
-  alpha?: Alpha;
+  /** The alpha/opacity value (0-1). */
+  alpha?: number;
   h: number;
   l: number;
   s: number;
@@ -76,20 +69,23 @@ export interface HSL {
 
 export interface LAB {
   a: number;
-  alpha?: Alpha;
+  /** The alpha/opacity value (0-1). */
+  alpha?: number;
   b: number;
   l: number;
 }
 
 export interface LCH {
-  alpha?: Alpha;
+  /** The alpha/opacity value (0-1). */
+  alpha?: number;
   c: number;
   h: number;
   l: number;
 }
 
 export interface RGB {
-  alpha?: Alpha;
+  /** The alpha/opacity value (0-1). */
+  alpha?: number;
   b: number;
   g: number;
   r: number;

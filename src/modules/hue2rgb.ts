@@ -4,7 +4,12 @@ import { round } from '~/modules/utils';
 import { isNumber } from '~/modules/validators';
 
 /**
- * Convert hue to RGB using chroma and median point
+ * Convert hue to RGB using chroma and median point.
+ *
+ * @param point - The median point value.
+ * @param chroma - The chroma value.
+ * @param h - The hue value (0-1).
+ * @returns The RGB component value.
  */
 export default function hue2rgb(point: number, chroma: number, h: number): number {
   invariant(isNumber(point) && isNumber(chroma) && isNumber(h), MESSAGES.hueArgs);

@@ -9,6 +9,10 @@ import { Analysis } from '~/types';
 
 /**
  * Check 2 colors for WCAG compliance.
+ *
+ * @param left - The first color string.
+ * @param right - The second color string.
+ * @returns Analysis object with WCAG compliance information.
  */
 export default function compare(left: string, right: string): Analysis {
   invariant(isString(left), MESSAGES.left);

@@ -4,7 +4,12 @@ import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, LCH } from '~/types';
 
-/** Convert oklch to HSL */
+/**
+ * Convert OkLCH to HSL.
+ *
+ * @param input - The OkLCH color object or tuple.
+ * @returns The HSL color object.
+ */
 export default function oklch2hsl(input: ConverterParameters<LCH>): HSL {
   const value = parseInput(input, 'oklch');
   const alpha = extractAlpha(input);

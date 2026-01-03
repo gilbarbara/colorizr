@@ -56,7 +56,9 @@ function sRGBtoY(r: number, g: number, b: number): number {
  * - Positive values indicate dark text on light background
  * - Negative values indicate light text on dark background
  *
- * @returns Lc (Lightness contrast) value, roughly -108 to +106
+ * @param background - The background color string.
+ * @param foreground - The foreground/text color string.
+ * @returns Lc (Lightness contrast) value, roughly -108 to +106.
  */
 export default function apcaContrast(background: string, foreground: string): number {
   invariant(isString(background), MESSAGES.inputString);

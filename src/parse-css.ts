@@ -114,7 +114,11 @@ function convertFromHex(value: HEX, output: ColorType): HEX | HSL | LAB | LCH | 
 }
 
 /**
- * Parse CSS color
+ * Parse a CSS color string and optionally convert to a specific format.
+ *
+ * @param input - The CSS color string.
+ * @param format - Optional output color format.
+ * @returns The parsed color in the specified format.
  */
 export default function parseCSS<T extends ColorType>(input: string, format?: T): ColorReturn<T> {
   invariant(isString(input), MESSAGES.inputString);

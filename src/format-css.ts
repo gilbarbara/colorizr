@@ -14,13 +14,13 @@ import {
   isValidColorModel,
 } from '~/modules/validators';
 
-import { Alpha, ColorModel, ColorReturn, ColorType, HEX } from '~/types';
+import { ColorModel, ColorReturn, ColorType, HEX } from '~/types';
 
 export interface FormatCSSOptions {
   /**
-   * The alpha value of the color.
+   * The alpha value of the color (0-1).
    */
-  alpha?: Alpha;
+  alpha?: number;
   /**
    * Output color format.
    * @default 'hex'
@@ -85,6 +85,13 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
   return converter(value);
 }
 
+/**
+ * Format a color model to a CSS color string.
+ *
+ * @param input - The color model or hex string.
+ * @param options - Formatting options.
+ * @returns The formatted CSS color string.
+ */
 export default function formatCSS<T extends ColorModel | HEX>(
   input: T,
   options: FormatCSSOptions = {},

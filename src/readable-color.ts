@@ -66,6 +66,10 @@ function pickByContrast(
  * - `contrast`: WCAG 2.x contrast ratio comparison
  * - `oklab`: OkLab perceptual lightness with threshold
  * - `apca`: APCA contrast comparison (WCAG 3.0 candidate)
+ *
+ * @param backgroundColor - The background color string.
+ * @param options - Options for determining the readable color.
+ * @returns The most readable color (light or dark).
  */
 export default function readableColor(
   backgroundColor: string,

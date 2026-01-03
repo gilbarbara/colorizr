@@ -7,7 +7,12 @@ import { isHex } from '~/modules/validators';
 
 import { RGB } from '~/types';
 
-/** Convert HEX to RGB */
+/**
+ * Convert HEX to RGB.
+ *
+ * @param input - The hex color string.
+ * @returns The RGB color object.
+ */
 export default function hex2rgb(input: string): RGB {
   invariant(isHex(input), MESSAGES.inputHex);
 

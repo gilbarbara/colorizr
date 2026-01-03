@@ -5,7 +5,12 @@ import { extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HEX, LCH } from '~/types';
 
-/** Convert oklch to HEX */
+/**
+ * Convert OkLCH to HEX.
+ *
+ * @param input - The OkLCH color object or tuple.
+ * @returns The hex color string.
+ */
 export default function oklch2hex(input: ConverterParameters<LCH>): HEX {
   const value = parseInput(input, 'oklch');
   const alpha = extractAlpha(input);

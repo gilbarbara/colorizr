@@ -3,7 +3,12 @@ import { addAlpha, extractAlpha, parseInput, round } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
-/** Convert HSL to RGB */
+/**
+ * Convert HSL to RGB.
+ *
+ * @param input - The HSL color object or tuple.
+ * @returns The RGB color object.
+ */
 export default function hsl2rgb(input: ConverterParameters<HSL>): RGB {
   const value = parseInput(input, 'hsl');
   const alpha = extractAlpha(input);

@@ -5,8 +5,11 @@ import { isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 /**
- * Get the name of a color.
- * Returns the hex value if the color is not found.
+ * Get the CSS color name of a color.
+ * Returns the hex value if no matching name is found.
+ *
+ * @param input - The input color string.
+ * @returns The CSS color name or hex value.
  */
 export default function name(input: string): string {
   invariant(isString(input), MESSAGES.inputString);
