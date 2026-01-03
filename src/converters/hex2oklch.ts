@@ -8,7 +8,13 @@ import { isHex } from '~/modules/validators';
 
 import { LCH } from '~/types';
 
-/** Convert HEX to oklch */
+/**
+ * Convert HEX to OkLCH.
+ *
+ * @param input - The hex color string.
+ * @param precision - The number of decimal places for the result.
+ * @returns The OkLCH color object.
+ */
 export default function hex2oklch(input: string, precision?: number): LCH {
   invariant(isHex(input), MESSAGES.inputHex);
 

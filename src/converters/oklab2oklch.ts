@@ -5,7 +5,13 @@ import { ConverterParameters, LAB, LCH } from '~/types';
 
 const { atan2, sqrt } = Math;
 
-/** Convert oklab to oklch */
+/**
+ * Convert OkLab to OkLCH.
+ *
+ * @param input - The OkLab color object or tuple.
+ * @param precision - The number of decimal places for the result.
+ * @returns The OkLCH color object.
+ */
 export default function oklab2oklch(input: ConverterParameters<LAB>, precision?: number): LCH {
   const { l, a, b } = restrictValues(parseInput(input, 'oklab'));
   const alpha = extractAlpha(input);

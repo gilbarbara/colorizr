@@ -5,7 +5,12 @@ import { extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HEX, LAB } from '~/types';
 
-/** Convert oklab to HEX */
+/**
+ * Convert OkLab to HEX.
+ *
+ * @param input - The OkLab color object or tuple.
+ * @returns The hex color string.
+ */
 export default function oklab2hex(input: ConverterParameters<LAB>): HEX {
   const value = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);

@@ -9,6 +9,12 @@ import parseCSS from '~/parse-css';
 
 import { Colors, HSL, LAB, LCH, RGB } from '~/types';
 
+/**
+ * Parse a color input and return all color representations.
+ *
+ * @param color - The color as a string or color model object.
+ * @returns An object containing all color formats and metadata.
+ */
 export default function parseColor(color: string | HSL | LAB | LCH | RGB): Colors {
   invariant(!!color, MESSAGES.input);
 

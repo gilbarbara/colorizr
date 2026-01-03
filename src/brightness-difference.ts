@@ -6,6 +6,11 @@ import parseCSS from '~/parse-css';
 
 /**
  * Get the brightness difference between 2 colors.
+ *
+ * @param left - The first color string.
+ * @param right - The second color string.
+ * @param precision - The decimal precision (default: 5).
+ * @returns The brightness difference value.
  */
 export default function brightnessDifference(
   left: string,

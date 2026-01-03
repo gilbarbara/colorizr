@@ -6,6 +6,7 @@ import { ColorTypeInput } from '~/types';
 /**
  * Detect the color type from a CSS color string.
  *
+ * @param input - The color string to analyze.
  * @returns The detected color type ('hex', 'hsl', 'rgb', 'oklab', 'oklch', 'named'),
  *          or `null` if the input is not a valid color string.
  */

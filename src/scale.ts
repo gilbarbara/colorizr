@@ -224,6 +224,10 @@ function getStepChroma(lightness: number, baseChroma: number, chromaCurve: numbe
  * This utility is ideal for designers and developers who need dynamic color
  * palettes for UI themes, design systems, or data visualization. Supports
  * multiple modes, scales, and variants for flexibility.
+ *
+ * @param input - The base color string.
+ * @param options - Scale generation options.
+ * @returns A record of step keys to color strings.
  */
 export default function scale(input: string, options: ScaleOptions = {}): Record<number, string> {
   invariant(isString(input), MESSAGES.inputString);

@@ -32,7 +32,11 @@ export interface SchemeOptions {
 }
 
 /**
- * Get the scheme for a color.
+ * Get a color scheme based on the input color.
+ *
+ * @param input - The base color string.
+ * @param typeOrOptions - The scheme type or options object.
+ * @returns An array of color strings forming the scheme.
  */
 export default function scheme(input: string, typeOrOptions?: Scheme | SchemeOptions): string[] {
   invariant(isString(input), MESSAGES.inputString);

@@ -5,7 +5,10 @@ import { isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 /**
- * Get the luminance of a color.
+ * Get the relative luminance of a color (WCAG definition).
+ *
+ * @param input - The input color string.
+ * @returns The luminance value (0-1).
  */
 export default function luminance(input: string): number {
   invariant(isString(input), MESSAGES.inputString);

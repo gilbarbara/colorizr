@@ -9,9 +9,12 @@ import rotate from '~/rotate';
 import { HEX } from '~/types';
 
 /**
- * Invert the color
+ * Invert the color by rotating hue 180 degrees.
+ *
+ * @param input - The input color string.
+ * @returns The inverted color string in the same format as input.
  */
-export default function invert(input: string) {
+export default function invert(input: string): string {
   invariant(isString(input), MESSAGES.inputString);
   const format = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
   const hex = parseCSS(input, 'hex');

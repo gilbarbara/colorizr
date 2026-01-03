@@ -15,7 +15,13 @@ function rgb2lrgb(input: number) {
   return (sign(input) || 1) * ((abs + 0.055) / 1.055) ** 2.4;
 }
 
-/** Convert RGB to oklab */
+/**
+ * Convert RGB to OkLab.
+ *
+ * @param input - The RGB color object or tuple.
+ * @param precision - The number of decimal places for the result.
+ * @returns The OkLab color object.
+ */
 export default function rgb2oklab(input: ConverterParameters<RGB>, precision = PRECISION): LAB {
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);

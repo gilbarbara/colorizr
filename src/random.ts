@@ -60,6 +60,9 @@ function randomInRange(min: number, max: number, wrapAt?: number): number {
 
 /**
  * Generate a random color.
+ *
+ * @param options - Options to constrain the random color generation.
+ * @returns The random color string.
  */
 export default function random(options: RandomOptions = {}): string {
   const { format = 'hex' } = options;

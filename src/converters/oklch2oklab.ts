@@ -6,7 +6,13 @@ import { ConverterParameters, LAB, LCH } from '~/types';
 
 const { sin, cos } = Math;
 
-/** Convert oklch to oklab */
+/**
+ * Convert OkLCH to OkLab.
+ *
+ * @param input - The OkLCH color object or tuple.
+ * @param precision - The number of decimal places for the result.
+ * @returns The OkLab color object.
+ */
 export default function oklch2oklab(input: ConverterParameters<LCH>, precision?: number): LAB {
   /*
   Convert from a qualitative parameter h and a quantitative parameter l to a 24-bit pixel.

@@ -25,6 +25,10 @@ export interface ReadableColorAPCAOptions {
  *
  * This function compares the APCA contrast of both light and dark options
  * against the background and returns the one with higher absolute contrast.
+ *
+ * @param backgroundColor - The background color string.
+ * @param options - Options for the light and dark colors.
+ * @returns The most readable color (light or dark).
  */
 export default function readableColorAPCA(
   backgroundColor: string,

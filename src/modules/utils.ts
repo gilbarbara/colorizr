@@ -11,7 +11,6 @@ import {
 } from '~/modules/validators';
 
 import {
-  Alpha,
   ColorModel,
   ColorModelKey,
   ColorModelKeys,
@@ -21,7 +20,14 @@ import {
   PlainObject,
 } from '~/types';
 
-export function addAlpha<T extends ColorModel>(input: T, alpha?: Alpha): T {
+/**
+ * Add an alpha value to a color model.
+ *
+ * @param input - The color model object.
+ * @param alpha - A number between 0 and 1 (values > 1 are divided by 100).
+ * @returns The color model with alpha applied.
+ */
+export function addAlpha<T extends ColorModel>(input: T, alpha?: number): T {
   invariant(isValidColorModel(input), MESSAGES.invalid);
 
   let value = alpha;
@@ -43,17 +49,23 @@ export function addAlpha<T extends ColorModel>(input: T, alpha?: Alpha): T {
 }
 
 /**
- * Clamp a value between a min and max
- * @param value
- * @param [min=0] - The minimum value
- * @param [max=100] - The maximum value
+ * Clamp a value between a min and max.
+ *
+ * @param value - The value to clamp.
+ * @param min - The minimum value (default: 0).
+ * @param max - The maximum value (default: 100).
+ * @returns The clamped value.
  */
-export function clamp(value: number, min = 0, max = 100) {
+export function clamp(value: number, min = 0, max = 100): number {
   return Math.min(Math.max(value, min), max);
 }
 
 /**
- * Constrain the degrees between 0 and 360
+ * Constrain the degrees between 0 and 360.
+ *
+ * @param input - The base degrees value.
+ * @param amount - The amount to add to the degrees.
+ * @returns The constrained degrees value (0-360).
  */
 export function constrainDegrees(input: number, amount: number): number {
   invariant(isNumber(input), MESSAGES.inputNumber);
@@ -73,11 +85,13 @@ export function constrainDegrees(input: number, amount: number): number {
 
 /**
  * Extract alpha from converter input.
- * Returns undefined for tuple inputs (arrays can't carry alpha).
+ *
+ * @param input - The converter parameters (object or tuple).
+ * @returns The alpha value or undefined for tuple inputs.
  */
 export function extractAlpha<T extends ColorModel>(
   input: ConverterParameters<T>,
-): Alpha | undefined {
+): number | undefined {
   if (Array.isArray(input)) {
     return undefined;
   }
@@ -87,6 +101,11 @@ export function extractAlpha<T extends ColorModel>(
 
 /**
  * Limit values per type.
+ *
+ * @param input - The value to limit.
+ * @param model - The color model ('hsl' or 'rgb').
+ * @param key - The property key to limit.
+ * @returns The limited value.
  */
 export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
   input: number,
@@ -120,7 +139,11 @@ export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
 }
 
 /**
- * Parse the input parameters
+ * Parse the input parameters for converters.
+ *
+ * @param input - The converter parameters (object or tuple).
+ * @param model - The target color model.
+ * @returns The parsed color model object.
  */
 export function parseInput<T extends ColorModel>(
   input: ConverterParameters<T>,
@@ -147,6 +170,10 @@ export function parseInput<T extends ColorModel>(
 
 /**
  * Creates an object composed of the picked source properties.
+ *
+ * @param input - The source object.
+ * @param options - The property keys to pick.
+ * @returns The new object with picked properties.
  */
 export function pick(input: PlainObject, options: string[]): PlainObject {
   if (!Array.isArray(options)) {
@@ -164,6 +191,11 @@ export function pick(input: PlainObject, options: string[]): PlainObject {
 
 /**
  * Restrict the values to a certain number of digits.
+ *
+ * @param input - The LAB or LCH color model.
+ * @param precision - The number of decimal places (default: 5).
+ * @param forcePrecision - Whether to force the precision (default: true).
+ * @returns The color model with restricted values.
  */
 export function restrictValues<T extends LAB | LCH>(
   input: T,
@@ -181,6 +213,11 @@ export function restrictValues<T extends LAB | LCH>(
 
 /**
  * Round decimal numbers.
+ *
+ * @param input - The number to round.
+ * @param precision - The number of decimal places (default: 2).
+ * @param forcePrecision - Whether to force exact precision (default: true).
+ * @returns The rounded number.
  */
 export function round(input: number, precision = 2, forcePrecision = true): number {
   if (!isNumber(input) || input === 0) {
@@ -218,6 +255,8 @@ export function round(input: number, precision = 2, forcePrecision = true): numb
 
 /**
  * Log a warning in development mode.
+ *
+ * @param message - The warning message to log.
  */
 export function warn(message: string): void {
   if (process.env.NODE_ENV !== 'production') {
@@ -264,6 +303,9 @@ const STEP_KEYS: Record<number, number[]> = {
 
 /**
  * Get the step keys for a given step count.
+ *
+ * @param steps - The number of steps (clamped to 3-20).
+ * @returns The array of step keys.
  */
 export function getScaleStepKeys(steps: number): number[] {
   const value = clamp(Math.round(steps), 3, 20);

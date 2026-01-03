@@ -47,10 +47,11 @@ function interpolateHue(h1: number, h2: number, c1: number, c2: number, ratio: n
  * Mix two colors in OkLCH space (perceptually uniform).
  * Uses shortest-path hue interpolation.
  *
- * @param color1 - The first color
- * @param color2 - The second color
- * @param ratio - The mixing ratio (0 = color1, 1 = color2). Default: 0.5
- * @param format - Optional output format
+ * @param color1 - The first color string.
+ * @param color2 - The second color string.
+ * @param ratio - A number between 0 and 1 (0 = color1, 1 = color2).
+ * @param format - Optional output color format.
+ * @returns The mixed color string.
  */
 export default function mix(
   color1: string,

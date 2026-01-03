@@ -4,7 +4,13 @@ import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, LCH, RGB } from '~/types';
 
-/** Convert oklch to RGB */
+/**
+ * Convert OkLCH to RGB.
+ *
+ * @param input - The OkLCH color object or tuple.
+ * @param precision - The number of decimal places for the result.
+ * @returns The RGB color object.
+ */
 export default function oklch2rgb(input: ConverterParameters<LCH>, precision = 0): RGB {
   const value = parseInput(input, 'oklch');
   const alpha = extractAlpha(input);

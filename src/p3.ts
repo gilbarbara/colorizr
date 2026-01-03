@@ -40,7 +40,11 @@ function oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple {
 }
 
 /**
- * Get the maximum chroma for a given lightness and hue in the OkLCH color space
+ * Get the maximum chroma for a given lightness and hue in the OkLCH color space.
+ *
+ * @param input - The input color string or LCH object.
+ * @param precision - The number of decimal places for the result.
+ * @returns The maximum chroma value within P3 gamut.
  */
 export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): number {
   const { l, h } = isString(input) ? parseCSS(input, 'oklch') : input;
@@ -70,7 +74,10 @@ export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): n
 }
 
 /**
- * Get a OkLCH color with maxed chroma in the P3 color space.
+ * Get an OkLCH color with maximum chroma in the P3 color space.
+ *
+ * @param input - The input color string or LCH object.
+ * @returns The OkLCH color string with maximum chroma.
  */
 export function getP3MaxColor(input: string | LCH): string {
   const lch = isString(input) ? parseCSS(input, 'oklch') : input;

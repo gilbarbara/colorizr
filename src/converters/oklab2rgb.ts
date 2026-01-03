@@ -16,7 +16,13 @@ function lrgb2rgb(input: number) {
   return input * 12.92;
 }
 
-/** Convert oklab to RGB */
+/**
+ * Convert OkLab to RGB.
+ *
+ * @param input - The OkLab color object or tuple.
+ * @param precision - The number of decimal places for the result.
+ * @returns The RGB color object.
+ */
 export default function oklab2rgb(input: ConverterParameters<LAB>, precision = 0): RGB {
   const { l: L, a: A, b: B } = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);

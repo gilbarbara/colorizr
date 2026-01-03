@@ -8,7 +8,13 @@ import { isHex } from '~/modules/validators';
 
 import { LAB } from '~/types';
 
-/** Convert HEX to oklab */
+/**
+ * Convert HEX to OkLab.
+ *
+ * @param input - The hex color string.
+ * @param precision - The number of decimal places for the result.
+ * @returns The OkLab color object.
+ */
 export default function hex2oklab(input: string, precision?: number): LAB {
   invariant(isHex(input), MESSAGES.inputHex);
 

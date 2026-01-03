@@ -4,6 +4,12 @@ import { isHex } from '~/modules/validators';
 
 import { HEX } from '~/types';
 
+/**
+ * Normalize a hex color string to 6 or 8 characters.
+ *
+ * @param input - The hex color string (3, 4, 6, or 8 characters).
+ * @returns The normalized hex color string.
+ */
 export default function formatHex(input: string): HEX {
   invariant(isHex(input), MESSAGES.inputHex);
 
