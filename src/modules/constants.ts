@@ -41,7 +41,7 @@ export const MESSAGES = {
   alphaAdjustment: 'alpha must be a number between -1 and 1',
   amount: 'amount must be a number between 0 and 100',
   colorRequired: 'color is required',
-  degreesNumber: 'degrees must be a number',
+  degreesRange: 'degrees must be a number between -360 and 360',
   hueArgs: 'point, chroma and h are required',
   hueRange: 'hue must be a number between 0 and 360',
   input: 'input is required',
