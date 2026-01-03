@@ -16,6 +16,6 @@ describe('rotate', () => {
     // @ts-expect-error - invalid parameters
     expect(() => rotate({})).toThrow(MESSAGES.inputString);
     // @ts-expect-error - invalid parameters
-    expect(() => rotate('#f04', [])).toThrow('degrees must be a number');
+    expect(() => rotate('#f04', [])).toThrow(MESSAGES.degreesRange);
   });
 });
