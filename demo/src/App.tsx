@@ -20,8 +20,8 @@ import Color from './components/Color';
 import ColorGrid from './components/ColorGrid';
 import ColorModel from './components/ColorModel';
 import Example from './components/Example';
-import Scale from './components/Scale';
 import Section from './components/Section';
+import Swatch from './components/Swatch';
 import {
   Block,
   Checker,
@@ -70,7 +70,7 @@ export default function App() {
   const [colorizr, setColorizr] = useState(new Colorizr(color));
   const timeout = useRef<number>();
 
-  const text = textColor || colorizr.readableColor;
+  const text = textColor || colorizr.textColor;
   const analysis = colorizr.compare(text as HEX);
 
   const grade = () => {
@@ -330,8 +330,8 @@ export default function App() {
         </ColorGrid>
       </Section>
 
-      <Section title="scale">
-        <Scale color={colorizr.hex} />
+      <Section title="swatch">
+        <Swatch color={colorizr.hex} />
       </Section>
 
       <Section title="palette">

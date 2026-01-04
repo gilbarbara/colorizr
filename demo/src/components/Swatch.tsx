@@ -16,20 +16,20 @@ import {
 } from '@gilbarbara/components';
 import { debounce } from '@gilbarbara/helpers';
 import { useMount, useSetState } from '@gilbarbara/hooks';
-import { type ScaleOptions } from 'colorizr';
+import { swatch, type SwatchOptions } from 'colorizr';
 import Slider from 'rc-slider';
 
-interface ScaleProps {
-  color: string;
-}
-
-interface State extends Omit<ScaleOptions, 'format'> {
+interface State extends Omit<SwatchOptions, 'format'> {
   showDefault: boolean;
   width: number;
 }
 
+interface SwatchProps {
+  color: string;
+}
+
 const defaultState = {
-  lightnessCurve: 1.5,
+  lightnessFactor: 1.5,
   maxLightness: 0.97,
   minLightness: 0.2,
   scale: 'dynamic',
@@ -56,7 +56,7 @@ function ColorSwatch({ color, tone }: { color: string; tone: string }) {
   );
 }
 
-export default function Scale({ color }: ScaleProps) {
+export default function Swatch({ color }: SwatchProps) {
   const [state, setState] = useSetState<State>({
     ...defaultState,
     showDefault: false,
@@ -64,7 +64,7 @@ export default function Scale({ color }: ScaleProps) {
   });
 
   const {
-    lightnessCurve,
+    lightnessFactor,
     maxLightness = 0.97,
     minLightness = 0.2,
     scale,
@@ -92,7 +92,7 @@ export default function Scale({ color }: ScaleProps) {
 
   const handleLightnessFactorChange = (value: number | number[]) => {
     if (!Array.isArray(value)) {
-      setState({ lightnessCurve: value });
+      setState({ lightnessFactor: value });
     }
   };
 
@@ -117,7 +117,7 @@ export default function Scale({ color }: ScaleProps) {
   const handleVariantChange = (values: Types.DropdownOption[]) => {
     const [selected] = values;
 
-    setState({ variant: (selected.value || undefined) as ScaleOptions['variant'] });
+    setState({ variant: (selected.value || undefined) as SwatchOptions['variant'] });
   };
 
   const handleToggleScale = (value: boolean) => {
@@ -146,7 +146,7 @@ export default function Scale({ color }: ScaleProps) {
   const gridColumns = isSmall ? 'auto-fit' : '11';
 
   return (
-    <Box data-component-name="Scale">
+    <Box data-component-name="Swatch">
       <Flex
         bg="white"
         direction="column"
@@ -161,7 +161,7 @@ export default function Scale({ color }: ScaleProps) {
       >
         <Box>
           <Paragraph bold size="xl">
-            Dynamic Scale Generator
+            Dynamic Swatch Generator
           </Paragraph>
           <Paragraph mt="xxs">Adjust settings and compare with default.</Paragraph>
         </Box>
@@ -201,7 +201,7 @@ export default function Scale({ color }: ScaleProps) {
         <Flex gap="lg" wrap={flexWrap}>
           <Box width="100%">
             <Paragraph bold mb="xxs">
-              Lightness Curve ({lightnessCurve})
+              Lightness Factor ({lightnessFactor})
             </Paragraph>
             <Slider
               disabled={isFixed}
@@ -211,7 +211,7 @@ export default function Scale({ color }: ScaleProps) {
               max={10}
               onChange={handleLightnessFactorChange}
               step={0.1}
-              value={lightnessCurve}
+              value={lightnessFactor}
             />
           </Box>
           <Box width="100%">
@@ -262,14 +262,14 @@ export default function Scale({ color }: ScaleProps) {
         radius="sm"
       >
         <Grid rowGap="xxs" templateColumns={`repeat(${gridColumns}, minmax(40px,70px))`}>
-          {Object.entries(scale(color, state)).map(([tone, swatch]) => (
-            <ColorSwatch key={tone} color={swatch} tone={tone} />
+          {Object.entries(swatch(color, state)).map(([tone, swatchColor]) => (
+            <ColorSwatch key={tone} color={swatchColor} tone={tone} />
           ))}
         </Grid>
         {showDefault && (
           <Grid rowGap="xxs" templateColumns={`repeat(${gridColumns}, minmax(40px,70px))`}>
-            {Object.entries(scale(color)).map(([tone, swatch]) => (
-              <ColorSwatch key={tone} color={swatch} tone={tone} />
+            {Object.entries(swatch(color)).map(([tone, swatchColor]) => (
+              <ColorSwatch key={tone} color={swatchColor} tone={tone} />
             ))}
           </Grid>
         )}
