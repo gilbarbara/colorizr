@@ -129,10 +129,15 @@ describe('scale', () => {
         return match ? parseFloat(match[1]) : 0;
       };
 
-      // At extremes (50 and 950), parabolic should have lower chroma
-      expect(extractChroma(constantChroma[50])).toBeGreaterThan(extractChroma(parabolicChroma[50]));
-      expect(extractChroma(constantChroma[950])).toBeGreaterThan(
-        extractChroma(parabolicChroma[950]),
+      // At extremes (50 and 950), both curves are gamut-limited to the same max chroma
+      // The chromaCurve effect is only visible where the desired chroma is within gamut
+      expect(extractChroma(constantChroma[50])).toBe(extractChroma(parabolicChroma[50]));
+      expect(extractChroma(constantChroma[950])).toBe(extractChroma(parabolicChroma[950]));
+
+      // At mid-lightness (500), parabolic should have higher chroma than at extremes
+      // because the parabolic curve peaks at mid-lightness
+      expect(extractChroma(parabolicChroma[500])).toBeGreaterThan(
+        extractChroma(parabolicChroma[50]),
       );
     });
   });

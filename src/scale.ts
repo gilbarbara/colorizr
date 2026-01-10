@@ -197,8 +197,9 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   for (const key of keys) {
     const lightness = lightnessMap[key];
     const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
+    const maxChroma = getOkLCHMaxChroma({ l: lightness, c: 0, h: hue });
 
-    palette[key] = { l: lightness, c: chroma, h: hue };
+    palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: hue };
   }
 
   return palette;
