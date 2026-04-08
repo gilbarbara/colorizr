@@ -133,6 +133,7 @@ const chromaScale: Record<string, number> = {
 /**
  * Generate the color palette for the scale.
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   const {
     baseChroma,
@@ -256,11 +257,9 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
   // Validate lock option
   let lock = lockOption;
 
-  if (lock !== undefined) {
-    if (!isNumber(lock) || !keys.includes(lock)) {
-      warn(`lock: ${lock} is not valid for steps: ${steps}, ignoring`);
-      lock = undefined;
-    }
+  if (lock !== undefined && (!isNumber(lock) || !keys.includes(lock))) {
+    warn(`lock: ${lock} is not valid for steps: ${steps}, ignoring`);
+    lock = undefined;
   }
 
   const lch = parseCSS(input, 'oklch');

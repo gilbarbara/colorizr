@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';

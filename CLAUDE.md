@@ -15,9 +15,10 @@ pnpm build                # Clean and build with tsup
 pnpm watch                # Build in watch mode
 
 # Testing
+pnpm test                 # Run all tests
 pnpm test:watch           # Interactive test watching
 pnpm test:coverage        # Run tests with coverage
-pnpm vitest run test/filename.spec.ts  # Run single test file
+pnpm test filename.spec   # Run single test file
 
 # Quality
 pnpm lint                 # ESLint on src and test
