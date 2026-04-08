@@ -48,33 +48,33 @@ exports[`Colorizr with 'HEX with alpha' > getters > .luminance should return the
 
 exports[`Colorizr with 'HEX with alpha' > getters > .opacity should return the correct value 1`] = `0.9`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 10 1`] = `"#cc0036"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 10 1`] = `"#cc0036e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 20 1`] = `"#990029"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 20 1`] = `"#990029e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 40 1`] = `"#33000e"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 40 1`] = `"#33000ee6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 80 1`] = `"#000000"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darken the color with 80 1`] = `"#000000e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4a"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4ae6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61950"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61950e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335c"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335ce6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"#996674"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"#996674e6"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > grayscale > should convert to grayscale 1`] = `"#8a8a8ae6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > invert > should have invert the color 1`] = `"#00ffbb"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > invert > should have invert the color 1`] = `"#00ffbbe6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 10 1`] = `"#ff3369"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 10 1`] = `"#ff3369e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 20 1`] = `"#ff668f"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 20 1`] = `"#ff668fe6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 40 1`] = `"#ffccda"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 40 1`] = `"#ffccdae6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffff"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffffe6"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix in hsl space 1`] = `"#dd00fff2"`;
 
@@ -94,23 +94,23 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with long
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > opacify > should make the color transparent 1`] = `"#ff0044e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3c00"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3c00e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 120 1`] = `"#44ff00"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 120 1`] = `"#44ff00e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbb"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 180 1`] = `"#00ffbbe6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 10 1`] = `"#ff0044e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 20 1`] = `"#ff0044"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 20 1`] = `"#ff0044e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 40 1`] = `"#ff0044"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 40 1`] = `"#ff0044e6"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 80 1`] = `"#ff0044"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have saturated the color with 80 1`] = `"#ff0044e6"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044b3"`;
 

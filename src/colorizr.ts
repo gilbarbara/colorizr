@@ -14,7 +14,7 @@ import luminance from '~/luminance';
 import mix, { MixOptions } from '~/mix';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import parseColor from '~/modules/parse-color';
+import { resolveColor } from '~/modules/parsed-color';
 import opacify from '~/opacify';
 import opacity from '~/opacity';
 import readableColor from '~/readable-color';
@@ -47,16 +47,16 @@ export default class Colorizr {
   constructor(color: string | HSL | LAB | LCH | RGB, options: ColorizrOptions = {}) {
     invariant(!!color, MESSAGES.colorRequired);
 
-    const { alpha, hex, hsl, oklab, oklch, rgb, type } = parseColor(color);
+    const parsed = resolveColor(color);
 
-    this.hex = hex;
-    this.hsl = hsl;
-    this.oklab = oklab;
-    this.oklch = oklch;
-    this.rgb = rgb;
+    this.hex = parsed.hex;
+    this.hsl = parsed.hsl;
+    this.oklab = parsed.oklab;
+    this.oklch = parsed.oklch;
+    this.rgb = parsed.rgb;
 
-    this.alpha = alpha;
-    this.type = options.format ?? type;
+    this.alpha = parsed.alpha;
+    this.type = options.format ?? parsed.type;
   }
 
   /**

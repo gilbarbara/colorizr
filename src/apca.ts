@@ -1,9 +1,8 @@
-import hex2rgb from '~/converters/hex2rgb';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 // APCA W3 Constants (version 0.0.98G-4g)
 // Based on official SAPC-APCA implementation from Myndex/SAPC-APCA
@@ -64,8 +63,8 @@ export default function apcaContrast(background: string, foreground: string): nu
   invariant(isString(background), MESSAGES.inputString);
   invariant(isString(foreground), MESSAGES.inputString);
 
-  const bg = hex2rgb(parseCSS(background, 'hex'));
-  const fg = hex2rgb(parseCSS(foreground, 'hex'));
+  const bg = resolveColor(background).rgb;
+  const fg = resolveColor(foreground).rgb;
 
   const txtY = softClamp(sRGBtoY(fg.r, fg.g, fg.b));
   const bgY = softClamp(sRGBtoY(bg.r, bg.g, bg.b));

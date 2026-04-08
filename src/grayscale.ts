@@ -1,9 +1,8 @@
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
+import { isString } from '~/modules/validators';
 
 import { ColorType } from '~/types';
 
@@ -18,8 +17,12 @@ import { ColorType } from '~/types';
 export default function grayscale(input: string, format?: ColorType): string {
   invariant(isString(input), MESSAGES.inputString);
 
-  const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
-  const lch = parseCSS(input, 'oklch');
+  const parsed = resolveColor(input);
+  const lch = parsed.oklch;
+  const output = format ?? parsed.type;
 
-  return formatCSS({ ...lch, c: 0 }, { format: format ?? output, alpha: lch.alpha });
+  return formatCSS(
+    { ...lch, c: 0 },
+    { format: output, alpha: parsed.alpha < 1 ? parsed.alpha : undefined },
+  );
 }

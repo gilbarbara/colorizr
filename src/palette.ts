@@ -1,11 +1,9 @@
 import convert from '~/convert';
-import hex2hsl from '~/converters/hex2hsl';
 import hsl2hex from '~/converters/hsl2hex';
-import extractColorParts from '~/extract-color-parts';
 import { MESSAGES, MONOCHROMATIC_LIGHTNESS_MAX } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isPlainObject, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
+import { isPlainObject, isString } from '~/modules/validators';
 import rotate from '~/rotate';
 
 import { ColorType, HEX } from '~/types';
@@ -59,8 +57,9 @@ export default function palette(input: string, options: PaletteOptions = {}): st
 
   invariant(size >= 2, MESSAGES.paletteSize);
 
-  const hsl = parseCSS(input, 'hsl');
-  const colorFormat = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
+  const parsed = resolveColor(input);
+  const { hsl } = parsed;
+  const colorFormat = format ?? parsed.type;
 
   const output: string[] = [];
 
@@ -77,10 +76,11 @@ export default function palette(input: string, options: PaletteOptions = {}): st
 
     for (let index = 1; index < size; index++) {
       const color = rotate(input, step * index, 'hex') as HEX;
+      const rotatedHsl = resolveColor(color).hsl;
 
-      output.push(hsl2hex({ ...hex2hsl(color), l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
+      output.push(hsl2hex({ ...rotatedHsl, l: lightness ?? hsl.l, s: saturation ?? hsl.s }));
     }
   }
 
-  return output.map(color => convert(color, format ?? colorFormat));
+  return output.map(color => convert(color, colorFormat));
 }

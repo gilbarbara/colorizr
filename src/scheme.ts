@@ -1,8 +1,8 @@
 import convert from '~/convert';
-import extractColorParts from '~/extract-color-parts';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
+import { resolveColor } from '~/modules/parsed-color';
+import { isString } from '~/modules/validators';
 import rotate from '~/rotate';
 
 import { ColorType } from '~/types';
@@ -44,7 +44,7 @@ export default function scheme(input: string, typeOrOptions?: Scheme | SchemeOpt
     ? { type: typeOrOptions }
     : (typeOrOptions ?? {});
 
-  const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
+  const output = format ?? resolveColor(input).type;
 
   const colors: string[] = [];
 
@@ -82,5 +82,5 @@ export default function scheme(input: string, typeOrOptions?: Scheme | SchemeOpt
     }
   }
 
-  return colors.map(color => convert(color, format ?? output));
+  return colors.map(color => convert(color, output));
 }

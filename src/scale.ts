@@ -1,11 +1,10 @@
 import formatCSS from '~/format-css';
-import getColorType from '~/get-color-type';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { clamp, getScaleStepKeys, warn } from '~/modules/utils';
 import { isNumber, isString } from '~/modules/validators';
 import { getOkLCHMaxChroma } from '~/p3';
-import parseCSS from '~/parse-css';
 
 import type { ColorType, LCH } from '~/types';
 
@@ -33,8 +32,10 @@ export type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
  */
 export interface ScaleOptions {
   /**
-   * Controls chroma adjustment across lightness levels.
-   * Values between 0-1 interpolate between these behaviors.
+   * Controls chroma distribution across lightness levels (0-1).
+   * - 0: Constant chroma across all steps (default).
+   * - 1: Parabolic curve — full chroma at mid-lightness, reduced toward extremes.
+   * - Values between interpolate between constant and parabolic.
    *
    * @default 0
    */
@@ -56,10 +57,11 @@ export interface ScaleOptions {
    */
   lightnessCurve?: number;
   /**
-   * Lock input color at specific step position.
+   * Lock input color's lightness at specific step position.
    *
-   * The input color will appear exactly at this step, and other steps
-   * will be calculated relative to this anchor point.
+   * The input color's lightness is anchored at this step, and other steps
+   * are distributed relative to it. Chroma is also preserved unless
+   * `chromaCurve` or `saturation` are set, which recalculate chroma independently.
    *
    * Must be a valid step key for the current step count.
    * Default step keys (11 steps): 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.
@@ -217,7 +219,7 @@ function getStepChroma(lightness: number, baseChroma: number, chromaCurve: numbe
   const parabolic = 4 * lightness * (1 - lightness);
   const curveScale = 1 - chromaCurve * (1 - parabolic);
 
-  return baseChroma * curveScale;
+  return Math.max(0, baseChroma * curveScale);
 }
 
 /**
@@ -251,7 +253,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     'maxLightness must be greater than minLightness and within the range [0, 1].',
   );
 
-  const steps = stepsOption !== undefined ? clamp(Math.round(stepsOption), 3, 20) : 11;
+  const steps = stepsOption !== undefined ? Math.round(stepsOption) : 11;
   const keys = getScaleStepKeys(steps);
 
   // Validate lock option
@@ -262,7 +264,8 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     lock = undefined;
   }
 
-  const lch = parseCSS(input, 'oklch');
+  const parsed = resolveColor(input);
+  const lch = parsed.oklch;
 
   // Determine base chroma
   let baseChroma: number;
@@ -278,12 +281,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     baseChroma = lch.c;
   }
 
-  const detectedType = getColorType(input);
-  let colorFormat: ColorType = 'hex';
-
-  if (detectedType) {
-    colorFormat = detectedType === 'named' ? 'hex' : detectedType;
-  }
+  const colorFormat = format ?? parsed.type;
 
   // Generate the color palette
   const palette = generatePalette({
@@ -300,9 +298,6 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
   });
 
   return Object.fromEntries(
-    Object.entries(palette).map(([key, value]) => [
-      key,
-      formatCSS(value, { format: format ?? colorFormat }),
-    ]),
+    Object.entries(palette).map(([key, value]) => [key, formatCSS(value, { format: colorFormat })]),
   );
 }

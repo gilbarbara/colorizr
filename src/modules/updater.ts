@@ -1,10 +1,9 @@
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { type ColorInput, isParsedColor, resolveColor } from '~/modules/parsed-color';
 import { clamp } from '~/modules/utils';
-import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { isNumberInRange, isString } from '~/modules/validators';
 
 import { ColorModelKeys, ColorType } from '~/types';
 
@@ -22,23 +21,24 @@ export default function updater(
   format?: ColorType,
 ) {
   /**
-   * @param input - The input color string.
+   * @param input - The input color string or ParsedColor.
    * @param amount - A number between 0 and 100.
    * @returns The updated color string.
    */
-  return (input: string, amount: number) => {
-    invariant(isString(input), MESSAGES.inputString);
+  return (input: ColorInput, amount: number) => {
+    invariant(isString(input) || isParsedColor(input), MESSAGES.inputString);
     invariant(isNumberInRange(amount, 0, 100), MESSAGES.amount);
 
-    const color = parseCSS(input, 'hsl');
-    const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
+    const parsed = resolveColor(input);
+    const { hsl } = parsed;
+    const output = format ?? parsed.type;
 
     return formatCSS(
       {
-        ...color,
-        [key]: clamp(color[key] + (operator === '+' ? amount : -amount), 0, 100),
+        ...hsl,
+        [key]: clamp(hsl[key] + (operator === '+' ? amount : -amount), 0, 100),
       },
-      { format: format ?? output },
+      { format: output, alpha: parsed.alpha < 1 ? parsed.alpha : undefined },
     );
   };
 }
