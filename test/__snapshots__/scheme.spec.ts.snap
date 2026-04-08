@@ -53,21 +53,21 @@ exports[`scheme > should return properly with 'oklab(70.622% 0.1374 0.14283)' an
 ]
 `;
 
-exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.93693)' and { type: 'rectangle' } 1`] = `
+exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.94)' and { type: 'rectangle' } 1`] = `
 [
-  "oklch(47.642% 0.29956 274.93693)",
-  "oklch(66.672% 0.28363 344.9015)",
-  "oklch(92.006% 0.23635 126.69487)",
-  "oklch(86.876% 0.27606 144.65534)",
+  "oklch(47.642% 0.29956 274.94)",
+  "oklch(66.672% 0.28363 344.9)",
+  "oklch(92.006% 0.23634 126.7)",
+  "oklch(86.876% 0.27606 144.66)",
 ]
 `;
 
-exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.93693)' and { type: 'tetradic' } 1`] = `
+exports[`scheme > should return properly with 'oklch(47.642% 0.29956 274.94)' and { type: 'tetradic' } 1`] = `
 [
-  "oklch(47.642% 0.29956 274.93693)",
-  "oklch(66.672% 0.28363 344.9015)",
-  "oklch(92.006% 0.23635 126.69487)",
-  "oklch(86.876% 0.27606 144.65534)",
+  "oklch(47.642% 0.29956 274.94)",
+  "oklch(66.672% 0.28363 344.9)",
+  "oklch(92.006% 0.23634 126.7)",
+  "oklch(86.876% 0.27606 144.66)",
 ]
 `;
 

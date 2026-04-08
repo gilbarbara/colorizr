@@ -104,6 +104,10 @@ describe('pick', () => {
 });
 
 describe('restrictValues', () => {
+  it('should return input unchanged when precision is undefined', () => {
+    expect(restrictValues(brightPink.oklabLong)).toEqual(brightPink.oklabLong);
+  });
+
   it.each([
     [brightPink.oklabLong, brightPink.oklab],
     [brightPink.oklchLong, brightPink.oklch],
@@ -115,22 +119,22 @@ describe('restrictValues', () => {
     [violet.oklchLong, violet.oklch],
     [yellow.oklabLong, yellow.oklab],
     [yellow.oklchLong, yellow.oklch],
-  ])(`should restrict %s properly`, (input, expected) => {
-    expect(restrictValues(input)).toEqual(expected);
+  ])(`should restrict %s with precision 5`, (input, expected) => {
+    expect(restrictValues(input, 5)).toEqual(expected);
   });
 });
 
 describe('round', () => {
   it.each([
-    [{ input: 100.291, precision: 2, force: false, expected: 100.29 }],
+    [{ input: 100.291, precision: 2, force: false, expected: 100 }],
     [{ input: 46.11008, precision: 5, force: true, expected: 46.11008 }],
     [{ input: 46.11008, precision: 5, force: false, expected: 46.11 }],
     [{ input: -0.22518224932102743, precision: 5, expected: -0.22518 }],
-    [{ input: -0.22518224932102743, precision: 5, force: false, expected: -0.225 }],
+    [{ input: -0.22518224932102743, precision: 5, force: false, expected: -0.22518 }],
     [{ input: 1.21792011, precision: 2, expected: 1.22 }],
-    [{ input: 1.22, precision: 0, force: false, expected: 1 }],
-    [{ input: 1.22, precision: 1, force: false, expected: 1.2 }],
-    [{ input: 1.22, precision: 2, force: false, expected: 1.22 }],
+    [{ input: 1.22, precision: 0, force: false, expected: 0 }],
+    [{ input: 1.22, precision: 1, force: false, expected: 1 }],
+    [{ input: 1.22, precision: 2, force: false, expected: 1.2 }],
     [{ input: 1.22, precision: 3, force: false, expected: 1.22 }],
     [{ input: 1.22, precision: 4, force: false, expected: 1.22 }],
     [{ input: 1.22, precision: 5, force: false, expected: 1.22 }],

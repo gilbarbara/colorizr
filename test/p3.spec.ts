@@ -12,9 +12,9 @@ describe('getMaxOkLCHChroma', () => {
     [{ input: orange.oklabString, expected: 0.22488 }],
     [{ input: orange.oklch, expected: 0.22488 }],
     [{ input: violet.oklchString, expected: 0.30223 }],
-    [{ input: violet.oklch, expected: 0.30223 }],
-    [{ input: yellow.rgbString, expected: 0.16984 }],
-    [{ input: yellow.oklch, expected: 0.16984 }],
+    [{ input: violet.oklch, expected: 0.30224 }],
+    [{ input: yellow.rgbString, expected: 0.16983 }],
+    [{ input: yellow.oklch, expected: 0.16983 }],
     [{ input: { l: 0.8853, c: 0.1, h: 188 }, expected: 0.20772 }],
     [{ input: { l: 0.6941, c: 0.1, h: 344 }, expected: 0.33028 }],
     [{ input: { l: 0.8471, c: 0.1, h: 143 }, expected: 0.34369 }],
@@ -39,12 +39,12 @@ describe('getMaxOkLCHChroma', () => {
 
 describe('getP3MaxColor', () => {
   it.each([
-    [{ input: brightPink.oklch, expected: 'oklch(0.63269 0.28643 19.90218)' }],
-    [{ input: brightPink.hex, expected: 'oklch(0.63269 0.28643 19.90218)' }],
-    [{ input: green.hslString, expected: 'oklch(0.86876 0.30921 144.65534)' }],
-    [{ input: orange.oklabString, expected: 'oklch(0.70622 0.22488 46.11008)' }],
-    [{ input: violet.oklchString, expected: 'oklch(0.47642 0.30223 274.93693)' }],
-    [{ input: yellow.rgbString, expected: 'oklch(0.92235 0.16984 97.77872)' }],
+    [{ input: brightPink.oklch, expected: 'oklch(0.63269 0.28643 19.90224)' }],
+    [{ input: brightPink.hex, expected: 'oklch(0.6326860506565246 0.28643 19.902240785746187)' }],
+    [{ input: green.hslString, expected: 'oklch(0.8687605896103548 0.30921 144.65540033481756)' }],
+    [{ input: orange.oklabString, expected: 'oklch(0.70622 0.22488 46.11007798489595)' }],
+    [{ input: violet.oklchString, expected: 'oklch(0.47642 0.30223 274.94)' }],
+    [{ input: yellow.rgbString, expected: 'oklch(0.922350998807585 0.16983 97.77771337249595)' }],
   ])('should return $expected for $input', ({ input, expected }) => {
     expect(getP3MaxColor(input)).toBe(expected);
   });

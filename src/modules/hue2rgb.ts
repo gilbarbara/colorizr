@@ -1,6 +1,5 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { round } from '~/modules/utils';
 import { isNumber } from '~/modules/validators';
 
 /**
@@ -24,16 +23,16 @@ export default function hue2rgb(point: number, chroma: number, h: number): numbe
   }
 
   if (hue < 1 / 6) {
-    return round(point + (chroma - point) * 6 * hue, 4);
+    return point + (chroma - point) * 6 * hue;
   }
 
   if (hue < 1 / 2) {
-    return round(chroma, 4);
+    return chroma;
   }
 
   if (hue < 2 / 3) {
-    return round(point + (chroma - point) * (2 / 3 - hue) * 6, 4);
+    return point + (chroma - point) * (2 / 3 - hue) * 6;
   }
 
-  return round(point, 4);
+  return point;
 }

@@ -8,7 +8,7 @@ describe('grayscale', () => {
     [brightPink.hex, '#8a8a8a'],
     [green.hslString, 'hsl(0 0% 83.14%)'],
     [orange.oklabString, 'oklab(70.622% 0 0)'],
-    [violet.oklchString, 'oklch(47.642% 0 274.93693)'],
+    [violet.oklchString, 'oklch(47.642% 0 none)'],
     [yellow.rgbString, 'rgb(229 229 229)'],
   ])('%s should return %s', (input, expected) => {
     expect(grayscale(input)).toBe(expected);
@@ -27,12 +27,12 @@ describe('grayscale', () => {
   it('should preserve format', () => {
     expect(grayscale('hsl(180, 50%, 50%)')).toBe('hsl(0 0% 66.67%)');
     expect(grayscale('rgb(100, 150, 200)')).toBe('rgb(145 145 145)');
-    expect(grayscale('oklch(50% 0.2 180)')).toBe('oklch(50% 0 180)');
+    expect(grayscale('oklch(50% 0.2 180)')).toBe('oklch(50% 0 none)');
   });
 
   it('should allow format override', () => {
     expect(grayscale('#ff0000', 'hsl')).toBe('hsl(0 0% 53.33%)');
-    expect(grayscale('#ff0000', 'oklch')).toBe('oklch(62.796% 0 29.23494)');
+    expect(grayscale('#ff0000', 'oklch')).toBe('oklch(62.796% 0 none)');
   });
 
   it('should preserve alpha', () => {

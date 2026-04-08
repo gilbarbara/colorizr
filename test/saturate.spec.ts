@@ -6,10 +6,10 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('saturate', () => {
   it.each([
-    [desaturate(brightPink.hex, 20), 10, '#f30d4a'],
+    [desaturate(brightPink.hex, 20), 10, '#f30c4a'],
     [desaturate(green.hslString, 20), 10, 'hsl(136 90% 50%)'],
-    [desaturate(orange.oklabString, 20), 10, 'oklab(69.166% 0.12284 0.13751)'],
-    [desaturate(violet.oklchString, 20), 10, 'oklch(47.021% 0.28374 277.65376)'],
+    [desaturate(orange.oklabString, 20), 10, 'oklab(69.021% 0.12418 0.1374)'],
+    [desaturate(violet.oklchString, 20), 10, 'oklch(46.987% 0.28399 277.67)'],
     [desaturate(yellow.rgbString, 20), 10, 'rgb(247 225 117)'],
     ['#ccc', 10, '#d1c7c7'],
     ['pink', 10, '#ffc0cb'],

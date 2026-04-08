@@ -7,21 +7,21 @@ import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixt
 
 describe('rgb2oklch', () => {
   it.each([
-    [brightPink.rgb, brightPink.oklch],
-    [green.rgb, green.oklch],
-    [orange.rgb, orange.oklch],
-    [violet.rgb, violet.oklch],
-    [yellow.rgb, yellow.oklch],
+    [brightPink.rgb, brightPink.oklchLong],
+    [green.rgb, green.oklchLong],
+    [orange.rgb, orange.oklchLong],
+    [violet.rgb, violet.oklchLong],
+    [yellow.rgb, yellow.oklchLong],
   ] as Array<[RGB, LCH]>)('%s should return %s', (input, expected) => {
     expect(rgb2oklch(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.rgb), brightPink.oklch],
-    [Object.values(green.rgb), green.oklch],
-    [Object.values(orange.rgb), orange.oklch],
-    [Object.values(violet.rgb), violet.oklch],
-    [Object.values(yellow.rgb), yellow.oklch],
+    [Object.values(brightPink.rgb), brightPink.oklchLong],
+    [Object.values(green.rgb), green.oklchLong],
+    [Object.values(orange.rgb), orange.oklchLong],
+    [Object.values(violet.rgb), violet.oklchLong],
+    [Object.values(yellow.rgb), yellow.oklchLong],
   ] as Array<[ColorTuple, LCH]>)('%s should return %s', (input, expected) => {
     expect(rgb2oklch(input)).toEqual(expected);
   });
@@ -39,21 +39,21 @@ describe('rgb2oklch', () => {
     it('should preserve alpha from object input', () => {
       const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.semi });
 
-      expect(result).toMatchObject(brightPink.oklch);
+      expect(result).toMatchObject(brightPink.oklchLong);
       expect(result.alpha).toBe(alphaCases.semi);
     });
 
     it('should not include alpha when alpha is 1', () => {
       const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.opaque });
 
-      expect(result).toEqual(brightPink.oklch);
+      expect(result).toEqual(brightPink.oklchLong);
       expect(result).not.toHaveProperty('alpha');
     });
 
     it('should handle alpha=0 (fully transparent)', () => {
       const result = rgb2oklch({ ...brightPink.rgb, alpha: alphaCases.transparent });
 
-      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+      expect(result).toEqual({ ...brightPink.oklchLong, alpha: alphaCases.transparent });
     });
   });
 });

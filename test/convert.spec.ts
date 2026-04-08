@@ -20,7 +20,7 @@ describe('convert', () => {
     [{ input: orange.oklabString, format: 'rgb', expected: orange.rgbString }],
     [{ input: violet.oklchString, format: 'hex', expected: violet.hex }],
     [{ input: violet.oklchString, format: 'hsl', expected: violet.hslString }],
-    [{ input: violet.oklchString, format: 'oklab', expected: violet.oklabString }],
+    [{ input: violet.oklchString, format: 'oklab', expected: 'oklab(47.642% 0.0258 -0.29845)' }],
     [{ input: violet.oklchString, format: 'rgb', expected: violet.rgbString }],
     [{ input: yellow.rgbString, format: 'hex', expected: yellow.hex }],
     [{ input: yellow.rgbString, format: 'hsl', expected: yellow.hslString }],

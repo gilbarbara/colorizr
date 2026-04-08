@@ -68,12 +68,12 @@ describe('mix', () => {
     it('should preserve format of first color', () => {
       expect(mix('hsl(0, 100%, 50%)', '#0000ff', 0.5)).toBe('hsl(297.53 100% 38.04%)');
       expect(mix('rgb(255, 0, 0)', '#0000ff', 0.5)).toBe('rgb(186 0 194)');
-      expect(mix('oklch(50% 0.2 30)', '#0000ff', 0.5)).toBe('oklch(47.601% 0.25661 327.02576)');
+      expect(mix('oklch(50% 0.2 30)', '#0000ff', 0.5)).toBe('oklch(47.601% 0.25661 327.03)');
     });
 
     it('should allow format override', () => {
       expect(mix('#ff0000', '#0000ff', 0.5, 'hsl')).toBe('hsl(297.53 100% 38.04%)');
-      expect(mix('#ff0000', '#0000ff', 0.5, 'oklch')).toBe('oklch(53.998% 0.28545 326.64323)');
+      expect(mix('#ff0000', '#0000ff', 0.5, 'oklch')).toBe('oklch(53.998% 0.28545 326.64)');
     });
   });
 

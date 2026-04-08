@@ -1,5 +1,6 @@
 import Colorizr from '~/colorizr';
-import { ColorModel, ColorType, HSL, LAB, LCH, RGB } from '~/index';
+import { ColorModel, ColorType, HSL, RGB } from '~/index';
+import parseColor from '~/modules/parse-color';
 import { addAlpha } from '~/modules/utils';
 import { isString } from '~/modules/validators';
 
@@ -78,9 +79,13 @@ describe.each([
 
     const hex = addOpacityToCssString(color.hex, alpha ?? 1);
     const hsl = addAlpha<HSL>(color.hsl, alpha);
-    const oklab = addAlpha<LAB>(color.oklab, alpha);
-    const oklch = addAlpha<LCH>(color.oklch, alpha);
     const rgb = addAlpha<RGB>(color.rgb, alpha);
+
+    // When input IS oklab/oklch (short values), the stored values are derived from those
+    // short values, not the oklabLong/oklchLong from the original hex color.
+    const parsed = parseColor(value);
+    const { oklab } = parsed;
+    const { oklch } = parsed;
 
     describe('initialization', () => {
       it('should create a proper instance', () => {

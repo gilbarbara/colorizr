@@ -7,15 +7,22 @@ import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixt
 
 describe('hex2oklch', () => {
   it.each([
-    [brightPink.hex, brightPink.oklch],
-    [green.hex, green.oklch],
-    [orange.hex, orange.oklch],
-    [violet.hex, violet.oklch],
-    [yellow.hex, yellow.oklch],
-    ['#fff', { l: 1, c: 0, h: 0 }],
+    [brightPink.hex, brightPink.oklchLong],
+    [green.hex, green.oklchLong],
+    [orange.hex, orange.oklchLong],
+    [violet.hex, violet.oklchLong],
+    [yellow.hex, yellow.oklchLong],
     ['#000', { l: 0, c: 0, h: 0 }],
   ] as Array<[HEX, LCH]>)('%s should return %s', (input, expected) => {
     expect(hex2oklch(input)).toEqual(expected);
+  });
+
+  it('#fff should return approximately { l: 1, c: 0, h: 0 }', () => {
+    const result = hex2oklch('#fff');
+
+    expect(result.l).toBeCloseTo(1, 5);
+    expect(result.c).toBeCloseTo(0, 5);
+    expect(result.h).toBeCloseTo(0, 5);
   });
 
   it('should fail with invalid parameters', () => {
@@ -29,8 +36,8 @@ describe('hex2oklch', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [brightPink.hexAlpha, { ...brightPink.oklch, alpha: alphaCases.semi }],
-      [green.hexAlpha, { ...green.oklch, alpha: alphaCases.semi }],
+      [brightPink.hexAlpha, { ...brightPink.oklchLong, alpha: alphaCases.semi }],
+      [green.hexAlpha, { ...green.oklchLong, alpha: alphaCases.semi }],
     ])('%s should return %s', (input, expected) => {
       expect(hex2oklch(input)).toEqual(expected);
     });
@@ -44,7 +51,7 @@ describe('hex2oklch', () => {
     it('should handle alpha=0 (fully transparent)', () => {
       const result = hex2oklch('#ff004400');
 
-      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+      expect(result).toEqual({ ...brightPink.oklchLong, alpha: alphaCases.transparent });
     });
   });
 });

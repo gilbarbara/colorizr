@@ -1,5 +1,5 @@
 import hue2rgb from '~/modules/hue2rgb';
-import { addAlpha, extractAlpha, parseInput, round } from '~/modules/utils';
+import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
@@ -13,9 +13,9 @@ export default function hsl2rgb(input: ConverterParameters<HSL>): RGB {
   const value = parseInput(input, 'hsl');
   const alpha = extractAlpha(input);
 
-  const h = round(value.h) / 360;
-  const s = round(value.s) / 100;
-  const l = round(value.l) / 100;
+  const h = value.h / 360;
+  const s = value.s / 100;
+  const l = value.l / 100;
 
   let r;
   let g;
@@ -24,7 +24,7 @@ export default function hsl2rgb(input: ConverterParameters<HSL>): RGB {
   let point;
   let chroma;
 
-  if (s === 0) {
+  if (s < 0.0001) {
     r = l;
     g = l;
     b = l;

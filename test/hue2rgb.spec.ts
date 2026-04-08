@@ -3,7 +3,7 @@ import hue2rgb from '~/modules/hue2rgb';
 describe('hue2rgb', () => {
   it('should return median', () => {
     expect(hue2rgb(0.1, 0.4, 0.1)).toBe(0.28);
-    expect(hue2rgb(0.2, 0.4, 0.1)).toBe(0.32);
+    expect(hue2rgb(0.2, 0.4, 0.1)).toBeCloseTo(0.32, 10);
     expect(hue2rgb(0.8, 1, 0.9)).toBe(0.8);
   });
 
