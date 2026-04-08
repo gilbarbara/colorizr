@@ -43,7 +43,7 @@ export { default as scale } from '~/scale';
 export type { ScaleOptions, ScaleVariant } from '~/scale';
 export { default as scheme } from '~/scheme';
 export type { Scheme, SchemeOptions } from '~/scheme';
-
+export { default as toGamut } from '~/to-gamut';
 export { default as transparentize } from '~/transparentize';
 
 export * from '~/types';

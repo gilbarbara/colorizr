@@ -20,6 +20,7 @@ import opacity from '~/opacity';
 import readableColor from '~/readable-color';
 import rotate from '~/rotate';
 import saturate from '~/saturate';
+import toGamut from '~/to-gamut';
 import transparentize from '~/transparentize';
 
 import { Analysis, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
@@ -288,6 +289,16 @@ export default class Colorizr {
    */
   public rotate(degrees: number): string {
     return rotate(this.currentColor, degrees);
+  }
+
+  /**
+   * Map this color into the sRGB gamut by reducing chroma.
+   *
+   * @param format - Optional output color format.
+   * @returns The gamut-mapped color string.
+   */
+  public toGamut(format?: ColorType): string {
+    return toGamut(this.currentColor, format);
   }
 
   /**

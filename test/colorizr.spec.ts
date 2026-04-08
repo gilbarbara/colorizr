@@ -256,6 +256,16 @@ describe.each([
       });
     });
 
+    describe('toGamut', () => {
+      it('should return a gamut-mapped color', () => {
+        expect(colorizr.toGamut()).toMatchSnapshot();
+      });
+
+      it('should accept a format override', () => {
+        expect(colorizr.toGamut('hex')).toMatchSnapshot();
+      });
+    });
+
     describe('format', () => {
       it('should return a css formatted string', () => {
         expect(colorizr.format('oklch', 5)).toBe(

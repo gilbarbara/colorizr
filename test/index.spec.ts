@@ -50,6 +50,7 @@ import Colorizr, {
   saturate,
   scale,
   scheme,
+  toGamut,
   transparentize,
 } from '~/index';
 
@@ -107,6 +108,7 @@ describe('exports', () => {
     expect(saturate).toEqual(expect.any(Function));
     expect(scheme).toEqual(expect.any(Function));
     expect(scale).toEqual(expect.any(Function));
+    expect(toGamut).toEqual(expect.any(Function));
     expect(transparentize).toEqual(expect.any(Function));
   });
 });

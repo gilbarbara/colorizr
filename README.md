@@ -209,6 +209,17 @@ mix('#ff0000', '#0000ff'); // '#ba00c2' (50% mix)
 mix('#ff0000', '#0000ff', 0.25); // '#e8007b'
 mix('#000000', '#ffffff', 0.5); // '#636363'
 mix('hsl(0, 100%, 50%)', '#0000ff', 0.5); // 'hsl(297.53 100% 38.04%)'
+
+**toGamut(input: string, format?: ColorType): string**  
+Map a color into the sRGB gamut by reducing chroma in OkLCH space.  
+Colors already in gamut are returned unchanged.
+
+```typescript
+import { toGamut } from 'colorizr';
+
+toGamut('#ff0000'); // '#ff0000' (already in gamut)
+toGamut('oklch(0.9 0.4 150)'); // 'oklch(90% 0.16805 150)' (chroma reduced)
+toGamut('oklch(0.9 0.4 150)', 'hex'); // '#00f384'
 ```
 
 ### Comparison
@@ -1176,7 +1187,10 @@ Get the most readable color (black or white) for this color as a background.
 **colorizr.format(type: ColorType, precision?: number)**  
 Returns the formatted color in the specified format.
 
-The class also includes all [Manipulators](#Manipulators) (`lighten`, `darken`, `saturate`, `desaturate`, `invert`, `rotate`, `opacify`, `transparentize`, `grayscale`, `mix`) and [Comparison](#Comparison) methods (`contrast`, `brightnessDifference`, `colorDifference`, `compare`).
+**colorizr.toGamut(format?: ColorType)**  
+Map this color into the sRGB gamut by reducing chroma.
+
+The class also includes all [Manipulators](#Manipulators) (`lighten`, `darken`, `saturate`, `desaturate`, `invert`, `rotate`, `opacify`, `transparentize`, `grayscale`, `mix`, `toGamut`) and [Comparison](#Comparison) methods (`contrast`, `brightnessDifference`, `colorDifference`, `compare`, `deltaE`).
 
 ## Credits / References
 
