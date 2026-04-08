@@ -1,11 +1,10 @@
 import { oklch2oklab } from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isInSRGBGamut, oklabToLinearSRGB } from '~/modules/linear-rgb';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
+import { isString } from '~/modules/validators';
 
 import { ColorType } from '~/types';
 
@@ -20,10 +19,10 @@ import { ColorType } from '~/types';
 export default function toGamut(input: string, format?: ColorType): string {
   invariant(isString(input), MESSAGES.inputString);
 
-  const lch = parseCSS(input, 'oklch');
-  const output =
-    format ?? (isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model);
-  const { alpha } = lch;
+  const parsed = resolveColor(input);
+  const lch = parsed.oklch;
+  const output = format ?? parsed.type;
+  const alpha = parsed.alpha < 1 ? parsed.alpha : undefined;
 
   // Edge cases: extreme lightness
   if (lch.l <= 0) {

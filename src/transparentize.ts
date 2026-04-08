@@ -1,10 +1,9 @@
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { clamp, round } from '~/modules/utils';
 import { isNumberInRange, isString } from '~/modules/validators';
-import opacity from '~/opacity';
-import parseCSS from '~/parse-css';
 
 import { ColorType } from '~/types';
 
@@ -20,9 +19,8 @@ export default function transparentize(input: string, alpha: number, format?: Co
   invariant(isString(input), MESSAGES.inputString);
   invariant(isNumberInRange(alpha, -1, 1), MESSAGES.alphaAdjustment);
 
-  const oklch = parseCSS(input, 'oklab');
+  const parsed = resolveColor(input);
+  const value = round(clamp(parsed.alpha - alpha, 0, 1));
 
-  const value = round(clamp(opacity(input) - alpha, 0, 1));
-
-  return formatCSS(oklch, { format, alpha: value });
+  return formatCSS(parsed.oklab, { format, alpha: value });
 }

@@ -1,13 +1,4 @@
-import { MESSAGES } from '~/modules/constants';
-import {
-  clamp,
-  constrainDegrees,
-  limit,
-  parseInput,
-  pick,
-  restrictValues,
-  round,
-} from '~/modules/utils';
+import { clamp, constrainDegrees, parseInput, restrictValues, round } from '~/modules/utils';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
@@ -26,36 +17,6 @@ describe('constrainDegrees', () => {
     expect(constrainDegrees(350, 29)).toBe(19);
     expect(constrainDegrees(20, -80)).toBe(300);
     expect(constrainDegrees(20, 429)).toBe(89);
-  });
-});
-
-describe('limit', () => {
-  it('should limit the input', () => {
-    expect(limit(120, 'hsl', 'h')).toBe(120);
-    expect(limit(400, 'hsl', 'h')).toBe(360);
-    expect(limit(20, 'hsl', 's')).toBe(20);
-    expect(limit(120, 'hsl', 's')).toBe(100);
-    expect(limit(20, 'hsl', 'l')).toBe(20);
-    expect(limit(120, 'hsl', 'l')).toBe(100);
-    expect(limit(200, 'rgb', 'r')).toBe(200);
-    expect(limit(360, 'rgb', 'r')).toBe(255);
-    expect(limit(360, 'rgb', 'g')).toBe(255);
-    expect(limit(360, 'rgb', 'b')).toBe(255);
-  });
-
-  it('should fail with invalid parameters', () => {
-    // @ts-expect-error - input is required
-    expect(() => limit()).toThrow(MESSAGES.inputNumber);
-    // @ts-expect-error - invalid input
-    expect(() => limit('123', 'hsl', 'x')).toThrow(MESSAGES.inputNumber);
-    // @ts-expect-error - missing model
-    expect(() => limit(360)).toThrow(MESSAGES.invalidModel);
-    // @ts-expect-error - invalid model
-    expect(() => limit(360, 'abc')).toThrow(`${MESSAGES.invalidModel}: abc`);
-    // @ts-expect-error - missing key
-    expect(() => limit(360, 'hsl')).toThrow(MESSAGES.invalidKey);
-    // @ts-expect-error - invalid key
-    expect(() => limit(360, 'hsl', 'x')).toThrow(`${MESSAGES.invalidKey}: x`);
   });
 });
 
@@ -87,19 +48,6 @@ describe('parseInput', () => {
     },
   ])(`should parse input`, ({ input, model, expected }) => {
     expect(parseInput(input, model)).toEqual(expected);
-  });
-});
-
-describe('pick', () => {
-  it('should work with proper parameters', () => {
-    expect(pick({ a: 1, b: 2 }, ['a'])).toEqual({ a: 1 });
-    expect(pick({ a: 1, b: 2, c: 3 }, ['c', 'b'])).toEqual({ b: 2, c: 3 });
-    expect(pick({ a: 1, b: 2, c: 3 }, ['d', 'e'])).toEqual({});
-  });
-
-  it('should fail with invalid parameters', () => {
-    // @ts-expect-error - invalid parameters
-    expect(() => pick({ a: 1 })).toThrow('options must be an array');
   });
 });
 

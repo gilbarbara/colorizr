@@ -1,8 +1,8 @@
 import { MESSAGES } from '~/modules/constants';
 import { cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 /**
  * Get the CSS color name of a color.
@@ -14,7 +14,7 @@ import parseCSS from '~/parse-css';
 export default function name(input: string): string {
   invariant(isString(input), MESSAGES.inputString);
 
-  const hex = parseCSS(input, 'hex');
+  const { hex } = resolveColor(input);
 
   const [color] = Object.entries(cssColors).find(([, value]) => value === hex) || [];
 

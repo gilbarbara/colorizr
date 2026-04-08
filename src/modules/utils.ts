@@ -1,4 +1,4 @@
-import { COLOR_KEYS, COLOR_MODELS, MESSAGES } from '~/modules/constants';
+import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import {
   isHSL,
@@ -10,15 +10,7 @@ import {
   isValidColorModel,
 } from '~/modules/validators';
 
-import {
-  ColorModel,
-  ColorModelKey,
-  ColorModelKeys,
-  ConverterParameters,
-  LAB,
-  LCH,
-  PlainObject,
-} from '~/types';
+import { ColorModel, ColorModelKey, ConverterParameters, LAB, LCH } from '~/types';
 
 /**
  * Add an alpha value to a color model.
@@ -100,45 +92,6 @@ export function extractAlpha<T extends ColorModel>(
 }
 
 /**
- * Limit values per type.
- *
- * @param input - The value to limit.
- * @param model - The color model ('hsl' or 'rgb').
- * @param key - The property key to limit.
- * @returns The limited value.
- */
-export function limit<TModel extends Extract<ColorModelKey, 'hsl' | 'rgb'>>(
-  input: number,
-  model: TModel,
-  key: ColorModelKeys<TModel>,
-): number {
-  invariant(isNumber(input), MESSAGES.inputNumber);
-  invariant(COLOR_MODELS.includes(model), `${MESSAGES.invalidModel}${model ? `: ${model}` : ''}`);
-  invariant(COLOR_KEYS[model].includes(key), `${MESSAGES.invalidKey}${key ? `: ${key}` : ''}`);
-
-  switch (model) {
-    case 'hsl': {
-      invariant(COLOR_KEYS.hsl.includes(key), MESSAGES.invalidKey);
-
-      if (['l', 's'].includes(key)) {
-        return clamp(input);
-      }
-
-      return clamp(input, 0, 360);
-    }
-    case 'rgb': {
-      invariant(COLOR_KEYS.rgb.includes(key), MESSAGES.invalidKey);
-
-      return clamp(input, 0, 255);
-    }
-    /* v8 ignore next 3  -- @preserve */
-    default: {
-      throw new Error('Invalid inputs');
-    }
-  }
-}
-
-/**
  * Parse the input parameters for converters.
  *
  * @param input - The converter parameters (object or tuple).
@@ -166,27 +119,6 @@ export function parseInput<T extends ColorModel>(
   invariant(validator[model](value), `${MESSAGES.invalidColor}: ${model}`);
 
   return value;
-}
-
-/**
- * Creates an object composed of the picked source properties.
- *
- * @param input - The source object.
- * @param options - The property keys to pick.
- * @returns The new object with picked properties.
- */
-export function pick(input: PlainObject, options: string[]): PlainObject {
-  if (!Array.isArray(options)) {
-    throw new TypeError('options must be an array');
-  }
-
-  return options
-    .filter(d => typeof input[d] !== 'undefined')
-    .reduce((acc: PlainObject, d) => {
-      acc[d] = input[d];
-
-      return acc;
-    }, {});
 }
 
 /**

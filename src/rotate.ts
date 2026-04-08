@@ -1,10 +1,9 @@
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { constrainDegrees } from '~/modules/utils';
-import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { isNumberInRange, isString } from '~/modules/validators';
 
 import { ColorType } from '~/types';
 
@@ -20,15 +19,15 @@ export default function rotate(input: string, degrees: number, format?: ColorTyp
   invariant(isString(input), MESSAGES.inputString);
   invariant(isNumberInRange(degrees, -360, 360), MESSAGES.degreesRange);
 
-  const color = parseCSS(input, 'hsl');
-
-  const output = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
+  const parsed = resolveColor(input);
+  const color = parsed.hsl;
+  const output = format ?? parsed.type;
 
   return formatCSS(
     {
       ...color,
       h: constrainDegrees(color.h, degrees),
     },
-    { format: format ?? output },
+    { format: output, alpha: parsed.alpha < 1 ? parsed.alpha : undefined },
   );
 }

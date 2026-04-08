@@ -1,5 +1,5 @@
 import formatCSS from '~/format-css';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
 
 import { ColorType } from '~/types';
 
@@ -11,7 +11,7 @@ import { ColorType } from '~/types';
  * @returns The converted color string.
  */
 export default function convert(input: string, format: ColorType): string {
-  const value = parseCSS(input, format);
+  const parsed = resolveColor(input);
 
-  return formatCSS(value, { format });
+  return formatCSS(parsed[format], { format, alpha: parsed.alpha < 1 ? parsed.alpha : undefined });
 }

@@ -1,6 +1,6 @@
 import Colorizr from '~/colorizr';
-import { ColorModel, ColorType, HSL, RGB } from '~/index';
-import parseColor from '~/modules/parse-color';
+import { ColorModel, ColorType } from '~/index';
+import { resolveColor } from '~/modules/parsed-color';
 import { addAlpha } from '~/modules/utils';
 import { isString } from '~/modules/validators';
 
@@ -77,13 +77,12 @@ describe.each([
 
     const colorizr = new Colorizr(value, { format });
 
-    const hex = addOpacityToCssString(color.hex, alpha ?? 1);
-    const hsl = addAlpha<HSL>(color.hsl, alpha);
-    const rgb = addAlpha<RGB>(color.rgb, alpha);
+    const { hex, hsl, rgb } = color;
+    const hexCSS = addOpacityToCssString(hex, alpha ?? 1);
 
     // When input IS oklab/oklch (short values), the stored values are derived from those
     // short values, not the oklabLong/oklchLong from the original hex color.
-    const parsed = parseColor(value);
+    const parsed = resolveColor(value);
     const { oklab } = parsed;
     const { oklch } = parsed;
 
@@ -291,7 +290,7 @@ describe.each([
         expect(colorizr.format('oklch', 5)).toBe(
           addOpacityToCssString(color.oklchString, alpha ?? 1, true),
         );
-        expect(colorizr.format('hex')).toBe(hex);
+        expect(colorizr.format('hex')).toBe(hexCSS);
       });
     });
   },
