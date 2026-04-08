@@ -185,6 +185,26 @@ describe.each([
         it.each([[0.25], [0.5], [0.75]])('should mix with another color at %s ratio', ratio => {
           expect(colorizr.mix('#0000ff', ratio)).toMatchSnapshot();
         });
+
+        it('should mix in rgb space', () => {
+          expect(colorizr.mix('#0000ff', 0.5, { space: 'rgb' })).toMatchSnapshot();
+        });
+
+        it('should mix in hsl space', () => {
+          expect(colorizr.mix('#0000ff', 0.5, { space: 'hsl' })).toMatchSnapshot();
+        });
+
+        it('should mix in oklab space', () => {
+          expect(colorizr.mix('#0000ff', 0.5, { space: 'oklab' })).toMatchSnapshot();
+        });
+
+        it('should mix with longer hue mode', () => {
+          expect(colorizr.mix('#0000ff', 0.5, { hue: 'longer' })).toMatchSnapshot();
+        });
+
+        it('should mix with format override', () => {
+          expect(colorizr.mix('#0000ff', 0.5, { format: 'oklch' })).toMatchSnapshot();
+        });
       });
 
       describe('rotate', () => {
