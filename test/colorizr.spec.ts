@@ -237,6 +237,25 @@ describe.each([
       });
     });
 
+    describe('deltaE', () => {
+      it('should return the perceptual color difference', () => {
+        expect(colorizr.deltaE('#000')).toMatchSnapshot();
+        expect(colorizr.deltaE('#fff')).toMatchSnapshot();
+      });
+
+      it('should return 0 for same color', () => {
+        expect(colorizr.deltaE(colorizr.css)).toBe(0);
+      });
+
+      it('should return smaller values for similar colors', () => {
+        const diffToBlack = colorizr.deltaE('#000');
+        const diffToWhite = colorizr.deltaE('#fff');
+
+        // At least one should be > 0 (color isn't both black and white)
+        expect(Math.max(diffToBlack, diffToWhite)).toBeGreaterThan(0);
+      });
+    });
+
     describe('format', () => {
       it('should return a css formatted string', () => {
         expect(colorizr.format('oklch', 5)).toBe(

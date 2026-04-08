@@ -38,6 +38,10 @@ exports[`Colorizr with 'HEX with alpha' > contrast > should return the contrast 
 
 exports[`Colorizr with 'HEX with alpha' > contrast > should return the contrast 2`] = `3.94`;
 
+exports[`Colorizr with 'HEX with alpha' > deltaE > should return the perceptual color difference 1`] = `0.68178`;
+
+exports[`Colorizr with 'HEX with alpha' > deltaE > should return the perceptual color difference 2`] = `0.4466`;
+
 exports[`Colorizr with 'HEX with alpha' > getters > .chroma should return the correct value 1`] = `1`;
 
 exports[`Colorizr with 'HEX with alpha' > getters > .luminance should return the correct value 1`] = `0.2168`;
@@ -137,6 +141,10 @@ exports[`Colorizr with 'HEX' > compare > should return a WCAG analysis 2`] = `
 exports[`Colorizr with 'HEX' > contrast > should return the contrast 1`] = `5.34`;
 
 exports[`Colorizr with 'HEX' > contrast > should return the contrast 2`] = `3.94`;
+
+exports[`Colorizr with 'HEX' > deltaE > should return the perceptual color difference 1`] = `0.68178`;
+
+exports[`Colorizr with 'HEX' > deltaE > should return the perceptual color difference 2`] = `0.4466`;
 
 exports[`Colorizr with 'HEX' > getters > .chroma should return the correct value 1`] = `1`;
 
@@ -238,6 +246,10 @@ exports[`Colorizr with 'HSL String' > contrast > should return the contrast 1`] 
 
 exports[`Colorizr with 'HSL String' > contrast > should return the contrast 2`] = `1.36`;
 
+exports[`Colorizr with 'HSL String' > deltaE > should return the perceptual color difference 1`] = `0.91157`;
+
+exports[`Colorizr with 'HSL String' > deltaE > should return the perceptual color difference 2`] = `0.30567`;
+
 exports[`Colorizr with 'HSL String' > getters > .chroma should return the correct value 1`] = `1`;
 
 exports[`Colorizr with 'HSL String' > getters > .luminance should return the correct value 1`] = `0.7194`;
@@ -337,6 +349,10 @@ exports[`Colorizr with 'HSL' > compare > should return a WCAG analysis 2`] = `
 exports[`Colorizr with 'HSL' > contrast > should return the contrast 1`] = `15.39`;
 
 exports[`Colorizr with 'HSL' > contrast > should return the contrast 2`] = `1.36`;
+
+exports[`Colorizr with 'HSL' > deltaE > should return the perceptual color difference 1`] = `0.91157`;
+
+exports[`Colorizr with 'HSL' > deltaE > should return the perceptual color difference 2`] = `0.30567`;
 
 exports[`Colorizr with 'HSL' > getters > .chroma should return the correct value 1`] = `1`;
 
@@ -438,6 +454,10 @@ exports[`Colorizr with 'OKLAB String' > contrast > should return the contrast 1`
 
 exports[`Colorizr with 'OKLAB String' > contrast > should return the contrast 2`] = `2.81`;
 
+exports[`Colorizr with 'OKLAB String' > deltaE > should return the perceptual color difference 1`] = `0.7335`;
+
+exports[`Colorizr with 'OKLAB String' > deltaE > should return the perceptual color difference 2`] = `0.35438`;
+
 exports[`Colorizr with 'OKLAB String' > getters > .chroma should return the correct value 1`] = `1`;
 
 exports[`Colorizr with 'OKLAB String' > getters > .luminance should return the correct value 1`] = `0.3241`;
@@ -537,6 +557,10 @@ exports[`Colorizr with 'OKLAB' > compare > should return a WCAG analysis 2`] = `
 exports[`Colorizr with 'OKLAB' > contrast > should return the contrast 1`] = `7.48`;
 
 exports[`Colorizr with 'OKLAB' > contrast > should return the contrast 2`] = `2.81`;
+
+exports[`Colorizr with 'OKLAB' > deltaE > should return the perceptual color difference 1`] = `0.7335`;
+
+exports[`Colorizr with 'OKLAB' > deltaE > should return the perceptual color difference 2`] = `0.35438`;
 
 exports[`Colorizr with 'OKLAB' > getters > .chroma should return the correct value 1`] = `1`;
 
@@ -638,6 +662,10 @@ exports[`Colorizr with 'OKLCH String' > contrast > should return the contrast 1`
 
 exports[`Colorizr with 'OKLCH String' > contrast > should return the contrast 2`] = `7.81`;
 
+exports[`Colorizr with 'OKLCH String' > deltaE > should return the perceptual color difference 1`] = `0.56277`;
+
+exports[`Colorizr with 'OKLCH String' > deltaE > should return the perceptual color difference 2`] = `0.60322`;
+
 exports[`Colorizr with 'OKLCH String' > getters > .chroma should return the correct value 1`] = `1`;
 
 exports[`Colorizr with 'OKLCH String' > getters > .luminance should return the correct value 1`] = `0.0845`;
@@ -737,6 +765,10 @@ exports[`Colorizr with 'OKLCH' > compare > should return a WCAG analysis 2`] = `
 exports[`Colorizr with 'OKLCH' > contrast > should return the contrast 1`] = `2.69`;
 
 exports[`Colorizr with 'OKLCH' > contrast > should return the contrast 2`] = `7.81`;
+
+exports[`Colorizr with 'OKLCH' > deltaE > should return the perceptual color difference 1`] = `0.56277`;
+
+exports[`Colorizr with 'OKLCH' > deltaE > should return the perceptual color difference 2`] = `0.60322`;
 
 exports[`Colorizr with 'OKLCH' > getters > .chroma should return the correct value 1`] = `1`;
 
@@ -838,6 +870,10 @@ exports[`Colorizr with 'RGB String' > contrast > should return the contrast 1`] 
 
 exports[`Colorizr with 'RGB String' > contrast > should return the contrast 2`] = `1.25`;
 
+exports[`Colorizr with 'RGB String' > deltaE > should return the perceptual color difference 1`] = `0.93333`;
+
+exports[`Colorizr with 'RGB String' > deltaE > should return the perceptual color difference 2`] = `0.1625`;
+
 exports[`Colorizr with 'RGB String' > getters > .chroma should return the correct value 1`] = `0.5725`;
 
 exports[`Colorizr with 'RGB String' > getters > .luminance should return the correct value 1`] = `0.7896`;
@@ -937,6 +973,10 @@ exports[`Colorizr with 'RGB' > compare > should return a WCAG analysis 2`] = `
 exports[`Colorizr with 'RGB' > contrast > should return the contrast 1`] = `16.79`;
 
 exports[`Colorizr with 'RGB' > contrast > should return the contrast 2`] = `1.25`;
+
+exports[`Colorizr with 'RGB' > deltaE > should return the perceptual color difference 1`] = `0.93333`;
+
+exports[`Colorizr with 'RGB' > deltaE > should return the perceptual color difference 2`] = `0.1625`;
 
 exports[`Colorizr with 'RGB' > getters > .chroma should return the correct value 1`] = `0.5725`;
 

@@ -4,6 +4,7 @@ import colorDifference from '~/color-difference';
 import compare from '~/compare';
 import contrast from '~/contrast';
 import darken from '~/darken';
+import deltaE from '~/delta-e';
 import desaturate from '~/desaturate';
 import formatCSS from '~/format-css';
 import grayscale from '~/grayscale';
@@ -173,6 +174,16 @@ export default class Colorizr {
    */
   public contrast(input: string): number {
     return contrast(this.currentColor, input);
+  }
+
+  /**
+   * Get the perceptual color difference (Delta E OK) between this color and another.
+   *
+   * @param input - The color to compare against.
+   * @returns The Delta E OK value.
+   */
+  public deltaE(input: string): number {
+    return deltaE(this.currentColor, input);
   }
 
   /**

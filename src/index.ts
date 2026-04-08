@@ -9,6 +9,7 @@ export { default as contrast } from '~/contrast';
 export { default as convert } from '~/convert';
 export * from '~/converters';
 export { default as darken } from '~/darken';
+export { DELTA_E_JND, default as deltaE } from '~/delta-e';
 export { default as desaturate } from '~/desaturate';
 export { default as extractColorParts } from '~/extract-color-parts';
 export { default as formatCSS } from '~/format-css';
