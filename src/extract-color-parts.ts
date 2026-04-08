@@ -108,12 +108,10 @@ export default function extractColorParts(input: string): ExtractColorPartsRetur
         // Chroma: 100% = 0.4
         return (parsedValue * 0.4) / 100;
       }
-    } else if (model === 'oklab') {
       // oklab: L (0-100), a (-0.4 to 0.4), b (-0.4 to 0.4)
-      if (index === 1 || index === 2) {
-        // a/b: ±100% = ±0.4
-        return (parsedValue * 0.4) / 100;
-      }
+    } else if (model === 'oklab' && (index === 1 || index === 2)) {
+      // a/b: ±100% = ±0.4
+      return (parsedValue * 0.4) / 100;
     }
 
     return parsedValue;

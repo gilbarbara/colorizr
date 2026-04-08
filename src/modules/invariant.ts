@@ -10,10 +10,8 @@ export function invariant(condition: boolean, message: string): asserts conditio
     return;
   }
 
-  if (process.env.NODE_ENV !== 'production') {
-    if (message === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
+  if (process.env.NODE_ENV !== 'production' && message === undefined) {
+    throw new Error('invariant requires an error message argument');
   }
 
   const error = !message
