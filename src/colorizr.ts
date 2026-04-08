@@ -11,7 +11,7 @@ import grayscale from '~/grayscale';
 import invert from '~/invert';
 import lighten from '~/lighten';
 import luminance from '~/luminance';
-import mix from '~/mix';
+import mix, { MixOptions } from '~/mix';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import parseColor from '~/modules/parse-color';
@@ -265,10 +265,11 @@ export default class Colorizr {
    *
    * @param color - The color to mix with.
    * @param ratio - A number between 0 and 1 (0 = this color, 1 = input color).
+   * @param options - Mix options: format, hue mode, interpolation space.
    * @returns The mixed color string.
    */
-  public mix(color: string, ratio?: number): string {
-    return mix(this.currentColor, color, ratio);
+  public mix(color: string, ratio?: number, options?: MixOptions): string {
+    return mix(this.currentColor, color, ratio, options);
   }
 
   /**

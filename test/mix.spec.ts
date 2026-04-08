@@ -22,35 +22,104 @@ describe('mix', () => {
 
   describe('hue interpolation', () => {
     it('should take shortest path (red to blue through magenta)', () => {
-      // Red (h≈30°) to Blue (h≈265°) should go through magenta, not green
       expect(mix('#ff0000', '#0000ff', 0.5)).toBe('#ba00c2');
     });
 
     it('should handle achromatic first color', () => {
-      // Gray + Blue should use blue's hue
       expect(mix('#808080', '#0000ff', 0.5)).toBe('#3b64c4');
     });
 
     it('should handle achromatic second color', () => {
-      // Red + Gray should use red's hue
       expect(mix('#ff0000', '#808080', 0.5)).toBe('#c66356');
     });
 
     it('should handle two achromatic colors', () => {
-      // Black + White = Gray
       expect(mix('#000000', '#ffffff', 0.5)).toBe('#636363');
     });
 
     it('should handle hue crossing 0° and normalize result >= 360', () => {
-      // h1 ≈ 354.75°, h2 ≈ 35.22° → diff = -319.53 < -180, adjusted to +40.47
-      // result = 354.75 + 40.47 * 0.5 = 375 >= 360, normalized to 15
       expect(mix('#ff0099', '#ff4400', 0.5)).toBe('#ff225e');
     });
 
     it('should take shortest path when diff > 180', () => {
-      // h1 ≈ 29°, h2 ≈ 260° → diff = 231 > 180, adjusted to -129
-      // Goes through magenta instead of green
       expect(mix('#ff0000', '#0066ff', 0.5)).toBe('#c32cce');
+    });
+  });
+
+  describe('hue modes', () => {
+    // Red hue ~29°, Blue hue ~265° in OkLCH (diff ~236° > 180°)
+    // shorter: wraps backward through magenta → midpoint hue ~327°
+    // longer: goes forward through green → midpoint hue ~147°
+    it('should use shorter mode by default', () => {
+      expect(mix('#ff0000', '#0000ff', 0.5)).toBe(
+        mix('#ff0000', '#0000ff', 0.5, { hue: 'shorter' }),
+      );
+    });
+
+    it('should go through magenta with shorter (red to blue)', () => {
+      // shorter wraps backward: midpoint hue ~327° (magenta)
+      expect(mix('#ff0000', '#0000ff', 0.5, { hue: 'shorter' })).toBe('#ba00c2');
+    });
+
+    it('should go through green with longer (red to blue)', () => {
+      // longer goes forward: midpoint hue ~147° (green)
+      expect(mix('#ff0000', '#0000ff', 0.5, { hue: 'longer' })).toBe('#009300');
+    });
+
+    it('should always increase hue angle with increasing mode', () => {
+      // Red ~29° to Blue ~265°: increasing goes forward 29→265, through green (~147°)
+      expect(mix('#ff0000', '#0000ff', 0.5, { hue: 'increasing' })).toBe('#009300');
+    });
+
+    it('should always decrease hue angle with decreasing mode', () => {
+      // Red ~29° to Blue ~265°: decreasing goes backward 29→-95→265, through magenta (~327°)
+      expect(mix('#ff0000', '#0000ff', 0.5, { hue: 'decreasing' })).toBe('#ba00c2');
+    });
+
+    it('should produce different arcs for shorter vs longer (red to green)', () => {
+      // Red ~29° to Green ~142° (diff ~113° < 180°)
+      // shorter goes forward through yellow: ~86°
+      expect(mix('#ff0000', '#00ff00', 0.5, { hue: 'shorter' })).toBe('#f99500');
+      // longer wraps backward through blue/magenta: ~266°
+      expect(mix('#ff0000', '#00ff00', 0.5, { hue: 'longer' })).toBe('#5999ff');
+    });
+  });
+
+  describe('interpolation spaces', () => {
+    it('should default to oklch', () => {
+      const result = mix('#ff0000', '#0000ff', 0.5);
+      const explicit = mix('#ff0000', '#0000ff', 0.5, { space: 'oklch' });
+
+      expect(result).toBe(explicit);
+    });
+
+    it('should mix in rgb space', () => {
+      // RGB mixing of red + blue = purple (128, 0, 128), no magenta shift
+      expect(mix('#ff0000', '#0000ff', 0.5, { space: 'rgb' })).toBe('#800080');
+    });
+
+    it('should mix in hsl space', () => {
+      const result = mix('#ff0000', '#0000ff', 0.5, { space: 'hsl' });
+
+      expect(result).not.toBe(mix('#ff0000', '#0000ff', 0.5, { space: 'rgb' }));
+    });
+
+    it('should mix in oklab space', () => {
+      const result = mix('#ff0000', '#0000ff', 0.5, { space: 'oklab' });
+
+      // OkLab produces different results than OkLCH due to linear a/b interpolation
+      expect(result).not.toBe(mix('#ff0000', '#0000ff', 0.5, { space: 'oklch' }));
+    });
+
+    it('should mix black and white correctly in all spaces', () => {
+      const rgb = mix('#000000', '#ffffff', 0.5, { space: 'rgb' });
+      const hsl = mix('#000000', '#ffffff', 0.5, { space: 'hsl' });
+      const oklab = mix('#000000', '#ffffff', 0.5, { space: 'oklab' });
+
+      // All should produce some shade of gray
+      expect(rgb).toBe('#808080');
+      expect(hsl).toMatch(/^#[\da-f]{6}$/);
+      expect(oklab).toMatch(/^#[\da-f]{6}$/);
     });
   });
 
@@ -72,8 +141,31 @@ describe('mix', () => {
     });
 
     it('should allow format override', () => {
-      expect(mix('#ff0000', '#0000ff', 0.5, 'hsl')).toBe('hsl(297.53 100% 38.04%)');
-      expect(mix('#ff0000', '#0000ff', 0.5, 'oklch')).toBe('oklch(53.998% 0.28545 326.64)');
+      expect(mix('#ff0000', '#0000ff', 0.5, { format: 'hsl' })).toBe('hsl(297.53 100% 38.04%)');
+      expect(mix('#ff0000', '#0000ff', 0.5, { format: 'oklch' })).toBe(
+        'oklch(53.998% 0.28545 326.64)',
+      );
+    });
+  });
+
+  describe('combined options', () => {
+    it('should support space + format together', () => {
+      const result = mix('#ff0000', '#0000ff', 0.5, { space: 'rgb', format: 'hsl' });
+
+      expect(result).toMatch(/^hsl\(/);
+    });
+
+    it('should support space + hue together', () => {
+      const result = mix('#ff0000', '#0000ff', 0.5, { space: 'hsl', hue: 'longer' });
+
+      expect(result).toMatch(/^#[\da-f]{6}$/);
+    });
+
+    it('should ignore hue mode for linear spaces', () => {
+      const withHue = mix('#ff0000', '#0000ff', 0.5, { space: 'rgb', hue: 'longer' });
+      const withoutHue = mix('#ff0000', '#0000ff', 0.5, { space: 'rgb' });
+
+      expect(withHue).toBe(withoutHue);
     });
   });
 

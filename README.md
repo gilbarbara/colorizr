@@ -199,16 +199,32 @@ grayscale('hsl(180, 50%, 50%)'); // 'hsl(0 0% 66.67%)'
 grayscale('#ff0000', 'oklch'); // 'oklch(62.796% 0 29.23494)'
 ```
 
-**mix(color1: string, color2: string, ratio?: number, format?: ColorType): string**  
-Mix two colors in OkLCH space with shortest-path hue interpolation.
+**mix(color1: string, color2: string, ratio?: number, options?: MixOptions): string**  
+Mix two colors with configurable interpolation space and hue mode.
+
+Options:
+- `format?: ColorType` – output format (default: same as first color)
+- `space?: 'oklch' | 'oklab' | 'hsl' | 'rgb'` – interpolation space (default: `'oklch'`)
+- `hue?: 'shorter' | 'longer' | 'increasing' | 'decreasing'` – hue arc direction (default: `'shorter'`)
 
 ```typescript
 import { mix } from 'colorizr';
 
-mix('#ff0000', '#0000ff'); // '#ba00c2' (50% mix)
+mix('#ff0000', '#0000ff'); // '#ba00c2' (50% mix in oklch)
 mix('#ff0000', '#0000ff', 0.25); // '#e8007b'
 mix('#000000', '#ffffff', 0.5); // '#636363'
-mix('hsl(0, 100%, 50%)', '#0000ff', 0.5); // 'hsl(297.53 100% 38.04%)'
+
+// Mix in different color spaces
+mix('#ff0000', '#0000ff', 0.5, { space: 'rgb' }); // '#800080'
+mix('#ff0000', '#0000ff', 0.5, { space: 'hsl' }); // '#ff00ff'
+
+// Hue interpolation modes
+mix('#ff0000', '#0000ff', 0.5, { hue: 'longer' }); // '#009300' (through green)
+mix('#ff0000', '#0000ff', 0.5, { hue: 'shorter' }); // '#ba00c2' (through magenta)
+
+// Format override
+mix('#ff0000', '#0000ff', 0.5, { format: 'oklch' }); // 'oklch(53.998% 0.28545 326.64)'
+```
 
 **toGamut(input: string, format?: ColorType): string**  
 Map a color into the sRGB gamut by reducing chroma in OkLCH space.  

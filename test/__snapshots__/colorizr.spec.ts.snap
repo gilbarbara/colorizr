@@ -76,11 +76,21 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have ligh
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffff"`;
 
+exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix in hsl space 1`] = `"#dd00fff2"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix in oklab space 1`] = `"#8d50aef2"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix in rgb space 1`] = `"#8000a2f2"`;
+
 exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"#b400cdf2"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"#e30090ec"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"#7600f7f9"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with format override 1`] = `"oklch(54.235% 0.28363 321.98 / 95%)"`;
+
+exports[`Colorizr with 'HEX with alpha' > modifiers > mix > should mix with longer hue mode 1`] = `"#009100f2"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > opacify > should make the color transparent 1`] = `"#ff0044e6"`;
 
@@ -184,11 +194,21 @@ exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the col
 
 exports[`Colorizr with 'HEX' > modifiers > lighten > should have lighten the color with 80 1`] = `"#ffffff"`;
 
+exports[`Colorizr with 'HEX' > modifiers > mix > should mix in hsl space 1`] = `"#dd00ff"`;
+
+exports[`Colorizr with 'HEX' > modifiers > mix > should mix in oklab space 1`] = `"#8d50ae"`;
+
+exports[`Colorizr with 'HEX' > modifiers > mix > should mix in rgb space 1`] = `"#8000a2"`;
+
 exports[`Colorizr with 'HEX' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"#b400cd"`;
 
 exports[`Colorizr with 'HEX' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"#e30090"`;
 
 exports[`Colorizr with 'HEX' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"#7600f7"`;
+
+exports[`Colorizr with 'HEX' > modifiers > mix > should mix with format override 1`] = `"oklch(54.235% 0.28363 321.98)"`;
+
+exports[`Colorizr with 'HEX' > modifiers > mix > should mix with longer hue mode 1`] = `"#009100"`;
 
 exports[`Colorizr with 'HEX' > modifiers > opacify > should make the color transparent 1`] = `"#ff0044e6"`;
 
@@ -292,11 +312,21 @@ exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten 
 
 exports[`Colorizr with 'HSL String' > modifiers > lighten > should have lighten the color with 80 1`] = `"hsl(136 100% 100%)"`;
 
+exports[`Colorizr with 'HSL String' > modifiers > mix > should mix in hsl space 1`] = `"hsl(188 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > mix > should mix in oklab space 1`] = `"hsl(188.53 100% 38.63%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > mix > should mix in rgb space 1`] = `"hsl(192.59 100% 31.76%)"`;
+
 exports[`Colorizr with 'HSL String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"hsl(191.05 100% 44.71%)"`;
 
 exports[`Colorizr with 'HSL String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"hsl(163.3 100% 45.1%)"`;
 
 exports[`Colorizr with 'HSL String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"hsl(211.29 100% 50%)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > mix > should mix with format override 1`] = `"oklch(66.039% 0.29464 204.35)"`;
+
+exports[`Colorizr with 'HSL String' > modifiers > mix > should mix with longer hue mode 1`] = `"hsl(352.24 100% 50%)"`;
 
 exports[`Colorizr with 'HSL String' > modifiers > opacify > should make the color transparent 1`] = `"hsl(136 100% 50% / 90%)"`;
 
@@ -400,11 +430,21 @@ exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the col
 
 exports[`Colorizr with 'HSL' > modifiers > lighten > should have lighten the color with 80 1`] = `"hsl(136 100% 100%)"`;
 
+exports[`Colorizr with 'HSL' > modifiers > mix > should mix in hsl space 1`] = `"hsl(188 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > mix > should mix in oklab space 1`] = `"hsl(188.53 100% 38.63%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > mix > should mix in rgb space 1`] = `"hsl(192.59 100% 31.76%)"`;
+
 exports[`Colorizr with 'HSL' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"hsl(191.05 100% 44.71%)"`;
 
 exports[`Colorizr with 'HSL' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"hsl(163.3 100% 45.1%)"`;
 
 exports[`Colorizr with 'HSL' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"hsl(211.29 100% 50%)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > mix > should mix with format override 1`] = `"oklch(66.039% 0.29464 204.35)"`;
+
+exports[`Colorizr with 'HSL' > modifiers > mix > should mix with longer hue mode 1`] = `"hsl(352.24 100% 50%)"`;
 
 exports[`Colorizr with 'HSL' > modifiers > opacify > should make the color transparent 1`] = `"hsl(136 100% 50% / 90%)"`;
 
@@ -508,11 +548,21 @@ exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighte
 
 exports[`Colorizr with 'OKLAB String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklab(100% 0 0)"`;
 
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix in hsl space 1`] = `"oklab(67.26% 0.27524 -0.09258)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix in oklab space 1`] = `"oklab(57.912% 0.05247 -0.08435)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix in rgb space 1`] = `"oklab(46.377% 0.11687 -0.07439)"`;
+
 exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklab(57.912% 0.2319 -0.10774)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklab(64.267% 0.22308 0.04173)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.557% 0.14036 -0.24742)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with format override 1`] = `"oklch(57.912% 0.2557 335.08)"`;
+
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with longer hue mode 1`] = `"oklab(57.912% -0.2319 0.10774)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
 
@@ -616,11 +666,21 @@ exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the c
 
 exports[`Colorizr with 'OKLAB' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklab(100% 0 0)"`;
 
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix in hsl space 1`] = `"oklab(67.26% 0.27524 -0.09258)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix in oklab space 1`] = `"oklab(57.912% 0.05247 -0.08435)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix in rgb space 1`] = `"oklab(46.377% 0.11687 -0.07439)"`;
+
 exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklab(57.912% 0.2319 -0.10774)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklab(64.267% 0.22308 0.04173)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.557% 0.14036 -0.24742)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with format override 1`] = `"oklch(57.912% 0.2557 335.08)"`;
+
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with longer hue mode 1`] = `"oklab(57.912% -0.2319 0.10774)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
 
@@ -724,11 +784,21 @@ exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighte
 
 exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 none)"`;
 
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix in hsl space 1`] = `"oklch(45.915% 0.3081 267.39)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix in oklab space 1`] = `"oklch(46.422% 0.30501 269.37)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix in rgb space 1`] = `"oklch(45.915% 0.3081 267.39)"`;
+
 exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.5)"`;
 
 exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30297 272.22)"`;
 
 exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.812% 0.3098 266.77)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with format override 1`] = `"oklch(46.422% 0.30639 269.5)"`;
+
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with longer hue mode 1`] = `"oklch(46.422% 0.30639 89.496)"`;
 
 exports[`Colorizr with 'OKLCH String' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.94 / 90%)"`;
 
@@ -832,11 +902,21 @@ exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the c
 
 exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 none)"`;
 
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix in hsl space 1`] = `"oklch(45.915% 0.3081 267.39)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix in oklab space 1`] = `"oklch(46.422% 0.30501 269.37)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix in rgb space 1`] = `"oklch(45.915% 0.3081 267.39)"`;
+
 exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.5)"`;
 
 exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30297 272.22)"`;
 
 exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.812% 0.3098 266.77)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with format override 1`] = `"oklch(46.422% 0.30639 269.5)"`;
+
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with longer hue mode 1`] = `"oklch(46.422% 0.30639 89.496)"`;
 
 exports[`Colorizr with 'OKLCH' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.94 / 90%)"`;
 
@@ -940,11 +1020,21 @@ exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten 
 
 exports[`Colorizr with 'RGB String' > modifiers > lighten > should have lighten the color with 80 1`] = `"rgb(255 255 255)"`;
 
+exports[`Colorizr with 'RGB String' > modifiers > mix > should mix in hsl space 1`] = `"rgb(255 54 172)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > mix > should mix in oklab space 1`] = `"rgb(115 158 209)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > mix > should mix in rgb space 1`] = `"rgb(128 115 182)"`;
+
 exports[`Colorizr with 'RGB String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"rgb(0 195 162)"`;
 
 exports[`Colorizr with 'RGB String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"rgb(122 219 95)"`;
 
 exports[`Colorizr with 'RGB String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"rgb(0 140 231)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > mix > should mix with format override 1`] = `"oklch(68.718% 0.22798 180.91)"`;
+
+exports[`Colorizr with 'RGB String' > modifiers > mix > should mix with longer hue mode 1`] = `"rgb(255 71 146)"`;
 
 exports[`Colorizr with 'RGB String' > modifiers > opacify > should make the color transparent 1`] = `"rgb(255 230 109 / 90%)"`;
 
@@ -1048,11 +1138,21 @@ exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the col
 
 exports[`Colorizr with 'RGB' > modifiers > lighten > should have lighten the color with 80 1`] = `"rgb(255 255 255)"`;
 
+exports[`Colorizr with 'RGB' > modifiers > mix > should mix in hsl space 1`] = `"rgb(255 54 172)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > mix > should mix in oklab space 1`] = `"rgb(115 158 209)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > mix > should mix in rgb space 1`] = `"rgb(128 115 182)"`;
+
 exports[`Colorizr with 'RGB' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"rgb(0 195 162)"`;
 
 exports[`Colorizr with 'RGB' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"rgb(122 219 95)"`;
 
 exports[`Colorizr with 'RGB' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"rgb(0 140 231)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > mix > should mix with format override 1`] = `"oklch(68.718% 0.22798 180.91)"`;
+
+exports[`Colorizr with 'RGB' > modifiers > mix > should mix with longer hue mode 1`] = `"rgb(255 71 146)"`;
 
 exports[`Colorizr with 'RGB' > modifiers > opacify > should make the color transparent 1`] = `"rgb(255 230 109 / 90%)"`;
 
