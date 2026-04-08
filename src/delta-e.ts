@@ -1,8 +1,8 @@
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 export const DELTA_E_JND = 0.02;
 
@@ -19,8 +19,8 @@ export default function deltaE(left: string, right: string, precision = PRECISIO
   invariant(isString(left), MESSAGES.left);
   invariant(isString(right), MESSAGES.right);
 
-  const lab1 = parseCSS(left, 'oklab');
-  const lab2 = parseCSS(right, 'oklab');
+  const lab1 = resolveColor(left).oklab;
+  const lab2 = resolveColor(right).oklab;
 
   return round(
     Math.sqrt((lab1.l - lab2.l) ** 2 + (lab1.a - lab2.a) ** 2 + (lab1.b - lab2.b) ** 2),

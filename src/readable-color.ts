@@ -1,12 +1,10 @@
 import apcaContrast from '~/apca';
 import contrast from '~/contrast';
-import hex2oklab from '~/converters/hex2oklab';
-import hex2rgb from '~/converters/hex2rgb';
 import luminance from '~/luminance';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 export type ReadableColorMethod = 'apca' | 'contrast' | 'oklab' | 'wcag' | 'yiq';
 
@@ -79,13 +77,16 @@ export default function readableColor(
 
   invariant(isString(backgroundColor), MESSAGES.inputString);
 
+  const parsed = resolveColor(backgroundColor);
+  const bgCSS = parsed.toCSS();
+
   switch (method) {
     case 'yiq': {
       const yiqThreshold = threshold ?? 128;
 
       invariant(yiqThreshold >= 0 && yiqThreshold <= 255, MESSAGES.threshold);
 
-      const { r, g, b } = hex2rgb(parseCSS(backgroundColor, 'hex'));
+      const { r, g, b } = parsed.rgb;
       const yiq = (r * 299 + g * 587 + b * 114) / 1000;
 
       return yiq >= yiqThreshold ? darkColor : lightColor;
@@ -95,13 +96,13 @@ export default function readableColor(
 
       invariant(wcagThreshold >= 0 && wcagThreshold <= 1, MESSAGES.thresholdNormalized);
 
-      const lum = luminance(backgroundColor);
+      const lum = luminance(bgCSS);
 
       return lum >= wcagThreshold ? darkColor : lightColor;
     }
     case 'contrast': {
-      const darkContrast = contrast(darkColor, backgroundColor);
-      const lightContrast = contrast(lightColor, backgroundColor);
+      const darkContrast = contrast(darkColor, bgCSS);
+      const lightContrast = contrast(lightColor, bgCSS);
 
       return pickByContrast(darkContrast, lightContrast, darkColor, lightColor);
     }
@@ -110,13 +111,13 @@ export default function readableColor(
 
       invariant(oklabThreshold >= 0 && oklabThreshold <= 1, MESSAGES.thresholdNormalized);
 
-      const { l } = hex2oklab(parseCSS(backgroundColor, 'hex'));
+      const { l } = parsed.oklab;
 
       return l >= oklabThreshold ? darkColor : lightColor;
     }
     case 'apca': {
-      const darkContrast = Math.abs(apcaContrast(backgroundColor, darkColor));
-      const lightContrast = Math.abs(apcaContrast(backgroundColor, lightColor));
+      const darkContrast = Math.abs(apcaContrast(bgCSS, darkColor));
+      const lightContrast = Math.abs(apcaContrast(bgCSS, lightColor));
 
       return pickByContrast(darkContrast, lightContrast, darkColor, lightColor);
     }

@@ -1,7 +1,7 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 /**
  * Get the color difference between 2 colors.
@@ -14,8 +14,8 @@ export default function colorDifference(left: string, right: string): number {
   invariant(isString(left), MESSAGES.left);
   invariant(isString(right), MESSAGES.right);
 
-  const RGBLeft = parseCSS(left, 'rgb');
-  const RGBRight = parseCSS(right, 'rgb');
+  const RGBLeft = resolveColor(left).rgb;
+  const RGBRight = resolveColor(right).rgb;
 
   return (
     Math.max(RGBLeft.r, RGBRight.r) -

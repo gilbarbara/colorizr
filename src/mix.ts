@@ -1,11 +1,10 @@
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
+import { isNumberInRange, isString } from '~/modules/validators';
 
-import { ColorModelKey, ColorType } from '~/types';
+import { ColorModelKey, ColorType, HSL, LAB, LCH, RGB } from '~/types';
 
 export type HueMode = 'shorter' | 'longer' | 'increasing' | 'decreasing';
 
@@ -15,11 +14,8 @@ export interface MixOptions {
   space?: ColorModelKey;
 }
 
-function interpolateAlpha(a1: number | undefined, a2: number | undefined, ratio: number): number {
-  const alpha1 = a1 ?? 1;
-  const alpha2 = a2 ?? 1;
-
-  return alpha1 + (alpha2 - alpha1) * ratio;
+function interpolateAlpha(a1: number, a2: number, ratio: number): number {
+  return a1 + (a2 - a1) * ratio;
 }
 
 /**
@@ -84,59 +80,35 @@ function interpolateHue(
   return ((result % 360) + 360) % 360;
 }
 
-function mixInHSL(color1: string, color2: string, ratio: number, hueMode: HueMode) {
-  const c1 = parseCSS(color1, 'hsl');
-  const c2 = parseCSS(color2, 'hsl');
-
+function mixInHSL(c1: HSL, c2: HSL, ratio: number, hueMode: HueMode) {
   return {
-    color: {
-      h: interpolateHue(c1.h, c2.h, c1.s, c2.s, ratio, hueMode),
-      s: c1.s + (c2.s - c1.s) * ratio,
-      l: c1.l + (c2.l - c1.l) * ratio,
-    },
-    alpha: interpolateAlpha(c1.alpha, c2.alpha, ratio),
+    h: interpolateHue(c1.h, c2.h, c1.s, c2.s, ratio, hueMode),
+    s: c1.s + (c2.s - c1.s) * ratio,
+    l: c1.l + (c2.l - c1.l) * ratio,
   };
 }
 
-function mixInOkLab(color1: string, color2: string, ratio: number) {
-  const c1 = parseCSS(color1, 'oklab');
-  const c2 = parseCSS(color2, 'oklab');
-
+function mixInOkLab(c1: LAB, c2: LAB, ratio: number) {
   return {
-    color: {
-      l: c1.l + (c2.l - c1.l) * ratio,
-      a: c1.a + (c2.a - c1.a) * ratio,
-      b: c1.b + (c2.b - c1.b) * ratio,
-    },
-    alpha: interpolateAlpha(c1.alpha, c2.alpha, ratio),
+    l: c1.l + (c2.l - c1.l) * ratio,
+    a: c1.a + (c2.a - c1.a) * ratio,
+    b: c1.b + (c2.b - c1.b) * ratio,
   };
 }
 
-function mixInOkLCH(color1: string, color2: string, ratio: number, hueMode: HueMode) {
-  const c1 = parseCSS(color1, 'oklch');
-  const c2 = parseCSS(color2, 'oklch');
-
+function mixInOkLCH(c1: LCH, c2: LCH, ratio: number, hueMode: HueMode) {
   return {
-    color: {
-      l: c1.l + (c2.l - c1.l) * ratio,
-      c: c1.c + (c2.c - c1.c) * ratio,
-      h: interpolateHue(c1.h, c2.h, c1.c, c2.c, ratio, hueMode),
-    },
-    alpha: interpolateAlpha(c1.alpha, c2.alpha, ratio),
+    l: c1.l + (c2.l - c1.l) * ratio,
+    c: c1.c + (c2.c - c1.c) * ratio,
+    h: interpolateHue(c1.h, c2.h, c1.c, c2.c, ratio, hueMode),
   };
 }
 
-function mixInRGB(color1: string, color2: string, ratio: number) {
-  const c1 = parseCSS(color1, 'rgb');
-  const c2 = parseCSS(color2, 'rgb');
-
+function mixInRGB(c1: RGB, c2: RGB, ratio: number) {
   return {
-    color: {
-      r: Math.round(c1.r + (c2.r - c1.r) * ratio),
-      g: Math.round(c1.g + (c2.g - c1.g) * ratio),
-      b: Math.round(c1.b + (c2.b - c1.b) * ratio),
-    },
-    alpha: interpolateAlpha(c1.alpha, c2.alpha, ratio),
+    r: Math.round(c1.r + (c2.r - c1.r) * ratio),
+    g: Math.round(c1.g + (c2.g - c1.g) * ratio),
+    b: Math.round(c1.b + (c2.b - c1.b) * ratio),
   };
 }
 
@@ -160,31 +132,34 @@ export default function mix(
   invariant(isNumberInRange(ratio, 0, 1), MESSAGES.ratioRange);
 
   const { format, hue = 'shorter', space = 'oklch' } = options ?? {};
-  const output =
-    format ?? (isHex(color1) || isNamedColor(color1) ? 'hex' : extractColorParts(color1).model);
+  const parsed1 = resolveColor(color1);
+  const parsed2 = resolveColor(color2);
+  const output = format ?? parsed1.type;
 
-  let interpolated;
+  let color: HSL | LAB | LCH | RGB;
 
   switch (space) {
-    case 'oklch': {
-      interpolated = mixInOkLCH(color1, color2, ratio, hue);
-      break;
-    }
     case 'hsl': {
-      interpolated = mixInHSL(color1, color2, ratio, hue);
+      color = mixInHSL(parsed1.hsl, parsed2.hsl, ratio, hue);
       break;
     }
     case 'oklab': {
-      interpolated = mixInOkLab(color1, color2, ratio);
+      color = mixInOkLab(parsed1.oklab, parsed2.oklab, ratio);
       break;
     }
     case 'rgb': {
-      interpolated = mixInRGB(color1, color2, ratio);
+      color = mixInRGB(parsed1.rgb, parsed2.rgb, ratio);
+      break;
+    }
+
+    case 'oklch':
+    default: {
+      color = mixInOkLCH(parsed1.oklch, parsed2.oklch, ratio, hue);
       break;
     }
   }
 
-  const { color, alpha } = interpolated;
+  const alpha = interpolateAlpha(parsed1.alpha, parsed2.alpha, ratio);
 
   return formatCSS(color, { format: output, alpha: alpha < 1 ? alpha : undefined });
 }

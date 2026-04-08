@@ -1,4 +1,4 @@
-import { addAlpha, extractAlpha, limit, parseInput } from '~/modules/utils';
+import { addAlpha, clamp, extractAlpha, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
@@ -12,9 +12,9 @@ export default function rgb2hsl(input: ConverterParameters<RGB>): HSL {
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);
 
-  const rLimit = limit(value.r, 'rgb', 'r') / 255;
-  const gLimit = limit(value.g, 'rgb', 'g') / 255;
-  const bLimit = limit(value.b, 'rgb', 'b') / 255;
+  const rLimit = clamp(value.r, 0, 255) / 255;
+  const gLimit = clamp(value.g, 0, 255) / 255;
+  const bLimit = clamp(value.b, 0, 255) / 255;
 
   const min = Math.min(rLimit, gLimit, bLimit);
   const max = Math.max(rLimit, gLimit, bLimit);

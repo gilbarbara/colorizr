@@ -1,8 +1,8 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
+import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
 import { isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
 
 /**
  * Get the relative luminance of a color (WCAG definition).
@@ -13,7 +13,7 @@ import parseCSS from '~/parse-css';
 export default function luminance(input: string): number {
   invariant(isString(input), MESSAGES.inputString);
 
-  const { r, g, b } = parseCSS(input, 'rgb');
+  const { r, g, b } = resolveColor(input).rgb;
 
   const rgb = [r / 255, g / 255, b / 255];
 

@@ -1,9 +1,8 @@
-import extractColorParts from '~/extract-color-parts';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex, isNamedColor, isNumberInRange, isString } from '~/modules/validators';
-import parseCSS from '~/parse-css';
+import { resolveColor } from '~/modules/parsed-color';
+import { isNumberInRange, isString } from '~/modules/validators';
 
 import { ColorType } from '~/types';
 
@@ -19,8 +18,8 @@ export default function opacify(input: string, alpha: number, format?: ColorType
   invariant(isString(input), MESSAGES.inputString);
   invariant(isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
 
-  const type = isHex(input) || isNamedColor(input) ? 'hex' : extractColorParts(input).model;
-  const rgb = parseCSS(input, 'rgb');
+  const parsed = resolveColor(input);
+  const output = format ?? parsed.type;
 
-  return formatCSS(rgb, { format: format ?? type, alpha });
+  return formatCSS(parsed.rgb, { format: output, alpha });
 }
