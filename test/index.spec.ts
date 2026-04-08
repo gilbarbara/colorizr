@@ -7,6 +7,7 @@ import Colorizr, {
   contrast,
   convert,
   darken,
+  deltaE,
   desaturate,
   extractAlphaFromHex,
   extractColorParts,
@@ -63,6 +64,7 @@ describe('exports', () => {
     expect(contrast).toEqual(expect.any(Function));
     expect(convert).toEqual(expect.any(Function));
     expect(darken).toEqual(expect.any(Function));
+    expect(deltaE).toEqual(expect.any(Function));
     expect(desaturate).toEqual(expect.any(Function));
     expect(extractAlphaFromHex).toEqual(expect.any(Function));
     expect(extractColorParts).toEqual(expect.any(Function));

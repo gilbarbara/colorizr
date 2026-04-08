@@ -57,7 +57,7 @@ colorInstance.opacity; // 1
 - [Manipulators](#Manipulators) – adjust lightness, saturation, hue, alpha
 - [Converters](#Converters) – between color spaces
 - [Generators](#Generators)  – palettes, schemes, scales
-- [Comparison](#Comparison) – WCAG & APCA
+- [Comparison](#Comparison) – WCAG, APCA & Delta E
 - [Utilities](#Utilities) – helpers for parsing, formatting, random colors
 - [Validators](#Validators) – type and format validation
 - [Class](#Class) – object-oriented API for a single color
@@ -258,6 +258,20 @@ Get the WCAG contrast ratio between two colors.
 import { contrast } from 'colorizr';
 
 contrast('hsl(0 0% 100%)', 'rgb(255 0 68)'); // 3.94
+```
+
+**deltaE(left: string, right: string, precision?: number): number**  
+Get the perceptual color difference using Delta E OK (Euclidean distance in OkLab).  
+Values below `DELTA_E_JND` (0.02) are visually indistinguishable.
+
+```typescript
+import { deltaE, DELTA_E_JND } from 'colorizr';
+
+deltaE('#ff0000', '#ff0000'); // 0
+deltaE('#ff0000', '#fe0000'); // 0.00377 (below JND — looks the same)
+deltaE('#ff0000', '#0000ff'); // 0.38676
+
+DELTA_E_JND; // 0.02
 ```
 
 ### Generators
