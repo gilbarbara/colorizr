@@ -104,6 +104,10 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > saturate > should have sat
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044b3"`;
 
+exports[`Colorizr with 'HEX with alpha' > toGamut > should accept a format override 1`] = `"#ff0044e6"`;
+
+exports[`Colorizr with 'HEX with alpha' > toGamut > should return a gamut-mapped color 1`] = `"#ff0044e6"`;
+
 exports[`Colorizr with 'HEX' > brightnessDifference > should return the brightness difference 1`] = `83.997`;
 
 exports[`Colorizr with 'HEX' > brightnessDifference > should return the brightness difference 2`] = `171.003`;
@@ -207,6 +211,10 @@ exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the 
 exports[`Colorizr with 'HEX' > modifiers > saturate > should have saturated the color with 80 1`] = `"#ff0044"`;
 
 exports[`Colorizr with 'HEX' > modifiers > transparentize > should have transparentize the color 1`] = `"#ff0044cc"`;
+
+exports[`Colorizr with 'HEX' > toGamut > should accept a format override 1`] = `"#ff0044"`;
+
+exports[`Colorizr with 'HEX' > toGamut > should return a gamut-mapped color 1`] = `"#ff0044"`;
 
 exports[`Colorizr with 'HSL String' > brightnessDifference > should return the brightness difference 1`] = `157.437`;
 
@@ -312,6 +320,10 @@ exports[`Colorizr with 'HSL String' > modifiers > saturate > should have saturat
 
 exports[`Colorizr with 'HSL String' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
 
+exports[`Colorizr with 'HSL String' > toGamut > should accept a format override 1`] = `"#00ff44"`;
+
+exports[`Colorizr with 'HSL String' > toGamut > should return a gamut-mapped color 1`] = `"hsl(136 100% 50%)"`;
+
 exports[`Colorizr with 'HSL' > brightnessDifference > should return the brightness difference 1`] = `157.437`;
 
 exports[`Colorizr with 'HSL' > brightnessDifference > should return the brightness difference 2`] = `97.563`;
@@ -415,6 +427,10 @@ exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the 
 exports[`Colorizr with 'HSL' > modifiers > saturate > should have saturated the color with 80 1`] = `"hsl(136 100% 50%)"`;
 
 exports[`Colorizr with 'HSL' > modifiers > transparentize > should have transparentize the color 1`] = `"hsl(136 100% 50% / 80%)"`;
+
+exports[`Colorizr with 'HSL' > toGamut > should accept a format override 1`] = `"#00ff44"`;
+
+exports[`Colorizr with 'HSL' > toGamut > should return a gamut-mapped color 1`] = `"hsl(136 100% 50%)"`;
 
 exports[`Colorizr with 'OKLAB String' > brightnessDifference > should return the brightness difference 1`] = `140.815`;
 
@@ -520,6 +536,10 @@ exports[`Colorizr with 'OKLAB String' > modifiers > saturate > should have satur
 
 exports[`Colorizr with 'OKLAB String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
 
+exports[`Colorizr with 'OKLAB String' > toGamut > should accept a format override 1`] = `"#ff6e00"`;
+
+exports[`Colorizr with 'OKLAB String' > toGamut > should return a gamut-mapped color 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
+
 exports[`Colorizr with 'OKLAB' > brightnessDifference > should return the brightness difference 1`] = `140.815`;
 
 exports[`Colorizr with 'OKLAB' > brightnessDifference > should return the brightness difference 2`] = `114.185`;
@@ -623,6 +643,10 @@ exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated th
 exports[`Colorizr with 'OKLAB' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > transparentize > should have transparentize the color 1`] = `"oklab(70.622% 0.1374 0.14283 / 80%)"`;
+
+exports[`Colorizr with 'OKLAB' > toGamut > should accept a format override 1`] = `"#ff6e00"`;
+
+exports[`Colorizr with 'OKLAB' > toGamut > should return a gamut-mapped color 1`] = `"oklab(70.622% 0.1374 0.14283)"`;
 
 exports[`Colorizr with 'OKLCH String' > brightnessDifference > should return the brightness difference 1`] = `49.402`;
 
@@ -728,6 +752,10 @@ exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have satur
 
 exports[`Colorizr with 'OKLCH String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.94 / 80%)"`;
 
+exports[`Colorizr with 'OKLCH String' > toGamut > should accept a format override 1`] = `"#4400ff"`;
+
+exports[`Colorizr with 'OKLCH String' > toGamut > should return a gamut-mapped color 1`] = `"oklch(47.642% 0.29956 274.94)"`;
+
 exports[`Colorizr with 'OKLCH' > brightnessDifference > should return the brightness difference 1`] = `49.402`;
 
 exports[`Colorizr with 'OKLCH' > brightnessDifference > should return the brightness difference 2`] = `205.598`;
@@ -831,6 +859,10 @@ exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated th
 exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
 exports[`Colorizr with 'OKLCH' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.94 / 80%)"`;
+
+exports[`Colorizr with 'OKLCH' > toGamut > should accept a format override 1`] = `"#4400ff"`;
+
+exports[`Colorizr with 'OKLCH' > toGamut > should return a gamut-mapped color 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
 exports[`Colorizr with 'RGB String' > brightnessDifference > should return the brightness difference 1`] = `223.681`;
 
@@ -936,6 +968,10 @@ exports[`Colorizr with 'RGB String' > modifiers > saturate > should have saturat
 
 exports[`Colorizr with 'RGB String' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;
 
+exports[`Colorizr with 'RGB String' > toGamut > should accept a format override 1`] = `"#ffe66d"`;
+
+exports[`Colorizr with 'RGB String' > toGamut > should return a gamut-mapped color 1`] = `"rgb(255 230 109)"`;
+
 exports[`Colorizr with 'RGB' > brightnessDifference > should return the brightness difference 1`] = `223.681`;
 
 exports[`Colorizr with 'RGB' > brightnessDifference > should return the brightness difference 2`] = `31.319`;
@@ -1039,3 +1075,7 @@ exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the 
 exports[`Colorizr with 'RGB' > modifiers > saturate > should have saturated the color with 80 1`] = `"rgb(255 230 109)"`;
 
 exports[`Colorizr with 'RGB' > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 80%)"`;
+
+exports[`Colorizr with 'RGB' > toGamut > should accept a format override 1`] = `"#ffe66d"`;
+
+exports[`Colorizr with 'RGB' > toGamut > should return a gamut-mapped color 1`] = `"rgb(255 230 109)"`;
