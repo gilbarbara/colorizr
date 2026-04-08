@@ -1,10 +1,10 @@
 import * as converters from '~/converters';
 import extractColorParts from '~/extract-color-parts';
-import { MESSAGES, PRECISION } from '~/modules/constants';
+import { MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
-import { addAlpha, round } from '~/modules/utils';
+import { addAlpha } from '~/modules/utils';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import {
@@ -81,9 +81,9 @@ const converterTables: Record<
 function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH | RGB {
   const { alpha, model, ...color } = extractColorParts(value);
 
-  // Normalize OkLab/OkLCH lightness
+  // Normalize OkLab/OkLCH lightness from percentage to 0-1
   if (['oklab', 'oklch'].includes(model) && color.l > 1) {
-    color.l = round(color.l / 100, PRECISION);
+    color.l = parseFloat((color.l / 100).toPrecision(15));
   }
 
   const colorTuple = Object.values(color) as ColorTuple;

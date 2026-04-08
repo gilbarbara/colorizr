@@ -1,5 +1,5 @@
 import { RAD2DEG } from '~/modules/constants';
-import { addAlpha, extractAlpha, parseInput, restrictValues, round } from '~/modules/utils';
+import { addAlpha, extractAlpha, parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, LCH } from '~/types';
 
@@ -13,13 +13,13 @@ const { atan2, sqrt } = Math;
  * @returns The OkLCH color object.
  */
 export default function oklab2oklch(input: ConverterParameters<LAB>, precision?: number): LCH {
-  const { l, a, b } = restrictValues(parseInput(input, 'oklab'));
+  const { l, a, b } = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);
 
   const c = sqrt(a ** 2 + b ** 2);
   let h = (atan2(b, a) * RAD2DEG + 360) % 360;
 
-  if (round(c * 10000) === 0) {
+  if (c < 1e-6) {
     h = 0;
   }
 

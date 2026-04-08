@@ -7,11 +7,11 @@ import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixt
 
 describe('hsl2oklab', () => {
   it.each([
-    [brightPink.hsl, brightPink.oklab],
-    [green.hsl, green.oklab],
-    [orange.hsl, orange.oklab],
-    [violet.hsl, violet.oklab],
-    [yellow.hsl, yellow.oklab],
+    [brightPink.hsl, brightPink.oklabLong],
+    [green.hsl, green.oklabLong],
+    [orange.hsl, orange.oklabLong],
+    [violet.hsl, violet.oklabLong],
+    [yellow.hsl, yellow.oklabLong],
     [
       { h: 0, s: 0, l: 0 },
       { l: 0, a: 0, b: 0 },
@@ -21,11 +21,11 @@ describe('hsl2oklab', () => {
   });
 
   it.each([
-    [Object.values(brightPink.hsl), brightPink.oklab],
-    [Object.values(green.hsl), green.oklab],
-    [Object.values(orange.hsl), orange.oklab],
-    [Object.values(violet.hsl), violet.oklab],
-    [Object.values(yellow.hsl), yellow.oklab],
+    [Object.values(brightPink.hsl), brightPink.oklabLong],
+    [Object.values(green.hsl), green.oklabLong],
+    [Object.values(orange.hsl), orange.oklabLong],
+    [Object.values(violet.hsl), violet.oklabLong],
+    [Object.values(yellow.hsl), yellow.oklabLong],
   ] as Array<[ColorTuple, LAB]>)('%s should return %s', (input, expected) => {
     expect(hsl2oklab(input)).toEqual(expected);
   });
@@ -43,21 +43,21 @@ describe('hsl2oklab', () => {
     it('should preserve alpha through conversion chain', () => {
       const result = hsl2oklab({ ...brightPink.hsl, alpha: alphaCases.semi });
 
-      expect(result).toMatchObject(brightPink.oklab);
+      expect(result).toMatchObject(brightPink.oklabLong);
       expect(result.alpha).toBe(alphaCases.semi);
     });
 
     it('should not include alpha when alpha is 1', () => {
       const result = hsl2oklab({ ...brightPink.hsl, alpha: alphaCases.opaque });
 
-      expect(result).toEqual(brightPink.oklab);
+      expect(result).toEqual(brightPink.oklabLong);
       expect(result).not.toHaveProperty('alpha');
     });
 
     it('should handle alpha=0 (fully transparent)', () => {
       const result = hsl2oklab({ ...brightPink.hsl, alpha: alphaCases.transparent });
 
-      expect(result).toEqual({ ...brightPink.oklab, alpha: alphaCases.transparent });
+      expect(result).toEqual({ ...brightPink.oklabLong, alpha: alphaCases.transparent });
     });
   });
 });

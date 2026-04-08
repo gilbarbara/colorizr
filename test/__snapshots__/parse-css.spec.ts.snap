@@ -20,9 +20,9 @@ exports[`parseCSS > with output hex > oklab(70.622% 0.1374 0.14283 / 90%) should
 
 exports[`parseCSS > with output hex > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `"#ff6e00"`;
 
-exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.93693 / 90%) should return properly 1`] = `"#4400ffe6"`;
+exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `"#4400ffe6"`;
 
-exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.93693) should return properly 1`] = `"#4400ff"`;
+exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.94) should return properly 1`] = `"#4400ff"`;
 
 exports[`parseCSS > with output hex > rgb(255 230 109 / 0.9) should return properly 1`] = `"#ffe66de6"`;
 
@@ -115,7 +115,7 @@ exports[`parseCSS > with output hsl > oklab(70.622% 0.1374 0.14283) should retur
 }
 `;
 
-exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.93693 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 256,
@@ -124,7 +124,7 @@ exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.93693 / 90%) sho
 }
 `;
 
-exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.93693) should return properly 1`] = `
+exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
 {
   "h": 256,
   "l": 50,
@@ -160,69 +160,69 @@ exports[`parseCSS > with output hsl > rgb(255 230 109) should return properly 1`
 
 exports[`parseCSS > with output oklab > #ff0044 should return properly 1`] = `
 {
-  "a": 0.23887,
-  "b": 0.08648,
-  "l": 0.63269,
+  "a": 0.23886698675457535,
+  "b": 0.08647920826782624,
+  "l": 0.6326860506565246,
 }
 `;
 
 exports[`parseCSS > with output oklab > #ff0044cc should return properly 1`] = `
 {
-  "a": 0.23887,
+  "a": 0.23886698675457535,
   "alpha": 0.8,
-  "b": 0.08648,
-  "l": 0.63269,
+  "b": 0.08647920826782624,
+  "l": 0.6326860506565246,
 }
 `;
 
 exports[`parseCSS > with output oklab > AliceBlue should return properly 1`] = `
 {
-  "a": -0.0055,
-  "b": -0.0114,
-  "l": 0.97514,
+  "a": -0.005500548447156917,
+  "b": -0.011404205408255486,
+  "l": 0.9751428613571057,
 }
 `;
 
 exports[`parseCSS > with output oklab > greenyellow should return properly 1`] = `
 {
-  "a": -0.15012,
-  "b": 0.1788,
-  "l": 0.91305,
+  "a": -0.15012009648389923,
+  "b": 0.17879695908942994,
+  "l": 0.9130488631418492,
 }
 `;
 
 exports[`parseCSS > with output oklab > hsl(136 100% 50% / 0.5) should return properly 1`] = `
 {
-  "a": -0.22518,
+  "a": -0.22518225181645085,
   "alpha": 0.5,
-  "b": 0.1597,
-  "l": 0.86876,
+  "b": 0.1597012246235041,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklab > hsl(136 100% 50% / 90%) should return properly 1`] = `
 {
-  "a": -0.22518,
+  "a": -0.22518225181645085,
   "alpha": 0.9,
-  "b": 0.1597,
-  "l": 0.86876,
+  "b": 0.1597012246235041,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklab > hsl(136 100% 50%) should return properly 1`] = `
 {
-  "a": -0.22518,
-  "b": 0.1597,
-  "l": 0.86876,
+  "a": -0.22518225181645085,
+  "b": 0.1597012246235041,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklab > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
 {
-  "a": -0.14081,
+  "a": -0.1408050154861687,
   "alpha": 0.5,
-  "b": 0.096,
-  "l": 0.78483,
+  "b": 0.09599674011937365,
+  "l": 0.7848300155297747,
 }
 `;
 
@@ -243,147 +243,147 @@ exports[`parseCSS > with output oklab > oklab(70.622% 0.1374 0.14283) should ret
 }
 `;
 
-exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.93693 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
 {
-  "a": 0.02578,
+  "a": 0.02579585525814652,
   "alpha": 0.9,
-  "b": -0.29845,
+  "b": -0.29844726075389055,
   "l": 0.47642,
 }
 `;
 
-exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.93693) should return properly 1`] = `
+exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
 {
-  "a": 0.02578,
-  "b": -0.29845,
+  "a": 0.02579585525814652,
+  "b": -0.29844726075389055,
   "l": 0.47642,
 }
 `;
 
 exports[`parseCSS > with output oklab > rgb(255 230 109 / 0.9) should return properly 1`] = `
 {
-  "a": -0.01932,
+  "a": -0.01931764987879525,
   "alpha": 0.9,
-  "b": 0.14143,
-  "l": 0.92235,
+  "b": 0.14143140414845023,
+  "l": 0.922350998807585,
 }
 `;
 
 exports[`parseCSS > with output oklab > rgb(255 230 109 / 90%) should return properly 1`] = `
 {
-  "a": -0.01932,
+  "a": -0.01931764987879525,
   "alpha": 0.9,
-  "b": 0.14143,
-  "l": 0.92235,
+  "b": 0.14143140414845023,
+  "l": 0.922350998807585,
 }
 `;
 
 exports[`parseCSS > with output oklab > rgb(255 230 109) should return properly 1`] = `
 {
-  "a": -0.01932,
-  "b": 0.14143,
-  "l": 0.92235,
+  "a": -0.01931764987879525,
+  "b": 0.14143140414845023,
+  "l": 0.922350998807585,
 }
 `;
 
 exports[`parseCSS > with output oklch > #ff0044 should return properly 1`] = `
 {
-  "c": 0.25404,
-  "h": 19.90218,
-  "l": 0.63269,
+  "c": 0.25403954578734494,
+  "h": 19.902240785746187,
+  "l": 0.6326860506565246,
 }
 `;
 
 exports[`parseCSS > with output oklch > #ff0044cc should return properly 1`] = `
 {
   "alpha": 0.8,
-  "c": 0.25404,
-  "h": 19.90218,
-  "l": 0.63269,
+  "c": 0.25403954578734494,
+  "h": 19.902240785746187,
+  "l": 0.6326860506565246,
 }
 `;
 
 exports[`parseCSS > with output oklch > AliceBlue should return properly 1`] = `
 {
-  "c": 0.01266,
-  "h": 244.24473,
-  "l": 0.97514,
+  "c": 0.012661434919202642,
+  "h": 244.25076318931528,
+  "l": 0.9751428613571057,
 }
 `;
 
 exports[`parseCSS > with output oklch > greenyellow should return properly 1`] = `
 {
-  "c": 0.23346,
-  "h": 130.01673,
-  "l": 0.91305,
+  "c": 0.23346176549482894,
+  "h": 130.0172273212287,
+  "l": 0.9130488631418492,
 }
 `;
 
 exports[`parseCSS > with output oklch > hsl(136 100% 50% / 0.5) should return properly 1`] = `
 {
   "alpha": 0.5,
-  "c": 0.27606,
-  "h": 144.65534,
-  "l": 0.86876,
+  "c": 0.2760643542353384,
+  "h": 144.65540033481756,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklch > hsl(136 100% 50% / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
-  "c": 0.27606,
-  "h": 144.65534,
-  "l": 0.86876,
+  "c": 0.2760643542353384,
+  "h": 144.65540033481756,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklch > hsl(136 100% 50%) should return properly 1`] = `
 {
-  "c": 0.27606,
-  "h": 144.65534,
-  "l": 0.86876,
+  "c": 0.2760643542353384,
+  "h": 144.65540033481756,
+  "l": 0.8687605896103548,
 }
 `;
 
 exports[`parseCSS > with output oklch > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
 {
   "alpha": 0.5,
-  "c": 0.17042,
-  "h": 145.71502,
-  "l": 0.78483,
+  "c": 0.17041545264325875,
+  "h": 145.71497851504932,
+  "l": 0.7848300155297747,
 }
 `;
 
 exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
-  "c": 0.19819,
-  "h": 46.11008,
+  "c": 0.19818972955226516,
+  "h": 46.11007798489595,
   "l": 0.70622,
 }
 `;
 
 exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `
 {
-  "c": 0.19819,
-  "h": 46.11008,
+  "c": 0.19818972955226516,
+  "h": 46.11007798489595,
   "l": 0.70622,
 }
 `;
 
-exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.93693 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.29956,
-  "h": 274.93693,
+  "h": 274.94,
   "l": 0.47642,
 }
 `;
 
-exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.93693) should return properly 1`] = `
+exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
 {
   "c": 0.29956,
-  "h": 274.93693,
+  "h": 274.94,
   "l": 0.47642,
 }
 `;
@@ -391,26 +391,26 @@ exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.93693) should 
 exports[`parseCSS > with output oklch > rgb(255 230 109 / 0.9) should return properly 1`] = `
 {
   "alpha": 0.9,
-  "c": 0.14274,
-  "h": 97.77872,
-  "l": 0.92235,
+  "c": 0.14274457494504644,
+  "h": 97.77771337249595,
+  "l": 0.922350998807585,
 }
 `;
 
 exports[`parseCSS > with output oklch > rgb(255 230 109 / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
-  "c": 0.14274,
-  "h": 97.77872,
-  "l": 0.92235,
+  "c": 0.14274457494504644,
+  "h": 97.77771337249595,
+  "l": 0.922350998807585,
 }
 `;
 
 exports[`parseCSS > with output oklch > rgb(255 230 109) should return properly 1`] = `
 {
-  "c": 0.14274,
-  "h": 97.77872,
-  "l": 0.92235,
+  "c": 0.14274457494504644,
+  "h": 97.77771337249595,
+  "l": 0.922350998807585,
 }
 `;
 
@@ -499,7 +499,7 @@ exports[`parseCSS > with output rgb > oklab(70.622% 0.1374 0.14283) should retur
 }
 `;
 
-exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.93693 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 255,
@@ -508,7 +508,7 @@ exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.93693 / 90%) sho
 }
 `;
 
-exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.93693) should return properly 1`] = `
+exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
 {
   "b": 255,
   "g": 0,

@@ -1,4 +1,4 @@
-import { LRGB_TO_LMS, LSM_TO_LAB, PRECISION } from '~/modules/constants';
+import { LRGB_TO_LMS, LSM_TO_LAB } from '~/modules/constants';
 import { addAlpha, extractAlpha, parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
@@ -22,7 +22,7 @@ function rgb2lrgb(input: number) {
  * @param precision - The number of decimal places for the result.
  * @returns The OkLab color object.
  */
-export default function rgb2oklab(input: ConverterParameters<RGB>, precision = PRECISION): LAB {
+export default function rgb2oklab(input: ConverterParameters<RGB>, precision?: number): LAB {
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);
 
@@ -33,9 +33,9 @@ export default function rgb2oklab(input: ConverterParameters<RGB>, precision = P
 
   const lab = restrictValues(
     {
-      l: LSM_TO_LAB.l[0] * l + LSM_TO_LAB.l[1] * m - LSM_TO_LAB.l[2] * s,
-      a: LSM_TO_LAB.a[0] * l - LSM_TO_LAB.a[1] * m + LSM_TO_LAB.a[2] * s,
-      b: LSM_TO_LAB.b[0] * l + LSM_TO_LAB.b[1] * m - LSM_TO_LAB.b[2] * s,
+      l: LSM_TO_LAB.l[0] * l + LSM_TO_LAB.l[1] * m + LSM_TO_LAB.l[2] * s,
+      a: LSM_TO_LAB.a[0] * l + LSM_TO_LAB.a[1] * m + LSM_TO_LAB.a[2] * s,
+      b: LSM_TO_LAB.b[0] * l + LSM_TO_LAB.b[1] * m + LSM_TO_LAB.b[2] * s,
     },
     precision,
   );

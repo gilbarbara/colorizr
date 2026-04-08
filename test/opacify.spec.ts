@@ -9,7 +9,7 @@ describe('opacify', () => {
   it.each([
     ['darkgoldenrod', 0.1, 'hsl', 'hsl(42.66 88.72% 38.24% / 10%)'],
     ['cadetblue', 0.25, 'oklab', 'oklab(65.768% -0.06172 -0.02041 / 25%)'],
-    ['coral', 0.325, 'oklch', 'oklch(73.511% 0.168 40.24617 / 32.5%)'],
+    ['coral', 0.325, 'oklch', 'oklch(73.511% 0.16799 40.247 / 32.5%)'],
     ['forestgreen', 0.5, 'rgb', 'rgb(34 139 34 / 50%)'],
     [brightPink.hex, 0.8, 'hex', `${brightPink.hex}cc`],
     [addOpacityToCssString(brightPink.hex, 0.8), 0.1, 'hex', `${brightPink.hex}1a`],

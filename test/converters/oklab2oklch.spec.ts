@@ -7,32 +7,37 @@ import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixt
 
 describe('oklab2oklch', () => {
   it.each([
-    [brightPink.oklab, brightPink.oklch],
-    [brightPink.oklabLong, brightPink.oklch],
-    [green.oklab, green.oklch],
-    [green.oklabLong, green.oklch],
-    [orange.oklab, orange.oklch],
-    [orange.oklabLong, orange.oklch],
-    [violet.oklab, violet.oklch],
-    [violet.oklabLong, violet.oklch],
-    [yellow.oklab, yellow.oklch],
-    [yellow.oklabLong, yellow.oklch],
+    [brightPink.oklabLong, brightPink.oklchLong],
+    [green.oklabLong, green.oklchLong],
+    [orange.oklabLong, orange.oklchLong],
+    [violet.oklabLong, violet.oklchLong],
+    [yellow.oklabLong, yellow.oklchLong],
     [
       { l: 0, a: 0, b: 0 },
       { l: 0, c: 0, h: 0 },
     ],
-  ] as Array<[LAB, LCH]>)('%s should return %s', (input, expected) => {
+  ] as Array<[LAB, LCH]>)('%s should return raw floats %s', (input, expected) => {
     expect(oklab2oklch(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklab), brightPink.oklch],
-    [Object.values(green.oklab), green.oklch],
-    [Object.values(orange.oklab), orange.oklch],
-    [Object.values(violet.oklab), violet.oklch],
-    [Object.values(yellow.oklab), yellow.oklch],
-  ] as Array<[ColorTuple, LCH]>)('%s should return %s', (input, expected) => {
-    expect(oklab2oklch(input)).toEqual(expected);
+    [brightPink.oklab, { l: 0.63269, c: 0.25404, h: 19.90218 }],
+    [green.oklab, { l: 0.86876, c: 0.27606, h: 144.65534 }],
+    [orange.oklab, { l: 0.70622, c: 0.19819, h: 46.11008 }],
+    [violet.oklab, { l: 0.47642, c: 0.29956, h: 274.93693 }],
+    [yellow.oklab, { l: 0.92235, c: 0.14274, h: 97.77872 }],
+  ] as Array<[LAB, LCH]>)('%s with precision should return %s', (input, expected) => {
+    expect(oklab2oklch(input, 5)).toEqual(expected);
+  });
+
+  it.each([
+    [Object.values(brightPink.oklab) as ColorTuple, { l: 0.63269, c: 0.25404, h: 19.90218 }],
+    [Object.values(green.oklab) as ColorTuple, { l: 0.86876, c: 0.27606, h: 144.65534 }],
+    [Object.values(orange.oklab) as ColorTuple, { l: 0.70622, c: 0.19819, h: 46.11008 }],
+    [Object.values(violet.oklab) as ColorTuple, { l: 0.47642, c: 0.29956, h: 274.93693 }],
+    [Object.values(yellow.oklab) as ColorTuple, { l: 0.92235, c: 0.14274, h: 97.77872 }],
+  ] as Array<[ColorTuple, LCH]>)('%s with precision should return %s', (input, expected) => {
+    expect(oklab2oklch(input, 5)).toEqual(expected);
   });
 
   it('should fail with invalid parameters', () => {
@@ -45,24 +50,26 @@ describe('oklab2oklch', () => {
   });
 
   describe('alpha handling', () => {
+    const expectedFromShort = oklab2oklch(brightPink.oklab);
+
     it('should preserve alpha from object input', () => {
       const result = oklab2oklch({ ...brightPink.oklab, alpha: alphaCases.semi });
 
-      expect(result).toMatchObject(brightPink.oklch);
+      expect(result).toMatchObject(expectedFromShort);
       expect(result.alpha).toBe(alphaCases.semi);
     });
 
     it('should not include alpha when alpha is 1', () => {
       const result = oklab2oklch({ ...brightPink.oklab, alpha: alphaCases.opaque });
 
-      expect(result).toEqual(brightPink.oklch);
+      expect(result).toEqual(expectedFromShort);
       expect(result).not.toHaveProperty('alpha');
     });
 
     it('should handle alpha=0 (fully transparent)', () => {
       const result = oklab2oklch({ ...brightPink.oklab, alpha: alphaCases.transparent });
 
-      expect(result).toEqual({ ...brightPink.oklch, alpha: alphaCases.transparent });
+      expect(result).toEqual({ ...expectedFromShort, alpha: alphaCases.transparent });
     });
   });
 });

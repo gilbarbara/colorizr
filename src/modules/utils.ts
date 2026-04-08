@@ -1,4 +1,4 @@
-import { COLOR_KEYS, COLOR_MODELS, MESSAGES, PRECISION } from '~/modules/constants';
+import { COLOR_KEYS, COLOR_MODELS, MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import {
   isHSL,
@@ -191,17 +191,22 @@ export function pick(input: PlainObject, options: string[]): PlainObject {
 
 /**
  * Restrict the values to a certain number of digits.
+ * When precision is undefined, returns input unchanged (no rounding).
  *
  * @param input - The LAB or LCH color model.
- * @param precision - The number of decimal places (default: 5).
- * @param forcePrecision - Whether to force the precision (default: true).
+ * @param precision - The number of significant digits. Undefined = no rounding.
+ * @param forcePrecision - Whether to use decimal places (true) or significant digits (false).
  * @returns The color model with restricted values.
  */
 export function restrictValues<T extends LAB | LCH>(
   input: T,
-  precision: number = PRECISION,
+  precision?: number,
   forcePrecision = true,
 ): T {
+  if (precision == null) {
+    return input;
+  }
+
   const output = new Map(Object.entries(input));
 
   for (const [key, value] of output.entries()) {
@@ -215,8 +220,8 @@ export function restrictValues<T extends LAB | LCH>(
  * Round decimal numbers.
  *
  * @param input - The number to round.
- * @param precision - The number of decimal places (default: 2).
- * @param forcePrecision - Whether to force exact precision (default: true).
+ * @param precision - The number of digits (default: 2).
+ * @param forcePrecision - When true, rounds to N decimal places. When false, rounds to N significant digits.
  * @returns The rounded number.
  */
 export function round(input: number, precision = 2, forcePrecision = true): number {
@@ -230,27 +235,18 @@ export function round(input: number, precision = 2, forcePrecision = true): numb
     return Math.round(input * factor) / factor;
   }
 
-  const absInput = Math.abs(input);
+  // Significant digits mode (matches color.js toPrecision behavior):
+  // For |n| >= 1: N significant digits. For |n| < 1: N decimal places.
+  const integer = Math.trunc(input);
+  let digits = 0;
 
-  let digits = Math.abs(Math.ceil(Math.log(absInput) / Math.LN10));
-
-  if (digits === 0) {
-    digits = 2;
-  } else if (digits > precision) {
-    digits = precision;
+  if (integer) {
+    digits = Math.floor(Math.log10(Math.abs(integer))) + 1;
   }
 
-  let exponent = precision - (digits < 0 ? 0 : digits);
+  const factor = 10 ** (precision - digits);
 
-  if (exponent <= 1 && precision > 1) {
-    exponent = 2;
-  } else if (exponent > precision || exponent === 0) {
-    exponent = precision;
-  }
-
-  const factor = 10 ** exponent;
-
-  return Math.round(input * factor) / factor;
+  return Math.floor(input * factor + 0.5) / factor;
 }
 
 /**

@@ -54,7 +54,7 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > darken > should have darke
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4a"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61a50"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61950"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335c"`;
 
@@ -82,7 +82,7 @@ exports[`Colorizr with 'HEX with alpha' > modifiers > opacify > should make the 
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004"`;
 
-exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3b00"`;
+exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3c00"`;
 
 exports[`Colorizr with 'HEX with alpha' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00"`;
 
@@ -154,7 +154,7 @@ exports[`Colorizr with 'HEX' > modifiers > darken > should have darken the color
 
 exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"#f20d4a"`;
 
-exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61a50"`;
+exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"#e61950"`;
 
 exports[`Colorizr with 'HEX' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"#cc335c"`;
 
@@ -182,7 +182,7 @@ exports[`Colorizr with 'HEX' > modifiers > opacify > should make the color trans
 
 exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 15 1`] = `"#ff0004"`;
 
-exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3b00"`;
+exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 30 1`] = `"#ff3c00"`;
 
 exports[`Colorizr with 'HEX' > modifiers > rotate > should have rotated the color with 60 1`] = `"#ffbb00"`;
 
@@ -454,7 +454,7 @@ exports[`Colorizr with 'OKLAB String' > modifiers > darken > should have darken 
 
 exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklab(69.021% 0.12176 0.13721)"`;
 
-exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.488% 0.10855 0.13047)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
 
@@ -476,7 +476,7 @@ exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with anothe
 
 exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklab(64.267% 0.22308 0.04173)"`;
 
-exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.556% 0.14036 -0.24742)"`;
+exports[`Colorizr with 'OKLAB String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.557% 0.14036 -0.24742)"`;
 
 exports[`Colorizr with 'OKLAB String' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
 
@@ -554,7 +554,7 @@ exports[`Colorizr with 'OKLAB' > modifiers > darken > should have darken the col
 
 exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklab(69.021% 0.12176 0.13721)"`;
 
-exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.644% 0.1072 0.13045)"`;
+exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklab(67.488% 0.10855 0.13047)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklab(64.739% 0.07832 0.10943)"`;
 
@@ -576,7 +576,7 @@ exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color
 
 exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklab(64.267% 0.22308 0.04173)"`;
 
-exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.556% 0.14036 -0.24742)"`;
+exports[`Colorizr with 'OKLAB' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklab(51.557% 0.14036 -0.24742)"`;
 
 exports[`Colorizr with 'OKLAB' > modifiers > opacify > should make the color transparent 1`] = `"oklab(70.622% 0.1374 0.14283 / 90%)"`;
 
@@ -644,61 +644,61 @@ exports[`Colorizr with 'OKLCH String' > getters > .luminance should return the c
 
 exports[`Colorizr with 'OKLCH String' > getters > .opacity should return the correct value 1`] = `1`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.46794)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.47)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20355 276.80834)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20354 276.81)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.34945)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.35)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 0)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.75613)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.76)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.568% 0.26549 280.77)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21813 287.03)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > grayscale > should convert to grayscale 1`] = `"oklch(47.642% 0 274.93693)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > grayscale > should convert to grayscale 1`] = `"oklch(47.642% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23634 126.7)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.47832)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.48)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.24695)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.25)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48387)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 0)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.49422)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.5)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30298 272.21558)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30297 272.22)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.811% 0.30981 266.77287)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.812% 0.3098 266.77)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.93693 / 90%)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.94 / 90%)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24156)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.618% 0.30467 314.28723)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.48% 0.30441 314.02)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9015)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22094)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23634 126.7)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
+exports[`Colorizr with 'OKLCH String' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.94 / 80%)"`;
 
 exports[`Colorizr with 'OKLCH' > brightnessDifference > should return the brightness difference 1`] = `49.402`;
 
@@ -744,61 +744,61 @@ exports[`Colorizr with 'OKLCH' > getters > .luminance should return the correct 
 
 exports[`Colorizr with 'OKLCH' > getters > .opacity should return the correct value 1`] = `1`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.46794)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 10 1`] = `"oklch(40.377% 0.25281 275.47)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20355 276.80834)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 20 1`] = `"oklch(32.85% 0.20354 276.81)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.34945)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 40 1`] = `"oklch(16.175% 0.09429 285.35)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 0)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > darken > should have darken the color with 80 1`] = `"oklch(0% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.75613)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 10 1`] = `"oklch(46.904% 0.28276 277.76)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.629% 0.26504 280.73333)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 20 1`] = `"oklch(46.568% 0.26549 280.77)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21812 287.02683)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 40 1`] = `"oklch(47.266% 0.21813 287.03)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27201)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > desaturate > should have desaturated the color with 80 1`] = `"oklch(54.392% 0.07957 296.27)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > grayscale > should convert to grayscale 1`] = `"oklch(47.642% 0 274.93693)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > grayscale > should convert to grayscale 1`] = `"oklch(47.642% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > invert > should have invert the color 1`] = `"oklch(92.006% 0.23634 126.7)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.47832)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 10 1`] = `"oklch(53.31% 0.27191 284.48)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.24695)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 20 1`] = `"oklch(63.039% 0.21684 291.25)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48387)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 40 1`] = `"oklch(87.316% 0.07112 297.48)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 0)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > lighten > should have lighten the color with 80 1`] = `"oklch(100% 0 none)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.49422)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"oklch(46.422% 0.30639 269.5)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30298 272.21558)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"oklch(47.032% 0.30297 272.22)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.811% 0.30981 266.77287)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"oklch(45.812% 0.3098 266.77)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.93693 / 90%)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > opacify > should make the color transparent 1`] = `"oklch(47.642% 0.29956 274.94 / 90%)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24156)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 15 1`] = `"oklch(53.492% 0.29334 295.24)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.618% 0.30467 314.28723)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 30 1`] = `"oklch(61.48% 0.30441 314.02)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9015)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 60 1`] = `"oklch(66.672% 0.28363 344.9)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22094)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 120 1`] = `"oklch(65.932% 0.23006 35.22)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23635 126.69487)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > rotate > should have rotated the color with 180 1`] = `"oklch(92.006% 0.23634 126.7)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 10 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 20 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 40 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.93693)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > saturate > should have saturated the color with 80 1`] = `"oklch(47.642% 0.29956 274.94)"`;
 
-exports[`Colorizr with 'OKLCH' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.93693 / 80%)"`;
+exports[`Colorizr with 'OKLCH' > modifiers > transparentize > should have transparentize the color 1`] = `"oklch(47.642% 0.29956 274.94 / 80%)"`;
 
 exports[`Colorizr with 'RGB String' > brightnessDifference > should return the brightness difference 1`] = `223.681`;
 

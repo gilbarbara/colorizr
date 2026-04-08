@@ -15,5 +15,5 @@ export default function rgb2oklch(input: ConverterParameters<RGB>, precision?: n
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);
 
-  return addAlpha(oklab2oklch(rgb2oklab(value, precision), precision), alpha);
+  return addAlpha(oklab2oklch(rgb2oklab(value), precision), alpha);
 }

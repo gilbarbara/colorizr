@@ -114,16 +114,16 @@ export default function formatCSS<T extends ColorModel | HEX>(
     }
     case 'oklab': {
       separator = ' ';
-      const { l, a, b } = restrictValues(getColorValue(input, 'oklab'), precision);
+      const { l, a, b } = restrictValues(getColorValue(input, 'oklab'), precision, false);
 
-      params = [`${round(l * 100, precision)}%`, a, b];
+      params = [`${round(l * 100, precision, false)}%`, a, b];
       break;
     }
     case 'oklch': {
       separator = ' ';
-      const { l, c, h } = restrictValues(getColorValue(input, 'oklch'), precision);
+      const { l, c, h } = restrictValues(getColorValue(input, 'oklch'), precision, false);
 
-      params = [`${round(l * 100, precision)}%`, c, h];
+      params = [`${round(l * 100, precision, false)}%`, c, c === 0 ? 'none' : h];
       break;
     }
     case 'rgb': {
