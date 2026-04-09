@@ -1,13 +1,22 @@
-# Colorizr
+<p align="center">
+  <br>
+  <img alt="vite logo" src="docs/public/logo.svg" height="120">
+  <br>
+  <br>
+</p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/colorizr"><img src="https://badge.fury.io/js/colorizr.svg" alt="NPM version" /></a>
+  <a href="https://github.com/gilbarbara/colorizr/actions/workflows/ci.yml"><img src="https://github.com/gilbarbara/colorizr/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr"><img src="https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=alert_status" alt="Quality Gate Status" /></a>
+  <a href="https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr"><img src="https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=coverage" alt="Coverage" /></a>
+</p>
 
-[![NPM version](https://badge.fury.io/js/colorizr.svg)](https://www.npmjs.com/package/colorizr) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/colorizr)](https://bundlephobia.com/result?p=colorizr) [![CI](https://github.com/gilbarbara/colorizr/actions/workflows/ci.yml/badge.svg)](https://github.com/gilbarbara/colorizr/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_colorizr&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_colorizr)
+# Colorizr
 
 A modern color library focused on perceptual correctness and accessibility.
 
-## Highlights
-
 - 🏖 **Easy to use**: Works with Hex, HSL, RGB, OKLAB, and OKLCH.
-- ♿️ **Accessibility**: WCAG 2.x contrast and **APCA (WCAG 3.0)** support.
+- ♿️ **Accessibility**: WCAG 2.x contrast and APCA (WCAG 3.0) support.
 - 🎨 **Design Systems**: Generate perceptual color scales with variants.
 - 🖥 **Modern Displays**: P3 gamut optimization and OkLCH operations.
 - 🟦 **TypeScript**: Full type safety, zero dependencies.
@@ -58,7 +67,7 @@ colorInstance.opacity; // 1
 - [Converters](#Converters) – between color spaces
 - [Generators](#Generators)  – palettes, schemes, scales
 - [Comparison](#Comparison) – WCAG, APCA & Delta E
-- [Utilities](#Utilities) – helpers for parsing, formatting, random colors
+- [Utilities](#Utilities) – helpers for parsing, formatting, and random colors
 - [Validators](#Validators) – type and format validation
 - [Class](#Class) – object-oriented API for a single color
 
@@ -108,7 +117,7 @@ opacity('hsl(344 100 50 / 60%)'); // 0.6
 
 ### Manipulators
 
-**lighten(input: string, amount: number): string**  
+**lighten(input: string, amount: number, format?: ColorType): string**  
 Get a color with increased lightness.
 
 ```typescript
@@ -118,7 +127,7 @@ lighten('#ff0044', 10); // #ff3369
 lighten('hsl(136 100% 50%)', 10); // hsl(136 100% 60%)
 ```
 
-**darken(input: string, amount: number): string**  
+**darken(input: string, amount: number, format?: ColorType): string**  
 Get a color with decreased lightness.
 
 ```typescript
@@ -128,7 +137,7 @@ darken('#ff0044', 10); // #cc0036
 darken('oklch(47.642% 0.29956 274.93693)', 10); // oklch(40.377% 0.25281 275.46794)
 ```
 
-**saturate(input: string, amount: number): string**  
+**saturate(input: string, amount: number, format?: ColorType): string**  
 Get a color with increased saturation.
 
 ```typescript
@@ -138,7 +147,7 @@ saturate('#ff0044', 10); // #ff0044 (already at the maximum)
 saturate('pink', 10); // #ffc0cb
 ```
 
-**desaturate(input: string, amount: number): string**  
+**desaturate(input: string, amount: number, format?: ColorType): string**  
 Get a color with decreased saturation.
 
 ```typescript
@@ -158,7 +167,7 @@ invert('#07e'); // '#ee7700'
 invert('#f058'); // '#00ffaa'
 ```
 
-**rotate(input: string, degrees: number): string**  
+**rotate(input: string, degrees: number, format?: ColorType): string**  
 Get a color with a hue rotated by the specified degrees.
 
 ```typescript
@@ -240,7 +249,7 @@ toGamut('oklch(0.9 0.4 150)', 'hex'); // '#00f384'
 
 ### Comparison
 
-**brightnessDifference(left: string, right: string): number**  
+**brightnessDifference(left: string, right: string, precision?: number): number**  
 Get the brightness difference between the two colors.
 
 ```typescript
@@ -356,7 +365,7 @@ palette('#ff0044', { type: 'monochromatic' });
 // ['#ff99b4', '#ff5582', '#ff1150', '#cc0036', '#880024', '#440012']
 ```
 
-**scheme(input: string, type: SchemeOptions): string[]**  
+**scheme(input: string, typeOrOptions?: Scheme | SchemeOptions): string[]**  
 Get a color scheme.
 
 <details>
@@ -804,7 +813,7 @@ extractColorParts('rgb(255 0 68)') // { model: 'rgb', r: 255, g: 0, b: 68 }
 extractColorParts('hsl(344 100% 50% / 90%)') // { alpha: 0.9, model: 'hsl', h: 344, s: 100, l: 50 }
 ```
 
-**formatCSS(input: HSL | RGB, options?: FormatCSSOptions): string**  
+**formatCSS(input: HSL | LAB | LCH | RGB | HEX, options?: FormatCSSOptions): string**  
 Get a CSS string from a color object.
 
 <details>
@@ -889,7 +898,7 @@ getP3MaxColor({ l: 0.63269, c: 0.25404, h: 19.90218 }); // oklch(0.63269 0.28643
 getP3MaxColor('#00ff44'); // oklch(0.86876 0.30921 144.65534) 
 ```
 
-**parseCSS(input: string, format?: ColorType): string | HSL | RGB**  
+**parseCSS(input: string, format?: ColorType): HEX | HSL | LAB | LCH | RGB**  
 Parse a css string to hex, HSL, OKLAB, OKLCH, or RGB.  
 If the format isn't set, it will return the same format as the input.
 
@@ -1164,6 +1173,12 @@ Get the OKLCH object.
 
 **colorizr.rgb**  
 Get the RGB object.
+
+**colorizr.alpha**  
+Get the alpha value (0-1).
+
+**colorizr.type**  
+Get the color format type.
 
 **colorizr.hue**  
 Get the hue (0-360).
