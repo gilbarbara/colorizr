@@ -869,14 +869,14 @@ getColorType('oklch(0.63 0.25 20)'); // 'oklch'
 getColorType('invalid'); // null
 ```
 
-**getOkLCHMaxChroma(input: string | LCH, precision?: number): number**  
+**getP3MaxChroma(input: string | LCH, precision?: number): number**  
 Get the maximum chroma for a given lightness and hue in the OkLCH color space.
 
 ```typescript
-import { getOkLCHMaxChroma } from 'colorizr';
+import { getP3MaxChroma } from 'colorizr';
 
-getOkLCHMaxChroma({ l: 0.63269, c: 0.25404, h: 19.90218 }); // 0.28643
-getOkLCHMaxChroma('#00ff44'); // 0.30921 
+getP3MaxChroma({ l: 0.63269, c: 0.25404, h: 19.90218 }); // 0.28643
+getP3MaxChroma('#00ff44'); // 0.30921 
 ```
 
 **getP3MaxColor(input: string | LCH): string**  

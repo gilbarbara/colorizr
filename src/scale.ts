@@ -4,7 +4,7 @@ import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { clamp, getScaleStepKeys, warn } from '~/modules/utils';
 import { isNumber, isString } from '~/modules/validators';
-import { getOkLCHMaxChroma } from '~/p3';
+import { getP3MaxChroma } from '~/p3';
 import parseCSS from '~/parse-css';
 
 import type { ColorType, LCH } from '~/types';
@@ -198,7 +198,7 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   for (const key of keys) {
     const lightness = lightnessMap[key];
     const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
-    const maxChroma = getOkLCHMaxChroma({ l: lightness, c: 0, h: hue });
+    const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: hue });
 
     palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: hue };
   }
@@ -269,7 +269,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
 
   if (saturation !== undefined) {
     // saturation overrides: % of max P3 chroma at input's lightness
-    const maxChroma = getOkLCHMaxChroma(lch);
+    const maxChroma = getP3MaxChroma(lch);
 
     baseChroma = (clamp(saturation, 0, 100) / 100) * maxChroma;
   } else if (variant && chromaScale[variant]) {

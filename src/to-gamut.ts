@@ -2,7 +2,7 @@ import { oklch2oklab } from '~/converters';
 import formatCSS from '~/format-css';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isInSRGBGamut, oklabToLinearSRGB } from '~/modules/linear-rgb';
+import { isInGamut, oklabToLinearSRGB } from '~/modules/linear-rgb';
 import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
 
@@ -36,7 +36,7 @@ export default function toGamut(input: string, format?: ColorType): string {
   // Already in gamut?
   const lab = oklch2oklab(lch, 16);
 
-  if (isInSRGBGamut(oklabToLinearSRGB(lab.l, lab.a, lab.b))) {
+  if (isInGamut(oklabToLinearSRGB(lab.l, lab.a, lab.b))) {
     return formatCSS(lch, { format: output, alpha });
   }
 
@@ -49,7 +49,7 @@ export default function toGamut(input: string, format?: ColorType): string {
     const mid = (low + high) / 2;
     const midLab = oklch2oklab({ l: lch.l, c: mid, h: lch.h }, 16);
 
-    if (isInSRGBGamut(oklabToLinearSRGB(midLab.l, midLab.a, midLab.b))) {
+    if (isInGamut(oklabToLinearSRGB(midLab.l, midLab.a, midLab.b))) {
       low = mid;
     } else {
       high = mid;

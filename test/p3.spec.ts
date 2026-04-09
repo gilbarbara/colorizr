@@ -1,5 +1,5 @@
 import { MESSAGES } from '~/modules/constants';
-import { getOkLCHMaxChroma, getP3MaxColor } from '~/p3';
+import { getP3MaxChroma, getP3MaxColor } from '~/p3';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
@@ -21,7 +21,7 @@ describe('getMaxOkLCHChroma', () => {
     [{ input: { l: 0.86, c: 0.1, h: 143.15 }, expected: 0.34782 }],
     [{ input: { l: 0.7, c: 0.1, h: 139 }, expected: 0.2594 }],
   ])('should return $expected for $input', ({ input, expected }) => {
-    expect(getOkLCHMaxChroma(input)).toBe(expected);
+    expect(getP3MaxChroma(input)).toBe(expected);
   });
 
   it('should fail with invalid parameters', () => {
