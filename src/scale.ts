@@ -4,7 +4,7 @@ import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { clamp, getScaleStepKeys, warn } from '~/modules/utils';
 import { isNumber, isString } from '~/modules/validators';
-import { getOkLCHMaxChroma } from '~/p3';
+import { getP3MaxChroma } from '~/p3';
 
 import type { ColorType, LCH } from '~/types';
 
@@ -200,7 +200,7 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   for (const key of keys) {
     const lightness = lightnessMap[key];
     const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
-    const maxChroma = getOkLCHMaxChroma({ l: lightness, c: 0, h: hue });
+    const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: hue });
 
     palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: hue };
   }
@@ -253,7 +253,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     'maxLightness must be greater than minLightness and within the range [0, 1].',
   );
 
-  const steps = stepsOption !== undefined ? Math.round(stepsOption) : 11;
+  const steps = stepsOption !== undefined ? clamp(Math.round(stepsOption), 3, 20) : 11;
   const keys = getScaleStepKeys(steps);
 
   // Validate lock option
@@ -272,7 +272,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
 
   if (saturation !== undefined) {
     // saturation overrides: % of max P3 chroma at input's lightness
-    const maxChroma = getOkLCHMaxChroma(lch);
+    const maxChroma = getP3MaxChroma(lch);
 
     baseChroma = (clamp(saturation, 0, 100) / 100) * maxChroma;
   } else if (variant && chromaScale[variant]) {

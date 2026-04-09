@@ -4,10 +4,6 @@ import { ColorTuple } from '~/types';
 
 const EPSILON = 0.000001;
 
-function isInGamut(color: ColorTuple): boolean {
-  return color.every(component => component >= 0 - EPSILON && component <= 1 + EPSILON);
-}
-
 function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
   return [
     matrix[0][0] * vector[0] + matrix[0][1] * vector[1] + matrix[0][2] * vector[2],
@@ -16,12 +12,8 @@ function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
   ];
 }
 
-export function isInP3Gamut(color: ColorTuple): boolean {
-  return isInGamut(color);
-}
-
-export function isInSRGBGamut(color: ColorTuple): boolean {
-  return isInGamut(color);
+export function isInGamut(color: ColorTuple): boolean {
+  return color.every(component => component >= 0 - EPSILON && component <= 1 + EPSILON);
 }
 
 export function oklabToLinearP3(L: number, a: number, b: number): ColorTuple {

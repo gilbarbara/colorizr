@@ -34,7 +34,7 @@ export { isHex, isHSL, isLAB, isLCH, isRGB } from '~/modules/validators';
 export { default as name } from '~/name';
 export { default as opacify } from '~/opacify';
 export { default as opacity } from '~/opacity';
-export { getOkLCHMaxChroma, getP3MaxColor } from '~/p3';
+export { getP3MaxChroma, getP3MaxColor } from '~/p3';
 export { default as palette } from '~/palette';
 export type { PaletteOptions } from '~/palette';
 export { default as parseCSS } from '~/parse-css';
