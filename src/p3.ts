@@ -1,7 +1,7 @@
 import { oklch2oklab } from '~/converters';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isInP3Gamut, oklabToLinearP3 } from '~/modules/linear-rgb';
+import { isInGamut, oklabToLinearP3 } from '~/modules/linear-rgb';
 import { round } from '~/modules/utils';
 import { isNumberInRange, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
@@ -15,7 +15,7 @@ import { LCH } from '~/types';
  * @param precision - The number of decimal places for the result.
  * @returns The maximum chroma value within P3 gamut.
  */
-export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): number {
+export function getP3MaxChroma(input: string | LCH, precision = PRECISION): number {
   const { l, h } = isString(input) ? parseCSS(input, 'oklch') : input;
 
   invariant(isNumberInRange(l, 0, 1), MESSAGES.lightnessRange);
@@ -32,7 +32,7 @@ export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): n
 
     const p3Color = oklabToLinearP3(L, a, b);
 
-    if (isInP3Gamut(p3Color)) {
+    if (isInGamut(p3Color)) {
       low = mid;
     } else {
       high = mid;
@@ -51,5 +51,5 @@ export function getOkLCHMaxChroma(input: string | LCH, precision = PRECISION): n
 export function getP3MaxColor(input: string | LCH): string {
   const lch = isString(input) ? parseCSS(input, 'oklch') : input;
 
-  return `oklch(${lch.l} ${getOkLCHMaxChroma(lch)} ${lch.h})`;
+  return `oklch(${lch.l} ${getP3MaxChroma(lch)} ${lch.h})`;
 }
