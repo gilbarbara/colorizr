@@ -1,6 +1,7 @@
 import oklab2rgb from '~/converters/oklab2rgb';
 import oklch2oklab from '~/converters/oklch2oklab';
-import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha } from '~/modules/alpha';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, LCH, RGB } from '~/types';
 

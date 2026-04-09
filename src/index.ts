@@ -23,7 +23,12 @@ export { default as lighten } from '~/lighten';
 export { default as luminance } from '~/luminance';
 export { default as mix } from '~/mix';
 export type { HueMode, MixOptions } from '~/mix';
-export * from '~/modules/hex-utils';
+export {
+  addAlphaToHex,
+  convertAlphaToHex,
+  extractAlphaFromHex,
+  removeAlphaFromHex,
+} from '~/modules/alpha';
 export { getScaleStepKeys } from '~/modules/utils';
 export { isHex, isHSL, isLAB, isLCH, isRGB } from '~/modules/validators';
 export { default as name } from '~/name';

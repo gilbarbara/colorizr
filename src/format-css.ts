@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
+import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
-import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
 import { restrictValues, round } from '~/modules/utils';
 import {

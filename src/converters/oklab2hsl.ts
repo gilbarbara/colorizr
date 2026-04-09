@@ -1,6 +1,7 @@
 import oklab2rgb from '~/converters/oklab2rgb';
 import rgb2hsl from '~/converters/rgb2hsl';
-import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha } from '~/modules/alpha';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, LAB } from '~/types';
 

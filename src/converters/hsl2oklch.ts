@@ -1,6 +1,7 @@
 import hsl2rgb from '~/converters/hsl2rgb';
 import rgb2oklch from '~/converters/rgb2oklch';
-import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha } from '~/modules/alpha';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, LCH } from '~/types';
 

@@ -1,5 +1,6 @@
+import { addAlpha, extractAlpha } from '~/modules/alpha';
 import { LRGB_TO_LMS, LSM_TO_LAB } from '~/modules/constants';
-import { addAlpha, extractAlpha, parseInput, restrictValues } from '~/modules/utils';
+import { parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
 

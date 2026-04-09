@@ -1,7 +1,7 @@
 import oklab2rgb from '~/converters/oklab2rgb';
 import rgb2hex from '~/converters/rgb2hex';
-import { addAlphaToHex } from '~/modules/hex-utils';
-import { extractAlpha, parseInput } from '~/modules/utils';
+import { addAlphaToHex, extractAlpha } from '~/modules/alpha';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HEX, LAB } from '~/types';
 

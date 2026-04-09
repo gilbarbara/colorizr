@@ -1,9 +1,8 @@
 import hex2rgb from '~/converters/hex2rgb';
 import rgb2hsl from '~/converters/rgb2hsl';
+import { addAlpha, extractAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES } from '~/modules/constants';
-import { extractAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
-import { addAlpha } from '~/modules/utils';
 import { isHex } from '~/modules/validators';
 
 import { HSL } from '~/types';

@@ -1,4 +1,5 @@
-import { addAlpha, clamp, extractAlpha, parseInput } from '~/modules/utils';
+import { addAlpha, extractAlpha } from '~/modules/alpha';
+import { clamp, parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
