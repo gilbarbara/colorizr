@@ -2,13 +2,30 @@ import {
   addAlphaToHex,
   convertAlphaToHex,
   extractAlphaFromHex,
-  hexadecimalToNumber,
+  normalizeAlpha,
   removeAlphaFromHex,
-} from '~/modules/hex-utils';
+} from '~/modules/alpha';
 
 import { HEX } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, violet, yellow } from '../__fixtures__';
+
+describe('normalizeAlpha', () => {
+  it.each([
+    [0, 0],
+    [0.5, 0.5],
+    [1, 1],
+    [50, 0.5],
+    [90, 0.9],
+    [100, 1],
+    [undefined, undefined],
+  ] as Array<[number | undefined, number | undefined]>)(
+    'should normalize %s to %s',
+    (input, expected) => {
+      expect(normalizeAlpha(input)).toBe(expected);
+    },
+  );
+});
 
 describe('addAlphaToHex', () => {
   it.each([
@@ -151,22 +168,6 @@ describe('extractAlphaFromHex', () => {
     [addOpacityToCssString(yellow.hex, 1), 1],
   ] as Array<[HEX, number]>)(`should extract alpha from %s`, (input, expected) => {
     expect(extractAlphaFromHex(input)).toBe(expected);
-  });
-});
-
-describe('hexadecimalToNumber', () => {
-  it.each([
-    ['00', 0],
-    ['10', 16],
-    ['20', 32],
-    ['32', 50],
-    ['64', 100],
-    ['96', 150],
-    ['aa', 170],
-    ['cc', 204],
-    ['ff', 255],
-  ])(`should convert %s to %s`, (input, expected) => {
-    expect(hexadecimalToNumber(input)).toBe(expected);
   });
 });
 

@@ -1,5 +1,6 @@
+import { addAlpha, extractAlpha } from '~/modules/alpha';
 import { RAD2DEG } from '~/modules/constants';
-import { addAlpha, extractAlpha, parseInput, restrictValues } from '~/modules/utils';
+import { parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, LCH } from '~/types';
 

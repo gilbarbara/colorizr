@@ -1,7 +1,7 @@
 import Colorizr from '~/colorizr';
 import { ColorModel, ColorType } from '~/index';
+import { addAlpha } from '~/modules/alpha';
 import { resolveColor } from '~/modules/parsed-color';
-import { addAlpha } from '~/modules/utils';
 import { isString } from '~/modules/validators';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';

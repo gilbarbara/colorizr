@@ -1,5 +1,6 @@
+import { addAlpha, extractAlpha } from '~/modules/alpha';
 import hue2rgb from '~/modules/hue2rgb';
-import { addAlpha, extractAlpha, parseInput } from '~/modules/utils';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HSL, RGB } from '~/types';
 
