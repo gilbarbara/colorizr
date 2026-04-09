@@ -1,5 +1,5 @@
-import { addAlphaToHex } from '~/modules/hex-utils';
-import { extractAlpha, parseInput } from '~/modules/utils';
+import { addAlphaToHex, extractAlpha } from '~/modules/alpha';
+import { parseInput } from '~/modules/utils';
 
 import { ConverterParameters, HEX, RGB } from '~/types';
 

@@ -1,9 +1,28 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
-import { isHex, isNumber, isNumberInRange } from '~/modules/validators';
+import { isHex, isNumber, isNumberInRange, isValidColorModel } from '~/modules/validators';
 
-import { HEX } from '~/types';
+import { ColorModel, ConverterParameters, HEX } from '~/types';
+
+/**
+ * Add an alpha value to a color model.
+ *
+ * @param input - The color model object.
+ * @param alpha - A number between 0 and 1 (values > 1 are divided by 100).
+ * @returns The color model with alpha applied.
+ */
+export function addAlpha<T extends ColorModel>(input: T, alpha?: number): T {
+  invariant(isValidColorModel(input), MESSAGES.invalid);
+
+  const value = normalizeAlpha(alpha);
+
+  if (value === undefined || value === 1) {
+    return input;
+  }
+
+  return { ...input, alpha: value };
+}
 
 /**
  * Add an alpha value to a hex string.
@@ -32,15 +51,27 @@ export function addAlphaToHex(input: string, alpha: number): HEX {
 export function convertAlphaToHex(input: number): string {
   invariant(isNumber(input), MESSAGES.inputNumber);
 
-  let alpha = input;
-
-  if (input > 1) {
-    alpha /= 100;
-  }
+  const alpha = normalizeAlpha(input);
 
   return Math.round(alpha * 255)
     .toString(16)
     .padStart(2, '0');
+}
+
+/**
+ * Extract alpha from converter input.
+ *
+ * @param input - The converter parameters (object or tuple).
+ * @returns The alpha value or undefined for tuple inputs.
+ */
+export function extractAlpha<T extends ColorModel>(
+  input: ConverterParameters<T>,
+): number | undefined {
+  if (Array.isArray(input)) {
+    return undefined;
+  }
+
+  return input.alpha;
 }
 
 /**
@@ -62,13 +93,17 @@ export function extractAlphaFromHex(input: string): number {
 }
 
 /**
- * Convert a hexadecimal string to a number.
- *
- * @param input - The hexadecimal string.
- * @returns The numeric value.
+ * Normalize an alpha value to the 0-1 range.
+ * Values > 1 are treated as percentages and divided by 100.
  */
-export function hexadecimalToNumber(input: string): number {
-  return round(parseInt(input, 16));
+export function normalizeAlpha(value: number): number;
+export function normalizeAlpha(value: number | undefined): number | undefined;
+export function normalizeAlpha(value: number | undefined): number | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  return value > 1 ? value / 100 : value;
 }
 
 /**

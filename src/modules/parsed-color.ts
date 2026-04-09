@@ -1,8 +1,8 @@
 import * as converters from '~/converters';
 import extractColorParts from '~/extract-color-parts';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
+import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
 import { CSSColor, cssColors } from '~/modules/css-colors';
-import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/hex-utils';
 import { clamp } from '~/modules/utils';
 import {
   isHex,

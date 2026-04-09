@@ -1,10 +1,14 @@
 import * as converters from '~/converters';
 import extractColorParts from '~/extract-color-parts';
+import {
+  addAlpha,
+  convertAlphaToHex,
+  extractAlphaFromHex,
+  removeAlphaFromHex,
+} from '~/modules/alpha';
 import { MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
-import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
-import { addAlpha } from '~/modules/utils';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import {

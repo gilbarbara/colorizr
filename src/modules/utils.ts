@@ -1,44 +1,8 @@
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import {
-  isHSL,
-  isLAB,
-  isLCH,
-  isNumber,
-  isPlainObject,
-  isRGB,
-  isValidColorModel,
-} from '~/modules/validators';
+import { isHSL, isLAB, isLCH, isNumber, isPlainObject, isRGB } from '~/modules/validators';
 
 import { ColorModel, ColorModelKey, ConverterParameters, LAB, LCH } from '~/types';
-
-/**
- * Add an alpha value to a color model.
- *
- * @param input - The color model object.
- * @param alpha - A number between 0 and 1 (values > 1 are divided by 100).
- * @returns The color model with alpha applied.
- */
-export function addAlpha<T extends ColorModel>(input: T, alpha?: number): T {
-  invariant(isValidColorModel(input), MESSAGES.invalid);
-
-  let value = alpha;
-
-  if (value === undefined) {
-    return input;
-  }
-
-  /* v8 ignore next 3  -- @preserve */
-  if (value > 1) {
-    value /= 100;
-  }
-
-  if (value === 1) {
-    return input;
-  }
-
-  return { ...input, alpha: value };
-}
 
 /**
  * Clamp a value between a min and max.
@@ -73,22 +37,6 @@ export function constrainDegrees(input: number, amount: number): number {
   }
 
   return Math.abs(value);
-}
-
-/**
- * Extract alpha from converter input.
- *
- * @param input - The converter parameters (object or tuple).
- * @returns The alpha value or undefined for tuple inputs.
- */
-export function extractAlpha<T extends ColorModel>(
-  input: ConverterParameters<T>,
-): number | undefined {
-  if (Array.isArray(input)) {
-    return undefined;
-  }
-
-  return input.alpha;
 }
 
 /**

@@ -1,6 +1,6 @@
 import hex2rgb from '~/converters/hex2rgb';
+import { extractAlphaFromHex, normalizeAlpha } from '~/modules/alpha';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
-import { extractAlphaFromHex } from '~/modules/hex-utils';
 import { invariant } from '~/modules/invariant';
 import { hasValidMatches, isHex, isString } from '~/modules/validators';
 
@@ -74,11 +74,7 @@ export default function extractColorParts(input: string): ExtractColorPartsRetur
 
   const model = matches[1] as ColorModelKey;
   const keys = COLOR_KEYS[model];
-  let alpha = matches[5] ? parseFloat(matches[5]) : 1;
-
-  if (alpha > 1) {
-    alpha /= 100;
-  }
+  const alpha = normalizeAlpha(matches[5] ? parseFloat(matches[5]) : 1);
 
   // Parse values and convert percentages/angles for color models
   const parseValue = (value: string, index: number): number => {

@@ -1,4 +1,4 @@
-import { convertAlphaToHex } from '~/modules/hex-utils';
+import { convertAlphaToHex } from '~/modules/alpha';
 import { round } from '~/modules/utils';
 import { isHex } from '~/modules/validators';
 
