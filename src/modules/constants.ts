@@ -6,7 +6,6 @@ export const COLOR_KEYS: Record<ColorModelKey, ColorKeysTuple> = {
   oklch: ['l', 'c', 'h'],
   rgb: ['r', 'g', 'b'],
 };
-export const COLOR_MODELS: ColorModelKey[] = ['hsl', 'oklab', 'oklch', 'rgb'];
 export const DEG2RAD = Math.PI / 180;
 export const LAB_TO_LMS = {
   l: [0.3963377773761749, 0.2158037573099136],
@@ -33,6 +32,7 @@ export const SRGB_TO_P3 = [
   [0.0331008087, 0.9668991913, 0],
   [0.0170720188, 0.0723477973, 0.9105801839],
 ];
+export const GAMUT_EPSILON = 0.000001;
 export const PRECISION = 5;
 export const RAD2DEG = 180 / Math.PI;
 

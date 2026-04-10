@@ -11,11 +11,12 @@ import {
   isLAB,
   isLCH,
   isNamedColor,
+  isNumber,
   isRGB,
   isValidColorModel,
 } from '~/modules/validators';
 
-import { ColorModel, ColorReturn, ColorType, HEX } from '~/types';
+import { ColorModel, ColorReturn, ColorType, ColorValue } from '~/types';
 
 export interface FormatCSSOptions {
   /**
@@ -93,7 +94,7 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
  * @param options - Formatting options.
  * @returns The formatted CSS color string.
  */
-export default function formatCSS<T extends ColorModel | HEX>(
+export default function formatCSS<T extends ColorValue>(
   input: T,
   options: FormatCSSOptions = {},
 ): string {
@@ -101,7 +102,7 @@ export default function formatCSS<T extends ColorModel | HEX>(
 
   const { alpha, format = 'hex', precision = PRECISION, separator: baseSeparator = ' ' } = options;
 
-  const opacity = alpha && alpha !== 1 ? `${round(alpha * 100)}%` : null;
+  const opacity = isNumber(alpha) && alpha !== 1 ? `${round(alpha * 100)}%` : null;
   let params = [];
   let separator = baseSeparator;
 
@@ -135,7 +136,7 @@ export default function formatCSS<T extends ColorModel | HEX>(
     default: {
       const hex = removeAlphaFromHex(getColorValue(input, 'hex'));
 
-      if (alpha && alpha !== 1) {
+      if (isNumber(alpha) && alpha !== 1) {
         return `${hex}${convertAlphaToHex(alpha)}`;
       }
 

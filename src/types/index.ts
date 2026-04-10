@@ -31,6 +31,8 @@ export type ColorType = 'hex' | 'hsl' | 'oklab' | 'oklch' | 'rgb';
 
 export type ColorTypeInput = ColorType | 'named';
 
+export type ColorValue = ColorModel | HEX;
+
 export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
 
 export type HEX = `#${string}`;
@@ -46,17 +48,6 @@ export interface Analysis {
   largeAAA: boolean;
   normalAA: boolean;
   normalAAA: boolean;
-}
-
-export interface Colors {
-  /** The alpha/opacity value (0-1). */
-  alpha: number;
-  hex: HEX;
-  hsl: HSL;
-  oklab: LAB;
-  oklch: LCH;
-  rgb: RGB;
-  type: ColorType;
 }
 
 export interface HSL {

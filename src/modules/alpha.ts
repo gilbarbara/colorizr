@@ -103,7 +103,7 @@ export function normalizeAlpha(value: number | undefined): number | undefined {
     return undefined;
   }
 
-  return value > 1 ? value / 100 : value;
+  return Math.min(1, Math.max(0, value > 1 ? value / 100 : value));
 }
 
 /**

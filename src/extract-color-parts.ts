@@ -72,9 +72,15 @@ export default function extractColorParts(input: string): ExtractColorPartsRetur
 
   invariant(hasValidMatches(matches), MESSAGES.invalidCSS);
 
+  let rawAlpha = 1;
+
+  if (matches[5]) {
+    rawAlpha = matches[5] === 'none' ? 0 : parseFloat(matches[5]);
+  }
+
   const model = matches[1] as ColorModelKey;
   const keys = COLOR_KEYS[model];
-  const alpha = normalizeAlpha(matches[5] ? parseFloat(matches[5]) : 1);
+  const alpha = normalizeAlpha(rawAlpha);
 
   // Parse values and convert percentages/angles for color models
   const parseValue = (value: string, index: number): number => {

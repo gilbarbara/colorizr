@@ -1,9 +1,14 @@
 import * as converters from '~/converters';
 import extractColorParts from '~/extract-color-parts';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
-import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
+import {
+  convertAlphaToHex,
+  extractAlphaFromHex,
+  normalizeAlpha,
+  removeAlphaFromHex,
+} from '~/modules/alpha';
 import { CSSColor, cssColors } from '~/modules/css-colors';
-import { clamp } from '~/modules/utils';
+import { clamp, normalizeOkLightness } from '~/modules/utils';
 import {
   isHex,
   isHSL,
@@ -14,9 +19,9 @@ import {
   isRGB,
 } from '~/modules/validators';
 
-import { ColorModelKey, ColorTuple, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
+import { ColorModelKey, ColorTuple, ColorType, ColorValue, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
-type ModelConverterFn = (input: ColorTuple) => HSL | LAB | LCH | RGB | HEX;
+type ModelConverterFn = (input: ColorTuple) => ColorValue;
 
 export type ColorInput = string | ParsedColor | HSL | LAB | LCH | RGB;
 
@@ -77,14 +82,12 @@ class ParsedColorImpl implements ParsedColor {
   readonly type: ColorType;
   readonly alpha: number;
 
-  private readonly _sourceKey: ColorType;
-  private readonly _sourceValue: HSL | LAB | LCH | RGB | HEX;
-  private _cache: Partial<Record<ColorType, HSL | LAB | LCH | RGB | HEX>> = {};
+  private readonly _sourceValue: ColorValue;
+  private _cache: Partial<Record<ColorType, ColorValue>> = {};
 
-  constructor(type: ColorType, value: HSL | LAB | LCH | RGB | HEX, alpha: number) {
+  constructor(type: ColorType, value: ColorValue, alpha: number) {
     this.type = type;
     this.alpha = alpha;
-    this._sourceKey = type;
     this._sourceValue = value;
     this._cache[type] = value;
   }
@@ -126,29 +129,35 @@ class ParsedColorImpl implements ParsedColor {
     return formatCSS(this[format], { ...options, format, alpha });
   }
 
-  private _getAs(target: ColorType): HSL | LAB | LCH | RGB | HEX {
+  private _getAs(target: ColorType): ColorValue {
     if (this._cache[target]) {
       return this._cache[target];
     }
 
-    let result: HSL | LAB | LCH | RGB | HEX;
+    let result: ColorValue;
 
-    if (this._sourceKey === 'hex') {
+    if (this.type === 'hex') {
       result =
         target === 'hex' ? this._sourceValue : fromHexConverters[target](this._sourceValue as HEX);
     } else if (target === 'hex') {
       const tuple = Object.values(this._sourceValue) as ColorTuple;
 
-      result = toHexConverters[this._sourceKey as ColorModelKey](tuple);
+      result = toHexConverters[this.type as ColorModelKey](tuple);
 
       if (this.alpha < 1) {
         result = `${result}${convertAlphaToHex(this.alpha)}` as HEX;
       }
     } else {
-      const converter = modelConverters[target]![this._sourceKey]!;
-      const tuple = Object.values(this._sourceValue) as ColorTuple;
+      const converter = modelConverters[target]?.[this.type as ColorModelKey];
 
-      result = converter(tuple);
+      if (!converter) {
+        // Same-type lookups are served from cache; fallback via hex if invariant breaks
+        result = fromHexConverters[target](this.hex);
+      } else {
+        const tuple = Object.values(this._sourceValue) as ColorTuple;
+
+        result = converter(tuple);
+      }
     }
 
     this._cache[target] = result;
@@ -158,7 +167,9 @@ class ParsedColorImpl implements ParsedColor {
 }
 
 export function isParsedColor(input: unknown): input is ParsedColor {
-  return typeof input === 'object' && input !== null && (input as ParsedColor).__parsed === true;
+  return (
+    typeof input === 'object' && input !== null && '__parsed' in input && input.__parsed === true
+  );
 }
 
 export function resolveColor(input: ColorInput): ParsedColor {
@@ -166,8 +177,9 @@ export function resolveColor(input: ColorInput): ParsedColor {
     return input;
   }
 
-  if (isPlainObject(input) && !isParsedColor(input)) {
-    const { alpha = 1 } = input;
+  if (isPlainObject(input)) {
+    const { alpha: rawAlpha = 1 } = input;
+    const alpha = clamp(normalizeAlpha(rawAlpha), 0, 1);
 
     if (isHSL(input)) {
       return new ParsedColorImpl(
@@ -186,17 +198,15 @@ export function resolveColor(input: ColorInput): ParsedColor {
     }
 
     if (isLAB(input)) {
-      return new ParsedColorImpl('oklab', input, alpha);
+      return new ParsedColorImpl('oklab', { l: input.l, a: input.a, b: input.b }, alpha);
     }
 
     if (isLCH(input)) {
-      return new ParsedColorImpl('oklch', input, alpha);
+      return new ParsedColorImpl('oklch', { l: input.l, c: input.c, h: input.h }, alpha);
     }
   }
 
-  const value = isNamedColor(input as string)
-    ? cssColors[(input as string).toLowerCase() as CSSColor]
-    : (input as string);
+  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
 
   if (isHex(value)) {
     const alpha = extractAlphaFromHex(value);
@@ -208,12 +218,9 @@ export function resolveColor(input: ColorInput): ParsedColor {
   const parts = extractColorParts(value);
   const { alpha, model, ...color } = parts;
 
-  // Normalize OkLab/OkLCH lightness from percentage to 0-1
-  if (['oklab', 'oklch'].includes(model) && color.l > 1) {
-    color.l = parseFloat((color.l / 100).toPrecision(15));
-  }
-
-  const colorValue = color as unknown as HSL | LAB | LCH | RGB;
+  const colorValue = (['oklab', 'oklch'].includes(model)
+    ? normalizeOkLightness(color as unknown as { l: number })
+    : color) as unknown as HSL | LAB | LCH | RGB;
   const colorType: ColorType = model;
 
   return new ParsedColorImpl(colorType, colorValue, alpha ?? 1);
