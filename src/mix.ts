@@ -4,7 +4,7 @@ import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { isNumberInRange, isString } from '~/modules/validators';
 
-import { ColorModelKey, ColorType, HSL, LAB, LCH, RGB } from '~/types';
+import { ColorModel, ColorModelKey, ColorType, HSL, LAB, LCH, RGB } from '~/types';
 
 export type HueMode = 'shorter' | 'longer' | 'increasing' | 'decreasing';
 
@@ -30,6 +30,8 @@ function interpolateHue(
   ratio: number,
   mode: HueMode = 'shorter',
 ): number {
+  // Threshold works for both OkLCH chroma (0-0.37) and HSL saturation (0-100):
+  // any value below 0.0001 is effectively achromatic in either space
   if (c1 < 0.0001) {
     return h2;
   }
@@ -136,7 +138,7 @@ export default function mix(
   const parsed2 = resolveColor(color2);
   const output = format ?? parsed1.type;
 
-  let color: HSL | LAB | LCH | RGB;
+  let color: ColorModel;
 
   switch (space) {
     case 'hsl': {

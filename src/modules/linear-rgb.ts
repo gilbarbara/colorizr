@@ -1,8 +1,6 @@
-import { LAB_TO_LMS, LSM_TO_RGB, SRGB_TO_P3 } from '~/modules/constants';
+import { GAMUT_EPSILON, LAB_TO_LMS, LSM_TO_RGB, SRGB_TO_P3 } from '~/modules/constants';
 
 import { ColorTuple } from '~/types';
-
-const EPSILON = 0.000001;
 
 function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
   return [
@@ -13,7 +11,7 @@ function multiplyMatrix(matrix: number[][], vector: ColorTuple): ColorTuple {
 }
 
 export function isInGamut(color: ColorTuple): boolean {
-  return color.every(component => component >= 0 - EPSILON && component <= 1 + EPSILON);
+  return color.every(component => component >= 0 - GAMUT_EPSILON && component <= 1 + GAMUT_EPSILON);
 }
 
 export function oklabToLinearP3(L: number, a: number, b: number): ColorTuple {

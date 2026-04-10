@@ -38,11 +38,16 @@ pnpm validate             # Full validation (lint + typecheck + test + build + s
 - **Root level functions**: Each public function has its own file (e.g., `lighten.ts`, `darken.ts`, `contrast.ts`)
 - **`converters/`**: Color format conversion functions (hex↔hsl↔rgb↔oklab↔oklch)
 - **`modules/`**: Internal utilities
-  - `parse-color.ts`: Parse color strings to internal representations
+  - `parsed-color.ts`: Parse color strings to internal representations (with caching)
   - `validators.ts`: Type guards (`isHex`, `isHSL`, `isRGB`, `isLAB`, `isLCH`)
-  - `hex-utils.ts`: Hex manipulation utilities
+  - `alpha.ts`: Alpha channel utilities (add, extract, convert, remove)
   - `css-colors.ts`: Named CSS colors mapping
+  - `constants.ts`: Shared constants and color range definitions
+  - `invariant.ts`: Assertion helper for input validation
   - `updater.ts`: Color property update helpers
+  - `utils.ts`: Shared utility functions
+  - `linear-rgb.ts`: Linear RGB conversion matrices
+  - `hue2rgb.ts`: Hue to RGB conversion helper
 - **`types/`**: TypeScript type definitions
 - **`colorizr.ts`**: Main class wrapping all functionality
 

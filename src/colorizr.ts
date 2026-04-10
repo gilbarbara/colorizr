@@ -23,7 +23,7 @@ import saturate from '~/saturate';
 import toGamut from '~/to-gamut';
 import transparentize from '~/transparentize';
 
-import { Analysis, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
+import { Analysis, ColorModel, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
 export interface ColorizrOptions {
   /**
@@ -44,7 +44,7 @@ export default class Colorizr {
   public rgb: RGB;
   public type: ColorType;
 
-  constructor(color: string | HSL | LAB | LCH | RGB, options: ColorizrOptions = {}) {
+  constructor(color: string | ColorModel, options: ColorizrOptions = {}) {
     invariant(!!color, MESSAGES.colorRequired);
 
     const parsed = resolveColor(color);
@@ -122,6 +122,9 @@ export default class Colorizr {
     return chroma(this.currentColor);
   }
 
+  /**
+   * Get the opacity value.
+   */
   get opacity(): number {
     return opacity(this.currentColor);
   }

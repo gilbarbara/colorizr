@@ -253,7 +253,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     'maxLightness must be greater than minLightness and within the range [0, 1].',
   );
 
-  const steps = stepsOption !== undefined ? clamp(Math.round(stepsOption), 3, 20) : 11;
+  const steps = stepsOption !== undefined ? Math.round(stepsOption) : 11;
   const keys = getScaleStepKeys(steps);
 
   // Validate lock option

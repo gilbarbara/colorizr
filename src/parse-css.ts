@@ -9,9 +9,11 @@ import {
 import { MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
+import { normalizeOkLightness } from '~/modules/utils';
 import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import {
+  ColorModel,
   ColorModelKey,
   ColorReturn,
   ColorTuple,
@@ -61,10 +63,7 @@ const toHexConverters: Record<ColorModelKey, ToHexFn> = {
 };
 
 // Hex-to-format converters lookup
-const fromHexConverters: Record<
-  Exclude<ColorType, 'hex'>,
-  (input: HEX) => HSL | LAB | LCH | RGB
-> = {
+const fromHexConverters: Record<Exclude<ColorType, 'hex'>, (input: HEX) => ColorModel> = {
   hsl: converters.hex2hsl,
   oklab: converters.hex2oklab,
   oklch: converters.hex2oklch,
@@ -85,12 +84,11 @@ const converterTables: Record<
 function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH | RGB {
   const { alpha, model, ...color } = extractColorParts(value);
 
-  // Normalize OkLab/OkLCH lightness from percentage to 0-1
-  if (['oklab', 'oklch'].includes(model) && color.l > 1) {
-    color.l = parseFloat((color.l / 100).toPrecision(15));
-  }
+  const normalized = ['oklab', 'oklch'].includes(model)
+    ? normalizeOkLightness(color as unknown as { l: number })
+    : color;
 
-  const colorTuple = Object.values(color) as ColorTuple;
+  const colorTuple = Object.values(normalized) as ColorTuple;
 
   if (output === 'hex') {
     const alphaPrefix = alpha ? convertAlphaToHex(alpha) : '';
@@ -102,7 +100,7 @@ function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH
 
   // When converter is undefined, model matches output format, so color already has correct shape
   return addAlpha(
-    converter ? converter(colorTuple) : (color as unknown as HSL | LAB | LCH | RGB),
+    converter ? converter(colorTuple) : (normalized as unknown as HSL | LAB | LCH | RGB),
     alpha,
   );
 }
