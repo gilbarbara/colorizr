@@ -1,7 +1,7 @@
 import formatCSS from '~/format-css';
 import { isParsedColor, resolveColor } from '~/modules/parsed-color';
 
-import { brightPink, green, orange, violet, yellow } from 'test/__fixtures__';
+import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('parsed-color', () => {
   describe('isParsedColor', () => {

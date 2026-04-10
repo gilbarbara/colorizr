@@ -1,6 +1,6 @@
 import { oklch2oklab } from '~/converters';
 import formatCSS from '~/format-css';
-import { MESSAGES } from '~/modules/constants';
+import { GAMUT_EPSILON, MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isInGamut, oklabToLinearSRGB } from '~/modules/linear-rgb';
 import { resolveColor } from '~/modules/parsed-color';
@@ -41,7 +41,7 @@ export default function toGamut(input: string, format?: ColorType): string {
   }
 
   // Binary search: reduce chroma until in sRGB gamut
-  const epsilon = 0.000001;
+  const epsilon = GAMUT_EPSILON;
   let low = 0;
   let high = lch.c;
 

@@ -1,6 +1,6 @@
 import formatCSS, { FormatCSSOptions } from '~/format-css';
 
-import { ColorModel, HEX } from '~/types';
+import { ColorValue } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 
@@ -29,7 +29,7 @@ describe('formatCSS', () => {
     ],
     [yellow.rgb, undefined, yellow.hex],
     [yellow.rgb, { alpha: 0.8, format: 'hex' }, addOpacityToCssString(yellow.hex, 0.8)],
-  ] as Array<[ColorModel | HEX, FormatCSSOptions | undefined, string]>)(
+  ] as Array<[ColorValue, FormatCSSOptions | undefined, string]>)(
     `%s with %s should return %s`,
     (input, options, expected) => {
       expect(formatCSS(input, options)).toBe(expected);

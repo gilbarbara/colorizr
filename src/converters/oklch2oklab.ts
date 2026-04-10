@@ -15,13 +15,6 @@ const { sin, cos } = Math;
  * @returns The OkLab color object.
  */
 export default function oklch2oklab(input: ConverterParameters<LCH>, precision?: number): LAB {
-  /*
-  Convert from a qualitative parameter h and a quantitative parameter l to a 24-bit pixel.
-  These formulas were invented by David Dalrymple to obtain maximum contrast without going
-  out of gamut if the parameters are in the range 0-1.
-
-  A saturation multiplier was added by Gregor Aisch
-  */
   let { l, c, h } = parseInput(input, 'oklch');
   const alpha = extractAlpha(input);
 

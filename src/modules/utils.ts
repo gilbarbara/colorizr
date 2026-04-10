@@ -26,17 +26,18 @@ export function clamp(value: number, min = 0, max = 100): number {
 export function constrainDegrees(input: number, amount: number): number {
   invariant(isNumber(input), MESSAGES.inputNumber);
 
-  let value = input + amount;
+  return (((input + amount) % 360) + 360) % 360;
+}
 
-  if (value > 360) {
-    value %= 360;
+/**
+ * Normalize OkLab/OkLCH lightness from percentage (0-100) to 0-1 range.
+ */
+export function normalizeOkLightness<T extends { l: number }>(color: T): T {
+  if (color.l > 1) {
+    return { ...color, l: parseFloat((color.l / 100).toPrecision(15)) };
   }
 
-  if (value < 0) {
-    value += 360;
-  }
-
-  return Math.abs(value);
+  return color;
 }
 
 /**

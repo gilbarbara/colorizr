@@ -1,5 +1,5 @@
 import { oklch2oklab } from '~/converters';
-import { MESSAGES, PRECISION } from '~/modules/constants';
+import { GAMUT_EPSILON, MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isInGamut, oklabToLinearP3 } from '~/modules/linear-rgb';
 import { round } from '~/modules/utils';
@@ -22,7 +22,7 @@ export function getP3MaxChroma(input: string | LCH, precision = PRECISION): numb
   invariant(isNumberInRange(h, 0, 360), MESSAGES.hueRange);
 
   // Binary search parameters
-  const epsilon = 0.000001;
+  const epsilon = GAMUT_EPSILON;
   let low = 0;
   let high = 0.5; // Increased max theoretical chroma
 
