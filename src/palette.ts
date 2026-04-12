@@ -1,4 +1,4 @@
-import convert from '~/convert';
+import convertCSS from '~/convertCSS';
 import hsl2hex from '~/converters/hsl2hex';
 import { MESSAGES, MONOCHROMATIC_LIGHTNESS_MAX } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
@@ -82,5 +82,5 @@ export default function palette(input: string, options: PaletteOptions = {}): st
     }
   }
 
-  return output.map(color => convert(color, colorFormat));
+  return output.map(color => convertCSS(color, colorFormat));
 }

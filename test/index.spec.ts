@@ -5,7 +5,7 @@ import Colorizr, {
   colorDifference,
   compare,
   contrast,
-  convert,
+  convertCSS,
   darken,
   deltaE,
   desaturate,
@@ -63,7 +63,7 @@ describe('exports', () => {
     expect(colorDifference).toEqual(expect.any(Function));
     expect(compare).toEqual(expect.any(Function));
     expect(contrast).toEqual(expect.any(Function));
-    expect(convert).toEqual(expect.any(Function));
+    expect(convertCSS).toEqual(expect.any(Function));
     expect(darken).toEqual(expect.any(Function));
     expect(deltaE).toEqual(expect.any(Function));
     expect(desaturate).toEqual(expect.any(Function));

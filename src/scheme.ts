@@ -1,4 +1,4 @@
-import convert from '~/convert';
+import convertCSS from '~/convertCSS';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
@@ -82,5 +82,5 @@ export default function scheme(input: string, schemeOrOptions?: Scheme | SchemeO
     }
   }
 
-  return colors.map(color => convert(color, output));
+  return colors.map(color => convertCSS(color, output));
 }
