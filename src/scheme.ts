@@ -25,30 +25,30 @@ export interface SchemeOptions {
    */
   format?: ColorType;
   /**
-   * The type of scheme to generate.
+   * The scheme to generate.
    * @default 'complementary'
    */
-  type?: Scheme;
+  scheme?: Scheme;
 }
 
 /**
  * Get a color scheme based on the input color.
  *
  * @param input - The base color string.
- * @param typeOrOptions - The scheme type or options object.
+ * @param schemeOrOptions - The scheme type or options object.
  * @returns An array of color strings forming the scheme.
  */
-export default function scheme(input: string, typeOrOptions?: Scheme | SchemeOptions): string[] {
+export default function scheme(input: string, schemeOrOptions?: Scheme | SchemeOptions): string[] {
   invariant(isString(input), MESSAGES.inputString);
-  const { format, type = 'complementary' } = isString(typeOrOptions)
-    ? { type: typeOrOptions }
-    : (typeOrOptions ?? {});
+  const { format, scheme: schemeType = 'complementary' } = isString(schemeOrOptions)
+    ? { scheme: schemeOrOptions }
+    : (schemeOrOptions ?? {});
 
   const output = format ?? resolveColor(input).type;
 
   const colors: string[] = [];
 
-  switch (type) {
+  switch (schemeType) {
     case 'analogous': {
       colors.push(rotate(input, -30), input, rotate(input, 30));
       break;
