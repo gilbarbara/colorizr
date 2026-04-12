@@ -1,10 +1,10 @@
-import convert from '~/convert';
+import convertCSS from '~/convertCSS';
 
 import { ColorType } from '~/types';
 
 import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
-describe('convert', () => {
+describe('convertCSS', () => {
   it.each([
     [{ input: brightPink.hex, format: 'hsl', expected: brightPink.hslString }],
     [{ input: brightPink.hex, format: 'oklab', expected: brightPink.oklabString }],
@@ -27,6 +27,6 @@ describe('convert', () => {
     [{ input: yellow.rgbString, format: 'oklab', expected: yellow.oklabString }],
     [{ input: yellow.rgbString, format: 'oklch', expected: yellow.oklchString }],
   ])('should convert $input to $expected', ({ input, format, expected }) => {
-    expect(convert(input, format as ColorType)).toBe(expected);
+    expect(convertCSS(input, format as ColorType)).toBe(expected);
   });
 });

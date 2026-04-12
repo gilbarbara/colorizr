@@ -1,3 +1,4 @@
+export { default as convertCSS } from './convertCSS';
 export { APCA_VERSION, default as apcaContrast } from '~/apca';
 export { default as brightnessDifference } from '~/brightness-difference';
 export { default as chroma } from '~/chroma';
@@ -6,7 +7,6 @@ export type { ColorizrOptions } from '~/colorizr';
 export { default } from '~/colorizr';
 export { default as compare } from '~/compare';
 export { default as contrast } from '~/contrast';
-export { default as convert } from '~/convert';
 export * from '~/converters';
 export { default as darken } from '~/darken';
 export { DELTA_E_JND, default as deltaE } from '~/delta-e';
