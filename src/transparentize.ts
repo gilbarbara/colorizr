@@ -22,5 +22,5 @@ export default function transparentize(input: string, alpha: number, format?: Co
   const parsed = resolveColor(input);
   const value = round(clamp(parsed.alpha - alpha, 0, 1));
 
-  return formatCSS(parsed.oklab, { format, alpha: value });
+  return formatCSS(parsed.oklch, { format: format ?? parsed.type, alpha: value });
 }
