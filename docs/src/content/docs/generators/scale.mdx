@@ -1,0 +1,83 @@
+---
+title: Scale
+description: Generate theme-aware color scales with customizable variants.
+---
+
+import LiveExample from '../../../components/LiveExample';
+
+Generate a perceptually uniform color scale in OkLCH space, producing step-keyed objects like Tailwind's color palette format. Each step is visually equidistant. For quick hue-based palettes, see [palette](../palette/).
+
+```typescript
+scale(input: string, options?: ScaleOptions): Record<number, string>
+```
+
+
+| Parameter      | Description                                                        | Type           | Default |
+|----------------|--------------------------------------------------------------------|----------------|---------|
+| chromaCurve    | Controls chroma distribution (0-1)                                 | `number`       | **0**   |
+| format         | Output format                                                      | `ColorType`    |         |
+| lightnessCurve | Controls lightness distribution                                    | `number`       | **1.5** |
+| lock           | Anchor input color at this step                                    | `number`       |         |
+| maxLightness   | Maximum lightness (0-1)                                            | `number`       | **0.97**  |
+| minLightness   | Minimum lightness (0-1)                                            | `number`       | **0.2**   |
+| mode           | `'light'` or `'dark'`                                              | `ScaleMode`    | **'light'** |
+| saturation     | Override variant saturation (0-100)                                | `number`       |         |
+| steps          | Number of steps (3-20)                                             | `number`       | **11**  |
+| variant        | Preset: `'deep'`, `'neutral'`, `'pastel'`, `'subtle'`, `'vibrant'` | `ScaleVariant` |         |
+
+
+## Basic Usage
+
+```typescript
+import { scale } from 'colorizr';
+
+scale('#3366ff');
+// {
+//   50: '#f0f5ff',
+//   100: '#e4edff',
+//   200: '#cedfff',
+//   300: '#b1cbff',
+//   400: '#90b4ff',
+//   500: '#6a98ff',
+//   600: '#4075ff',
+//   700: '#2554ec',
+//   800: '#0f2fc9',
+//   900: '#06009a',
+//   950: '#020052',
+// }
+```
+
+<LiveExample client:load code="scale('#3366ff')" />
+
+## Variants
+
+```typescript
+scale('#3366ff', { variant: 'vibrant' });
+scale('#3366ff', { variant: 'pastel' });
+scale('#3366ff', { variant: 'neutral' });
+scale('#3366ff', { variant: 'deep' });
+scale('#3366ff', { variant: 'subtle' });
+```
+
+## Step Count
+
+```typescript
+scale('#3366ff', { steps: 5 });
+// { 100: '...', 300: '...', 500: '...', 700: '...', 900: '...' }
+
+scale('#3366ff', { steps: 3 });
+// { 100: '...', 500: '...', 900: '...' }
+```
+
+Use `getScaleStepKeys(steps)` from the utilities to see which step keys are generated for a given step count.
+
+## Output Formats
+
+```typescript
+scale('#3366ff', { format: 'oklch' });
+// { 50: 'oklch(0.97 0.02 264)', 100: 'oklch(0.91 0.05 264)', ... }
+```
+
+## Interactive Tool
+
+Build and customize scales visually with **[ColorMeUp Lab](https://lab.colormeup.co)**.

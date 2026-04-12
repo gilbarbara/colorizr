@@ -1,0 +1,74 @@
+---
+title: Accessibility
+description: WCAG contrast, APCA, and readable color generation.
+---
+
+import ContrastBadge from '../../components/ContrastBadge';
+import LiveExample from '../../components/LiveExample';
+
+## apcaContrast
+
+Get the APCA (Accessible Perceptual Contrast Algorithm) contrast value between a background and foreground. APCA is being developed for WCAG 3.0 and provides more nuanced contrast assessment.
+
+```typescript
+apcaContrast(background: string, foreground: string): number
+```
+
+Returns the Lc (Lightness Contrast) value, typically ranging from -108 to +106.
+
+```typescript
+import { apcaContrast } from 'colorizr';
+
+apcaContrast('#000000', '#ffffff'); // 106.04067
+apcaContrast('#ffffff', '#000000'); // -107.88473
+apcaContrast('#ff0044', '#ffffff'); // -69.23659
+```
+:::note
+APCA is directional — the contrast value differs depending on which color is the background vs foreground. The `APCA_VERSION` constant (`0.0.98G-4g`) is also exported.
+:::
+
+<LiveExample client:load code="apcaContrast('#ff0044', '#ffffff')" />
+
+## contrast
+
+Get the WCAG 2.x contrast ratio between two colors. Returns a value from 1 (no contrast) to 21 (maximum).
+
+```typescript
+contrast(left: string, right: string): number
+```
+
+```typescript
+import { contrast } from 'colorizr';
+
+contrast('#000000', '#ffffff'); // 21
+contrast('#ff0044', '#ffffff'); // 3.94
+contrast('#1a1a2e', '#ffffff'); // 17.05
+```
+
+<LiveExample client:load code="contrast('#ff0044', '#ffffff')" />
+
+## readableColor
+
+Get the most readable text color (light or dark) for a given background.
+
+```typescript
+readableColor(backgroundColor: string, methodOrOptions?: ReadableColorMethod | ReadableColorOptions): string
+```
+
+| Parameter  | Description                                                        | Type     | Default       |
+|------------|--------------------------------------------------------------------|----------|---------------|
+| darkColor  | Dark text color                                                    | `string` | **'#000000'** |
+| lightColor | Light text color                                                   | `string` | **'#ffffff'** |
+| method     | Algorithm: `'yiq'`, `'wcag'`, `'contrast'`, `'oklab'`, or `'apca'` | `string` | **'yiq'**     |
+| threshold  | Threshold for threshold-based methods (yiq: 0-255, wcag/oklab: 0-1) | `number` |               |
+
+```typescript
+import { readableColor } from 'colorizr';
+
+readableColor('#ff0044');          // '#ffffff'
+readableColor('#ffffff');          // '#000000'
+readableColor('#ff0044', 'apca');  // '#ffffff'
+readableColor('#ff0044', { method: 'apca', darkColor: '#1a1a2e' }); // '#1a1a2e'
+```
+
+<LiveExample client:load code="readableColor('#ff0044')" />

@@ -1,0 +1,30 @@
+{
+  "name": "colorizr-docs",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@astrojs/react": "^5.0.3",
+    "@astrojs/starlight": "^0.38.3",
+    "@floating-ui/react": "^0.27.19",
+    "astro": "^6.1.5",
+    "colorizr": "../",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@gilbarbara/eslint-config": "^1.2.1",
+    "@gilbarbara/prettier-config": "^1.0.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^10.2.0",
+    "prettier": "^3.8.2"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "eslint --fix src",
+    "typecheck": "tsc --noEmit"
+  }
+}

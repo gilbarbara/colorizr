@@ -1,0 +1,32 @@
+---
+title: Palette
+description: Generate hue-rotated color palettes.
+---
+
+import LiveExample from '../../../components/LiveExample';
+
+Generate a palette of related colors from a base color.
+
+```typescript
+palette(input: string, formatOrOptions?: ColorType | PaletteOptions): string[]
+```
+
+| Parameter     | Description                      | Type        | Default   |
+|---------------|----------------------------------|-------------|-----------|
+| format        | Output format                    | `ColorType` |           |
+| lightness     | Lightness adjustment (0-100)     | `number`    |           |
+| monochromatic | Generate a monochromatic palette | `boolean`   | **false** |
+| saturation    | Saturation adjustment (0-100)    | `number`    |           |
+| size          | Number of colors to generate     | `number`    | **6**     |
+
+## Basic Usage
+
+```typescript
+import { palette } from 'colorizr';
+
+palette('#ff0044');
+// ['#ff0044', '#ffbb00', '#44ff00', '#00ffbb', '#0044ff', '#bb00ff']
+```
+
+<LiveExample client:load code="palette('#ff0044')" />
+

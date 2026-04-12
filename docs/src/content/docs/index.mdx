@@ -1,0 +1,62 @@
+---
+title: Colorizr
+description: A modern color library focused on perceptual correctness and accessibility.
+template: splash
+hero:
+  tagline: A modern color library for TypeScript. Convert between Hex, HSL, RGB, OkLab, and OkLCH. Generate accessible palettes and design scales. Analyze contrast with WCAG and APCA. Zero dependencies, under 10KB.
+  image:
+    file: ../../../public/icon.svg
+  actions:
+    - text: Get Started
+      link: getting-started
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/gilbarbara/colorizr
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Color Formats" icon="seti:css">
+    Full support for Hex, HSL, RGB, OkLab, and OkLCH with seamless conversions between all formats.
+  </Card>
+  <Card title="Accessibility" icon="approve-check-circle">
+    WCAG 2.x contrast ratios and APCA (WCAG 3.0 draft) support for readable color generation.
+  </Card>
+  <Card title="Design Systems" icon="seti:favicon">
+    Generate perceptual color scales with customizable variants for building design tokens.
+  </Card>
+  <Card title="Modern Displays" icon="laptop">
+    P3 gamut optimization and OkLCH operations for wide-gamut color workflows.
+  </Card>
+</CardGrid>
+
+## Quick Example
+
+```typescript
+import { scale, readableColor, contrast } from 'colorizr';
+
+// Generate a full color scale
+const swatches = scale('#ff0044');
+// {
+//   50: '#fff0f0', 100: '#ffe4e3', 200: '#ffcdcc', 300: '#ffaeae',
+//   400: '#ff8488', 500: '#ff3d5a', 600: '#f7003e', 700: '#cd0029',
+//   800: '#9a001c', 900: '#66000f', 950: '#350004',
+// }
+
+// Find readable text color for a background
+readableColor('#1a1a2e'); // '#ffffff'
+
+// Check contrast ratio
+contrast('#1a1a2e', '#ffffff'); // 17.05
+```
+
+## Interactive Tools
+
+Try your colors in these companion apps:
+
+- **[ColorMeUp](https://colormeup.co)** — Color explorer with contrast checking, palettes, and schemes
+- **[ColorMeUp Lab](https://lab.colormeup.co)** — Visual scale generator with OkLCH controls

@@ -1,0 +1,97 @@
+---
+title: Utilities
+description: Alpha/hex utilities and scale helpers.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## Alpha / Hex Utilities
+
+### addAlphaToHex
+
+Add an alpha channel to a hex color.
+
+```typescript
+addAlphaToHex(input: string, alpha: number): HEX
+```
+
+```typescript
+import { addAlphaToHex } from 'colorizr';
+
+addAlphaToHex('#ff0044', 0.5); // '#ff004480'
+addAlphaToHex('#ff0044', 1);   // '#ff0044'
+```
+
+<LiveExample client:load code="addAlphaToHex('#ff0044', 0.5)" />
+
+### convertAlphaToHex
+
+Convert an alpha value (0-1) to its 2-character hex representation.
+
+```typescript
+convertAlphaToHex(input: number): string
+```
+
+```typescript
+import { convertAlphaToHex } from 'colorizr';
+
+convertAlphaToHex(0.5);  // '80'
+convertAlphaToHex(1);    // 'ff'
+convertAlphaToHex(0);    // '00'
+```
+
+<LiveExample client:load code="convertAlphaToHex(0.5)" hideInputs />
+
+### extractAlphaFromHex
+
+Extract the alpha value from a hex color. Returns 1 if no alpha channel is present.
+
+```typescript
+extractAlphaFromHex(input: string): number
+```
+
+```typescript
+import { extractAlphaFromHex } from 'colorizr';
+
+extractAlphaFromHex('#ff004480'); // 0.5
+extractAlphaFromHex('#ff0044');   // 1
+```
+
+<LiveExample client:load code="extractAlphaFromHex('#ff004480')" hideInputs />
+
+### removeAlphaFromHex
+
+Strip the alpha channel from a hex color.
+
+```typescript
+removeAlphaFromHex(input: string): HEX
+```
+
+```typescript
+import { removeAlphaFromHex } from 'colorizr';
+
+removeAlphaFromHex('#ff004480'); // '#ff0044'
+removeAlphaFromHex('#ff0044');   // '#ff0044'
+```
+
+<LiveExample client:load code="removeAlphaFromHex('#ff004480')" />
+
+## Scale Helpers
+
+### getScaleStepKeys
+
+Get the step keys that will be generated for a given number of steps. Useful for understanding the output shape of `scale()`.
+
+```typescript
+getScaleStepKeys(steps: number): number[]
+```
+
+```typescript
+import { getScaleStepKeys } from 'colorizr';
+
+getScaleStepKeys(11);  // [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+getScaleStepKeys(5);   // [100, 300, 500, 700, 900]
+getScaleStepKeys(3);   // [100, 500, 900]
+```
+
+<LiveExample client:load code="getScaleStepKeys(5)" />

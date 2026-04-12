@@ -1,0 +1,80 @@
+---
+title: Info
+description: Basic color properties and metadata.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## chroma
+
+Get the chroma (color intensity) of a color, calculated as `(max - min) / 255` from RGB channels.
+
+```typescript
+chroma(input: string): number
+```
+
+Returns a value from 0 (no color, grayscale) to 1 (fully saturated).
+
+```typescript
+import { chroma } from 'colorizr';
+
+chroma('#ff0044'); // 1
+chroma('#808080'); // 0
+chroma('#bf4060'); // 0.498
+```
+
+<LiveExample client:load code="chroma('#ff0044')" />
+
+## luminance
+
+Get the WCAG relative luminance of a color. Returns a value from 0 (black) to 1 (white).
+
+```typescript
+luminance(input: string): number
+```
+
+```typescript
+import { luminance } from 'colorizr';
+
+luminance('#000000'); // 0
+luminance('#ff0044'); // 0.2168
+luminance('#ffffff'); // 1
+```
+
+<LiveExample client:load code="luminance('#ff0044')" />
+
+## name
+
+Get the CSS named color that matches the input, or return the hex value if no match.
+
+```typescript
+name(input: string): string
+```
+
+```typescript
+import { name } from 'colorizr';
+
+name('#ff0000'); // 'red'
+name('#ff0044'); // '#ff0044' (no exact CSS name match)
+name('#ffa500'); // 'orange'
+```
+
+<LiveExample client:load code="name('#ff0000')" hideInputs />
+
+## opacity
+
+Get the opacity value of a color.
+
+```typescript
+opacity(input: string): number
+```
+
+```typescript
+import { opacity } from 'colorizr';
+
+opacity('#ff0044');   // 1
+opacity('#ff004480'); // 0.5
+opacity('rgb(255 0 68 / 50%)'); // 0.5
+```
+
+<LiveExample client:load code="opacity('#ff004480')" />

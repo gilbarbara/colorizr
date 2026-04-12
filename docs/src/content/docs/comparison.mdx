@@ -1,0 +1,98 @@
+---
+title: Comparison
+description: Color and Brightness difference, compare and delta E.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## brightnessDifference
+
+Get the brightness difference between two colors using the RGB brightness formula.
+
+```typescript
+brightnessDifference(left: string, right: string, precision?: number): number
+```
+
+```typescript
+import { brightnessDifference } from 'colorizr';
+
+brightnessDifference('#ff0044', '#ffffff'); // 171.003
+```
+
+<LiveExample client:load code="brightnessDifference('#ff0044', '#ffffff')" />
+
+## colorDifference
+
+Get the sum of maximum RGB channel differences between two colors.
+
+```typescript
+colorDifference(left: string, right: string): number
+```
+
+```typescript
+import { colorDifference } from 'colorizr';
+
+colorDifference('#ff0044', '#ffffff'); // 442
+```
+
+<LiveExample client:load code="colorDifference('#ff0044', '#ffffff')" />
+
+## compare
+
+Run a full WCAG compliance analysis between two colors.
+
+```typescript
+compare(left: string, right: string): Analysis
+```
+
+Returns an `Analysis` object:
+
+```typescript
+interface Analysis {
+  brightnessDifference: number;
+  colorDifference: number;
+  compliant: number;       // 0-2, number of compliance levels passed
+  contrast: number;        // WCAG contrast ratio
+  largeAA: boolean;
+  largeAAA: boolean;
+  normalAA: boolean;
+  normalAAA: boolean;
+}
+```
+
+```typescript
+import { compare } from 'colorizr';
+
+compare('#ff0044', '#ffffff');
+// {
+//   brightnessDifference: 171.003,
+//   colorDifference: 442,
+//   compliant: 1,
+//   contrast: 3.94,
+//   largeAA: true,
+//   largeAAA: false,
+//   normalAA: false,
+//   normalAAA: false,
+// }
+```
+
+<LiveExample client:load code="compare('#ff0044', '#ffffff')" />
+
+## deltaE
+
+Get the perceptual color difference (Delta E) in OkLab space. Values below 0.02 are generally imperceptible.
+
+```typescript
+deltaE(left: string, right: string, precision?: number): number
+```
+
+The `DELTA_E_JND` constant (0.02, the Just Noticeable Difference threshold) is also exported.
+
+```typescript
+import { deltaE, DELTA_E_JND } from 'colorizr';
+
+deltaE('#ff0044', '#ff0046'); // 0.00219
+deltaE('#ff0044', '#0066ff'); // 0.43219
+```
+
+<LiveExample client:load code="deltaE('#ff0044', '#0066ff')" />

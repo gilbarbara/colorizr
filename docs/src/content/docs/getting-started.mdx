@@ -1,0 +1,78 @@
+---
+title: Getting Started
+description: Install and start using colorizr in your project.
+---
+
+## Installation
+
+```bash
+npm install colorizr
+```
+
+## Standalone Functions
+
+Import individual functions for tree-shaking:
+
+```typescript
+import { lighten, contrast, scale } from 'colorizr';
+
+lighten('#ff0044', 20); // '#ff668f'
+contrast('#000000', '#ffffff'); // 21
+scale('#3366ff'); // { 50: '...', 100: '...', ..., 950: '...' }
+```
+
+All functions accept CSS color strings — hex, `rgb()`, `hsl()`, `oklab()`, `oklch()`, and named colors:
+
+```typescript
+import { lighten } from 'colorizr';
+
+lighten('#ff0044', 10);
+lighten('rgb(255 0 68)', 10);
+lighten('hsl(344 100% 50%)', 10);
+lighten('oklch(0.63 0.25 19.9)', 10);
+lighten('red', 10);
+```
+
+## Class Instance
+
+Create an instance to chain operations on the same color:
+
+```typescript
+import Colorizr from 'colorizr';
+
+const color = new Colorizr('#ff0044');
+
+color.hex;            // '#ff0044'
+color.hsl;            // { h: 344, s: 100, l: 50 }
+color.oklch;          // { l: 0.63269, c: 0.25404, h: 19.90224 }
+color.luminance;      // 0.2168
+color.chroma;         // 1
+color.opacity;        // 1
+color.readableColor;  // '#ffffff'
+
+color.lighten(20);    // '#ff668f'
+color.contrast('#fff'); // 3.94
+```
+
+## Output Formats
+
+Most functions accept a `format` parameter to control the output:
+
+```typescript
+import { lighten } from 'colorizr';
+
+lighten('#ff0044', 10);              // '#ff3369' (default: same as input)
+lighten('#ff0044', 10, 'hsl');       // 'hsl(344 100% 60%)'
+lighten('#ff0044', 10, 'oklch');     // 'oklch(65.709% 0.23514 12.375)'
+lighten('#ff0044', 10, 'rgb');       // 'rgb(255 51 105)'
+```
+
+## TypeScript
+
+All types are exported:
+
+```typescript
+import type { HSL, RGB, LAB, LCH, ColorType, Analysis } from 'colorizr';
+```
+
+See the [Types Reference](../types/) for the complete list.

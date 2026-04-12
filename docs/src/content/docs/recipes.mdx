@@ -1,0 +1,82 @@
+---
+title: Recipes
+description: Common tasks and how to solve them with colorizr.
+---
+
+Quick snippets for common color tasks.
+
+## Check WCAG contrast between two colors
+
+```typescript
+import { contrast } from 'colorizr';
+
+const ratio = contrast('#1a1a2e', '#ffffff'); // 17.05
+
+// WCAG AA requires 4.5:1 for normal text, 3:1 for large text
+// WCAG AAA requires 7:1 for normal text, 4.5:1 for large text
+```
+
+See [contrast](../accessibility/#contrast) and [compare](../comparison/#compare) for full WCAG analysis.
+
+## Find readable text for a background
+
+```typescript
+import { readableColor } from 'colorizr';
+
+readableColor('#1a1a2e');          // '#ffffff'
+readableColor('#f0f0f0');          // '#000000'
+readableColor('#663399', 'apca');  // '#ffffff' (using APCA algorithm)
+```
+
+See [readableColor](../accessibility/#readablecolor) for all methods and options.
+
+## Generate a design system color scale
+
+```typescript
+import { scale } from 'colorizr';
+
+const blue = scale('#3366ff');
+// { 50: '#f0f5ff', 100: '#e4edff', ..., 900: '#06009a', 950: '#020052' }
+
+const muted = scale('#3366ff', { variant: 'neutral' });
+const pastel = scale('#3366ff', { variant: 'pastel' });
+```
+
+See [scale](../generators/scale/) for variants, step counts, and curve options.
+
+## Create a color scheme from a brand color
+
+```typescript
+import { scheme } from 'colorizr';
+
+scheme('#ff0044');                  // complementary (default)
+scheme('#ff0044', 'analogous');     // 3 adjacent colors
+scheme('#ff0044', 'triadic');       // 3 evenly spaced colors
+scheme('#ff0044', 'tetradic');      // 4 colors (rectangle)
+```
+
+See [scheme](../generators/scheme/) for all harmony types.
+
+## Convert between color formats
+
+```typescript
+import { convertCSS } from 'colorizr';
+
+convertCSS('#ff0044', 'hsl');   // 'hsl(344 100% 50%)'
+convertCSS('#ff0044', 'oklch'); // 'oklch(63.269% 0.25404 19.902)'
+convertCSS('#ff0044', 'rgb');   // 'rgb(255 0 68)'
+```
+
+See [converters](../converters/) for all format conversions.
+
+## Mix two colors
+
+```typescript
+import { mix } from 'colorizr';
+
+mix('#ff0044', '#0066ff');           // 50/50 mix in OkLCH
+mix('#ff0044', '#0066ff', 0.2);     // 80% first, 20% second
+mix('#ff0044', '#0066ff', 0.5, { space: 'hsl' }); // mix in HSL space
+```
+
+See [mix](../generators/mix/) for interpolation spaces and hue modes.

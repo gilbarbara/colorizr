@@ -1,0 +1,76 @@
+---
+title: Parsers
+description: Parse CSS color strings into structured data.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## parseCSS
+
+Parse a CSS color string and optionally convert to a specific format. Supports CSS Color Level 4 syntax including space-separated values, `none` keyword, and angle units.
+
+```typescript
+parseCSS(input: string, format?: ColorType): HEX | HSL | LAB | LCH | RGB
+```
+
+| Parameter | Description                                           | Type        |
+|-----------|-------------------------------------------------------|-------------|
+| format    | Optional output format. Defaults to the input format. | `ColorType` |
+| input     | Any CSS color string or named color                   | `string`    |
+
+```typescript
+import { parseCSS } from 'colorizr';
+
+parseCSS('hsl(344 100% 50%)');    // { h: 344, s: 100, l: 50 }
+parseCSS('#ff0044', 'hsl');       // { h: 344, s: 100, l: 50 }
+parseCSS('red');                  // '#ff0000'
+parseCSS('oklch(0.63 0.29 17)');  // { l: 0.63, c: 0.29, h: 17 }
+```
+
+<LiveExample client:load code="parseCSS('oklch(0.63 0.29 17)')" hideInputs />
+
+## extractColorParts
+
+Parse a CSS color string into its individual components.
+
+```typescript
+extractColorParts(input: string): ExtractColorPartsReturn
+```
+
+Returns an object with the color model and its channel values:
+
+```typescript
+import { extractColorParts } from 'colorizr';
+
+extractColorParts('rgb(255 0 68)');
+// { model: 'rgb', r: 255, g: 0, b: 68 }
+
+extractColorParts('hsl(344 100% 50% / 90%)');
+// { model: 'hsl', h: 344, s: 100, l: 50, alpha: 0.9 }
+
+extractColorParts('oklch(0.63 0.29 17)');
+// { model: 'oklch', l: 0.63, c: 0.29, h: 17 }
+```
+
+<LiveExample client:load code="extractColorParts('oklch(0.63 0.29 17)')" />
+
+## getColorType
+
+Detect the type of a color string.
+
+```typescript
+getColorType(input: string): ColorTypeInput | null
+```
+
+```typescript
+import { getColorType } from 'colorizr';
+
+getColorType('#ff0044');               // 'hex'
+getColorType('rgb(255 0 68)');         // 'rgb'
+getColorType('hsl(344 100% 50%)');     // 'hsl'
+getColorType('oklch(0.63 0.29 17)');   // 'oklch'
+getColorType('red');                   // 'named'
+getColorType('not-a-color');           // null
+```
+
+<LiveExample client:load code="getColorType('oklch(0.63 0.29 17)')" />

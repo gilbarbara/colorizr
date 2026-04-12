@@ -1,0 +1,102 @@
+---
+title: Converters
+description: Convert between Hex, HSL, RGB, OkLab, and OkLCH color formats.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+You can convert between all five color formats using the converters below.
+
+All converters accept either a color model object or a `[number, number, number]` tuple (except hex-source converters which require a hex string). Each function preserves alpha values.
+
+You can specify the `precision` with a second optional parameter with the number of decimal places in the output (default is full precision).
+
+## From Hex
+
+```typescript
+import { hex2hsl, hex2rgb, hex2oklab, hex2oklch } from 'colorizr';
+
+hex2hsl('#ff0044');   // { h: 344, s: 100, l: 50 }
+hex2rgb('#ff0044');   // { r: 255, g: 0, b: 68 }
+hex2oklab('#ff0044'); // { l: 0.63269, a: 0.23887, b: 0.08648 }
+hex2oklch('#ff0044'); // { l: 0.63269, c: 0.25404, h: 19.90224 }
+```
+
+<LiveExample client:load code="hex2oklch('#ff0044', 5)" hideInputs />
+
+## From HSL
+
+```typescript
+import { hsl2hex, hsl2rgb, hsl2oklab, hsl2oklch } from 'colorizr';
+
+hsl2hex({ h: 344, s: 100, l: 50 });   // '#ff0044'
+hsl2rgb({ h: 344, s: 100, l: 50 });   // { r: 255, g: 0, b: 68 }
+hsl2oklab({ h: 344, s: 100, l: 50 }); // { l: 0.63269, a: 0.23887, b: 0.08648 }
+hsl2oklch({ h: 344, s: 100, l: 50 }); // { l: 0.63269, c: 0.25404, h: 19.90224 }
+
+// Also accepts tuples
+hsl2hex([344, 100, 50]); // '#ff0044'
+```
+
+<LiveExample client:load code="hsl2hex({ h: 344, s: 100, l: 50 })" hideInputs />
+
+## From RGB
+
+```typescript
+import { rgb2hex, rgb2hsl, rgb2oklab, rgb2oklch } from 'colorizr';
+
+rgb2hex({ r: 255, g: 0, b: 68 });   // '#ff0044'
+rgb2hsl({ r: 255, g: 0, b: 68 });   // { h: 344, s: 100, l: 50 }
+rgb2oklab({ r: 255, g: 0, b: 68 }); // { l: 0.63269, a: 0.23887, b: 0.08648 }
+rgb2oklch({ r: 255, g: 0, b: 68 }); // { l: 0.63269, c: 0.25404, h: 19.90224 }
+
+// Also accepts tuples
+rgb2hex([255, 0, 68]); // '#ff0044'
+```
+
+<LiveExample client:load code="rgb2hex({ r: 255, g: 0, b: 68 })" hideInputs />
+
+## From OkLab
+
+```typescript
+import { oklab2hex, oklab2hsl, oklab2rgb, oklab2oklch } from 'colorizr';
+
+oklab2hex({ l: 0.63269, a: 0.23887, b: 0.08648 });   // '#ff0044'
+oklab2hsl({ l: 0.63269, a: 0.23887, b: 0.08648 });   // { h: 344, s: 100, l: 50 }
+oklab2rgb({ l: 0.63269, a: 0.23887, b: 0.08648 });   // { r: 255, g: 0, b: 68 }
+oklab2oklch({ l: 0.63269, a: 0.23887, b: 0.08648 }); // { l: 0.63269, c: 0.25404, h: 19.90224 }
+```
+
+<LiveExample client:load code="oklab2hex({ l: 0.63269, a: 0.23887, b: 0.08648 })" hideInputs />
+
+## From OkLCH
+
+```typescript
+import { oklch2hex, oklch2hsl, oklch2rgb, oklch2oklab } from 'colorizr';
+
+oklch2hex({ l: 0.63269, c: 0.25404, h: 19.90224 });   // '#ff0044'
+oklch2hsl({ l: 0.63269, c: 0.25404, h: 19.90224 });   // { h: 344, s: 100, l: 50 }
+oklch2rgb({ l: 0.63269, c: 0.25404, h: 19.90224 });   // { r: 255, g: 0, b: 68 }
+oklch2oklab({ l: 0.63269, c: 0.25404, h: 19.90224 }); // { l: 0.63269, a: 0.23887, b: 0.08648 }
+```
+
+<LiveExample client:load code="oklch2hex({ l: 0.63269, c: 0.25404, h: 19.90224 })" hideInputs />
+
+
+## convertCSS
+
+Convert a CSS string to a different format.
+
+```typescript
+convertCSS(input: string, format: ColorType): string
+```
+
+```typescript
+import { convertCSS } from 'colorizr';
+
+convertCSS('#ff0044', 'hsl');   // 'hsl(344 100% 50%)'
+convertCSS('#ff0044', 'oklch'); // 'oklch(63.269% 0.25404 19.902)'
+convertCSS('#ff0044', 'rgb');   // 'rgb(255 0 68)'
+```
+
+<LiveExample client:load code="convertCSS('#ff0044', 'oklch')" hideInputs />

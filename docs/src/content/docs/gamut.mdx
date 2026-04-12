@@ -1,0 +1,65 @@
+---
+title: Gamut Mapping
+description: Map colors to sRGB and work with P3 gamut boundaries.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## getP3MaxChroma
+
+Get the maximum chroma value within the P3 gamut for a given lightness and hue.
+
+```typescript
+getP3MaxChroma(input: string | LCH, precision?: number): number
+```
+
+```typescript
+import { getP3MaxChroma } from 'colorizr';
+
+getP3MaxChroma({ l: 0.63269, c: 0.25404, h: 19.90218 }); // 0.28643
+getP3MaxChroma('#00ff44'); // 0.30921
+```
+
+<LiveExample client:load code="getP3MaxChroma('#00ff44')" />
+
+## getP3MaxColor
+
+Get the OkLCH color string with the maximum P3 chroma for a given lightness and hue.
+
+```typescript
+getP3MaxColor(input: string | LCH): string
+```
+
+```typescript
+import { getP3MaxColor } from 'colorizr';
+
+getP3MaxColor({ l: 0.63269, c: 0.25404, h: 19.90218 }); // 'oklch(0.63269 0.28643 19.902)'
+getP3MaxColor('#00ff44'); // 'oklch(0.86876 0.30921 144.66)'
+```
+
+<LiveExample client:load code="getP3MaxColor('#00ff44')" />
+
+## toGamut
+
+Map a color into the sRGB gamut by progressively reducing chroma in OkLCH space. Useful when working with wide-gamut colors that need to display correctly on standard screens.
+
+```typescript
+toGamut(input: string, format?: ColorType): string
+```
+
+| Parameter | Description | Type |
+|-----------|-------------|------|
+| format | Optional output format | `ColorType` |
+| input | Any CSS color string | `string` |
+
+```typescript
+import { toGamut } from 'colorizr';
+
+// An out-of-gamut OkLCH color mapped to sRGB
+toGamut('oklch(0.7 0.4 150)'); // 'oklch(70% 0.19278 150)'
+
+// Already in-gamut colors pass through unchanged
+toGamut('#ff0044'); // '#ff0044'
+```
+
+<LiveExample client:load code="toGamut('oklch(0.7 0.4 150)')" />

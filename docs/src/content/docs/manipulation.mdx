@@ -1,0 +1,200 @@
+---
+title: Manipulation
+description: Lighten, darken, saturate, desaturate, rotate, grayscale, and invert colors.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## lighten
+
+Increase the lightness of a color.
+
+```typescript
+lighten(input: string, amount: number, format?: ColorType): string
+```
+
+| Parameter | Description               | Type        |
+|-----------|---------------------------|-------------|
+| amount    | Amount to lighten (0-100) | `number`    |
+| format    | Optional output format    | `ColorType` |
+| input     | Any CSS color string      | `string`    |
+
+```typescript
+import { lighten } from 'colorizr';
+
+lighten('#ff0044', 10); // '#ff3369'
+lighten('#ff0044', 20); // '#ff668f'
+lighten('#ff0044', 30); // '#ff99b4'
+```
+
+<LiveExample client:load code="lighten('#ff0044', 10)" />
+
+## darken
+
+Decrease the lightness of a color.
+
+```typescript
+darken(input: string, amount: number, format?: ColorType): string
+```
+
+| Parameter | Description              | Type        |
+|-----------|--------------------------|-------------|
+| amount    | Amount to darken (0-100) | `number`    |
+| format    | Optional output format   | `ColorType` |
+| input     | Any CSS color string     | `string`    |
+
+```typescript
+import { darken } from 'colorizr';
+
+darken('#ff0044', 10); // '#cc0036'
+darken('#ff0044', 20); // '#990029'
+darken('#ff0044', 30); // '#66001b'
+```
+
+<LiveExample client:load code="darken('#ff0044', 10)" />
+
+## saturate
+
+Increase the saturation of a color.
+
+```typescript
+saturate(input: string, amount: number, format?: ColorType): string
+```
+
+| Parameter | Description                | Type        |
+|-----------|----------------------------|-------------|
+| amount    | Amount to saturate (0-100) | `number`    |
+| format    | Optional output format     | `ColorType` |
+| input     | Any CSS color string       | `string`    |
+
+```typescript
+import { saturate } from 'colorizr';
+
+saturate('#bf4060', 20); // '#d82753'
+```
+
+<LiveExample client:load code="saturate('#bf4060', 20)" />
+
+## desaturate
+
+Decrease the saturation of a color.
+
+```typescript
+desaturate(input: string, amount: number, format?: ColorType): string
+```
+
+| Parameter | Description                  | Type        |
+|-----------|------------------------------|-------------|
+| amount    | Amount to desaturate (0-100) | `number`    |
+| format    | Optional output format       | `ColorType` |
+| input     | Any CSS color string         | `string`    |
+
+```typescript
+import { desaturate } from 'colorizr';
+
+desaturate('#ff0044', 20); // '#e61950'
+```
+
+<LiveExample client:load code="desaturate('#ff0044', 20)" />
+
+## rotate
+
+Rotate the hue of a color.
+
+```typescript
+rotate(input: string, degrees: number, format?: ColorType): string
+```
+
+| Parameter | Description                     | Type        |
+|-----------|---------------------------------|-------------|
+| degrees   | Degrees to rotate (-360 to 360) | `number`    |
+| format    | Optional output format          | `ColorType` |
+| input     | Any CSS color string            | `string`    |
+
+```typescript
+import { rotate } from 'colorizr';
+
+rotate('#ff0044', 30);  // '#ff3c00'
+rotate('#ff0044', 180); // '#00ffbb'
+rotate('#ff0044', -90); // '#3c00ff'
+```
+
+<LiveExample client:load code="rotate('#ff0044', 30)" />
+
+## invert
+
+Invert a color by rotating its hue 180 degrees.
+
+```typescript
+invert(input: string): string
+```
+
+```typescript
+import { invert } from 'colorizr';
+
+invert('#ff0044'); // '#00ffbb'
+```
+
+<LiveExample client:load code="invert('#ff0044')" />
+
+## grayscale
+
+Remove all saturation from a color.
+
+```typescript
+grayscale(input: string, format?: ColorType): string
+```
+
+```typescript
+import { grayscale } from 'colorizr';
+
+grayscale('#ff0044'); // '#8a8a8a'
+```
+
+<LiveExample client:load code="grayscale('#ff0044')" />
+
+## opacify
+
+Set the opacity of a color to a specific value.
+
+```typescript
+opacify(input: string, alpha: number, format?: ColorType): string
+```
+
+| Parameter | Description            | Type        |
+|-----------|------------------------|-------------|
+| alpha     | Target opacity (0-1)   | `number`    |
+| format    | Optional output format | `ColorType` |
+| input     | Any CSS color string   | `string`    |
+
+```typescript
+import { opacify } from 'colorizr';
+
+opacify('#ff0044', 0.5);         // '#ff004480'
+opacify('#ff0044', 0.8, 'rgb');  // 'rgb(255 0 68 / 80%)'
+```
+
+<LiveExample client:load code="opacify('#ff0044', 0.5)" />
+
+## transparentize
+
+Adjust the transparency of a color by a relative amount. Positive values decrease opacity, negative values increase it.
+
+```typescript
+transparentize(input: string, alpha: number, format?: ColorType): string
+```
+
+| Parameter | Description                                              | Type        |
+|-----------|----------------------------------------------------------|-------------|
+| alpha     | Amount to adjust (-1 to 1). Positive = more transparent. | `number`    |
+| format    | Optional output format                                   | `ColorType` |
+| input     | Any CSS color string                                     | `string`    |
+
+```typescript
+import { transparentize } from 'colorizr';
+
+transparentize('#ff0044', 0.5);   // '#ff004480' (50% transparent)
+transparentize('#ff004480', -0.3); // '#ff0044cc' (30% less transparent)
+```
+
+<LiveExample client:load code="transparentize('#ff0044', 0.2)" />

@@ -1,0 +1,209 @@
+---
+title: Types Reference
+description: TypeScript type definitions exported by colorizr.
+---
+
+All types are importable from `colorizr`:
+
+```typescript
+import type { HSL, RGB, LAB, LCH, ColorType, Analysis } from 'colorizr';
+```
+
+## Color Models
+
+### HSL
+
+```typescript
+interface HSL {
+  h: number;  // Hue: 0-360
+  s: number;  // Saturation: 0-100
+  l: number;  // Lightness: 0-100
+  alpha?: number; // 0-1
+}
+```
+
+### RGB
+
+```typescript
+interface RGB {
+  r: number;  // Red: 0-255
+  g: number;  // Green: 0-255
+  b: number;  // Blue: 0-255
+  alpha?: number; // 0-1
+}
+```
+
+### LAB (OkLab)
+
+```typescript
+interface LAB {
+  l: number;  // Lightness: 0-1
+  a: number;  // Green-red axis: -0.4 to 0.4
+  b: number;  // Blue-yellow axis: -0.4 to 0.4
+  alpha?: number; // 0-1
+}
+```
+
+### LCH (OkLCH)
+
+```typescript
+interface LCH {
+  l: number;  // Lightness: 0-1
+  c: number;  // Chroma: 0-0.4
+  h: number;  // Hue: 0-360
+  alpha?: number; // 0-1
+}
+```
+
+## Format Types
+
+### HEX
+
+```typescript
+type HEX = `#${string}`;
+```
+
+### ColorType
+
+```typescript
+type ColorType = 'hex' | 'hsl' | 'oklab' | 'oklch' | 'rgb';
+```
+
+### ColorTypeInput
+
+```typescript
+type ColorTypeInput = ColorType | 'named';
+```
+
+### ColorModelKey
+
+```typescript
+type ColorModelKey = 'hsl' | 'oklab' | 'oklch' | 'rgb';
+```
+
+### ColorTuple
+
+```typescript
+type ColorTuple = [number, number, number];
+```
+
+### ColorModel
+
+```typescript
+type ColorModel = HSL | LAB | LCH | RGB;
+```
+
+## Analysis
+
+Returned by `compare()`:
+
+```typescript
+interface Analysis {
+  brightnessDifference: number;
+  colorDifference: number;
+  compliant: number;       // 0-2, levels of compliance passed
+  contrast: number;        // WCAG contrast ratio
+  largeAA: boolean;
+  largeAAA: boolean;
+  normalAA: boolean;
+  normalAAA: boolean;
+}
+```
+
+## Options Interfaces
+
+### ColorizrOptions
+
+```typescript
+interface ColorizrOptions {
+  format?: ColorType;
+}
+```
+
+### FormatCSSOptions
+
+```typescript
+interface FormatCSSOptions {
+  alpha?: number;
+  format?: ColorType;
+  precision?: number;
+  separator?: string;
+}
+```
+
+### MixOptions
+
+```typescript
+interface MixOptions {
+  format?: ColorType;
+  space?: ColorModelKey;
+  hue?: 'shorter' | 'longer' | 'increasing' | 'decreasing';
+}
+```
+
+### ScaleOptions
+
+```typescript
+interface ScaleOptions {
+  steps?: number;          // 3-20
+  variant?: ScaleVariant;
+  saturation?: number;     // 0-100
+  mode?: 'light' | 'dark';
+  lightnessCurve?: number;
+  chromaCurve?: number;    // 0-1
+  minLightness?: number;   // 0-1
+  maxLightness?: number;   // 0-1
+  lock?: number;
+  format?: ColorType;
+}
+
+type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
+```
+
+### PaletteOptions
+
+```typescript
+interface PaletteOptions {
+  size?: number;
+  monochromatic?: boolean;
+  lightness?: number;
+  saturation?: number;
+  format?: ColorType;
+}
+```
+
+### SchemeOptions
+
+```typescript
+interface SchemeOptions {
+  scheme?: Scheme;
+  format?: ColorType;
+}
+
+type Scheme = 'analogous' | 'complementary' | 'rectangle' | 'split' | 'split-complementary' | 'square' | 'tetradic' | 'triadic';
+```
+
+### ReadableColorOptions
+
+```typescript
+interface ReadableColorOptions {
+  method?: 'yiq' | 'wcag' | 'contrast' | 'oklab' | 'apca';
+  darkColor?: string;
+  lightColor?: string;
+  threshold?: number;
+}
+```
+
+### RandomOptions
+
+```typescript
+interface RandomOptions {
+  format?: ColorType;
+  minHue?: number;
+  maxHue?: number;
+  minSaturation?: number;
+  maxSaturation?: number;
+  minLightness?: number;
+  maxLightness?: number;
+}
+```
