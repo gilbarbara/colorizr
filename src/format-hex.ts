@@ -1,6 +1,6 @@
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex } from '~/modules/validators';
+import { isHex, isString } from '~/modules/validators';
 
 import { HEX } from '~/types';
 
@@ -11,9 +11,11 @@ import { HEX } from '~/types';
  * @returns The normalized hex color string.
  */
 export default function formatHex(input: string): HEX {
-  invariant(isHex(input), MESSAGES.inputHex);
+  invariant(isString(input), MESSAGES.inputString);
 
-  let color = input.replace('#', '');
+  let color = input.startsWith('#') ? input.slice(1) : input;
+
+  invariant(isHex(`#${color}`), MESSAGES.inputHex);
 
   if (color.length === 3 || color.length === 4) {
     const values = [...color];
