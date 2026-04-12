@@ -6,7 +6,7 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 describe('palette', () => {
   it.each([
     [brightPink.hex, undefined],
-    [green.hslString, { type: 'monochromatic' }],
+    [green.hslString, { monochromatic: true }],
     [orange.oklabString, { size: 24 }],
     [violet.oklchString, { lightness: 90, size: 10 }],
     [yellow.rgbString, { saturation: 70, size: 5 }],

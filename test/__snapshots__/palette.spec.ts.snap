@@ -22,7 +22,7 @@ exports[`palette > blue with undefined should return the palette 1`] = `
 ]
 `;
 
-exports[`palette > hsl(136 100% 50%) with { type: 'monochromatic' } should return the palette 1`] = `
+exports[`palette > hsl(136 100% 50%) with { monochromatic: true } should return the palette 1`] = `
 [
   "hsl(135.88 100% 80%)",
   "hsl(135.88 100% 66.67%)",
