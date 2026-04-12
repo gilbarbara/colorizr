@@ -22,6 +22,12 @@ export interface PaletteOptions {
    */
   lightness?: number;
   /**
+   * Generate a monochromatic palette.
+   *
+   * For more options, use the `scale` function.
+   */
+  monochromatic?: boolean;
+  /**
    * Adjusts the saturation of the base color before generating the palette.
    *
    * Value should be between 0 and 100.
@@ -34,12 +40,6 @@ export interface PaletteOptions {
    * @default 6
    */
   size?: number;
-  /**
-   * Generate a monochromatic palette.
-   *
-   * For more options, use the `scale` function.
-   */
-  type?: 'monochromatic';
 }
 
 /**
@@ -53,7 +53,7 @@ export default function palette(input: string, options: PaletteOptions = {}): st
   invariant(isString(input), MESSAGES.inputString);
   invariant(isPlainObject(options), MESSAGES.options);
 
-  const { format, lightness, saturation, size = 6, type } = options;
+  const { format, lightness, monochromatic, saturation, size = 6 } = options;
 
   invariant(size >= 2, MESSAGES.paletteSize);
 
@@ -63,7 +63,7 @@ export default function palette(input: string, options: PaletteOptions = {}): st
 
   const output: string[] = [];
 
-  if (type === 'monochromatic') {
+  if (monochromatic) {
     const step = MONOCHROMATIC_LIGHTNESS_MAX / size;
 
     for (let index = size; index > 0; index--) {
