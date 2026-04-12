@@ -19,7 +19,6 @@ export default function opacify(input: string, alpha: number, format?: ColorType
   invariant(isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
 
   const parsed = resolveColor(input);
-  const output = format ?? parsed.type;
 
-  return formatCSS(parsed.rgb, { format: output, alpha });
+  return formatCSS(parsed.oklch, { format: format ?? parsed.type, alpha });
 }
