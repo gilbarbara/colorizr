@@ -1,0 +1,48 @@
+---
+title: Random
+description: Generate random colors with optional constraints.
+---
+
+import LiveExample from '../../../components/LiveExample';
+
+Generate a random color, optionally constrained to specific hue, saturation, or lightness ranges.
+
+```typescript
+random(options?: RandomOptions): string
+```
+
+| Parameter     | Description                | Type        | Default   |
+|---------------|----------------------------|-------------|-----------|
+| format        | Output format              | `ColorType` | **'hex'** |
+| maxHue        | Maximum hue (0-360)        | `number`    | **360**   |
+| maxLightness  | Maximum lightness (0-100)  | `number`    | **100**   |
+| maxSaturation | Maximum saturation (0-100) | `number`    | **100**   |
+| minHue        | Minimum hue (0-360)        | `number`    | **0**     |
+| minLightness  | Minimum lightness (0-100)  | `number`    | **0**     |
+| minSaturation | Minimum saturation (0-100) | `number`    | **0**     |
+
+## Basic Usage
+
+```typescript
+import { random } from 'colorizr';
+
+random();              // '#a3f29c'
+random({ format: 'hsl' }); // 'hsl(142 78% 62%)'
+```
+
+<LiveExample client:load code="random()" />
+
+## Constrained Generation
+
+```typescript
+// Warm colors only (red-yellow range)
+random({ minHue: 0, maxHue: 60 });
+
+// Pastel colors
+random({ minSaturation: 40, maxSaturation: 70, minLightness: 70, maxLightness: 90 });
+
+// Dark, muted colors
+random({ maxSaturation: 30, maxLightness: 30 });
+```
+
+Hue ranges support wrap-around: `{ minHue: 330, maxHue: 30 }` covers red through orange.

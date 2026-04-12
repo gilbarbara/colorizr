@@ -1,0 +1,54 @@
+---
+title: Formatters
+description: Format color objects and strings to CSS output.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## formatCSS
+
+Format a color model object or hex string to a CSS color string.
+
+```typescript
+formatCSS(input: HSL | LAB | LCH | RGB | HEX, formatOrOptions?: ColorType | FormatCSSOptions): string
+```
+
+| Parameter | Description       | Type                | Default |
+|-----------|-------------------|---------------------|---------|
+| input     | Color to format   | `ColorModel \| HEX` |         |
+| alpha     | Alpha value (0-1) | `number`            |         |
+| format    | Output format     | `ColorType`         |         |
+| precision | Decimal precision | `number`            | **5**   |
+| separator | Value separator   | `string`            | **' '** |
+
+```typescript
+import { formatCSS } from 'colorizr';
+
+formatCSS({ h: 344, s: 100, l: 50 });                    // 'hsl(344 100% 50%)'
+formatCSS({ h: 344, s: 100, l: 50 }, 'hex');             // '#ff0044'
+formatCSS({ h: 344, s: 100, l: 50 }, { format: 'hsl' }); // 'hsl(344 100% 50%)'
+formatCSS({ r: 255, g: 0, b: 68 }, 'rgb');               // 'rgb(255 0 68)'
+formatCSS('#ff0044', 'oklch');                            // 'oklch(63.269% 0.25404 19.902)'
+formatCSS({ r: 255, g: 0, b: 68 }, { format: 'rgb', alpha: 0.5 }); // 'rgb(255 0 68 / 50%)'
+formatCSS({ r: 255, g: 0, b: 68 }, { format: 'rgb', separator: ', ' }); // 'rgb(255, 0, 68)'
+```
+
+<LiveExample client:load code="formatCSS({ h: 344, s: 100, l: 50 }, 'oklch')" />
+
+## formatHex
+
+Normalize a hex string to 6 or 8 characters (with alpha). Accepts strings with or without the # prefix.
+
+```typescript
+formatHex(input: string): HEX
+```
+
+```typescript
+import { formatHex } from 'colorizr';
+
+formatHex('#f04');    // '#ff0044'
+formatHex('f04');     // '#ff0044'
+formatHex('#ff0044'); // '#ff0044'
+```
+
+<LiveExample client:load code="formatHex('f04')" />

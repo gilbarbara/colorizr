@@ -69,4 +69,4 @@ Tests are in `test/` with `.spec.ts` suffix. Vitest globals are enabled (no impo
 - ESLint config: `@gilbarbara/eslint-config`
 - Prettier config: `@gilbarbara/prettier-config`
 - TypeScript config: `@gilbarbara/tsconfig`
-- Default precision for color conversions: 5 decimal places
+- Converters return full float precision by default; CSS output uses 5 significant digits

@@ -1,0 +1,125 @@
+---
+title: Validators
+description: Validate color strings and type-check color model objects.
+---
+
+import LiveExample from '../../components/LiveExample';
+
+## isValidColor
+
+Check if a string is a valid CSS color. Optionally check for a specific type.
+
+```typescript
+isValidColor(input: string, type?: ColorTypeInput): boolean
+```
+
+```typescript
+import { isValidColor } from 'colorizr';
+
+isValidColor('#ff0044');             // true
+isValidColor('rgb(255 0 68)');       // true
+isValidColor('hsl(344 100% 50%)');   // true
+isValidColor('red');                 // true
+isValidColor('not-a-color');         // false
+
+// Type-specific validation
+isValidColor('#ff0044', 'hex');      // true
+isValidColor('#ff0044', 'rgb');      // false
+```
+
+<LiveExample client:load code="isValidColor('#ff0044')" />
+
+## Type Guards
+
+These functions check if a value matches a specific color model structure.
+
+### isHex
+
+```typescript
+isHex(input: unknown): boolean
+```
+
+Validates hex strings (`#xxx`, `#xxxx`, `#xxxxxx`, `#xxxxxxxx`):
+
+```typescript
+import { isHex } from 'colorizr';
+
+isHex('#ff0044');   // true
+isHex('#f04');      // true
+isHex('#ff004480'); // true
+isHex('ff0044');    // false (missing #)
+isHex('#xyz');      // false
+```
+
+<LiveExample client:load code="isHex('#ff0044')" hideInputs />
+
+### isHSL
+
+```typescript
+isHSL(input: unknown): boolean
+```
+
+Validates HSL objects (`h`: 0-360, `s`: 0-100, `l`: 0-100):
+
+```typescript
+import { isHSL } from 'colorizr';
+
+isHSL({ h: 344, s: 100, l: 50 });              // true
+isHSL({ h: 344, s: 100, l: 50, alpha: 0.5 });  // true
+isHSL({ h: 400, s: 100, l: 50 });              // false (h > 360)
+```
+
+<LiveExample client:load code="isHSL({ h: 344, s: 100, l: 50 })" hideInputs />
+
+### isRGB
+
+```typescript
+isRGB(input: unknown): boolean
+```
+
+Validates RGB objects (`r`: 0-255, `g`: 0-255, `b`: 0-255):
+
+```typescript
+import { isRGB } from 'colorizr';
+
+isRGB({ r: 255, g: 0, b: 68 });              // true
+isRGB({ r: 255, g: 0, b: 68, alpha: 0.5 });  // true
+isRGB({ r: 300, g: 0, b: 68 });              // false (r > 255)
+```
+
+<LiveExample client:load code="isRGB({ r: 255, g: 0, b: 68 })" hideInputs />
+
+### isLAB
+
+```typescript
+isLAB(input: unknown): boolean
+```
+
+Validates OkLab objects (`l`: 0-1, `a`: -0.4 to 0.4, `b`: -0.4 to 0.4):
+
+```typescript
+import { isLAB } from 'colorizr';
+
+isLAB({ l: 0.63, a: 0.28, b: 0.06 });  // true
+isLAB({ l: 2, a: 0, b: 0 });           // false (l > 1)
+```
+
+<LiveExample client:load code="isLAB({ l: 0.63, a: 0.28, b: 0.06 })" hideInputs />
+
+
+### isLCH
+
+```typescript
+isLCH(input: unknown): boolean
+```
+
+Validates OkLCH objects (`l`: 0-1, `c`: 0-0.4, `h`: 0-360):
+
+```typescript
+import { isLCH } from 'colorizr';
+
+isLCH({ l: 0.63, c: 0.29, h: 17 });  // true
+isLCH({ l: 0.63, c: 0.5, h: 17 });   // false (c > 0.4)
+```
+
+<LiveExample client:load code="isLCH({ l: 0.63, c: 0.29, h: 17 })" hideInputs />

@@ -1,0 +1,113 @@
+---
+title: Colorizr Class
+description: Object-oriented API for working with a single color.
+---
+
+The `Colorizr` class wraps all library functionality around a single color instance.
+
+## Constructor
+
+```typescript
+import Colorizr from 'colorizr';
+
+const color = new Colorizr(color: string | ColorModel, options?: ColorizrOptions);
+```
+
+| Parameter      | Description                                                                | Type                   |
+|----------------|----------------------------------------------------------------------------|------------------------|
+| color          | Any CSS color string or a color model object (`HSL`, `RGB`, `LAB`, `LCH`). | `string \| ColorModel` |
+| options.format | Output format. Defaults to the input format.                               | `ColorType`            |
+
+```typescript
+const a = new Colorizr('#ff0044');
+const b = new Colorizr('rgb(255 0 68)');
+const c = new Colorizr({ h: 344, s: 100, l: 50 });
+const d = new Colorizr('#ff0044', { format: 'oklch' });
+```
+
+## Properties
+
+| Property | Type        | Description           |
+|----------|-------------|-----------------------|
+| `hex`    | `HEX`       | Hex representation    |
+| `hsl`    | `HSL`       | HSL object            |
+| `rgb`    | `RGB`       | RGB object            |
+| `oklab`  | `LAB`       | OkLab object          |
+| `oklch`  | `LCH`       | OkLCH object          |
+| `alpha`  | `number`    | Alpha value (0-1)     |
+| `type`   | `ColorType` | Current output format |
+
+```typescript
+const color = new Colorizr('#ff0044');
+
+color.hex;   // '#ff0044'
+color.hsl;   // { h: 344, s: 100, l: 50 }
+color.rgb;   // { r: 255, g: 0, b: 68 }
+color.oklab;  // { l: 0.63269, a: 0.23887, b: 0.08648 }
+color.oklch;  // { l: 0.63269, c: 0.25404, h: 19.90224 }
+color.alpha;  // 1
+color.type;   // 'hex'
+```
+
+## Getters
+
+| Getter          | Type     | Description                                  |
+|-----------------|----------|----------------------------------------------|
+| `css`           | `string` | CSS string in the current format             |
+| `red`           | `number` | Red channel (0-255)                          |
+| `green`         | `number` | Green channel (0-255)                        |
+| `blue`          | `number` | Blue channel (0-255)                         |
+| `hue`           | `number` | Hue (0-360)                                  |
+| `saturation`    | `number` | Saturation (0-100)                           |
+| `lightness`     | `number` | Lightness (0-100)                            |
+| `luminance`     | `number` | WCAG relative luminance (0-1)                |
+| `chroma`        | `number` | Chroma value (0-1)                           |
+| `opacity`       | `number` | Opacity value (0-1)                          |
+| `readableColor` | `string` | Most readable text color for this background |
+
+## Methods
+
+### Comparison
+
+```typescript
+color.brightnessDifference(input: string): number
+color.colorDifference(input: string): number
+color.compare(input: string): Analysis
+color.contrast(input: string): number
+color.deltaE(input: string): number
+```
+
+### Manipulation
+
+```typescript
+color.lighten(amount: number): string
+color.darken(amount: number): string
+color.saturate(amount: number): string
+color.desaturate(amount: number): string
+color.grayscale(): string
+color.invert(): string
+color.rotate(degrees: number): string
+color.opacify(alpha?: number): string      // default: 0.9
+color.transparentize(alpha?: number): string // default: 0.1
+```
+
+### Mixing & Conversion
+
+```typescript
+color.mix(color: string, ratio?: number, options?: MixOptions): string
+color.format(type: ColorType, precision?: number): string
+color.toGamut(format?: ColorType): string
+```
+
+## Example
+
+```typescript
+const color = new Colorizr('#ff0044');
+
+color.luminance;         // 0.2168
+color.contrast('#fff');  // 3.94
+color.compare('#fff');   // { contrast: 3.94, normalAA: false, ... }
+color.lighten(20);       // '#ff668f'
+color.mix('#0066ff');    // '#bc34d7'
+color.format('oklch');   // 'oklch(63.269% 0.25404 19.902)'
+```

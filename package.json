@@ -53,9 +53,10 @@
     "vitest": "^4.1.4"
   },
   "scripts": {
-    "build": "npm run clean && tsup",
+    "build": "pnpm clean && tsup",
     "watch": "tsup --watch",
     "clean": "del dist/*",
+    "docs": "pnpm --dir docs dev",
     "lint": "eslint --fix src test",
     "typecheck": "tsc -p test/tsconfig.json",
     "typevalidation": "attw -P",
@@ -63,9 +64,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
-    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run size && npm run typevalidation",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm size && pnpm typevalidation",
     "size": "size-limit",
-    "prepublishOnly": "npm run validate",
     "prepare": "husky"
   },
   "tsup": {

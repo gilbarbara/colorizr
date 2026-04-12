@@ -1,0 +1,97 @@
+---
+title: Scheme
+description: Generate color harmony schemes.
+---
+
+import LiveExample from '../../../components/LiveExample';
+
+Generate color schemes based on color theory harmonies.
+
+```typescript
+scheme(input: string, schemeOrOptions?: Scheme | SchemeOptions): string[]
+```
+
+| Parameter | Description              | Type                   | Default             |
+|-----------|--------------------------|------------------------|---------------------|
+| format    | Output format            | `ColorType`            |                     |
+| scheme    | The scheme to generate   | `Scheme`               | **complementary**   |
+
+```typescript
+type Scheme =
+  | 'analogous'
+  | 'complementary'
+  | 'rectangle'
+  | 'split'
+  | 'split-complementary'
+  | 'square'
+  | 'tetradic'
+  | 'triadic';
+```
+
+## Scheme Types
+
+### Complementary (default)
+
+Two colors opposite on the color wheel.
+
+```typescript
+import { scheme } from 'colorizr';
+
+scheme('#ff0044'); // ['#ff0044', '#00ffbb']
+```
+
+<LiveExample client:load code="scheme('#ff0044')" />
+
+### Analogous
+
+Three adjacent colors on the color wheel.
+
+```typescript
+scheme('#ff0044', 'analogous'); // ['#ff00c3', '#ff0044', '#ff3c00']
+```
+
+<LiveExample client:load code="scheme('#ff0044', 'analogous')" />
+
+### Split Complementary
+
+Base color plus two colors adjacent to its complement.
+
+:::tip
+`'split'` is shorthand for `'split-complementary'` — both values are accepted.
+:::
+
+```typescript
+scheme('#ff0044', 'split'); // ['#ff0044', '#00ff3c', '#00c3ff']
+```
+
+<LiveExample client:load code="scheme('#ff0044', 'split')" />
+
+### Triadic
+
+Three colors evenly spaced (120 degrees apart).
+
+```typescript
+scheme('#ff0044', 'triadic'); // ['#ff0044', '#44ff00', '#0044ff']
+```
+
+<LiveExample client:load code="scheme('#ff0044', 'triadic')" />
+
+### Tetradic (Rectangle)
+
+Four colors forming a rectangle on the wheel.
+
+```typescript
+scheme('#ff0044', 'tetradic'); // ['#ff0044', '#ffbb00', '#00ffbb', '#0044ff']
+```
+
+<LiveExample client:load code="scheme('#ff0044', 'tetradic')" />
+
+### Square
+
+Four colors evenly spaced (90 degrees apart).
+
+```typescript
+scheme('#ff0044', 'square'); // ['#ff0044', '#c3ff00', '#00ffbb', '#3c00ff']
+```
+
+<LiveExample client:load code="scheme('#ff0044', 'square')" />

@@ -1,0 +1,71 @@
+---
+title: Mix
+description: Interpolate between colors with configurable color space and hue mode.
+---
+
+import LiveExample from '../../../components/LiveExample';
+
+## mix
+
+Interpolate between two colors.
+
+```typescript
+mix(color1: string, color2: string, ratio?: number, formatOrOptions?: ColorType | MixOptions): string
+```
+
+| Parameter | Description                                  | Type            | Default       |
+|-----------|----------------------------------------------|-----------------|---------------|
+| color1    | First color                                  | `string`        |               |
+| color2    | Second color                                 | `string`        |               |
+| ratio     | Interpolation ratio (0 = color1, 1 = color2) | `number`        | **0.5**       |
+| format    | Output format                                | `ColorType`     |               |
+| hue       | Hue interpolation mode                       | `HueMode`       | **'shorter'** |
+| space     | Interpolation color space                    | `ColorModelKey` | **'oklch'**   |
+
+### Basic Usage
+
+```typescript
+import { mix } from 'colorizr';
+
+mix('#ff0044', '#0066ff');      // '#bc34d7'
+mix('#ff0044', '#0066ff', 0.2); // '#ed068a'
+mix('#ff0044', '#0066ff', 0.8); // '#7351ff'
+```
+
+<LiveExample client:load code="mix('#ff0044', '#0066ff')" />
+
+### Interpolation Space
+
+The `space` option controls which color space is used for interpolation. OkLCH (default) produces perceptually uniform results:
+
+```typescript
+mix('#ff0044', '#0066ff', 0.5, { space: 'oklch' }); // default
+mix('#ff0044', '#0066ff', 0.5, { space: 'hsl' });
+mix('#ff0044', '#0066ff', 0.5, { space: 'rgb' });
+mix('#ff0044', '#0066ff', 0.5, { space: 'oklab' });
+```
+
+<LiveExample client:load code="mix('#ff0044', '#0066ff', 0.5, { space: 'oklch' })" />
+
+### Hue Interpolation
+
+The `hue` option controls how hue is interpolated in cylindrical color spaces (OkLCH, HSL):
+
+```typescript
+mix('#ff0000', '#00ff00', 0.5, { hue: 'shorter' });    // default — shortest path
+mix('#ff0000', '#00ff00', 0.5, { hue: 'longer' });     // goes the long way around
+mix('#ff0000', '#00ff00', 0.5, { hue: 'increasing' }); // always increases hue
+mix('#ff0000', '#00ff00', 0.5, { hue: 'decreasing' }); // always decreases hue
+```
+
+<LiveExample client:load code={"mix('#ff0000', '#00ff00', 0.5, { hue: 'shorter' })"} />
+
+### Type Definition
+
+```typescript
+interface MixOptions {
+  format?: ColorType;
+  space?: 'hsl' | 'oklab' | 'oklch' | 'rgb';
+  hue?: 'shorter' | 'longer' | 'increasing' | 'decreasing';
+}
+```
