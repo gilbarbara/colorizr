@@ -1,20 +1,18 @@
 import hex2hsl from '~/converters/hex2hsl';
 import { MESSAGES } from '~/modules/constants';
 
-import { HEX, HSL } from '~/types';
-
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2hsl', () => {
   it.each([
-    [brightPink.hex, brightPink.hsl],
-    [green.hex, green.hsl],
-    [orange.hex, orange.hsl],
-    [violet.hex, violet.hsl],
-    [yellow.hex, yellow.hsl],
-    ['#fff', { h: 0, s: 0, l: 100 }],
-    ['#000', { h: 0, s: 0, l: 0 }],
-  ] as Array<[HEX, HSL]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.hex, expected: brightPink.hsl },
+    { input: green.hex, expected: green.hsl },
+    { input: orange.hex, expected: orange.hsl },
+    { input: violet.hex, expected: violet.hsl },
+    { input: yellow.hex, expected: yellow.hsl },
+    { input: '#fff', expected: { h: 0, s: 0, l: 100 } },
+    { input: '#000', expected: { h: 0, s: 0, l: 0 } },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hex2hsl(input)).toEqual(expected);
   });
 
@@ -28,9 +26,9 @@ describe('hex2hsl', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [brightPink.hexAlpha, { ...brightPink.hsl, alpha: alphaCases.semi }],
-      [green.hexAlpha, { ...green.hsl, alpha: alphaCases.semi }],
-    ])('%s should return %s', (input, expected) => {
+      { input: brightPink.hexAlpha, expected: { ...brightPink.hsl, alpha: alphaCases.semi } },
+      { input: green.hexAlpha, expected: { ...green.hsl, alpha: alphaCases.semi } },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(hex2hsl(input)).toEqual(expected);
     });
 

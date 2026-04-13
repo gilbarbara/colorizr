@@ -1,36 +1,36 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parseCSS > with output hex > #ff0044 should return properly 1`] = `"#ff0044"`;
+exports[`parseCSS > with output 'hex' > '#ff0044' should return properly 1`] = `"#ff0044"`;
 
-exports[`parseCSS > with output hex > #ff0044cc should return properly 1`] = `"#ff0044cc"`;
+exports[`parseCSS > with output 'hex' > '#ff0044cc' should return properly 1`] = `"#ff0044cc"`;
 
-exports[`parseCSS > with output hex > AliceBlue should return properly 1`] = `"#f0f8ff"`;
+exports[`parseCSS > with output 'hex' > 'AliceBlue' should return properly 1`] = `"#f0f8ff"`;
 
-exports[`parseCSS > with output hex > greenyellow should return properly 1`] = `"#adff2f"`;
+exports[`parseCSS > with output 'hex' > 'greenyellow' should return properly 1`] = `"#adff2f"`;
 
-exports[`parseCSS > with output hex > hsl(136 100% 50% / 0.5) should return properly 1`] = `"#00ff4480"`;
+exports[`parseCSS > with output 'hex' > 'hsl(136 100% 50% / 0.5)' should return properly 1`] = `"#00ff4480"`;
 
-exports[`parseCSS > with output hex > hsl(136 100% 50% / 90%) should return properly 1`] = `"#00ff44e6"`;
+exports[`parseCSS > with output 'hex' > 'hsl(136 100% 50% / 90%)' should return properly 1`] = `"#00ff44e6"`;
 
-exports[`parseCSS > with output hex > hsl(136 100% 50%) should return properly 1`] = `"#00ff44"`;
+exports[`parseCSS > with output 'hex' > 'hsl(136 100% 50%)' should return properly 1`] = `"#00ff44"`;
 
-exports[`parseCSS > with output hex > hsla(126,     57%,  62%,0.5) should return properly 1`] = `"#67d57280"`;
+exports[`parseCSS > with output 'hex' > 'hsla(126,     57%,  62%,0.5)' should return properly 1`] = `"#67d57280"`;
 
-exports[`parseCSS > with output hex > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `"#ff6e00e6"`;
+exports[`parseCSS > with output 'hex' > 'oklab(70.622% 0.1374 0.14283 / 90%)' should return properly 1`] = `"#ff6e00e6"`;
 
-exports[`parseCSS > with output hex > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `"#ff6e00"`;
+exports[`parseCSS > with output 'hex' > 'oklab(70.622% 0.1374 0.14283)' should return properly 1`] = `"#ff6e00"`;
 
-exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `"#4400ffe6"`;
+exports[`parseCSS > with output 'hex' > 'oklch(47.642% 0.29956 274.94 / 90%)' should return properly 1`] = `"#4400ffe6"`;
 
-exports[`parseCSS > with output hex > oklch(47.642% 0.29956 274.94) should return properly 1`] = `"#4400ff"`;
+exports[`parseCSS > with output 'hex' > 'oklch(47.642% 0.29956 274.94)' should return properly 1`] = `"#4400ff"`;
 
-exports[`parseCSS > with output hex > rgb(255 230 109 / 0.9) should return properly 1`] = `"#ffe66de6"`;
+exports[`parseCSS > with output 'hex' > 'rgb(255 230 109 / 0.9)' should return properly 1`] = `"#ffe66de6"`;
 
-exports[`parseCSS > with output hex > rgb(255 230 109 / 90%) should return properly 1`] = `"#ffe66de6"`;
+exports[`parseCSS > with output 'hex' > 'rgb(255 230 109 / 90%)' should return properly 1`] = `"#ffe66de6"`;
 
-exports[`parseCSS > with output hex > rgb(255 230 109) should return properly 1`] = `"#ffe66d"`;
+exports[`parseCSS > with output 'hex' > 'rgb(255 230 109)' should return properly 1`] = `"#ffe66d"`;
 
-exports[`parseCSS > with output hsl > #ff0044 should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > '#ff0044' should return properly 1`] = `
 {
   "h": 344,
   "l": 50,
@@ -38,7 +38,7 @@ exports[`parseCSS > with output hsl > #ff0044 should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output hsl > #ff0044cc should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > '#ff0044cc' should return properly 1`] = `
 {
   "alpha": 0.8,
   "h": 344,
@@ -47,7 +47,7 @@ exports[`parseCSS > with output hsl > #ff0044cc should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output hsl > AliceBlue should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'AliceBlue' should return properly 1`] = `
 {
   "h": 208,
   "l": 97.06,
@@ -55,7 +55,7 @@ exports[`parseCSS > with output hsl > AliceBlue should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output hsl > greenyellow should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'greenyellow' should return properly 1`] = `
 {
   "h": 83.65,
   "l": 59.22,
@@ -63,7 +63,7 @@ exports[`parseCSS > with output hsl > greenyellow should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output hsl > hsl(136 100% 50% / 0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'hsl(136 100% 50% / 0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "h": 136,
@@ -72,7 +72,7 @@ exports[`parseCSS > with output hsl > hsl(136 100% 50% / 0.5) should return prop
 }
 `;
 
-exports[`parseCSS > with output hsl > hsl(136 100% 50% / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'hsl(136 100% 50% / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 136,
@@ -81,7 +81,7 @@ exports[`parseCSS > with output hsl > hsl(136 100% 50% / 90%) should return prop
 }
 `;
 
-exports[`parseCSS > with output hsl > hsl(136 100% 50%) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'hsl(136 100% 50%)' should return properly 1`] = `
 {
   "h": 136,
   "l": 50,
@@ -89,7 +89,7 @@ exports[`parseCSS > with output hsl > hsl(136 100% 50%) should return properly 1
 }
 `;
 
-exports[`parseCSS > with output hsl > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'hsla(126,     57%,  62%,0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "h": 126,
@@ -98,7 +98,7 @@ exports[`parseCSS > with output hsl > hsla(126,     57%,  62%,0.5) should return
 }
 `;
 
-exports[`parseCSS > with output hsl > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'oklab(70.622% 0.1374 0.14283 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 25.88,
@@ -107,7 +107,7 @@ exports[`parseCSS > with output hsl > oklab(70.622% 0.1374 0.14283 / 90%) should
 }
 `;
 
-exports[`parseCSS > with output hsl > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'oklab(70.622% 0.1374 0.14283)' should return properly 1`] = `
 {
   "h": 25.88,
   "l": 50,
@@ -115,7 +115,7 @@ exports[`parseCSS > with output hsl > oklab(70.622% 0.1374 0.14283) should retur
 }
 `;
 
-exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'oklch(47.642% 0.29956 274.94 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 256,
@@ -124,7 +124,7 @@ exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94 / 90%) should
 }
 `;
 
-exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'oklch(47.642% 0.29956 274.94)' should return properly 1`] = `
 {
   "h": 256,
   "l": 50,
@@ -132,7 +132,7 @@ exports[`parseCSS > with output hsl > oklch(47.642% 0.29956 274.94) should retur
 }
 `;
 
-exports[`parseCSS > with output hsl > rgb(255 230 109 / 0.9) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'rgb(255 230 109 / 0.9)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 49.73,
@@ -141,7 +141,7 @@ exports[`parseCSS > with output hsl > rgb(255 230 109 / 0.9) should return prope
 }
 `;
 
-exports[`parseCSS > with output hsl > rgb(255 230 109 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'rgb(255 230 109 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "h": 49.73,
@@ -150,7 +150,7 @@ exports[`parseCSS > with output hsl > rgb(255 230 109 / 90%) should return prope
 }
 `;
 
-exports[`parseCSS > with output hsl > rgb(255 230 109) should return properly 1`] = `
+exports[`parseCSS > with output 'hsl' > 'rgb(255 230 109)' should return properly 1`] = `
 {
   "h": 49.73,
   "l": 71.37,
@@ -158,7 +158,7 @@ exports[`parseCSS > with output hsl > rgb(255 230 109) should return properly 1`
 }
 `;
 
-exports[`parseCSS > with output oklab > #ff0044 should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > '#ff0044' should return properly 1`] = `
 {
   "a": 0.23886698675457535,
   "b": 0.08647920826782624,
@@ -166,7 +166,7 @@ exports[`parseCSS > with output oklab > #ff0044 should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklab > #ff0044cc should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > '#ff0044cc' should return properly 1`] = `
 {
   "a": 0.23886698675457535,
   "alpha": 0.8,
@@ -175,7 +175,7 @@ exports[`parseCSS > with output oklab > #ff0044cc should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklab > AliceBlue should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'AliceBlue' should return properly 1`] = `
 {
   "a": -0.005500548447156917,
   "b": -0.011404205408255486,
@@ -183,7 +183,7 @@ exports[`parseCSS > with output oklab > AliceBlue should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklab > greenyellow should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'greenyellow' should return properly 1`] = `
 {
   "a": -0.15012009648389923,
   "b": 0.17879695908942994,
@@ -191,7 +191,7 @@ exports[`parseCSS > with output oklab > greenyellow should return properly 1`] =
 }
 `;
 
-exports[`parseCSS > with output oklab > hsl(136 100% 50% / 0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'hsl(136 100% 50% / 0.5)' should return properly 1`] = `
 {
   "a": -0.22518225181645085,
   "alpha": 0.5,
@@ -200,7 +200,7 @@ exports[`parseCSS > with output oklab > hsl(136 100% 50% / 0.5) should return pr
 }
 `;
 
-exports[`parseCSS > with output oklab > hsl(136 100% 50% / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'hsl(136 100% 50% / 90%)' should return properly 1`] = `
 {
   "a": -0.22518225181645085,
   "alpha": 0.9,
@@ -209,7 +209,7 @@ exports[`parseCSS > with output oklab > hsl(136 100% 50% / 90%) should return pr
 }
 `;
 
-exports[`parseCSS > with output oklab > hsl(136 100% 50%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'hsl(136 100% 50%)' should return properly 1`] = `
 {
   "a": -0.22518225181645085,
   "b": 0.1597012246235041,
@@ -217,7 +217,7 @@ exports[`parseCSS > with output oklab > hsl(136 100% 50%) should return properly
 }
 `;
 
-exports[`parseCSS > with output oklab > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'hsla(126,     57%,  62%,0.5)' should return properly 1`] = `
 {
   "a": -0.1408050154861687,
   "alpha": 0.5,
@@ -226,7 +226,7 @@ exports[`parseCSS > with output oklab > hsla(126,     57%,  62%,0.5) should retu
 }
 `;
 
-exports[`parseCSS > with output oklab > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'oklab(70.622% 0.1374 0.14283 / 90%)' should return properly 1`] = `
 {
   "a": 0.1374,
   "alpha": 0.9,
@@ -235,7 +235,7 @@ exports[`parseCSS > with output oklab > oklab(70.622% 0.1374 0.14283 / 90%) shou
 }
 `;
 
-exports[`parseCSS > with output oklab > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'oklab(70.622% 0.1374 0.14283)' should return properly 1`] = `
 {
   "a": 0.1374,
   "b": 0.14283,
@@ -243,7 +243,7 @@ exports[`parseCSS > with output oklab > oklab(70.622% 0.1374 0.14283) should ret
 }
 `;
 
-exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'oklch(47.642% 0.29956 274.94 / 90%)' should return properly 1`] = `
 {
   "a": 0.02579585525814652,
   "alpha": 0.9,
@@ -252,7 +252,7 @@ exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94 / 90%) shou
 }
 `;
 
-exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'oklch(47.642% 0.29956 274.94)' should return properly 1`] = `
 {
   "a": 0.02579585525814652,
   "b": -0.29844726075389055,
@@ -260,7 +260,7 @@ exports[`parseCSS > with output oklab > oklch(47.642% 0.29956 274.94) should ret
 }
 `;
 
-exports[`parseCSS > with output oklab > rgb(255 230 109 / 0.9) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'rgb(255 230 109 / 0.9)' should return properly 1`] = `
 {
   "a": -0.01931764987879525,
   "alpha": 0.9,
@@ -269,7 +269,7 @@ exports[`parseCSS > with output oklab > rgb(255 230 109 / 0.9) should return pro
 }
 `;
 
-exports[`parseCSS > with output oklab > rgb(255 230 109 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'rgb(255 230 109 / 90%)' should return properly 1`] = `
 {
   "a": -0.01931764987879525,
   "alpha": 0.9,
@@ -278,7 +278,7 @@ exports[`parseCSS > with output oklab > rgb(255 230 109 / 90%) should return pro
 }
 `;
 
-exports[`parseCSS > with output oklab > rgb(255 230 109) should return properly 1`] = `
+exports[`parseCSS > with output 'oklab' > 'rgb(255 230 109)' should return properly 1`] = `
 {
   "a": -0.01931764987879525,
   "b": 0.14143140414845023,
@@ -286,7 +286,7 @@ exports[`parseCSS > with output oklab > rgb(255 230 109) should return properly 
 }
 `;
 
-exports[`parseCSS > with output oklch > #ff0044 should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > '#ff0044' should return properly 1`] = `
 {
   "c": 0.25403954578734494,
   "h": 19.902240785746187,
@@ -294,7 +294,7 @@ exports[`parseCSS > with output oklch > #ff0044 should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklch > #ff0044cc should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > '#ff0044cc' should return properly 1`] = `
 {
   "alpha": 0.8,
   "c": 0.25403954578734494,
@@ -303,7 +303,7 @@ exports[`parseCSS > with output oklch > #ff0044cc should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklch > AliceBlue should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'AliceBlue' should return properly 1`] = `
 {
   "c": 0.012661434919202642,
   "h": 244.25076318931528,
@@ -311,7 +311,7 @@ exports[`parseCSS > with output oklch > AliceBlue should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output oklch > greenyellow should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'greenyellow' should return properly 1`] = `
 {
   "c": 0.23346176549482894,
   "h": 130.0172273212287,
@@ -319,7 +319,7 @@ exports[`parseCSS > with output oklch > greenyellow should return properly 1`] =
 }
 `;
 
-exports[`parseCSS > with output oklch > hsl(136 100% 50% / 0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'hsl(136 100% 50% / 0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "c": 0.2760643542353384,
@@ -328,7 +328,7 @@ exports[`parseCSS > with output oklch > hsl(136 100% 50% / 0.5) should return pr
 }
 `;
 
-exports[`parseCSS > with output oklch > hsl(136 100% 50% / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'hsl(136 100% 50% / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.2760643542353384,
@@ -337,7 +337,7 @@ exports[`parseCSS > with output oklch > hsl(136 100% 50% / 90%) should return pr
 }
 `;
 
-exports[`parseCSS > with output oklch > hsl(136 100% 50%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'hsl(136 100% 50%)' should return properly 1`] = `
 {
   "c": 0.2760643542353384,
   "h": 144.65540033481756,
@@ -345,7 +345,7 @@ exports[`parseCSS > with output oklch > hsl(136 100% 50%) should return properly
 }
 `;
 
-exports[`parseCSS > with output oklch > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'hsla(126,     57%,  62%,0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "c": 0.17041545264325875,
@@ -354,7 +354,7 @@ exports[`parseCSS > with output oklch > hsla(126,     57%,  62%,0.5) should retu
 }
 `;
 
-exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'oklab(70.622% 0.1374 0.14283 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.19818972955226516,
@@ -363,7 +363,7 @@ exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283 / 90%) shou
 }
 `;
 
-exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'oklab(70.622% 0.1374 0.14283)' should return properly 1`] = `
 {
   "c": 0.19818972955226516,
   "h": 46.11007798489595,
@@ -371,7 +371,7 @@ exports[`parseCSS > with output oklch > oklab(70.622% 0.1374 0.14283) should ret
 }
 `;
 
-exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'oklch(47.642% 0.29956 274.94 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.29956,
@@ -380,7 +380,7 @@ exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94 / 90%) shou
 }
 `;
 
-exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'oklch(47.642% 0.29956 274.94)' should return properly 1`] = `
 {
   "c": 0.29956,
   "h": 274.94,
@@ -388,7 +388,7 @@ exports[`parseCSS > with output oklch > oklch(47.642% 0.29956 274.94) should ret
 }
 `;
 
-exports[`parseCSS > with output oklch > rgb(255 230 109 / 0.9) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'rgb(255 230 109 / 0.9)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.14274457494504644,
@@ -397,7 +397,7 @@ exports[`parseCSS > with output oklch > rgb(255 230 109 / 0.9) should return pro
 }
 `;
 
-exports[`parseCSS > with output oklch > rgb(255 230 109 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'rgb(255 230 109 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "c": 0.14274457494504644,
@@ -406,7 +406,7 @@ exports[`parseCSS > with output oklch > rgb(255 230 109 / 90%) should return pro
 }
 `;
 
-exports[`parseCSS > with output oklch > rgb(255 230 109) should return properly 1`] = `
+exports[`parseCSS > with output 'oklch' > 'rgb(255 230 109)' should return properly 1`] = `
 {
   "c": 0.14274457494504644,
   "h": 97.77771337249595,
@@ -414,7 +414,7 @@ exports[`parseCSS > with output oklch > rgb(255 230 109) should return properly 
 }
 `;
 
-exports[`parseCSS > with output rgb > #ff0044 should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > '#ff0044' should return properly 1`] = `
 {
   "b": 68,
   "g": 0,
@@ -422,7 +422,7 @@ exports[`parseCSS > with output rgb > #ff0044 should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output rgb > #ff0044cc should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > '#ff0044cc' should return properly 1`] = `
 {
   "alpha": 0.8,
   "b": 68,
@@ -431,7 +431,7 @@ exports[`parseCSS > with output rgb > #ff0044cc should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output rgb > AliceBlue should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'AliceBlue' should return properly 1`] = `
 {
   "b": 255,
   "g": 248,
@@ -439,7 +439,7 @@ exports[`parseCSS > with output rgb > AliceBlue should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output rgb > greenyellow should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'greenyellow' should return properly 1`] = `
 {
   "b": 47,
   "g": 255,
@@ -447,7 +447,7 @@ exports[`parseCSS > with output rgb > greenyellow should return properly 1`] = `
 }
 `;
 
-exports[`parseCSS > with output rgb > hsl(136 100% 50% / 0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'hsl(136 100% 50% / 0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "b": 68,
@@ -456,7 +456,7 @@ exports[`parseCSS > with output rgb > hsl(136 100% 50% / 0.5) should return prop
 }
 `;
 
-exports[`parseCSS > with output rgb > hsl(136 100% 50% / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'hsl(136 100% 50% / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 68,
@@ -465,7 +465,7 @@ exports[`parseCSS > with output rgb > hsl(136 100% 50% / 90%) should return prop
 }
 `;
 
-exports[`parseCSS > with output rgb > hsl(136 100% 50%) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'hsl(136 100% 50%)' should return properly 1`] = `
 {
   "b": 68,
   "g": 255,
@@ -473,7 +473,7 @@ exports[`parseCSS > with output rgb > hsl(136 100% 50%) should return properly 1
 }
 `;
 
-exports[`parseCSS > with output rgb > hsla(126,     57%,  62%,0.5) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'hsla(126,     57%,  62%,0.5)' should return properly 1`] = `
 {
   "alpha": 0.5,
   "b": 114,
@@ -482,7 +482,7 @@ exports[`parseCSS > with output rgb > hsla(126,     57%,  62%,0.5) should return
 }
 `;
 
-exports[`parseCSS > with output rgb > oklab(70.622% 0.1374 0.14283 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'oklab(70.622% 0.1374 0.14283 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 0,
@@ -491,7 +491,7 @@ exports[`parseCSS > with output rgb > oklab(70.622% 0.1374 0.14283 / 90%) should
 }
 `;
 
-exports[`parseCSS > with output rgb > oklab(70.622% 0.1374 0.14283) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'oklab(70.622% 0.1374 0.14283)' should return properly 1`] = `
 {
   "b": 0,
   "g": 110,
@@ -499,7 +499,7 @@ exports[`parseCSS > with output rgb > oklab(70.622% 0.1374 0.14283) should retur
 }
 `;
 
-exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'oklch(47.642% 0.29956 274.94 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 255,
@@ -508,7 +508,7 @@ exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94 / 90%) should
 }
 `;
 
-exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'oklch(47.642% 0.29956 274.94)' should return properly 1`] = `
 {
   "b": 255,
   "g": 0,
@@ -516,7 +516,7 @@ exports[`parseCSS > with output rgb > oklch(47.642% 0.29956 274.94) should retur
 }
 `;
 
-exports[`parseCSS > with output rgb > rgb(255 230 109 / 0.9) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'rgb(255 230 109 / 0.9)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 109,
@@ -525,7 +525,7 @@ exports[`parseCSS > with output rgb > rgb(255 230 109 / 0.9) should return prope
 }
 `;
 
-exports[`parseCSS > with output rgb > rgb(255 230 109 / 90%) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'rgb(255 230 109 / 90%)' should return properly 1`] = `
 {
   "alpha": 0.9,
   "b": 109,
@@ -534,7 +534,7 @@ exports[`parseCSS > with output rgb > rgb(255 230 109 / 90%) should return prope
 }
 `;
 
-exports[`parseCSS > with output rgb > rgb(255 230 109) should return properly 1`] = `
+exports[`parseCSS > with output 'rgb' > 'rgb(255 230 109)' should return properly 1`] = `
 {
   "b": 109,
   "g": 230,

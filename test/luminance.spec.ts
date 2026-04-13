@@ -3,12 +3,12 @@ import { MESSAGES } from '~/modules/constants';
 
 describe('luminance', () => {
   it.each([
-    ['#ff0044', 0.2168],
-    ['#24d3d3', 0.5167],
-    ['#005cff', 0.1487],
-    ['#fff', 1],
-    ['#000', 0],
-  ])('%s should return %s', (input, expected) => {
+    { input: '#ff0044', expected: 0.2168 },
+    { input: '#24d3d3', expected: 0.5167 },
+    { input: '#005cff', expected: 0.1487 },
+    { input: '#fff', expected: 1 },
+    { input: '#000', expected: 0 },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(luminance(input)).toBe(expected);
   });
 

@@ -5,14 +5,14 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('desaturate', () => {
   it.each([
-    [brightPink.hex, 10, '#f20d4a'],
-    [green.hslString, 10, 'hsl(136 90% 50%)'],
-    [orange.oklabString, 10, 'oklab(69.021% 0.12176 0.13721)'],
-    [violet.oklchString, 10, 'oklch(46.904% 0.28276 277.76)'],
-    [yellow.rgbString, 10, 'rgb(248 225 116)'],
-    ['pink', 10, '#fcc3cd'],
-    ['#d1c7c7', 10, '#cccccc'],
-  ])('%s with %s should return %s', (input, amount, expected) => {
+    { input: brightPink.hex, amount: 10, expected: '#f20d4a' },
+    { input: green.hslString, amount: 10, expected: 'hsl(136 90% 50%)' },
+    { input: orange.oklabString, amount: 10, expected: 'oklab(69.021% 0.12176 0.13721)' },
+    { input: violet.oklchString, amount: 10, expected: 'oklch(46.904% 0.28276 277.76)' },
+    { input: yellow.rgbString, amount: 10, expected: 'rgb(248 225 116)' },
+    { input: 'pink', amount: 10, expected: '#fcc3cd' },
+    { input: '#d1c7c7', amount: 10, expected: '#cccccc' },
+  ])('$input with $amount should return $expected', ({ input, amount, expected }) => {
     expect(desaturate(input, amount)).toBe(expected);
   });
 

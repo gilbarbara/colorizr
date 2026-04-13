@@ -5,12 +5,12 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('grayscale', () => {
   it.each([
-    [brightPink.hex, '#8a8a8a'],
-    [green.hslString, 'hsl(0 0% 83.14%)'],
-    [orange.oklabString, 'oklab(70.622% 0 0)'],
-    [violet.oklchString, 'oklch(47.642% 0 none)'],
-    [yellow.rgbString, 'rgb(229 229 229)'],
-  ])('%s should return %s', (input, expected) => {
+    { input: brightPink.hex, expected: '#8a8a8a' },
+    { input: green.hslString, expected: 'hsl(0 0% 83.14%)' },
+    { input: orange.oklabString, expected: 'oklab(70.622% 0 0)' },
+    { input: violet.oklchString, expected: 'oklch(47.642% 0 none)' },
+    { input: yellow.rgbString, expected: 'rgb(229 229 229)' },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(grayscale(input)).toBe(expected);
   });
 

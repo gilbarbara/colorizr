@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`scale > basic functionality > should return properly with #808080 and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with '#808080' and undefined 1`] = `
 {
   "100": "#ededed",
   "200": "#dedede",
@@ -16,7 +16,7 @@ exports[`scale > basic functionality > should return properly with #808080 and u
 }
 `;
 
-exports[`scale > basic functionality > should return properly with #d4ffc7 and { variant: 'vibrant' } 1`] = `
+exports[`scale > basic functionality > should return properly with '#d4ffc7' and { variant: 'vibrant' } 1`] = `
 {
   "100": "#c9ffb9",
   "200": "#bbf0aa",
@@ -32,7 +32,7 @@ exports[`scale > basic functionality > should return properly with #d4ffc7 and {
 }
 `;
 
-exports[`scale > basic functionality > should return properly with #ff0044 and { format: 'oklch' } 1`] = `
+exports[`scale > basic functionality > should return properly with '#ff0044' and { format: 'oklch' } 1`] = `
 {
   "100": "oklch(94.565% 0.03542 19.902)",
   "200": "oklch(90.113% 0.06684 19.902)",
@@ -48,7 +48,7 @@ exports[`scale > basic functionality > should return properly with #ff0044 and {
 }
 `;
 
-exports[`scale > basic functionality > should return properly with #ff0044 and { maxLightness: 0.9 } 1`] = `
+exports[`scale > basic functionality > should return properly with '#ff0044' and { maxLightness: 0.9 } 1`] = `
 {
   "100": "#ffc1c0",
   "200": "#ffabaa",
@@ -64,7 +64,7 @@ exports[`scale > basic functionality > should return properly with #ff0044 and {
 }
 `;
 
-exports[`scale > basic functionality > should return properly with #ff0044 and { minLightness: 0.1 } 1`] = `
+exports[`scale > basic functionality > should return properly with '#ff0044' and { minLightness: 0.1 } 1`] = `
 {
   "100": "#ffe3e2",
   "200": "#ffc9c8",
@@ -80,7 +80,7 @@ exports[`scale > basic functionality > should return properly with #ff0044 and {
 }
 `;
 
-exports[`scale > basic functionality > should return properly with #ff0044 and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with '#ff0044' and undefined 1`] = `
 {
   "100": "#ffe4e3",
   "200": "#ffcdcc",
@@ -96,7 +96,7 @@ exports[`scale > basic functionality > should return properly with #ff0044 and u
 }
 `;
 
-exports[`scale > basic functionality > should return properly with hsl(136 100% 50%) and { variant: 'deep' } 1`] = `
+exports[`scale > basic functionality > should return properly with 'hsl(136 100% 50%)' and { variant: 'deep' } 1`] = `
 {
   "100": "hsl(120 100% 87.65%)",
   "200": "hsl(123.86 100% 72.55%)",
@@ -112,7 +112,7 @@ exports[`scale > basic functionality > should return properly with hsl(136 100% 
 }
 `;
 
-exports[`scale > basic functionality > should return properly with hsl(136 100% 50%) and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'hsl(136 100% 50%)' and undefined 1`] = `
 {
   "100": "hsl(120 100% 87.65%)",
   "200": "hsl(123.86 100% 72.55%)",
@@ -128,7 +128,7 @@ exports[`scale > basic functionality > should return properly with hsl(136 100% 
 }
 `;
 
-exports[`scale > basic functionality > should return properly with lightblue and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'lightblue' and undefined 1`] = `
 {
   "100": "#cff4ff",
   "200": "#bbe7f5",
@@ -144,7 +144,7 @@ exports[`scale > basic functionality > should return properly with lightblue and
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklab(70.622% 0.1374 0.14283) and { lightnessCurve: 1.2 } 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklab(70.622% 0.1374 0.14283)' and { lightnessCurve: 1.2 } 1`] = `
 {
   "100": "oklab(92.142% 0.0388 0.04033)",
   "200": "oklab(85.838% 0.0734 0.0763)",
@@ -160,7 +160,7 @@ exports[`scale > basic functionality > should return properly with oklab(70.622%
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklab(70.622% 0.1374 0.14283) and { variant: 'neutral' } 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklab(70.622% 0.1374 0.14283)' and { variant: 'neutral' } 1`] = `
 {
   "100": "oklab(94.565% 0.02635 0.02739)",
   "200": "oklab(90.113% 0.04957 0.05153)",
@@ -176,7 +176,7 @@ exports[`scale > basic functionality > should return properly with oklab(70.622%
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklab(70.622% 0.1374 0.14283) and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklab(70.622% 0.1374 0.14283)' and undefined 1`] = `
 {
   "100": "oklab(94.565% 0.02635 0.02739)",
   "200": "oklab(90.113% 0.04957 0.05153)",
@@ -192,7 +192,7 @@ exports[`scale > basic functionality > should return properly with oklab(70.622%
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklch(0.65 0.3 27.34) and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklch(0.65 0.3 27.34)' and undefined 1`] = `
 {
   "100": "oklch(94.565% 0.03537 27.34)",
   "200": "oklch(90.113% 0.06668 27.34)",
@@ -208,7 +208,7 @@ exports[`scale > basic functionality > should return properly with oklch(0.65 0.
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklch(47.642% 0.29956 274.94) and { variant: 'pastel' } 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklch(47.642% 0.29956 274.94)' and { variant: 'pastel' } 1`] = `
 {
   "100": "oklch(94.565% 0.02854 274.94)",
   "200": "oklch(90.113% 0.0527 274.94)",
@@ -224,7 +224,7 @@ exports[`scale > basic functionality > should return properly with oklch(47.642%
 }
 `;
 
-exports[`scale > basic functionality > should return properly with oklch(47.642% 0.29956 274.94) and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'oklch(47.642% 0.29956 274.94)' and undefined 1`] = `
 {
   "100": "oklch(94.565% 0.02854 274.94)",
   "200": "oklch(90.113% 0.0527 274.94)",
@@ -240,7 +240,7 @@ exports[`scale > basic functionality > should return properly with oklch(47.642%
 }
 `;
 
-exports[`scale > basic functionality > should return properly with rgb(255 230 109) and { variant: 'subtle' } 1`] = `
+exports[`scale > basic functionality > should return properly with 'rgb(255 230 109)' and { variant: 'subtle' } 1`] = `
 {
   "100": "rgb(242 238 216)",
   "200": "rgb(227 223 202)",
@@ -256,7 +256,7 @@ exports[`scale > basic functionality > should return properly with rgb(255 230 1
 }
 `;
 
-exports[`scale > basic functionality > should return properly with rgb(255 230 109) and undefined 1`] = `
+exports[`scale > basic functionality > should return properly with 'rgb(255 230 109)' and undefined 1`] = `
 {
   "100": "rgb(255 238 141)",
   "200": "rgb(248 223 102)",

@@ -1,32 +1,32 @@
 import rgb2hsl from '~/converters/rgb2hsl';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, HSL, RGB } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('rgb2hsl', () => {
   it.each([
-    [brightPink.rgb, brightPink.hsl],
-    [green.rgb, green.hsl],
-    [orange.rgb, orange.hsl],
-    [violet.rgb, violet.hsl],
-    [yellow.rgb, yellow.hsl],
-    [
-      { r: 0, g: 0, b: 0 },
-      { h: 0, s: 0, l: 0 },
-    ],
-  ] as Array<[RGB, HSL]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.rgb, expected: brightPink.hsl },
+    { input: green.rgb, expected: green.hsl },
+    { input: orange.rgb, expected: orange.hsl },
+    { input: violet.rgb, expected: violet.hsl },
+    { input: yellow.rgb, expected: yellow.hsl },
+    {
+      input: { r: 0, g: 0, b: 0 },
+      expected: { h: 0, s: 0, l: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(rgb2hsl(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.rgb), brightPink.hsl],
-    [Object.values(green.rgb), green.hsl],
-    [Object.values(orange.rgb), orange.hsl],
-    [Object.values(violet.rgb), violet.hsl],
-    [Object.values(yellow.rgb), yellow.hsl],
-  ] as Array<[ColorTuple, HSL]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.rgb) as ColorTuple, expected: brightPink.hsl },
+    { input: Object.values(green.rgb) as ColorTuple, expected: green.hsl },
+    { input: Object.values(orange.rgb) as ColorTuple, expected: orange.hsl },
+    { input: Object.values(violet.rgb) as ColorTuple, expected: violet.hsl },
+    { input: Object.values(yellow.rgb) as ColorTuple, expected: yellow.hsl },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(rgb2hsl(input)).toEqual(expected);
   });
 
@@ -41,15 +41,15 @@ describe('rgb2hsl', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [
-        { ...brightPink.rgb, alpha: alphaCases.semi },
-        { ...brightPink.hsl, alpha: alphaCases.semi },
-      ],
-      [
-        { ...green.rgb, alpha: alphaCases.semi },
-        { ...green.hsl, alpha: alphaCases.semi },
-      ],
-    ])('%s should return %s', (input, expected) => {
+      {
+        input: { ...brightPink.rgb, alpha: alphaCases.semi },
+        expected: { ...brightPink.hsl, alpha: alphaCases.semi },
+      },
+      {
+        input: { ...green.rgb, alpha: alphaCases.semi },
+        expected: { ...green.hsl, alpha: alphaCases.semi },
+      },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(rgb2hsl(input)).toEqual(expected);
     });
 

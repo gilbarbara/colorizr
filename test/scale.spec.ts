@@ -5,25 +5,25 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('scale', () => {
   describe('basic functionality', () => {
-    it.each<[string, ScaleOptions | undefined]>([
-      [brightPink.hex, undefined],
-      [brightPink.hex, { maxLightness: 0.9 }],
-      [brightPink.hex, { minLightness: 0.1 }],
-      [brightPink.hex, { format: 'oklch' }],
-      [green.hslString, undefined],
-      [green.hslString, { variant: 'deep' }],
-      [orange.oklabString, undefined],
-      [orange.oklabString, { lightnessCurve: 1.2 }],
-      [orange.oklabString, { variant: 'neutral' }],
-      [violet.oklchString, undefined],
-      [violet.oklchString, { variant: 'pastel' }],
-      [yellow.rgbString, undefined],
-      [yellow.rgbString, { variant: 'subtle' }],
-      ['oklch(0.65 0.3 27.34)', undefined],
-      ['#d4ffc7', { variant: 'vibrant' }],
-      ['#808080', undefined],
-      ['lightblue', undefined],
-    ])('should return properly with %s and %s', (input, options) => {
+    it.each<{ input: string; options?: ScaleOptions }>([
+      { input: brightPink.hex, options: undefined },
+      { input: brightPink.hex, options: { maxLightness: 0.9 } },
+      { input: brightPink.hex, options: { minLightness: 0.1 } },
+      { input: brightPink.hex, options: { format: 'oklch' } },
+      { input: green.hslString, options: undefined },
+      { input: green.hslString, options: { variant: 'deep' } },
+      { input: orange.oklabString, options: undefined },
+      { input: orange.oklabString, options: { lightnessCurve: 1.2 } },
+      { input: orange.oklabString, options: { variant: 'neutral' } },
+      { input: violet.oklchString, options: undefined },
+      { input: violet.oklchString, options: { variant: 'pastel' } },
+      { input: yellow.rgbString, options: undefined },
+      { input: yellow.rgbString, options: { variant: 'subtle' } },
+      { input: 'oklch(0.65 0.3 27.34)', options: undefined },
+      { input: '#d4ffc7', options: { variant: 'vibrant' } },
+      { input: '#808080', options: undefined },
+      { input: 'lightblue', options: undefined },
+    ])('should return properly with $input and $options', ({ input, options }) => {
       expect(scale(input, options)).toMatchSnapshot();
     });
 

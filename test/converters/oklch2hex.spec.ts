@@ -1,34 +1,34 @@
 import oklch2hex from '~/converters/oklch2hex';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, HEX, LCH } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklch2hex', () => {
   it.each([
-    [brightPink.oklch, brightPink.hex],
-    [brightPink.oklchLong, brightPink.hex],
-    [green.oklch, green.hex],
-    [green.oklchLong, green.hex],
-    [orange.oklch, orange.hex],
-    [orange.oklchLong, orange.hex],
-    [violet.oklch, violet.hex],
-    [violet.oklchLong, violet.hex],
-    [yellow.oklch, yellow.hex],
-    [yellow.oklchLong, yellow.hex],
-    [{ l: 0, c: 0, h: 0 }, '#000000'],
-  ] as Array<[LCH, HEX]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.oklch, expected: brightPink.hex },
+    { input: brightPink.oklchLong, expected: brightPink.hex },
+    { input: green.oklch, expected: green.hex },
+    { input: green.oklchLong, expected: green.hex },
+    { input: orange.oklch, expected: orange.hex },
+    { input: orange.oklchLong, expected: orange.hex },
+    { input: violet.oklch, expected: violet.hex },
+    { input: violet.oklchLong, expected: violet.hex },
+    { input: yellow.oklch, expected: yellow.hex },
+    { input: yellow.oklchLong, expected: yellow.hex },
+    { input: { l: 0, c: 0, h: 0 }, expected: '#000000' },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklch2hex(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklch), brightPink.hex],
-    [Object.values(green.oklch), green.hex],
-    [Object.values(orange.oklch), orange.hex],
-    [Object.values(violet.oklch), violet.hex],
-    [Object.values(yellow.oklch), yellow.hex],
-  ] as Array<[ColorTuple, string]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.oklch) as ColorTuple, expected: brightPink.hex },
+    { input: Object.values(green.oklch) as ColorTuple, expected: green.hex },
+    { input: Object.values(orange.oklch) as ColorTuple, expected: orange.hex },
+    { input: Object.values(violet.oklch) as ColorTuple, expected: violet.hex },
+    { input: Object.values(yellow.oklch) as ColorTuple, expected: yellow.hex },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklch2hex(input)).toEqual(expected);
   });
 
@@ -43,9 +43,9 @@ describe('oklch2hex', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [{ ...brightPink.oklch, alpha: alphaCases.semi }, brightPink.hexAlpha],
-      [{ ...green.oklch, alpha: alphaCases.semi }, green.hexAlpha],
-    ])('%s should return %s', (input, expected) => {
+      { input: { ...brightPink.oklch, alpha: alphaCases.semi }, expected: brightPink.hexAlpha },
+      { input: { ...green.oklch, alpha: alphaCases.semi }, expected: green.hexAlpha },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(oklch2hex(input)).toEqual(expected);
     });
 

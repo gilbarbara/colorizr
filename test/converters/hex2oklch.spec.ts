@@ -1,19 +1,17 @@
 import hex2oklch from '~/converters/hex2oklch';
 import { MESSAGES } from '~/modules/constants';
 
-import { HEX, LCH } from '~/types';
-
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hex2oklch', () => {
   it.each([
-    [brightPink.hex, brightPink.oklchLong],
-    [green.hex, green.oklchLong],
-    [orange.hex, orange.oklchLong],
-    [violet.hex, violet.oklchLong],
-    [yellow.hex, yellow.oklchLong],
-    ['#000', { l: 0, c: 0, h: 0 }],
-  ] as Array<[HEX, LCH]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.hex, expected: brightPink.oklchLong },
+    { input: green.hex, expected: green.oklchLong },
+    { input: orange.hex, expected: orange.oklchLong },
+    { input: violet.hex, expected: violet.oklchLong },
+    { input: yellow.hex, expected: yellow.oklchLong },
+    { input: '#000', expected: { l: 0, c: 0, h: 0 } },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hex2oklch(input)).toEqual(expected);
   });
 
@@ -36,9 +34,9 @@ describe('hex2oklch', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [brightPink.hexAlpha, { ...brightPink.oklchLong, alpha: alphaCases.semi }],
-      [green.hexAlpha, { ...green.oklchLong, alpha: alphaCases.semi }],
-    ])('%s should return %s', (input, expected) => {
+      { input: brightPink.hexAlpha, expected: { ...brightPink.oklchLong, alpha: alphaCases.semi } },
+      { input: green.hexAlpha, expected: { ...green.oklchLong, alpha: alphaCases.semi } },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(hex2oklch(input)).toEqual(expected);
     });
 
