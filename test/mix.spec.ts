@@ -146,6 +146,11 @@ describe('mix', () => {
         'oklch(53.998% 0.28545 326.64)',
       );
     });
+
+    it('should accept format as string shorthand', () => {
+      expect(mix('#ff0000', '#0000ff', 0.5, 'hsl')).toBe('hsl(297.53 100% 38.04%)');
+      expect(mix('#ff0000', '#0000ff', 0.5, 'oklch')).toBe('oklch(53.998% 0.28545 326.64)');
+    });
   });
 
   describe('combined options', () => {

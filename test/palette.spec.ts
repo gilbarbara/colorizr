@@ -15,6 +15,11 @@ describe('palette', () => {
     expect(palette(input, options)).toMatchSnapshot();
   });
 
+  it('should accept format as string shorthand', () => {
+    expect(palette(brightPink.hex, 'oklch')).toMatchSnapshot();
+    expect(palette(brightPink.hex, 'oklch')).toEqual(palette(brightPink.hex, { format: 'oklch' }));
+  });
+
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - invalid parameters
     expect(() => palette([])).toThrow(MESSAGES.inputString);

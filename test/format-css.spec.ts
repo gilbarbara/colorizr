@@ -41,6 +41,18 @@ describe('formatCSS', () => {
     expect(formatCSS(input as ColorValue, options as FormatCSSOptions)).toBe(expected);
   });
 
+  describe('string shorthand', () => {
+    it('should accept format as string', () => {
+      expect(formatCSS(green.hsl, 'rgb')).toBe(green.rgbString);
+      expect(formatCSS(yellow.rgb, 'hex')).toBe(yellow.hex);
+      expect(formatCSS(orange.oklab, 'oklch')).toBe(orange.oklchString);
+    });
+
+    it('should match object form', () => {
+      expect(formatCSS(violet.oklch, 'hsl')).toBe(formatCSS(violet.oklch, { format: 'hsl' }));
+    });
+  });
+
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');

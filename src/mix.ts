@@ -120,20 +120,24 @@ function mixInRGB(c1: RGB, c2: RGB, ratio: number) {
  * @param color1 - The first color string.
  * @param color2 - The second color string.
  * @param ratio - A number between 0 and 1 (0 = color1, 1 = color2).
- * @param options - Mix options: format, hue mode, interpolation space.
+ * @param formatOrOptions - Output format or mix options object.
  * @returns The mixed color string.
  */
 export default function mix(
   color1: string,
   color2: string,
   ratio: number = 0.5,
-  options?: MixOptions,
+  formatOrOptions?: ColorType | MixOptions,
 ): string {
   invariant(isString(color1), MESSAGES.inputString);
   invariant(isString(color2), MESSAGES.inputString);
   invariant(isNumberInRange(ratio, 0, 1), MESSAGES.ratioRange);
 
-  const { format, hue = 'shorter', space = 'oklch' } = options ?? {};
+  const {
+    format,
+    hue = 'shorter',
+    space = 'oklch',
+  } = isString(formatOrOptions, false) ? { format: formatOrOptions } : (formatOrOptions ?? {});
   const parsed1 = resolveColor(color1);
   const parsed2 = resolveColor(color2);
   const output = format ?? parsed1.type;
