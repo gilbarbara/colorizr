@@ -13,6 +13,7 @@ import {
   isNamedColor,
   isNumber,
   isRGB,
+  isString,
   isValidColorModel,
 } from '~/modules/validators';
 
@@ -90,16 +91,21 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
  * Format a color model to a CSS color string.
  *
  * @param input - The color model or hex string.
- * @param options - Formatting options.
+ * @param formatOrOptions - Output format or formatting options object.
  * @returns The formatted CSS color string.
  */
 export default function formatCSS<T extends ColorValue>(
   input: T,
-  options: FormatCSSOptions = {},
+  formatOrOptions?: ColorType | FormatCSSOptions,
 ): string {
   invariant(isHex(input) || isValidColorModel(input), MESSAGES.invalid);
 
-  const { alpha, format, precision = PRECISION, separator: baseSeparator = ' ' } = options;
+  const {
+    alpha,
+    format,
+    precision = PRECISION,
+    separator: baseSeparator = ' ',
+  } = isString(formatOrOptions, false) ? { format: formatOrOptions } : (formatOrOptions ?? {});
 
   const colorFormat = format || getColorModel(input);
   const normalizedAlpha = isNumber(alpha) ? normalizeAlpha(alpha) : undefined;

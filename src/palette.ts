@@ -46,11 +46,19 @@ export interface PaletteOptions {
  * Generate a color palette from a base color.
  *
  * @param input - The base color string.
- * @param options - Palette generation options.
+ * @param formatOrOptions - Output format or palette options object.
  * @returns An array of color strings.
  */
-export default function palette(input: string, options: PaletteOptions = {}): string[] {
+export default function palette(
+  input: string,
+  formatOrOptions?: ColorType | PaletteOptions,
+): string[] {
   invariant(isString(input), MESSAGES.inputString);
+
+  const options = isString(formatOrOptions, false)
+    ? { format: formatOrOptions }
+    : (formatOrOptions ?? {});
+
   invariant(isPlainObject(options), MESSAGES.options);
 
   const { format, lightness, monochromatic, saturation, size = 6 } = options;

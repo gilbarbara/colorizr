@@ -86,3 +86,14 @@ exports[`palette > 'rgb(255 230 109)' with { saturation: 70, size: 5 } should re
   "rgb(233 131 169)",
 ]
 `;
+
+exports[`palette > should accept format as string shorthand 1`] = `
+[
+  "oklch(63.269% 0.25404 19.902)",
+  "oklch(83.276% 0.17157 82.058)",
+  "oklch(87.308% 0.2858 140.77)",
+  "oklch(88.615% 0.18578 165.21)",
+  "oklch(50.668% 0.27669 263.67)",
+  "oklch(60.384% 0.30242 311.85)",
+]
+`;
