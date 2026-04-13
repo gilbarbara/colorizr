@@ -1,41 +1,43 @@
 import isValidColor from '~/is-valid-color';
 
+import { ColorTypeInput } from '~/types';
+
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('isValidColor', () => {
   it.each([
-    [brightPink.hex, true],
-    [addOpacityToCssString(brightPink.hex, 0.5), true],
-    [green.hslString, true],
-    [addOpacityToCssString(green.hslString, 0.9), true],
-    [addOpacityToCssString(green.hslString, 0.9, true), true],
-    [orange.oklabString, true],
-    [addOpacityToCssString(orange.oklabString, 0.8, true), true],
-    [violet.oklchString, true],
-    [addOpacityToCssString(violet.oklchString, 0.9, true), true],
-    ['oklch(75% 49% 180)', true],
-    ['oklab(50% 25% -30%)', true],
+    { input: brightPink.hex, expected: true },
+    { input: addOpacityToCssString(brightPink.hex, 0.5), expected: true },
+    { input: green.hslString, expected: true },
+    { input: addOpacityToCssString(green.hslString, 0.9), expected: true },
+    { input: addOpacityToCssString(green.hslString, 0.9, true), expected: true },
+    { input: orange.oklabString, expected: true },
+    { input: addOpacityToCssString(orange.oklabString, 0.8, true), expected: true },
+    { input: violet.oklchString, expected: true },
+    { input: addOpacityToCssString(violet.oklchString, 0.9, true), expected: true },
+    { input: 'oklch(75% 49% 180)', expected: true },
+    { input: 'oklab(50% 25% -30%)', expected: true },
     // Angle units for HSL
-    ['hsl(120deg 100% 50%)', true],
-    ['hsl(0.5turn 100% 50%)', true],
-    ['hsl(3.14rad 100% 50%)', true],
-    ['hsl(200grad 100% 50%)', true],
+    { input: 'hsl(120deg 100% 50%)', expected: true },
+    { input: 'hsl(0.5turn 100% 50%)', expected: true },
+    { input: 'hsl(3.14rad 100% 50%)', expected: true },
+    { input: 'hsl(200grad 100% 50%)', expected: true },
     // Angle units for OkLCH
-    ['oklch(0.5 0.2 180deg)', true],
-    ['oklch(0.5 0.2 0.5turn)', true],
+    { input: 'oklch(0.5 0.2 180deg)', expected: true },
+    { input: 'oklch(0.5 0.2 0.5turn)', expected: true },
     // none keyword (CSS Color Level 4)
-    ['rgb(none 128 255)', true],
-    ['hsl(none 50% 50%)', true],
-    ['oklab(none 0.1 -0.1)', true],
-    ['oklch(0.5 none 180)', true],
-    [yellow.rgbString, true],
-    [addOpacityToCssString(yellow.rgbString, 0.9), true],
-    [addOpacityToCssString(yellow.rgbString, 0.9, true), true],
-    ['blue', true],
-    ['aliceblue', true],
-    ['#mmff00', false],
-    ['blue-ish', false],
-  ])('should validate %s to be %s', (input, expected) => {
+    { input: 'rgb(none 128 255)', expected: true },
+    { input: 'hsl(none 50% 50%)', expected: true },
+    { input: 'oklab(none 0.1 -0.1)', expected: true },
+    { input: 'oklch(0.5 none 180)', expected: true },
+    { input: yellow.rgbString, expected: true },
+    { input: addOpacityToCssString(yellow.rgbString, 0.9), expected: true },
+    { input: addOpacityToCssString(yellow.rgbString, 0.9, true), expected: true },
+    { input: 'blue', expected: true },
+    { input: 'aliceblue', expected: true },
+    { input: '#mmff00', expected: false },
+    { input: 'blue-ish', expected: false },
+  ])('should validate $input to be $expected', ({ input, expected }) => {
     expect(isValidColor(input)).toBe(expected);
   });
 
@@ -51,31 +53,31 @@ describe('isValidColor', () => {
   describe('with type parameter', () => {
     it.each([
       // hex validation
-      ['#ff0000', 'hex', true],
-      ['#ff000080', 'hex', true],
-      ['#ff0000', 'hsl', false],
-      ['#ff0000', 'rgb', false],
+      { input: '#ff0000', type: 'hex', expected: true },
+      { input: '#ff000080', type: 'hex', expected: true },
+      { input: '#ff0000', type: 'hsl', expected: false },
+      { input: '#ff0000', type: 'rgb', expected: false },
       // hsl validation
-      ['hsl(0 100% 50%)', 'hsl', true],
-      ['hsl(0 100% 50%)', 'hex', false],
-      ['hsl(0 100% 50%)', 'rgb', false],
+      { input: 'hsl(0 100% 50%)', type: 'hsl', expected: true },
+      { input: 'hsl(0 100% 50%)', type: 'hex', expected: false },
+      { input: 'hsl(0 100% 50%)', type: 'rgb', expected: false },
       // rgb validation
-      ['rgb(255 0 0)', 'rgb', true],
-      ['rgb(255 0 0)', 'hex', false],
-      ['rgb(255 0 0)', 'hsl', false],
+      { input: 'rgb(255 0 0)', type: 'rgb', expected: true },
+      { input: 'rgb(255 0 0)', type: 'hex', expected: false },
+      { input: 'rgb(255 0 0)', type: 'hsl', expected: false },
       // oklab validation
-      ['oklab(0.5 0.1 -0.1)', 'oklab', true],
-      ['oklab(0.5 0.1 -0.1)', 'oklch', false],
+      { input: 'oklab(0.5 0.1 -0.1)', type: 'oklab', expected: true },
+      { input: 'oklab(0.5 0.1 -0.1)', type: 'oklch', expected: false },
       // oklch validation
-      ['oklch(0.5 0.2 180)', 'oklch', true],
-      ['oklch(0.5 0.2 180)', 'oklab', false],
+      { input: 'oklch(0.5 0.2 180)', type: 'oklch', expected: true },
+      { input: 'oklch(0.5 0.2 180)', type: 'oklab', expected: false },
       // named color validation
-      ['blue', 'named', true],
-      ['coral', 'named', true],
-      ['blue', 'hex', false],
-      ['blue', 'hsl', false],
-    ] as const)('should validate %s as %s to be %s', (input, type, expected) => {
-      expect(isValidColor(input, type)).toBe(expected);
+      { input: 'blue', type: 'named', expected: true },
+      { input: 'coral', type: 'named', expected: true },
+      { input: 'blue', type: 'hex', expected: false },
+      { input: 'blue', type: 'hsl', expected: false },
+    ])('should validate $input as $type to be $expected', ({ input, type, expected }) => {
+      expect(isValidColor(input, type as ColorTypeInput)).toBe(expected);
     });
   });
 });

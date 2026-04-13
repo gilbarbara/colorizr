@@ -3,12 +3,12 @@ import rotate from '~/rotate';
 
 describe('rotate', () => {
   it.each([
-    ['#ff0044', 10, '#ff001a'],
-    ['#ff0044', 30, '#ff3c00'],
-    ['#ff0044', 90, '#c3ff00'],
-    ['#ff0044', 180, '#00ffbb'],
-    ['#ff0044', 360, '#ff0044'],
-  ])('should have rotate %s with %d to %s', (input, degrees, expected) => {
+    { input: '#ff0044', degrees: 10, expected: '#ff001a' },
+    { input: '#ff0044', degrees: 30, expected: '#ff3c00' },
+    { input: '#ff0044', degrees: 90, expected: '#c3ff00' },
+    { input: '#ff0044', degrees: 180, expected: '#00ffbb' },
+    { input: '#ff0044', degrees: 360, expected: '#ff0044' },
+  ])('should have rotate $input with $degrees to $expected', ({ input, degrees, expected }) => {
     expect(rotate(input, degrees)).toBe(expected);
   });
 

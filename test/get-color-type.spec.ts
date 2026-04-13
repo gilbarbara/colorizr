@@ -5,85 +5,85 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 describe('getColorType', () => {
   describe('hex', () => {
     it.each([
-      [brightPink.hex, 'hex'],
-      [green.hex, 'hex'],
-      ['#fff', 'hex'],
-      ['#ffffff', 'hex'],
-      ['#ff000080', 'hex'],
-      ['#f0f8', 'hex'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: brightPink.hex, expected: 'hex' },
+      { input: green.hex, expected: 'hex' },
+      { input: '#fff', expected: 'hex' },
+      { input: '#ffffff', expected: 'hex' },
+      { input: '#ff000080', expected: 'hex' },
+      { input: '#f0f8', expected: 'hex' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('hsl', () => {
     it.each([
-      [brightPink.hslString, 'hsl'],
-      [green.hslString, 'hsl'],
-      ['hsl(0 100% 50%)', 'hsl'],
-      ['hsl(120deg 100% 50%)', 'hsl'],
-      ['hsl(0.5turn 100% 50%)', 'hsl'],
-      ['hsla(0 100% 50% / 0.5)', 'hsl'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: brightPink.hslString, expected: 'hsl' },
+      { input: green.hslString, expected: 'hsl' },
+      { input: 'hsl(0 100% 50%)', expected: 'hsl' },
+      { input: 'hsl(120deg 100% 50%)', expected: 'hsl' },
+      { input: 'hsl(0.5turn 100% 50%)', expected: 'hsl' },
+      { input: 'hsla(0 100% 50% / 0.5)', expected: 'hsl' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('rgb', () => {
     it.each([
-      [yellow.rgbString, 'rgb'],
-      [orange.rgbString, 'rgb'],
-      ['rgb(255 0 0)', 'rgb'],
-      ['rgb(255, 0, 0)', 'rgb'],
-      ['rgba(255 0 0 / 0.5)', 'rgb'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: yellow.rgbString, expected: 'rgb' },
+      { input: orange.rgbString, expected: 'rgb' },
+      { input: 'rgb(255 0 0)', expected: 'rgb' },
+      { input: 'rgb(255, 0, 0)', expected: 'rgb' },
+      { input: 'rgba(255 0 0 / 0.5)', expected: 'rgb' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('oklab', () => {
     it.each([
-      [orange.oklabString, 'oklab'],
-      [violet.oklabString, 'oklab'],
-      ['oklab(0.5 0.1 -0.1)', 'oklab'],
-      ['oklab(50% 25% -30%)', 'oklab'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: orange.oklabString, expected: 'oklab' },
+      { input: violet.oklabString, expected: 'oklab' },
+      { input: 'oklab(0.5 0.1 -0.1)', expected: 'oklab' },
+      { input: 'oklab(50% 25% -30%)', expected: 'oklab' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('oklch', () => {
     it.each([
-      [violet.oklchString, 'oklch'],
-      [brightPink.oklchString, 'oklch'],
-      ['oklch(0.5 0.2 180)', 'oklch'],
-      ['oklch(50% 0.2 180deg)', 'oklch'],
-      ['oklch(0.5 0.2 0.5turn)', 'oklch'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: violet.oklchString, expected: 'oklch' },
+      { input: brightPink.oklchString, expected: 'oklch' },
+      { input: 'oklch(0.5 0.2 180)', expected: 'oklch' },
+      { input: 'oklch(50% 0.2 180deg)', expected: 'oklch' },
+      { input: 'oklch(0.5 0.2 0.5turn)', expected: 'oklch' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('named', () => {
     it.each([
-      ['blue', 'named'],
-      ['coral', 'named'],
-      ['aliceblue', 'named'],
-      ['RED', 'named'],
-      ['DarkSlateGray', 'named'],
-    ])('should detect %s as %s', (input, expected) => {
+      { input: 'blue', expected: 'named' },
+      { input: 'coral', expected: 'named' },
+      { input: 'aliceblue', expected: 'named' },
+      { input: 'RED', expected: 'named' },
+      { input: 'DarkSlateGray', expected: 'named' },
+    ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
   });
 
   describe('invalid inputs', () => {
     it.each([
-      ['invalid', null],
-      ['', null],
-      ['#gggggg', null],
-      ['rgb()', null],
-      ['blue-ish', null],
-    ])('should return null for %s', (input, expected) => {
+      { input: 'invalid', expected: null },
+      { input: '', expected: null },
+      { input: '#gggggg', expected: null },
+      { input: 'rgb()', expected: null },
+      { input: 'blue-ish', expected: null },
+    ])('should return null for $input', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
 

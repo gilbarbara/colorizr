@@ -1,22 +1,22 @@
 import oklch2oklab from '~/converters/oklch2oklab';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, LAB, LCH } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklch2oklab', () => {
   it.each([
-    [brightPink.oklchLong, brightPink.oklabLong],
-    [green.oklchLong, green.oklabLong],
-    [orange.oklchLong, orange.oklabLong],
-    [violet.oklchLong, violet.oklabLong],
-    [yellow.oklchLong, yellow.oklabLong],
-    [
-      { l: 0, c: 0, h: 0 },
-      { l: 0, a: 0, b: 0 },
-    ],
-  ] as Array<[LCH, LAB]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.oklchLong, expected: brightPink.oklabLong },
+    { input: green.oklchLong, expected: green.oklabLong },
+    { input: orange.oklchLong, expected: orange.oklabLong },
+    { input: violet.oklchLong, expected: violet.oklabLong },
+    { input: yellow.oklchLong, expected: yellow.oklabLong },
+    {
+      input: { l: 0, c: 0, h: 0 },
+      expected: { l: 0, a: 0, b: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     const result = oklch2oklab(input);
 
     expect(result.l).toBeCloseTo(expected.l, 14);
@@ -25,22 +25,22 @@ describe('oklch2oklab', () => {
   });
 
   it.each([
-    [brightPink.oklch, brightPink.oklab],
-    [green.oklch, green.oklab],
-    [orange.oklch, orange.oklab],
-    [violet.oklch, violet.oklab],
-    [yellow.oklch, yellow.oklab],
-  ] as Array<[LCH, LAB]>)('%s with precision should return %s', (input, expected) => {
+    { input: brightPink.oklch, expected: brightPink.oklab },
+    { input: green.oklch, expected: green.oklab },
+    { input: orange.oklch, expected: orange.oklab },
+    { input: violet.oklch, expected: violet.oklab },
+    { input: yellow.oklch, expected: yellow.oklab },
+  ])('$input with precision should return $expected', ({ input, expected }) => {
     expect(oklch2oklab(input, 5)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklch) as ColorTuple, brightPink.oklab],
-    [Object.values(green.oklch) as ColorTuple, green.oklab],
-    [Object.values(orange.oklch) as ColorTuple, orange.oklab],
-    [Object.values(violet.oklch) as ColorTuple, violet.oklab],
-    [Object.values(yellow.oklch) as ColorTuple, yellow.oklab],
-  ] as Array<[ColorTuple, LAB]>)('%s with precision should return %s', (input, expected) => {
+    { input: Object.values(brightPink.oklch) as ColorTuple, expected: brightPink.oklab },
+    { input: Object.values(green.oklch) as ColorTuple, expected: green.oklab },
+    { input: Object.values(orange.oklch) as ColorTuple, expected: orange.oklab },
+    { input: Object.values(violet.oklch) as ColorTuple, expected: violet.oklab },
+    { input: Object.values(yellow.oklch) as ColorTuple, expected: yellow.oklab },
+  ])('$input with precision should return $expected', ({ input, expected }) => {
     expect(oklch2oklab(input, 5)).toEqual(expected);
   });
 

@@ -6,35 +6,40 @@ import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from
 
 describe('formatCSS', () => {
   it.each([
-    [
-      addOpacityToCssString(brightPink.hex, 0.8),
-      { alpha: 0.9 },
-      addOpacityToCssString(brightPink.hex, 0.9),
-    ],
-    [
-      brightPink.hex,
-      { alpha: 0.9, format: 'rgb', separator: ', ' },
-      addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 0.9, true),
-    ],
-    [green.hsl, undefined, green.hex],
-    [green.hsl, { alpha: 0.5, format: 'rgb' }, addOpacityToCssString(green.rgbString, 0.5, true)],
-    [green.hsl, { format: 'hsl' }, green.hslString],
-    [orange.oklab, undefined, orange.hex],
-    [orange.oklab, { format: 'oklch' }, orange.oklchString],
-    [violet.oklch, undefined, violet.hex],
-    [
-      violet.oklch,
-      { alpha: 0.8, format: 'oklab' },
-      addOpacityToCssString(violet.oklabString, 0.8, true),
-    ],
-    [yellow.rgb, undefined, yellow.hex],
-    [yellow.rgb, { alpha: 0.8, format: 'hex' }, addOpacityToCssString(yellow.hex, 0.8)],
-  ] as Array<[ColorValue, FormatCSSOptions | undefined, string]>)(
-    `%s with %s should return %s`,
-    (input, options, expected) => {
-      expect(formatCSS(input, options)).toBe(expected);
+    {
+      input: addOpacityToCssString(brightPink.hex, 0.8),
+      options: { alpha: 0.9 },
+      expected: addOpacityToCssString(brightPink.hex, 0.9),
     },
-  );
+    {
+      input: brightPink.hex,
+      options: { alpha: 0.9, format: 'rgb', separator: ', ' },
+      expected: addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 0.9, true),
+    },
+    { input: green.hsl, options: undefined, expected: green.hex },
+    {
+      input: green.hsl,
+      options: { alpha: 0.5, format: 'rgb' },
+      expected: addOpacityToCssString(green.rgbString, 0.5, true),
+    },
+    { input: green.hsl, options: { format: 'hsl' }, expected: green.hslString },
+    { input: orange.oklab, options: undefined, expected: orange.hex },
+    { input: orange.oklab, options: { format: 'oklch' }, expected: orange.oklchString },
+    { input: violet.oklch, options: undefined, expected: violet.hex },
+    {
+      input: violet.oklch,
+      options: { alpha: 0.8, format: 'oklab' },
+      expected: addOpacityToCssString(violet.oklabString, 0.8, true),
+    },
+    { input: yellow.rgb, options: undefined, expected: yellow.hex },
+    {
+      input: yellow.rgb,
+      options: { alpha: 0.8, format: 'hex' },
+      expected: addOpacityToCssString(yellow.hex, 0.8),
+    },
+  ])(`$input with $options should return $expected`, ({ input, options, expected }) => {
+    expect(formatCSS(input as ColorValue, options as FormatCSSOptions)).toBe(expected);
+  });
 
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape

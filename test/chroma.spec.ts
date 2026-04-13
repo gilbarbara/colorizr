@@ -5,15 +5,15 @@ import { brightPink } from './__fixtures__';
 
 describe('chroma', () => {
   it.each([
-    [brightPink.hex, 1],
-    [brightPink.rgbString, 1],
-    ['hsl(344, 100, 50)', 1],
-    ['#ffc0cb', 0.2471],
-    ['hsl(0, 0, 100)', 0],
-    ['rgba(0, 0, 0, 0.5)', 0],
-    ['aliceblue', 0.0588],
-    ['LightCoral', 0.4392],
-  ])('%s should return %s', (input, expected) => {
+    { input: brightPink.hex, expected: 1 },
+    { input: brightPink.rgbString, expected: 1 },
+    { input: 'hsl(344, 100, 50)', expected: 1 },
+    { input: '#ffc0cb', expected: 0.2471 },
+    { input: 'hsl(0, 0, 100)', expected: 0 },
+    { input: 'rgba(0, 0, 0, 0.5)', expected: 0 },
+    { input: 'aliceblue', expected: 0.0588 },
+    { input: 'LightCoral', expected: 0.4392 },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(chroma(input)).toBe(expected);
   });
 

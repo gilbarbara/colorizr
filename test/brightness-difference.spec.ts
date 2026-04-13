@@ -5,13 +5,13 @@ import { brightPink, green } from './__fixtures__';
 
 describe('brightnessDifference', () => {
   it.each([
-    [brightPink.hex, 'rgb(255, 255, 255)', 171.003],
-    [brightPink.hslString, '#fff', 171.003],
-    [brightPink.rgbString, 'hsl(0, 0, 0)', 83.997],
-    [green.oklabString, 'hsl(0, 0, 0)', 157.437],
-    [green.hslString, 'black', 157.437],
-    ['blanchedalmond', 'aliceblue', 8.846],
-  ])('%s with %s should return %s', (left, right, expected) => {
+    { left: brightPink.hex, right: 'rgb(255, 255, 255)', expected: 171.003 },
+    { left: brightPink.hslString, right: '#fff', expected: 171.003 },
+    { left: brightPink.rgbString, right: 'hsl(0, 0, 0)', expected: 83.997 },
+    { left: green.oklabString, right: 'hsl(0, 0, 0)', expected: 157.437 },
+    { left: green.hslString, right: 'black', expected: 157.437 },
+    { left: 'blanchedalmond', right: 'aliceblue', expected: 8.846 },
+  ])('$left with $right should return $expected', ({ left, right, expected }) => {
     expect(brightnessDifference(left, right)).toBe(expected);
   });
 

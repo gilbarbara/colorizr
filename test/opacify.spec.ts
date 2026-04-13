@@ -1,38 +1,98 @@
 import { MESSAGES } from '~/modules/constants';
 import opacify from '~/opacify';
 
-import { ColorModelKey } from '~/types';
+import { ColorType } from '~/types';
 
 import { addOpacityToCssString, brightPink, green, violet, yellow } from './__fixtures__';
 
 describe('opacify', () => {
   it.each([
-    ['darkgoldenrod', 0.1, 'hsl', 'hsl(42.66 88.72% 38.24% / 10%)'],
-    ['cadetblue', 0.25, 'oklab', 'oklab(65.768% -0.06172 -0.02041 / 25%)'],
-    ['coral', 0.325, 'oklch', 'oklch(73.511% 0.16799 40.247 / 32.5%)'],
-    ['forestgreen', 0.5, 'rgb', 'rgb(34 139 34 / 50%)'],
-    [brightPink.hex, 0.8, 'hex', `${brightPink.hex}cc`],
-    [addOpacityToCssString(brightPink.hex, 0.8), 0.1, 'hex', `${brightPink.hex}1a`],
-    [brightPink.hex, 0.9, 'hsl', addOpacityToCssString(brightPink.hslString, 0.9, true)],
-    [green.hex, 0.5, 'oklab', addOpacityToCssString(green.oklabString, 0.5, true)],
-    [green.hex, 0.5, 'oklch', addOpacityToCssString(green.oklchString, 0.5, true)],
-    [violet.hex, 0.1, 'rgb', addOpacityToCssString(violet.rgbString, 0.1, true)],
-    [violet.hslString, 0.8, 'oklch', addOpacityToCssString(violet.oklchString, 0.8, true)],
-    [
-      addOpacityToCssString(brightPink.rgbString, 0.4),
-      0.3,
-      'rgb',
-      addOpacityToCssString(brightPink.rgbString, 0.3, true),
-    ],
-    [violet.oklabString, 0.1, 'hex', `${violet.hex}1a`],
-    [yellow.oklchString, 0.8, 'hex', `${yellow.hex}cc`],
-    [yellow.rgbString, 0.5, 'hsl', yellow.hslString.replace(')', ' / 50%)')],
-    [yellow.rgbString, 0.5, undefined, yellow.rgbString.replace(')', ' / 50%)')],
-    [addOpacityToCssString(yellow.rgbString, 0.3), 0.2, 'hex', `${yellow.hex}33`],
-  ] as Array<[string, number, string | undefined, string]>)(
-    '%s with %s and %s should return %s',
-    (input, amount, output, expected) => {
-      expect(opacify(input, amount, output as ColorModelKey)).toBe(expected);
+    {
+      input: 'darkgoldenrod',
+      amount: 0.1,
+      format: 'hsl',
+      expected: 'hsl(42.66 88.72% 38.24% / 10%)',
+    },
+    {
+      input: 'cadetblue',
+      amount: 0.25,
+      format: 'oklab',
+      expected: 'oklab(65.768% -0.06172 -0.02041 / 25%)',
+    },
+    {
+      input: 'coral',
+      amount: 0.325,
+      format: 'oklch',
+      expected: 'oklch(73.511% 0.16799 40.247 / 32.5%)',
+    },
+    { input: 'forestgreen', amount: 0.5, format: 'rgb', expected: 'rgb(34 139 34 / 50%)' },
+    { input: brightPink.hex, amount: 0.8, format: 'hex', expected: `${brightPink.hex}cc` },
+    {
+      input: addOpacityToCssString(brightPink.hex, 0.8),
+      amount: 0.1,
+      format: 'hex',
+      expected: `${brightPink.hex}1a`,
+    },
+    {
+      input: brightPink.hex,
+      amount: 0.9,
+      format: 'hsl',
+      expected: addOpacityToCssString(brightPink.hslString, 0.9, true),
+    },
+    {
+      input: green.hex,
+      amount: 0.5,
+      format: 'oklab',
+      expected: addOpacityToCssString(green.oklabString, 0.5, true),
+    },
+    {
+      input: green.hex,
+      amount: 0.5,
+      format: 'oklch',
+      expected: addOpacityToCssString(green.oklchString, 0.5, true),
+    },
+    {
+      input: violet.hex,
+      amount: 0.1,
+      format: 'rgb',
+      expected: addOpacityToCssString(violet.rgbString, 0.1, true),
+    },
+    {
+      input: violet.hslString,
+      amount: 0.8,
+      format: 'oklch',
+      expected: addOpacityToCssString(violet.oklchString, 0.8, true),
+    },
+    {
+      input: addOpacityToCssString(brightPink.rgbString, 0.4),
+      amount: 0.3,
+      format: 'rgb',
+      expected: addOpacityToCssString(brightPink.rgbString, 0.3, true),
+    },
+    { input: violet.oklabString, amount: 0.1, format: 'hex', expected: `${violet.hex}1a` },
+    { input: yellow.oklchString, amount: 0.8, format: 'hex', expected: `${yellow.hex}cc` },
+    {
+      input: yellow.rgbString,
+      amount: 0.5,
+      format: 'hsl',
+      expected: yellow.hslString.replace(')', ' / 50%)'),
+    },
+    {
+      input: yellow.rgbString,
+      amount: 0.5,
+      format: undefined,
+      expected: yellow.rgbString.replace(')', ' / 50%)'),
+    },
+    {
+      input: addOpacityToCssString(yellow.rgbString, 0.3),
+      amount: 0.2,
+      format: 'hex',
+      expected: `${yellow.hex}33`,
+    },
+  ])(
+    '$input with $amount and $format should return $expected',
+    ({ input, amount, format, expected }) => {
+      expect(opacify(input, amount, format as ColorType)).toBe(expected);
     },
   );
 

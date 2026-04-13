@@ -7,23 +7,23 @@ import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixt
 
 describe('rgb2hex', () => {
   it.each([
-    [brightPink.rgb, brightPink.hex],
-    [green.rgb, green.hex],
-    [orange.rgb, orange.hex],
-    [violet.rgb, violet.hex],
-    [yellow.rgb, yellow.hex],
-    [{ r: 0, g: 0, b: 0 }, '#000000'],
-  ])('%s should return %s', (input, expected) => {
+    { input: brightPink.rgb, expected: brightPink.hex },
+    { input: green.rgb, expected: green.hex },
+    { input: orange.rgb, expected: orange.hex },
+    { input: violet.rgb, expected: violet.hex },
+    { input: yellow.rgb, expected: yellow.hex },
+    { input: { r: 0, g: 0, b: 0 }, expected: '#000000' },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(rgb2hex(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.rgb), brightPink.hex],
-    [Object.values(green.rgb), green.hex],
-    [Object.values(orange.rgb), orange.hex],
-    [Object.values(violet.rgb), violet.hex],
-    [Object.values(yellow.rgb), yellow.hex],
-  ] as Array<[ColorTuple, string]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.rgb) as ColorTuple, expected: brightPink.hex },
+    { input: Object.values(green.rgb) as ColorTuple, expected: green.hex },
+    { input: Object.values(orange.rgb) as ColorTuple, expected: orange.hex },
+    { input: Object.values(violet.rgb) as ColorTuple, expected: violet.hex },
+    { input: Object.values(yellow.rgb) as ColorTuple, expected: yellow.hex },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(rgb2hex(input)).toEqual(expected);
   });
 
@@ -38,9 +38,9 @@ describe('rgb2hex', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [{ ...brightPink.rgb, alpha: alphaCases.semi }, brightPink.hexAlpha],
-      [{ ...green.rgb, alpha: alphaCases.semi }, green.hexAlpha],
-    ])('%s should return %s', (input, expected) => {
+      { input: { ...brightPink.rgb, alpha: alphaCases.semi }, expected: brightPink.hexAlpha },
+      { input: { ...green.rgb, alpha: alphaCases.semi }, expected: green.hexAlpha },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(rgb2hex(input)).toEqual(expected);
     });
 

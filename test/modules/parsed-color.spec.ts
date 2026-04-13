@@ -37,12 +37,12 @@ describe('parsed-color', () => {
 
     describe('hex input', () => {
       it.each([
-        ['brightPink', brightPink],
-        ['green', green],
-        ['orange', orange],
-        ['violet', violet],
-        ['yellow', yellow],
-      ])('%s: should parse hex and convert lazily', (_name, fixture) => {
+        { name: 'brightPink', fixture: brightPink },
+        { name: 'green', fixture: green },
+        { name: 'orange', fixture: orange },
+        { name: 'violet', fixture: violet },
+        { name: 'yellow', fixture: yellow },
+      ])('$name: should parse hex and convert lazily', ({ fixture }) => {
         const parsed = resolveColor(fixture.hex);
 
         expect(parsed.type).toBe('hex');
@@ -82,12 +82,12 @@ describe('parsed-color', () => {
 
     describe('HSL string input', () => {
       it.each([
-        ['brightPink', brightPink],
-        ['green', green],
-        ['orange', orange],
-        ['violet', violet],
-        ['yellow', yellow],
-      ])('%s: should parse HSL string and convert lazily', (_name, fixture) => {
+        { name: 'brightPink', fixture: brightPink },
+        { name: 'green', fixture: green },
+        { name: 'orange', fixture: orange },
+        { name: 'violet', fixture: violet },
+        { name: 'yellow', fixture: yellow },
+      ])('$name: should parse HSL string and convert lazily', ({ fixture }) => {
         const parsed = resolveColor(fixture.hslString);
 
         expect(parsed.type).toBe('hsl');
@@ -100,12 +100,12 @@ describe('parsed-color', () => {
 
     describe('RGB string input', () => {
       it.each([
-        ['brightPink', brightPink],
-        ['green', green],
-        ['orange', orange],
-        ['violet', violet],
-        ['yellow', yellow],
-      ])('%s: should parse RGB string and convert lazily', (_name, fixture) => {
+        { name: 'brightPink', fixture: brightPink },
+        { name: 'green', fixture: green },
+        { name: 'orange', fixture: orange },
+        { name: 'violet', fixture: violet },
+        { name: 'yellow', fixture: yellow },
+      ])('$name: should parse RGB string and convert lazily', ({ fixture }) => {
         const parsed = resolveColor(fixture.rgbString);
 
         expect(parsed.type).toBe('rgb');
@@ -117,9 +117,9 @@ describe('parsed-color', () => {
 
     describe('OkLab string input', () => {
       it.each([
-        ['brightPink', brightPink],
-        ['green', green],
-      ])('%s: should parse OkLab string and convert lazily', (_name, fixture) => {
+        { name: 'brightPink', fixture: brightPink },
+        { name: 'green', fixture: green },
+      ])('$name: should parse OkLab string and convert lazily', ({ fixture }) => {
         const parsed = resolveColor(fixture.oklabString);
 
         expect(parsed.type).toBe('oklab');
@@ -130,9 +130,9 @@ describe('parsed-color', () => {
 
     describe('OkLCH string input', () => {
       it.each([
-        ['brightPink', brightPink],
-        ['green', green],
-      ])('%s: should parse OkLCH string and convert lazily', (_name, fixture) => {
+        { name: 'brightPink', fixture: brightPink },
+        { name: 'green', fixture: green },
+      ])('$name: should parse OkLCH string and convert lazily', ({ fixture }) => {
         const parsed = resolveColor(fixture.oklchString);
 
         expect(parsed.type).toBe('oklch');

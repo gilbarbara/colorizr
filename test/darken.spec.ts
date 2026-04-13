@@ -5,13 +5,13 @@ import { brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('darken', () => {
   it.each([
-    [brightPink.hex, 10, '#cc0036'],
-    [green.hslString, 20, 'hsl(136 100% 30%)'],
-    [orange.oklabString, 10, 'oklab(59.904% 0.11396 0.12118)'],
-    [violet.oklchString, 20, 'oklch(32.85% 0.20354 276.81)'],
-    [yellow.rgbString, 30, 'rgb(211 175 0)'],
-    ['aqua', 5, '#00e5e6'],
-  ])('%s with %s should return %s', (input, amount, expected) => {
+    { input: brightPink.hex, amount: 10, expected: '#cc0036' },
+    { input: green.hslString, amount: 20, expected: 'hsl(136 100% 30%)' },
+    { input: orange.oklabString, amount: 10, expected: 'oklab(59.904% 0.11396 0.12118)' },
+    { input: violet.oklchString, amount: 20, expected: 'oklch(32.85% 0.20354 276.81)' },
+    { input: yellow.rgbString, amount: 30, expected: 'rgb(211 175 0)' },
+    { input: 'aqua', amount: 5, expected: '#00e5e6' },
+  ])('$input with $amount should return $expected', ({ input, amount, expected }) => {
     expect(darken(input, amount)).toBe(expected);
   });
 

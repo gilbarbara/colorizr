@@ -6,30 +6,33 @@ import { ColorType } from '~/types';
 import { addOpacityToCssString, brightPink, green, orange, violet, yellow } from './__fixtures__';
 
 describe('parseCSS', () => {
-  describe.each([['hex'], ['hsl'], ['oklab'], ['oklch'], ['rgb']] as ColorType[][])(
-    'with output %s',
-    output => {
-      it.each([
-        [brightPink.hex],
-        [addOpacityToCssString(brightPink.hex, 0.8)],
-        [green.hslString],
-        [addOpacityToCssString(green.hslString, 0.5)],
-        [addOpacityToCssString(green.hslString, 0.9, true)],
-        [orange.oklabString],
-        [addOpacityToCssString(orange.oklabString, 0.9, true)],
-        [violet.oklchString],
-        [addOpacityToCssString(violet.oklchString, 0.9, true)],
-        [yellow.rgbString],
-        [addOpacityToCssString(yellow.rgbString, 0.9)],
-        [addOpacityToCssString(yellow.rgbString, 0.9, true)],
-        ['hsla(126,     57%,  62%,0.5)'],
-        ['AliceBlue'],
-        ['greenyellow'],
-      ])('%s should return properly', input => {
-        expect(parseCSS(input, output)).toMatchSnapshot();
-      });
-    },
-  );
+  describe.each([
+    { output: 'hex' },
+    { output: 'hsl' },
+    { output: 'oklab' },
+    { output: 'oklch' },
+    { output: 'rgb' },
+  ])('with output $output', ({ output }) => {
+    it.each([
+      { input: brightPink.hex },
+      { input: addOpacityToCssString(brightPink.hex, 0.8) },
+      { input: green.hslString },
+      { input: addOpacityToCssString(green.hslString, 0.5) },
+      { input: addOpacityToCssString(green.hslString, 0.9, true) },
+      { input: orange.oklabString },
+      { input: addOpacityToCssString(orange.oklabString, 0.9, true) },
+      { input: violet.oklchString },
+      { input: addOpacityToCssString(violet.oklchString, 0.9, true) },
+      { input: yellow.rgbString },
+      { input: addOpacityToCssString(yellow.rgbString, 0.9) },
+      { input: addOpacityToCssString(yellow.rgbString, 0.9, true) },
+      { input: 'hsla(126,     57%,  62%,0.5)' },
+      { input: 'AliceBlue' },
+      { input: 'greenyellow' },
+    ])('$input should return properly', ({ input }) => {
+      expect(parseCSS(input, output as ColorType)).toMatchSnapshot();
+    });
+  });
 
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required

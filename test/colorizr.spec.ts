@@ -145,27 +145,39 @@ describe.each([
 
     describe('modifiers', () => {
       describe('lighten', () => {
-        it.each([[10], [20], [40], [80]])('should have lighten the color with %s', amount => {
-          expect(colorizr.lighten(amount)).toMatchSnapshot();
-        });
+        it.each([{ amount: 10 }, { amount: 20 }, { amount: 40 }, { amount: 80 }])(
+          'should have lighten the color with $amount',
+          ({ amount }) => {
+            expect(colorizr.lighten(amount)).toMatchSnapshot();
+          },
+        );
       });
 
       describe('darken', () => {
-        it.each([[10], [20], [40], [80]])('should have darken the color with %s', amount => {
-          expect(colorizr.darken(amount)).toMatchSnapshot();
-        });
+        it.each([{ amount: 10 }, { amount: 20 }, { amount: 40 }, { amount: 80 }])(
+          'should have darken the color with $amount',
+          ({ amount }) => {
+            expect(colorizr.darken(amount)).toMatchSnapshot();
+          },
+        );
       });
 
       describe('saturate', () => {
-        it.each([[10], [20], [40], [80]])('should have saturated the color with %s', amount => {
-          expect(colorizr.saturate(amount)).toMatchSnapshot();
-        });
+        it.each([{ amount: 10 }, { amount: 20 }, { amount: 40 }, { amount: 80 }])(
+          'should have saturated the color with $amount',
+          ({ amount }) => {
+            expect(colorizr.saturate(amount)).toMatchSnapshot();
+          },
+        );
       });
 
       describe('desaturate', () => {
-        it.each([[10], [20], [40], [80]])('should have desaturated the color with %s', amount => {
-          expect(colorizr.desaturate(amount)).toMatchSnapshot();
-        });
+        it.each([{ amount: 10 }, { amount: 20 }, { amount: 40 }, { amount: 80 }])(
+          'should have desaturated the color with $amount',
+          ({ amount }) => {
+            expect(colorizr.desaturate(amount)).toMatchSnapshot();
+          },
+        );
       });
 
       describe('invert', () => {
@@ -181,9 +193,12 @@ describe.each([
       });
 
       describe('mix', () => {
-        it.each([[0.25], [0.5], [0.75]])('should mix with another color at %s ratio', ratio => {
-          expect(colorizr.mix('#0000ff', ratio)).toMatchSnapshot();
-        });
+        it.each([{ ratio: 0.25 }, { ratio: 0.5 }, { ratio: 0.75 }])(
+          'should mix with another color at $ratio ratio',
+          ({ ratio }) => {
+            expect(colorizr.mix('#0000ff', ratio)).toMatchSnapshot();
+          },
+        );
 
         it('should mix in rgb space', () => {
           expect(colorizr.mix('#0000ff', 0.5, { space: 'rgb' })).toMatchSnapshot();
@@ -207,9 +222,9 @@ describe.each([
       });
 
       describe('rotate', () => {
-        it.each([[15], [30], [60], [120], [180]])(
-          'should have rotated the color with %s',
-          amount => {
+        it.each([{ amount: 15 }, { amount: 30 }, { amount: 60 }, { amount: 120 }, { amount: 180 }])(
+          'should have rotated the color with $amount',
+          ({ amount }) => {
             expect(colorizr.rotate(amount)).toMatchSnapshot();
           },
         );
@@ -297,7 +312,13 @@ describe.each([
 );
 
 describe('Colorizr with invalid input', () => {
-  it.each([[undefined], [[]], [''], [{}], [() => ({})]])('%s should throw', input => {
+  it.each([
+    { input: undefined },
+    { input: [] },
+    { input: '' },
+    { input: {} },
+    { input: () => ({}) },
+  ])('$input should throw', ({ input }) => {
     expect(() => {
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

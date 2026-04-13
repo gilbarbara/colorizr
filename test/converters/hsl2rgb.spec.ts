@@ -1,32 +1,32 @@
 import hsl2rgb from '~/converters/hsl2rgb';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, RGB } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hsl2rgb', () => {
   it.each([
-    [brightPink.hsl, brightPink.rgb],
-    [green.hsl, green.rgb],
-    [orange.hsl, orange.rgb],
-    [violet.hsl, violet.rgb],
-    [yellow.hsl, yellow.rgb],
-    [
-      { h: 0, s: 0, l: 0 },
-      { r: 0, g: 0, b: 0 },
-    ],
-  ])('%s should return %s', (input, expected) => {
+    { input: brightPink.hsl, expected: brightPink.rgb },
+    { input: green.hsl, expected: green.rgb },
+    { input: orange.hsl, expected: orange.rgb },
+    { input: violet.hsl, expected: violet.rgb },
+    { input: yellow.hsl, expected: yellow.rgb },
+    {
+      input: { h: 0, s: 0, l: 0 },
+      expected: { r: 0, g: 0, b: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hsl2rgb(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.hsl), brightPink.rgb],
-    [Object.values(green.hsl), green.rgb],
-    [Object.values(orange.hsl), orange.rgb],
-    [Object.values(violet.hsl), violet.rgb],
-    [Object.values(yellow.hsl), yellow.rgb],
-  ] as Array<[ColorTuple, RGB]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.hsl) as ColorTuple, expected: brightPink.rgb },
+    { input: Object.values(green.hsl) as ColorTuple, expected: green.rgb },
+    { input: Object.values(orange.hsl) as ColorTuple, expected: orange.rgb },
+    { input: Object.values(violet.hsl) as ColorTuple, expected: violet.rgb },
+    { input: Object.values(yellow.hsl) as ColorTuple, expected: yellow.rgb },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hsl2rgb(input)).toEqual(expected);
   });
 
@@ -41,15 +41,15 @@ describe('hsl2rgb', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [
-        { ...brightPink.hsl, alpha: alphaCases.semi },
-        { ...brightPink.rgb, alpha: alphaCases.semi },
-      ],
-      [
-        { ...green.hsl, alpha: alphaCases.semi },
-        { ...green.rgb, alpha: alphaCases.semi },
-      ],
-    ])('%s should return %s', (input, expected) => {
+      {
+        input: { ...brightPink.hsl, alpha: alphaCases.semi },
+        expected: { ...brightPink.rgb, alpha: alphaCases.semi },
+      },
+      {
+        input: { ...green.hsl, alpha: alphaCases.semi },
+        expected: { ...green.rgb, alpha: alphaCases.semi },
+      },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(hsl2rgb(input)).toEqual(expected);
     });
 

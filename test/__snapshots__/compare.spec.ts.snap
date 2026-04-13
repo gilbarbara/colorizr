@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compare > #ff0044 with oklab(0 0 0) should return an analysis 1`] = `
+exports[`compare > '#ff0044' with 'oklab(0 0 0)' should return an analysis 1`] = `
 {
   "brightnessDifference": 83.997,
   "colorDifference": 323,
@@ -13,7 +13,7 @@ exports[`compare > #ff0044 with oklab(0 0 0) should return an analysis 1`] = `
 }
 `;
 
-exports[`compare > #ff0044 with rgb(221, 0, 255) should return an analysis 1`] = `
+exports[`compare > '#ff0044' with 'rgb(221, 0, 255)' should return an analysis 1`] = `
 {
   "brightnessDifference": 11.152,
   "colorDifference": 221,
@@ -26,7 +26,7 @@ exports[`compare > #ff0044 with rgb(221, 0, 255) should return an analysis 1`] =
 }
 `;
 
-exports[`compare > #fff with rgb(119, 119, 119) should return an analysis 1`] = `
+exports[`compare > '#fff' with 'rgb(119, 119, 119)' should return an analysis 1`] = `
 {
   "brightnessDifference": 136,
   "colorDifference": 408,
@@ -39,7 +39,7 @@ exports[`compare > #fff with rgb(119, 119, 119) should return an analysis 1`] = 
 }
 `;
 
-exports[`compare > hsl(344, 100%, 50%) with oklch(1 0 0) should return an analysis 1`] = `
+exports[`compare > 'hsl(344, 100%, 50%)' with 'oklch(1 0 0)' should return an analysis 1`] = `
 {
   "brightnessDifference": 171.003,
   "colorDifference": 442,
@@ -52,7 +52,7 @@ exports[`compare > hsl(344, 100%, 50%) with oklch(1 0 0) should return an analys
 }
 `;
 
-exports[`compare > oklab(0 0 0) with oklch(1 0 0) should return an analysis 1`] = `
+exports[`compare > 'oklab(0 0 0)' with 'oklch(1 0 0)' should return an analysis 1`] = `
 {
   "brightnessDifference": 255,
   "colorDifference": 765,
@@ -65,7 +65,7 @@ exports[`compare > oklab(0 0 0) with oklch(1 0 0) should return an analysis 1`] 
 }
 `;
 
-exports[`compare > rgb(255, 0, 68) with #00ffbb should return an analysis 1`] = `
+exports[`compare > 'rgb(255, 0, 68)' with '#00ffbb' should return an analysis 1`] = `
 {
   "brightnessDifference": 87.006,
   "colorDifference": 629,

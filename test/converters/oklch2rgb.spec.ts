@@ -1,37 +1,37 @@
 import oklch2rgb from '~/converters/oklch2rgb';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, LCH, RGB } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklch2rgb', () => {
   it.each([
-    [brightPink.oklch, brightPink.rgb],
-    [brightPink.oklchLong, brightPink.rgb],
-    [green.oklch, green.rgb],
-    [green.oklchLong, green.rgb],
-    [orange.oklch, orange.rgb],
-    [orange.oklchLong, orange.rgb],
-    [violet.oklch, violet.rgb],
-    [violet.oklchLong, violet.rgb],
-    [yellow.oklch, yellow.rgb],
-    [yellow.oklchLong, yellow.rgb],
-    [
-      { l: 0, c: 0, h: 0 },
-      { r: 0, g: 0, b: 0 },
-    ],
-  ] as Array<[LCH, RGB]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.oklch, expected: brightPink.rgb },
+    { input: brightPink.oklchLong, expected: brightPink.rgb },
+    { input: green.oklch, expected: green.rgb },
+    { input: green.oklchLong, expected: green.rgb },
+    { input: orange.oklch, expected: orange.rgb },
+    { input: orange.oklchLong, expected: orange.rgb },
+    { input: violet.oklch, expected: violet.rgb },
+    { input: violet.oklchLong, expected: violet.rgb },
+    { input: yellow.oklch, expected: yellow.rgb },
+    { input: yellow.oklchLong, expected: yellow.rgb },
+    {
+      input: { l: 0, c: 0, h: 0 },
+      expected: { r: 0, g: 0, b: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklch2rgb(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklch), brightPink.rgb],
-    [Object.values(green.oklch), green.rgb],
-    [Object.values(orange.oklch), orange.rgb],
-    [Object.values(violet.oklch), violet.rgb],
-    [Object.values(yellow.oklch), yellow.rgb],
-  ] as Array<[ColorTuple, RGB]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.oklch) as ColorTuple, expected: brightPink.rgb },
+    { input: Object.values(green.oklch) as ColorTuple, expected: green.rgb },
+    { input: Object.values(orange.oklch) as ColorTuple, expected: orange.rgb },
+    { input: Object.values(violet.oklch) as ColorTuple, expected: violet.rgb },
+    { input: Object.values(yellow.oklch) as ColorTuple, expected: yellow.rgb },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklch2rgb(input)).toEqual(expected);
   });
 

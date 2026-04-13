@@ -3,13 +3,13 @@ import { MESSAGES } from '~/modules/constants';
 
 describe('compare', () => {
   it.each([
-    ['#ff0044', 'rgb(221, 0, 255)'],
-    ['rgb(255, 0, 68)', '#00ffbb'],
-    ['hsl(344, 100%, 50%)', 'oklch(1 0 0)'],
-    ['#ff0044', 'oklab(0 0 0)'],
-    ['#fff', 'rgb(119, 119, 119)'],
-    ['oklab(0 0 0)', 'oklch(1 0 0)'],
-  ])('%s with %s should return an analysis', (left, right) => {
+    { left: '#ff0044', right: 'rgb(221, 0, 255)' },
+    { left: 'rgb(255, 0, 68)', right: '#00ffbb' },
+    { left: 'hsl(344, 100%, 50%)', right: 'oklch(1 0 0)' },
+    { left: '#ff0044', right: 'oklab(0 0 0)' },
+    { left: '#fff', right: 'rgb(119, 119, 119)' },
+    { left: 'oklab(0 0 0)', right: 'oklch(1 0 0)' },
+  ])('$left with $right should return an analysis', ({ left, right }) => {
     expect(compare(left, right)).toMatchSnapshot();
   });
 

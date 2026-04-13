@@ -1,29 +1,29 @@
 import oklab2hex from '~/converters/oklab2hex';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, HEX, LAB } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklab2hex', () => {
   it.each([
-    [brightPink.oklab, brightPink.hex],
-    [green.oklab, green.hex],
-    [orange.oklab, orange.hex],
-    [violet.oklab, violet.hex],
-    [yellow.oklab, yellow.hex],
-    [{ l: 0, a: 0, b: 0 }, '#000000'],
-  ] as Array<[LAB, HEX]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.oklab, expected: brightPink.hex },
+    { input: green.oklab, expected: green.hex },
+    { input: orange.oklab, expected: orange.hex },
+    { input: violet.oklab, expected: violet.hex },
+    { input: yellow.oklab, expected: yellow.hex },
+    { input: { l: 0, a: 0, b: 0 }, expected: '#000000' },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklab2hex(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklab), brightPink.hex],
-    [Object.values(green.oklab), green.hex],
-    [Object.values(orange.oklab), orange.hex],
-    [Object.values(violet.oklab), violet.hex],
-    [Object.values(yellow.oklab), yellow.hex],
-  ] as Array<[ColorTuple, string]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.oklab) as ColorTuple, expected: brightPink.hex },
+    { input: Object.values(green.oklab) as ColorTuple, expected: green.hex },
+    { input: Object.values(orange.oklab) as ColorTuple, expected: orange.hex },
+    { input: Object.values(violet.oklab) as ColorTuple, expected: violet.hex },
+    { input: Object.values(yellow.oklab) as ColorTuple, expected: yellow.hex },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklab2hex(input)).toEqual(expected);
   });
 
@@ -38,9 +38,9 @@ describe('oklab2hex', () => {
 
   describe('alpha handling', () => {
     it.each([
-      [{ ...brightPink.oklab, alpha: alphaCases.semi }, brightPink.hexAlpha],
-      [{ ...green.oklab, alpha: alphaCases.semi }, green.hexAlpha],
-    ])('%s should return %s', (input, expected) => {
+      { input: { ...brightPink.oklab, alpha: alphaCases.semi }, expected: brightPink.hexAlpha },
+      { input: { ...green.oklab, alpha: alphaCases.semi }, expected: green.hexAlpha },
+    ])('$input should return $expected', ({ input, expected }) => {
       expect(oklab2hex(input)).toEqual(expected);
     });
 

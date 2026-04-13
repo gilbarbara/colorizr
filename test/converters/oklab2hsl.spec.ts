@@ -1,32 +1,32 @@
 import oklab2hsl from '~/converters/oklab2hsl';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, HSL, LAB } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('oklab2hsl', () => {
   it.each([
-    [brightPink.oklab, brightPink.hsl],
-    [green.oklab, green.hsl],
-    [orange.oklab, orange.hsl],
-    [violet.oklab, violet.hsl],
-    [yellow.oklab, yellow.hsl],
-    [
-      { l: 0, a: 0, b: 0 },
-      { h: 0, s: 0, l: 0 },
-    ],
-  ] as Array<[LAB, HSL]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.oklab, expected: brightPink.hsl },
+    { input: green.oklab, expected: green.hsl },
+    { input: orange.oklab, expected: orange.hsl },
+    { input: violet.oklab, expected: violet.hsl },
+    { input: yellow.oklab, expected: yellow.hsl },
+    {
+      input: { l: 0, a: 0, b: 0 },
+      expected: { h: 0, s: 0, l: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklab2hsl(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.oklab), brightPink.hsl],
-    [Object.values(green.oklab), green.hsl],
-    [Object.values(orange.oklab), orange.hsl],
-    [Object.values(violet.oklab), violet.hsl],
-    [Object.values(yellow.oklab), yellow.hsl],
-  ] as Array<[ColorTuple, HSL]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.oklab) as ColorTuple, expected: brightPink.hsl },
+    { input: Object.values(green.oklab) as ColorTuple, expected: green.hsl },
+    { input: Object.values(orange.oklab) as ColorTuple, expected: orange.hsl },
+    { input: Object.values(violet.oklab) as ColorTuple, expected: violet.hsl },
+    { input: Object.values(yellow.oklab) as ColorTuple, expected: yellow.hsl },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(oklab2hsl(input)).toEqual(expected);
   });
 

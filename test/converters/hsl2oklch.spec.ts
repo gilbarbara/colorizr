@@ -1,32 +1,32 @@
 import hsl2oklch from '~/converters/hsl2oklch';
 import { MESSAGES } from '~/modules/constants';
 
-import { ColorTuple, HSL, LCH } from '~/types';
+import { ColorTuple } from '~/types';
 
 import { alphaCases, brightPink, green, orange, violet, yellow } from '../__fixtures__';
 
 describe('hsl2oklch', () => {
   it.each([
-    [brightPink.hsl, brightPink.oklchLong],
-    [green.hsl, green.oklchLong],
-    [orange.hsl, orange.oklchLong],
-    [violet.hsl, violet.oklchLong],
-    [yellow.hsl, yellow.oklchLong],
-    [
-      { h: 0, s: 0, l: 0 },
-      { l: 0, c: 0, h: 0 },
-    ],
-  ] as Array<[HSL, LCH]>)('%s should return %s', (input, expected) => {
+    { input: brightPink.hsl, expected: brightPink.oklchLong },
+    { input: green.hsl, expected: green.oklchLong },
+    { input: orange.hsl, expected: orange.oklchLong },
+    { input: violet.hsl, expected: violet.oklchLong },
+    { input: yellow.hsl, expected: yellow.oklchLong },
+    {
+      input: { h: 0, s: 0, l: 0 },
+      expected: { l: 0, c: 0, h: 0 },
+    },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hsl2oklch(input)).toEqual(expected);
   });
 
   it.each([
-    [Object.values(brightPink.hsl), brightPink.oklchLong],
-    [Object.values(green.hsl), green.oklchLong],
-    [Object.values(orange.hsl), orange.oklchLong],
-    [Object.values(violet.hsl), violet.oklchLong],
-    [Object.values(yellow.hsl), yellow.oklchLong],
-  ] as Array<[ColorTuple, LCH]>)('%s should return %s', (input, expected) => {
+    { input: Object.values(brightPink.hsl) as ColorTuple, expected: brightPink.oklchLong },
+    { input: Object.values(green.hsl) as ColorTuple, expected: green.oklchLong },
+    { input: Object.values(orange.hsl) as ColorTuple, expected: orange.oklchLong },
+    { input: Object.values(violet.hsl) as ColorTuple, expected: violet.oklchLong },
+    { input: Object.values(yellow.hsl) as ColorTuple, expected: yellow.oklchLong },
+  ])('$input should return $expected', ({ input, expected }) => {
     expect(hsl2oklch(input)).toEqual(expected);
   });
 

@@ -1,27 +1,25 @@
 import formatHex from '~/format-hex';
 import { MESSAGES } from '~/modules/constants';
 
-import { HEX } from '~/types';
-
 describe('formatHex', () => {
   it.each([
-    ['f05', '#ff0055'],
-    ['#f0a', '#ff00aa'],
-    ['#abc', '#aabbcc'],
-    ['#07e', '#0077ee'],
-    ['f058', '#ff005588'],
-    ['#f0a0', '#ff00aa00'],
-    ['#abcf', '#aabbccff'],
-    ['#07eb', '#0077eebb'],
-    ['aabbcc', '#aabbcc'],
-    ['#ff0044', '#ff0044'],
-    ['#00ff00', '#00ff00'],
-    ['#774422', '#774422'],
-    ['aabbcc88', '#aabbcc88'],
-    ['#ff0044ff', '#ff0044ff'],
-    ['#00ff0000', '#00ff0000'],
-    ['#774422bb', '#774422bb'],
-  ] as Array<[string, HEX]>)('should format %s to %s', (input, expected) => {
+    { input: 'f05', expected: '#ff0055' },
+    { input: '#f0a', expected: '#ff00aa' },
+    { input: '#abc', expected: '#aabbcc' },
+    { input: '#07e', expected: '#0077ee' },
+    { input: 'f058', expected: '#ff005588' },
+    { input: '#f0a0', expected: '#ff00aa00' },
+    { input: '#abcf', expected: '#aabbccff' },
+    { input: '#07eb', expected: '#0077eebb' },
+    { input: 'aabbcc', expected: '#aabbcc' },
+    { input: '#ff0044', expected: '#ff0044' },
+    { input: '#00ff00', expected: '#00ff00' },
+    { input: '#774422', expected: '#774422' },
+    { input: 'aabbcc88', expected: '#aabbcc88' },
+    { input: '#ff0044ff', expected: '#ff0044ff' },
+    { input: '#00ff0000', expected: '#00ff0000' },
+    { input: '#774422bb', expected: '#774422bb' },
+  ])('should format $input to $expected', ({ input, expected }) => {
     expect(formatHex(input)).toBe(expected);
   });
 
