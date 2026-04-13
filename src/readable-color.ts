@@ -66,14 +66,20 @@ function pickByContrast(
  * - `apca`: APCA contrast comparison (WCAG 3.0 candidate)
  *
  * @param backgroundColor - The background color string.
- * @param options - Options for determining the readable color.
+ * @param methodOrOptions - Method or options object.
  * @returns The most readable color (light or dark).
  */
+
 export default function readableColor(
   backgroundColor: string,
-  options: ReadableColorOptions = {},
+  methodOrOptions?: ReadableColorMethod | ReadableColorOptions,
 ): string {
-  const { darkColor = '#000000', lightColor = '#ffffff', method = 'yiq', threshold } = options;
+  const {
+    darkColor = '#000000',
+    lightColor = '#ffffff',
+    method = 'yiq',
+    threshold,
+  } = isString(methodOrOptions, false) ? { method: methodOrOptions } : (methodOrOptions ?? {});
 
   invariant(isString(backgroundColor), MESSAGES.inputString);
 

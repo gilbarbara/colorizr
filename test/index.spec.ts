@@ -41,7 +41,6 @@ import Colorizr, {
   parseCSS,
   random,
   readableColor,
-  readableColorAPCA,
   rgb2hex,
   rgb2hsl,
   rgb2oklab,
@@ -99,7 +98,6 @@ describe('exports', () => {
     expect(parseCSS).toEqual(expect.any(Function));
     expect(random).toEqual(expect.any(Function));
     expect(readableColor).toEqual(expect.any(Function));
-    expect(readableColorAPCA).toEqual(expect.any(Function));
     expect(rgb2hex).toEqual(expect.any(Function));
     expect(rgb2hsl).toEqual(expect.any(Function));
     expect(rgb2oklab).toEqual(expect.any(Function));

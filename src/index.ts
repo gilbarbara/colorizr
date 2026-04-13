@@ -41,8 +41,6 @@ export { default as parseCSS } from '~/parse-css';
 export { default as random } from '~/random';
 export { default as readableColor } from '~/readable-color';
 export type { ReadableColorMethod, ReadableColorOptions } from '~/readable-color';
-export { default as readableColorAPCA } from '~/readable-color-apca';
-export type { ReadableColorAPCAOptions } from '~/readable-color-apca';
 export { default as rotate } from '~/rotate';
 export { default as saturate } from '~/saturate';
 export { default as scale } from '~/scale';
