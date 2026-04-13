@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
-import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
+import { convertAlphaToHex, normalizeAlpha, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -25,7 +25,6 @@ export interface FormatCSSOptions {
   alpha?: number;
   /**
    * Output color format.
-   * @default 'hex'
    */
   format?: ColorType;
   /**
@@ -100,13 +99,18 @@ export default function formatCSS<T extends ColorValue>(
 ): string {
   invariant(isHex(input) || isValidColorModel(input), MESSAGES.invalid);
 
-  const { alpha, format = 'hex', precision = PRECISION, separator: baseSeparator = ' ' } = options;
+  const { alpha, format, precision = PRECISION, separator: baseSeparator = ' ' } = options;
 
-  const opacity = isNumber(alpha) && alpha !== 1 ? `${round(alpha * 100)}%` : null;
+  const colorFormat = format || getColorModel(input);
+  const normalizedAlpha = isNumber(alpha) ? normalizeAlpha(alpha) : undefined;
+  const opacity =
+    normalizedAlpha !== undefined && normalizedAlpha !== 1
+      ? `${round(normalizedAlpha * 100)}%`
+      : null;
   let params = [];
   let separator = baseSeparator;
 
-  switch (format) {
+  switch (colorFormat) {
     case 'hsl': {
       const { h, s, l } = getColorValue(input, 'hsl');
 
@@ -136,13 +140,13 @@ export default function formatCSS<T extends ColorValue>(
     default: {
       const hex = removeAlphaFromHex(getColorValue(input, 'hex'));
 
-      if (isNumber(alpha) && alpha !== 1) {
-        return `${hex}${convertAlphaToHex(alpha)}`;
+      if (normalizedAlpha !== undefined && normalizedAlpha !== 1) {
+        return `${hex}${convertAlphaToHex(normalizedAlpha)}`;
       }
 
       return hex;
     }
   }
 
-  return `${format}(${params.join(separator)}${opacity ? ` / ${opacity}` : ''})`;
+  return `${colorFormat}(${params.join(separator)}${opacity ? ` / ${opacity}` : ''})`;
 }
