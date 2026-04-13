@@ -102,6 +102,21 @@ describe('readableColor', () => {
     });
   });
 
+  describe('string shorthand', () => {
+    it('should accept method as string', () => {
+      expect(readableColor('#ffffff', 'apca')).toBe('#000000');
+      expect(readableColor('#000000', 'apca')).toBe('#ffffff');
+    });
+
+    it('should match object form', () => {
+      expect(readableColor('#ff0044', 'wcag')).toBe(readableColor('#ff0044', { method: 'wcag' }));
+      expect(readableColor('#ff0044', 'oklab')).toBe(readableColor('#ff0044', { method: 'oklab' }));
+      expect(readableColor('#ff0044', 'contrast')).toBe(
+        readableColor('#ff0044', { method: 'contrast' }),
+      );
+    });
+  });
+
   describe('error handling', () => {
     it('should throw with invalid string', () => {
       expect(() => readableColor('abcdef')).toThrow('invalid CSS string');
