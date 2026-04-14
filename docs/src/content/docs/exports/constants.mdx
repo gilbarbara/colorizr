@@ -1,0 +1,50 @@
+---
+title: Constants
+description: Color space conversion matrices and numeric constants exported by colorizr.
+---
+
+All constants are importable from `colorizr`:
+
+```typescript
+import { LRGB_TO_LMS, DEG2RAD, GAMUT_EPSILON } from 'colorizr';
+```
+
+## Conversion Matrices
+
+All matrices are typed as `number[][]` (3x3). They follow the naming convention `SOURCE_TO_DESTINATION`.
+
+### OkLab Pipeline
+
+These matrices implement the [OkLab](https://bottosson.github.io/posts/oklab/) color space conversion, following Bjorn Ottosson's published values.
+
+| Constant | Conversion |
+|----------|-----------|
+| `LRGB_TO_LMS` | Linear sRGB to LMS |
+| `LMS_TO_LRGB` | LMS to Linear sRGB |
+| `OKLAB_TO_CLMS` | OkLab to LMS cube roots |
+| `CLMS_TO_OKLAB` | LMS cube roots to OkLab |
+
+### Display P3 / sRGB
+
+| Constant | Conversion |
+|----------|-----------|
+| `SRGB_TO_P3` | sRGB linear to P3 linear |
+| `P3_TO_SRGB` | P3 linear to sRGB linear |
+
+### XYZ
+
+Values from the [CSS Color Level 4](https://www.w3.org/TR/css-color-4/) specification (D65 white point).
+
+| Constant | Conversion |
+|----------|-----------|
+| `P3_TO_XYZ` | P3 linear to XYZ D65 |
+| `XYZ_TO_SRGB` | XYZ D65 to sRGB linear |
+
+## Scalars
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `DEG2RAD` | `Math.PI / 180` | Degrees to radians multiplier |
+| `RAD2DEG` | `180 / Math.PI` | Radians to degrees multiplier |
+| `GAMUT_EPSILON` | `0.000001` | Tolerance for gamut boundary checks |
+| `PRECISION` | `5` | Default number of significant digits for CSS output |

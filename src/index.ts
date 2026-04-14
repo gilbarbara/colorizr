@@ -29,6 +29,22 @@ export {
   extractAlphaFromHex,
   removeAlphaFromHex,
 } from '~/modules/alpha';
+export {
+  CLMS_TO_OKLAB,
+  DEG2RAD,
+  GAMUT_EPSILON,
+  LMS_TO_LRGB,
+  LRGB_TO_LMS,
+  OKLAB_TO_CLMS,
+  P3_TO_SRGB,
+  P3_TO_XYZ,
+  PRECISION,
+  RAD2DEG,
+  SRGB_TO_P3,
+  XYZ_TO_SRGB,
+} from '~/modules/constants';
+export { srgbGammaDecode, srgbGammaEncode } from '~/modules/gamma';
+export { isInGamut, oklabToLinearP3, oklabToLinearSRGB } from '~/modules/linear-rgb';
 export { getScaleStepKeys } from '~/modules/utils';
 export { isHex, isHSL, isLAB, isLCH, isRGB } from '~/modules/validators';
 export { default as name } from '~/name';
