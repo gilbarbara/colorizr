@@ -1,4 +1,5 @@
 import { MESSAGES } from '~/modules/constants';
+import { srgbGammaDecode } from '~/modules/gamma';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
@@ -15,15 +16,9 @@ export default function luminance(input: string): number {
 
   const { r, g, b } = resolveColor(input).rgb;
 
-  const rgb = [r / 255, g / 255, b / 255];
+  const lr = srgbGammaDecode(r / 255);
+  const lg = srgbGammaDecode(g / 255);
+  const lb = srgbGammaDecode(b / 255);
 
-  for (let index = 0; index < rgb.length; index++) {
-    if (rgb[index] <= 0.04045) {
-      rgb[index] /= 12.92;
-    } else {
-      rgb[index] = ((rgb[index] + 0.055) / 1.055) ** 2.4;
-    }
-  }
-
-  return round(0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2], 4);
+  return round(0.2126 * lr + 0.7152 * lg + 0.0722 * lb, 4);
 }
