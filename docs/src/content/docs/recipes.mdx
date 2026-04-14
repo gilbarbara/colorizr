@@ -80,3 +80,145 @@ mix('#ff0044', '#0066ff', 0.5, { space: 'hsl' }); // mix in HSL space
 ```
 
 See [mix](../generators/mix/) for interpolation spaces and hue modes.
+
+## Build a P3-aware HSV color picker
+
+Color pickers traditionally use HSV (Hue, Saturation, Value) for their 2D panel. To support wide-gamut P3 colors with OkLCH, you can use colorizr's exported constants and helpers to build the conversion pipeline.
+
+### HSV basics
+
+HSV isn't a CSS color format — it's a UI representation. You'll need two simple functions for HSV ↔ RGB conversion:
+
+```typescript
+function hsvToRgb(h: number, s: number, v: number): [number, number, number] {
+  const c = v * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = v - c;
+
+  let r = 0, g = 0, b = 0;
+
+  if (h < 60)       { r = c; g = x; }
+  else if (h < 120) { r = x; g = c; }
+  else if (h < 180) { g = c; b = x; }
+  else if (h < 240) { g = x; b = c; }
+  else if (h < 300) { r = x; b = c; }
+  else              { r = c; b = x; }
+
+  return [r + m, g + m, b + m];
+}
+
+function rgbToHsv(r: number, g: number, b: number): { h: number; s: number; v: number } {
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const delta = max - min;
+
+  let h = 0;
+
+  if (delta !== 0) {
+    if (max === r) h = ((g - b) / delta) % 6;
+    else if (max === g) h = (b - r) / delta + 2;
+    else h = (r - g) / delta + 4;
+
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+
+  return { h, s: max === 0 ? 0 : delta / max, v: max };
+}
+```
+
+### OkLCH to P3 HSV
+
+Convert an OkLCH color to P3 HSV for rendering on a wide-gamut canvas. This bypasses sRGB clamping so P3 colors display correctly:
+
+```typescript
+import {
+  OKLAB_TO_CLMS, LMS_TO_LRGB, SRGB_TO_P3,
+  DEG2RAD, srgbGammaEncode,
+} from 'colorizr';
+
+function oklchToP3Hsv(l: number, c: number, h: number) {
+  // OkLCH → OkLab
+  const hRad = h * DEG2RAD;
+  const labA = c * Math.cos(hRad);
+  const labB = c * Math.sin(hRad);
+
+  // OkLab → LMS cube roots → LMS
+  const cl = OKLAB_TO_CLMS[0][0] * l + OKLAB_TO_CLMS[0][1] * labA + OKLAB_TO_CLMS[0][2] * labB;
+  const cm = OKLAB_TO_CLMS[1][0] * l + OKLAB_TO_CLMS[1][1] * labA + OKLAB_TO_CLMS[1][2] * labB;
+  const cs = OKLAB_TO_CLMS[2][0] * l + OKLAB_TO_CLMS[2][1] * labA + OKLAB_TO_CLMS[2][2] * labB;
+
+  const lms_l = cl ** 3;
+  const lms_m = cm ** 3;
+  const lms_s = cs ** 3;
+
+  // LMS → sRGB linear
+  const sr = LMS_TO_LRGB[0][0] * lms_l + LMS_TO_LRGB[0][1] * lms_m + LMS_TO_LRGB[0][2] * lms_s;
+  const sg = LMS_TO_LRGB[1][0] * lms_l + LMS_TO_LRGB[1][1] * lms_m + LMS_TO_LRGB[1][2] * lms_s;
+  const sb = LMS_TO_LRGB[2][0] * lms_l + LMS_TO_LRGB[2][1] * lms_m + LMS_TO_LRGB[2][2] * lms_s;
+
+  // sRGB linear → P3 linear → P3 gamma
+  const p3r = SRGB_TO_P3[0][0] * sr + SRGB_TO_P3[0][1] * sg + SRGB_TO_P3[0][2] * sb;
+  const p3g = SRGB_TO_P3[1][0] * sr + SRGB_TO_P3[1][1] * sg + SRGB_TO_P3[1][2] * sb;
+  const p3b = SRGB_TO_P3[2][0] * sr + SRGB_TO_P3[2][1] * sg + SRGB_TO_P3[2][2] * sb;
+
+  const r = Math.max(0, Math.min(1, srgbGammaEncode(p3r)));
+  const g = Math.max(0, Math.min(1, srgbGammaEncode(p3g)));
+  const b = Math.max(0, Math.min(1, srgbGammaEncode(p3b)));
+
+  return rgbToHsv(r, g, b);
+}
+```
+
+### Detecting the sRGB boundary
+
+When rendering the picker panel, you can visualize which colors fall outside sRGB by checking each P3 HSV color against the sRGB gamut:
+
+```typescript
+import { P3_TO_XYZ, XYZ_TO_SRGB, GAMUT_EPSILON, srgbGammaDecode } from 'colorizr';
+
+function isP3HsvInSRGB(h: number, s: number, v: number): boolean {
+  const [r, g, b] = hsvToRgb(h, s, v);
+
+  // P3 gamma → P3 linear
+  const rLin = srgbGammaDecode(r);
+  const gLin = srgbGammaDecode(g);
+  const bLin = srgbGammaDecode(b);
+
+  // P3 linear → XYZ D65 → sRGB linear
+  const x = P3_TO_XYZ[0][0] * rLin + P3_TO_XYZ[0][1] * gLin + P3_TO_XYZ[0][2] * bLin;
+  const y = P3_TO_XYZ[1][0] * rLin + P3_TO_XYZ[1][1] * gLin + P3_TO_XYZ[1][2] * bLin;
+  const z = P3_TO_XYZ[2][0] * rLin + P3_TO_XYZ[2][1] * gLin + P3_TO_XYZ[2][2] * bLin;
+
+  const sr = XYZ_TO_SRGB[0][0] * x + XYZ_TO_SRGB[0][1] * y + XYZ_TO_SRGB[0][2] * z;
+  const sg = XYZ_TO_SRGB[1][0] * x + XYZ_TO_SRGB[1][1] * y + XYZ_TO_SRGB[1][2] * z;
+  const sb = XYZ_TO_SRGB[2][0] * x + XYZ_TO_SRGB[2][1] * y + XYZ_TO_SRGB[2][2] * z;
+
+  const min = -GAMUT_EPSILON;
+  const max = 1 + GAMUT_EPSILON;
+
+  return sr >= min && sr <= max && sg >= min && sg <= max && sb >= min && sb <= max;
+}
+```
+
+### Rendering on a P3 canvas
+
+Use the `display-p3` color space on a canvas to render the full P3 gamut:
+
+```typescript
+const ctx = canvas.getContext('2d', { colorSpace: 'display-p3' });
+
+for (let y = 0; y < height; y++) {
+  const value = 1 - y / (height - 1);
+
+  for (let x = 0; x < width; x++) {
+    const saturation = x / (width - 1);
+    const [r, g, b] = hsvToRgb(hsvHue, saturation, value);
+
+    ctx.fillStyle = `color(display-p3 ${r} ${g} ${b})`;
+    ctx.fillRect(x, y, 1, 1);
+  }
+}
+```
+
+See [Constants](../exports/constants/) and [Helpers](../exports/helpers/) for all available building blocks.

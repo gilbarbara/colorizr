@@ -117,7 +117,14 @@ export default defineConfig({
           ],
         },
         { label: 'Colorizr Class', link: '/class/' },
-        { label: 'Types Reference', link: '/types/' },
+        {
+          label: 'Exports',
+          items: [
+            { label: 'Types', link: '/exports/types/' },
+            { label: 'Constants', link: '/exports/constants/' },
+            { label: 'Helpers', link: '/exports/helpers/' },
+          ],
+        },
         { label: 'Recipes', link: '/recipes/' },
         {
           label: 'Companion Apps',

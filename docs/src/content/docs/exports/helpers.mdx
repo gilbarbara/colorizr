@@ -1,0 +1,99 @@
+---
+title: Helpers
+description: Low-level color math functions exported by colorizr.
+---
+
+These functions are building blocks for custom color pipelines. They operate on raw numeric values rather than CSS color strings.
+
+```typescript
+import { srgbGammaDecode, oklabToLinearSRGB, isInGamut } from 'colorizr';
+```
+
+## Gamma Transfer
+
+The sRGB transfer function (piecewise gamma) and its inverse. These handle negative values via sign preservation, which is important for out-of-gamut colors during gamut mapping.
+
+### srgbGammaDecode
+
+Convert sRGB encoded values to linear light.
+
+```typescript
+srgbGammaDecode(input: number): number
+```
+
+```typescript
+import { srgbGammaDecode } from 'colorizr';
+
+srgbGammaDecode(0.5); // 0.214
+srgbGammaDecode(1.0); // 1.0
+srgbGammaDecode(0.0); // 0.0
+```
+
+### srgbGammaEncode
+
+Convert linear light values to sRGB encoded.
+
+```typescript
+srgbGammaEncode(input: number): number
+```
+
+```typescript
+import { srgbGammaEncode } from 'colorizr';
+
+srgbGammaEncode(0.214); // ~0.5
+srgbGammaEncode(1.0);   // 1.0
+srgbGammaEncode(0.0);   // 0.0
+```
+
+## Linear RGB Conversion
+
+Convert OkLab values directly to linear RGB tuples without rounding or clamping. Useful for custom gamut mapping, color blending in linear space, or feeding into canvas/WebGL pipelines.
+
+### oklabToLinearSRGB
+
+Convert OkLab to linear sRGB.
+
+```typescript
+oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple
+```
+
+```typescript
+import { oklabToLinearSRGB } from 'colorizr';
+
+oklabToLinearSRGB(0.63, 0.26, 0.015); // [0.579..., 0.011..., 0.036...]
+```
+
+### oklabToLinearP3
+
+Convert OkLab to linear Display P3. Uses the `SRGB_TO_P3` matrix internally.
+
+```typescript
+oklabToLinearP3(L: number, a: number, b: number): ColorTuple
+```
+
+```typescript
+import { oklabToLinearP3 } from 'colorizr';
+
+oklabToLinearP3(0.63, 0.26, 0.015); // [0.486..., 0.031..., 0.050...]
+```
+
+## Gamut Check
+
+### isInGamut
+
+Check whether a linear RGB color tuple is within the [0, 1] gamut, with a small tolerance (`GAMUT_EPSILON`).
+
+```typescript
+isInGamut(color: ColorTuple): boolean
+```
+
+```typescript
+import { oklabToLinearSRGB, isInGamut } from 'colorizr';
+
+const linear = oklabToLinearSRGB(0.5, 0.0, 0.0);
+isInGamut(linear); // true
+
+// Out-of-gamut wide color
+const wide = oklabToLinearSRGB(0.7, 0.4, 0.0);
+isInGamut(wide); // false
+```
