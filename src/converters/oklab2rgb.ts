@@ -1,21 +1,9 @@
 import { addAlpha, extractAlpha } from '~/modules/alpha';
-import { LAB_TO_LMS, LSM_TO_RGB } from '~/modules/constants';
+import { LMS_TO_LRGB, OKLAB_TO_CLMS } from '~/modules/constants';
+import { srgbGammaEncode } from '~/modules/gamma';
 import { clamp, parseInput, round } from '~/modules/utils';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
-
-const { abs } = Math;
-
-function lrgb2rgb(input: number) {
-  const absoluteNumber = abs(input);
-  const sign = input < 0 ? -1 : 1;
-
-  if (absoluteNumber > 0.0031308) {
-    return sign * (absoluteNumber ** (1 / 2.4) * 1.055 - 0.055);
-  }
-
-  return input * 12.92;
-}
 
 /**
  * Convert OkLab to RGB.
@@ -28,13 +16,16 @@ export default function oklab2rgb(input: ConverterParameters<LAB>, precision = 0
   const { l: L, a: A, b: B } = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);
 
-  const l = (L + LAB_TO_LMS.l[0] * A + LAB_TO_LMS.l[1] * B) ** 3;
-  const m = (L + LAB_TO_LMS.m[0] * A + LAB_TO_LMS.m[1] * B) ** 3;
-  const s = (L + LAB_TO_LMS.s[0] * A + LAB_TO_LMS.s[1] * B) ** 3;
+  const l = (OKLAB_TO_CLMS[0][0] * L + OKLAB_TO_CLMS[0][1] * A + OKLAB_TO_CLMS[0][2] * B) ** 3;
+  const m = (OKLAB_TO_CLMS[1][0] * L + OKLAB_TO_CLMS[1][1] * A + OKLAB_TO_CLMS[1][2] * B) ** 3;
+  const s = (OKLAB_TO_CLMS[2][0] * L + OKLAB_TO_CLMS[2][1] * A + OKLAB_TO_CLMS[2][2] * B) ** 3;
 
-  const r = 255 * lrgb2rgb(LSM_TO_RGB.r[0] * l + LSM_TO_RGB.r[1] * m + LSM_TO_RGB.r[2] * s);
-  const g = 255 * lrgb2rgb(LSM_TO_RGB.g[0] * l + LSM_TO_RGB.g[1] * m + LSM_TO_RGB.g[2] * s);
-  const b = 255 * lrgb2rgb(LSM_TO_RGB.b[0] * l + LSM_TO_RGB.b[1] * m + LSM_TO_RGB.b[2] * s);
+  const r =
+    255 * srgbGammaEncode(LMS_TO_LRGB[0][0] * l + LMS_TO_LRGB[0][1] * m + LMS_TO_LRGB[0][2] * s);
+  const g =
+    255 * srgbGammaEncode(LMS_TO_LRGB[1][0] * l + LMS_TO_LRGB[1][1] * m + LMS_TO_LRGB[1][2] * s);
+  const b =
+    255 * srgbGammaEncode(LMS_TO_LRGB[2][0] * l + LMS_TO_LRGB[2][1] * m + LMS_TO_LRGB[2][2] * s);
 
   return addAlpha(
     {

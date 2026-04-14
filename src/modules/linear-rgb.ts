@@ -1,4 +1,4 @@
-import { GAMUT_EPSILON, LAB_TO_LMS, LSM_TO_RGB, SRGB_TO_P3 } from '~/modules/constants';
+import { GAMUT_EPSILON, LMS_TO_LRGB, OKLAB_TO_CLMS, SRGB_TO_P3 } from '~/modules/constants';
 
 import { ColorTuple } from '~/types';
 
@@ -19,13 +19,13 @@ export function oklabToLinearP3(L: number, a: number, b: number): ColorTuple {
 }
 
 export function oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple {
-  const l = (L + LAB_TO_LMS.l[0] * a + LAB_TO_LMS.l[1] * b) ** 3;
-  const m = (L + LAB_TO_LMS.m[0] * a + LAB_TO_LMS.m[1] * b) ** 3;
-  const s = (L + LAB_TO_LMS.s[0] * a + LAB_TO_LMS.s[1] * b) ** 3;
+  const l = (OKLAB_TO_CLMS[0][0] * L + OKLAB_TO_CLMS[0][1] * a + OKLAB_TO_CLMS[0][2] * b) ** 3;
+  const m = (OKLAB_TO_CLMS[1][0] * L + OKLAB_TO_CLMS[1][1] * a + OKLAB_TO_CLMS[1][2] * b) ** 3;
+  const s = (OKLAB_TO_CLMS[2][0] * L + OKLAB_TO_CLMS[2][1] * a + OKLAB_TO_CLMS[2][2] * b) ** 3;
 
   return [
-    LSM_TO_RGB.r[0] * l + LSM_TO_RGB.r[1] * m + LSM_TO_RGB.r[2] * s,
-    LSM_TO_RGB.g[0] * l + LSM_TO_RGB.g[1] * m + LSM_TO_RGB.g[2] * s,
-    LSM_TO_RGB.b[0] * l + LSM_TO_RGB.b[1] * m + LSM_TO_RGB.b[2] * s,
+    LMS_TO_LRGB[0][0] * l + LMS_TO_LRGB[0][1] * m + LMS_TO_LRGB[0][2] * s,
+    LMS_TO_LRGB[1][0] * l + LMS_TO_LRGB[1][1] * m + LMS_TO_LRGB[1][2] * s,
+    LMS_TO_LRGB[2][0] * l + LMS_TO_LRGB[2][1] * m + LMS_TO_LRGB[2][2] * s,
   ];
 }

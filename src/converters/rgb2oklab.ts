@@ -1,20 +1,11 @@
 import { addAlpha, extractAlpha } from '~/modules/alpha';
-import { LRGB_TO_LMS, LSM_TO_LAB } from '~/modules/constants';
+import { CLMS_TO_OKLAB, LRGB_TO_LMS } from '~/modules/constants';
+import { srgbGammaDecode } from '~/modules/gamma';
 import { parseInput, restrictValues } from '~/modules/utils';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
 
-const { cbrt, sign } = Math;
-
-function rgb2lrgb(input: number) {
-  const abs = Math.abs(input);
-
-  if (abs < 0.04045) {
-    return input / 12.92;
-  }
-
-  return (sign(input) || 1) * ((abs + 0.055) / 1.055) ** 2.4;
-}
+const { cbrt } = Math;
 
 /**
  * Convert RGB to OkLab.
@@ -27,16 +18,20 @@ export default function rgb2oklab(input: ConverterParameters<RGB>, precision?: n
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);
 
-  const [lr, lg, lb] = [rgb2lrgb(value.r / 255), rgb2lrgb(value.g / 255), rgb2lrgb(value.b / 255)];
-  const l = cbrt(LRGB_TO_LMS.l[0] * lr + LRGB_TO_LMS.l[1] * lg + LRGB_TO_LMS.l[2] * lb);
-  const m = cbrt(LRGB_TO_LMS.m[0] * lr + LRGB_TO_LMS.m[1] * lg + LRGB_TO_LMS.m[2] * lb);
-  const s = cbrt(LRGB_TO_LMS.s[0] * lr + LRGB_TO_LMS.s[1] * lg + LRGB_TO_LMS.s[2] * lb);
+  const [lr, lg, lb] = [
+    srgbGammaDecode(value.r / 255),
+    srgbGammaDecode(value.g / 255),
+    srgbGammaDecode(value.b / 255),
+  ];
+  const l = cbrt(LRGB_TO_LMS[0][0] * lr + LRGB_TO_LMS[0][1] * lg + LRGB_TO_LMS[0][2] * lb);
+  const m = cbrt(LRGB_TO_LMS[1][0] * lr + LRGB_TO_LMS[1][1] * lg + LRGB_TO_LMS[1][2] * lb);
+  const s = cbrt(LRGB_TO_LMS[2][0] * lr + LRGB_TO_LMS[2][1] * lg + LRGB_TO_LMS[2][2] * lb);
 
   const lab = restrictValues(
     {
-      l: LSM_TO_LAB.l[0] * l + LSM_TO_LAB.l[1] * m + LSM_TO_LAB.l[2] * s,
-      a: LSM_TO_LAB.a[0] * l + LSM_TO_LAB.a[1] * m + LSM_TO_LAB.a[2] * s,
-      b: LSM_TO_LAB.b[0] * l + LSM_TO_LAB.b[1] * m + LSM_TO_LAB.b[2] * s,
+      l: CLMS_TO_OKLAB[0][0] * l + CLMS_TO_OKLAB[0][1] * m + CLMS_TO_OKLAB[0][2] * s,
+      a: CLMS_TO_OKLAB[1][0] * l + CLMS_TO_OKLAB[1][1] * m + CLMS_TO_OKLAB[1][2] * s,
+      b: CLMS_TO_OKLAB[2][0] * l + CLMS_TO_OKLAB[2][1] * m + CLMS_TO_OKLAB[2][2] * s,
     },
     precision,
   );
