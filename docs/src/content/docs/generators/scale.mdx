@@ -16,6 +16,7 @@ scale(input: string, options?: ScaleOptions): Record<number, string>
 |----------------|--------------------------------------------------------------------|----------------|---------|
 | chromaCurve    | Controls chroma distribution (0-1)                                 | `number`       | **0**   |
 | format         | Output format                                                      | `ColorType`    |         |
+| hueShift       | Hue rotation across the scale, in degrees                          | `number \| ScaleRange` | **0** |
 | lightnessCurve | Controls lightness distribution                                    | `number`       | **1.5** |
 | lock           | Anchor input color at this step                                    | `number`       |         |
 | maxLightness   | Maximum lightness (0-1)                                            | `number`       | **0.97**  |
@@ -70,6 +71,22 @@ scale('#3366ff', { steps: 3 });
 ```
 
 Use `getScaleStepKeys(steps)` from the utilities to see which step keys are generated for a given step count.
+
+## Hue Shift
+
+Rotate the hue across the scale, the way hand-tuned palettes drift cooler in the lights and warmer in the darks. Shifts blend to 0° at the `lock` step (or the middle step), so the input hue is preserved there.
+
+> Locking at the first or last step leaves only one side of the scale, so the unused-side value (`low`/`high`) of asymmetric options — `hueShift`, `lightnessCurve`, and the endpoint `chromaCurve` — has no effect and logs a warning.
+
+```typescript
+// scalar: shorthand for { low: -8, high: 8 }
+scale('#3366ff', { hueShift: 8 });
+
+// independent ends: low = 50-end, high = 950-end
+scale('#3366ff', { hueShift: { low: -15, high: 10 } });
+```
+
+<LiveExample client:load code="scale('#3366ff', { hueShift: { low: -15, high: 10 } })" />
 
 ## Output Formats
 
