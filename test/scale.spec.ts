@@ -147,6 +147,63 @@ describe('scale', () => {
     });
   });
 
+  describe('lightnessCurve low/high', () => {
+    const input = 'oklch(61.1% 0.144 227.18)';
+
+    const extractLightness = (color: string) => {
+      const match = color.match(/oklch\(([\d.]+)%/);
+
+      return match ? parseFloat(match[1]) : -1;
+    };
+
+    it('should treat a scalar as { low: x, high: x }', () => {
+      expect(scale(input, { lightnessCurve: 1.5 })).toEqual(
+        scale(input, { lightnessCurve: { low: 1.5, high: 1.5 } }),
+      );
+      expect(scale(input, { lightnessCurve: 1.2, lock: 500 })).toEqual(
+        scale(input, { lightnessCurve: { low: 1.2, high: 1.2 }, lock: 500 }),
+      );
+    });
+
+    it('should shape each half independently when locked', () => {
+      const reference = scale(input, { format: 'oklch', lock: 500 });
+      const darkOnly = scale(input, {
+        format: 'oklch',
+        lightnessCurve: { low: 1.5, high: 1 },
+        lock: 500,
+      });
+
+      // light half untouched (low matches the 1.5 default), dark half reshaped
+      expect(extractLightness(darkOnly[100])).toBe(extractLightness(reference[100]));
+      expect(extractLightness(darkOnly[500])).toBe(extractLightness(reference[500]));
+      expect(extractLightness(darkOnly[700])).not.toBe(extractLightness(reference[700]));
+    });
+
+    it('should stay monotonic and hit both bounds without lock', () => {
+      const result = scale(input, {
+        format: 'oklch',
+        lightnessCurve: { low: 2.2, high: 0.7 },
+        maxLightness: 0.97,
+        minLightness: 0.2,
+      });
+      const values = Object.values(result).map(extractLightness);
+
+      for (let index = 1; index < values.length; index++) {
+        expect(values[index]).toBeLessThan(values[index - 1]);
+      }
+
+      expect(values[0]).toBeCloseTo(97, 1);
+      expect(values[values.length - 1]).toBeCloseTo(20, 1);
+    });
+
+    it('should throw for non-positive exponents', () => {
+      expect(() => scale(input, { lightnessCurve: 0 })).toThrow('lightnessCurve');
+      expect(() => scale(input, { lightnessCurve: { low: 1.5, high: -1 } })).toThrow(
+        'lightnessCurve',
+      );
+    });
+  });
+
   describe('chromaCurve object forms', () => {
     const input = 'oklch(61.1% 0.144 227.18)';
 

@@ -17,7 +17,7 @@ scale(input: string, options?: ScaleOptions): Record<number, string>
 | chromaCurve    | Controls chroma distribution across the scale                      | `number \| ScaleChromaPeak \| ScaleRange` | **0** |
 | format         | Output format                                                      | `ColorType`    |         |
 | hueShift       | Hue rotation across the scale, in degrees                          | `number \| ScaleRange` | **0** |
-| lightnessCurve | Controls lightness distribution                                    | `number`       | **1.5** |
+| lightnessCurve | Controls lightness distribution                                    | `number \| ScaleRange` | **1.5** |
 | lock           | Anchor input color at this step                                    | `number`       |         |
 | maxLightness   | Maximum lightness (0-1)                                            | `number`       | **0.97**  |
 | minLightness   | Minimum lightness (0-1)                                            | `number`       | **0.2**   |
@@ -71,6 +71,16 @@ scale('#3366ff', { steps: 3 });
 ```
 
 Use `getScaleStepKeys(steps)` from the utilities to see which step keys are generated for a given step count.
+
+## Lightness Curve
+
+A scalar applies one exponent across the whole scale. With `{ low, high }` each half gets its own — `low` shapes the light-key half, `high` the dark-key half. Reference palettes (Tailwind, Open Color) consistently fit `{ low: 1.5, high: 1 }`: decelerating lights, near-linear darks.
+
+```typescript
+scale('#3366ff', { lightnessCurve: { low: 1.5, high: 1 } });
+```
+
+<LiveExample client:load code="scale('#3366ff', { lightnessCurve: { low: 1.5, high: 1 } })" />
 
 ## Chroma Curve
 

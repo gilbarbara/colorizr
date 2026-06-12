@@ -14,7 +14,7 @@ type ChromaCurveConfig =
   | { high: number; low: number; mid: number; type: 'endpoints' };
 
 interface GeneratePaletteOptions extends Required<
-  Pick<ScaleOptions, 'lightnessCurve' | 'maxLightness' | 'minLightness' | 'mode'>
+  Pick<ScaleOptions, 'maxLightness' | 'minLightness' | 'mode'>
 > {
   baseChroma: number;
   chromaCurve: ChromaCurveConfig;
@@ -22,6 +22,7 @@ interface GeneratePaletteOptions extends Required<
   hueShift: ScaleRange;
   inputLightness: number | undefined;
   keys: number[];
+  lightnessCurve: ScaleRange;
   lock: number | undefined;
 }
 
@@ -102,9 +103,17 @@ export interface ScaleOptions {
    * - 1: Linear lightness distribution.
    * - >1: Lighter tones are emphasized.
    * - <1: Darker tones are emphasized.
+   *
+   * A scalar `x` is shorthand for `{ low: x, high: x }`. With `{ low, high }`
+   * each half of the scale gets its own exponent: `low` shapes the low-key
+   * half (toward 50), `high` the high-key half (toward 950), split at the
+   * lock step when locked or blended continuously when not.
+   * Reference palettes typically fit `{ low: 1.5, high: 1 }`.
+   *
+   * Values must be greater than 0.
    * @default 1.5
    */
-  lightnessCurve?: number;
+  lightnessCurve?: number | ScaleRange;
   /**
    * Lock input color's lightness at specific step position.
    *
@@ -228,7 +237,7 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
       for (let index = 0; index < lockIndex; index++) {
         const t = index / lockIndex;
 
-        lightnessMap[keys[index]] = target + (inputLightness - target) * t ** lightnessCurve;
+        lightnessMap[keys[index]] = target + (inputLightness - target) * t ** lightnessCurve.low;
       }
     }
 
@@ -242,13 +251,16 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
         const t = (index - lockIndex) / remaining;
 
         lightnessMap[keys[index]] =
-          inputLightness + (target - inputLightness) * t ** lightnessCurve;
+          inputLightness + (target - inputLightness) * t ** lightnessCurve.high;
       }
     }
   } else {
     // Standard calculation (no lock)
     for (let index = 0; index < keys.length; index++) {
-      const t = (index / (keys.length - 1)) ** lightnessCurve;
+      const tBase = index / (keys.length - 1);
+      // continuous exponent interpolation keeps { x, x } identical to scalar x
+      const exponent = lightnessCurve.low + (lightnessCurve.high - lightnessCurve.low) * tBase;
+      const t = tBase ** exponent;
 
       lightnessMap[keys[index]] =
         mode === 'light'
@@ -373,6 +385,18 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     'hueShift values must be within the range [-180, 180].',
   );
 
+  const lightnessCurveRange: ScaleRange = isNumber(lightnessCurve)
+    ? { low: lightnessCurve, high: lightnessCurve }
+    : lightnessCurve;
+
+  invariant(
+    isNumber(lightnessCurveRange.low) &&
+      lightnessCurveRange.low > 0 &&
+      isNumber(lightnessCurveRange.high) &&
+      lightnessCurveRange.high > 0,
+    'lightnessCurve values must be greater than 0.',
+  );
+
   const steps = stepsOption !== undefined ? Math.round(stepsOption) : 11;
   const keys = getScaleStepKeys(steps);
 
@@ -445,7 +469,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     hueShift: hueShiftRange,
     inputLightness: lock !== undefined ? lch.l : undefined,
     keys,
-    lightnessCurve,
+    lightnessCurve: lightnessCurveRange,
     lock,
     maxLightness,
     minLightness,
