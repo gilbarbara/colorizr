@@ -142,6 +142,71 @@ describe('scale', () => {
     });
   });
 
+  describe('hueShift option', () => {
+    const input = 'oklch(61.1% 0.144 227.18)';
+
+    const extractHue = (color: string) => {
+      const match = color.match(/oklch\([\d.]+% [\d.]+ ([\d.]+)\)/);
+
+      return match ? parseFloat(match[1]) : -1;
+    };
+
+    it('should match the default output with hueShift: 0', () => {
+      expect(scale(input, { hueShift: 0 })).toEqual(scale(input));
+    });
+
+    it('should treat a scalar as { low: -x, high: x }', () => {
+      expect(scale(input, { hueShift: 8 })).toEqual(
+        scale(input, { hueShift: { low: -8, high: 8 } }),
+      );
+    });
+
+    it('should preserve the input hue at the middle step and shift the endpoints', () => {
+      const result = scale(input, { hueShift: { low: -10, high: 20 }, format: 'oklch' });
+
+      expect(extractHue(result[500])).toBeCloseTo(227.18, 1);
+      expect(extractHue(result[50])).toBeCloseTo(217.18, 1);
+      expect(extractHue(result[950])).toBeCloseTo(247.18, 1);
+    });
+
+    it('should anchor shifts at the locked step', () => {
+      const result = scale(input, {
+        format: 'oklch',
+        hueShift: { low: -10, high: 20 },
+        lock: 700,
+      });
+
+      expect(extractHue(result[700])).toBeCloseTo(227.18, 1);
+      expect(extractHue(result[50])).toBeCloseTo(217.18, 1);
+      expect(extractHue(result[950])).toBeCloseTo(247.18, 1);
+    });
+
+    it('should wrap hues across 0°', () => {
+      const result = scale('oklch(63% 0.2 16)', {
+        format: 'oklch',
+        hueShift: { low: -30, high: 0 },
+      });
+
+      expect(extractHue(result[50])).toBeCloseTo(346, 1);
+    });
+
+    it('should keep low/high tied to keys with mode: dark', () => {
+      const result = scale(input, {
+        format: 'oklch',
+        hueShift: { low: -10, high: 20 },
+        mode: 'dark',
+      });
+
+      expect(extractHue(result[50])).toBeCloseTo(217.18, 1);
+      expect(extractHue(result[950])).toBeCloseTo(247.18, 1);
+    });
+
+    it('should throw for shifts outside [-180, 180]', () => {
+      expect(() => scale(input, { hueShift: 200 })).toThrow('hueShift');
+      expect(() => scale(input, { hueShift: { low: -200, high: 0 } })).toThrow('hueShift');
+    });
+  });
+
   describe('saturation option', () => {
     it('should generate grayscale with saturation: 0', () => {
       const result = scale(violet.hex, { saturation: 0, format: 'oklch' });

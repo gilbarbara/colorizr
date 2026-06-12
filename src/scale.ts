@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { clamp, getScaleStepKeys, warn } from '~/modules/utils';
-import { isNumber, isString } from '~/modules/validators';
+import { isNumber, isNumberInRange, isString } from '~/modules/validators';
 import { getP3MaxChroma } from '~/p3';
 
 import type { ColorType, LCH } from '~/types';
@@ -13,6 +13,7 @@ interface GeneratePaletteOptions extends Required<
 > {
   baseChroma: number;
   hue: number;
+  hueShift: ScaleRange;
   inputLightness: number | undefined;
   keys: number[];
   lock: number | undefined;
@@ -48,6 +49,20 @@ export interface ScaleOptions {
    * If not specified, the output will match the format of the input color.
    */
   format?: ColorType;
+  /**
+   * Hue rotation across the scale, in degrees.
+   *
+   * A scalar `x` is shorthand for `{ low: -x, high: x }`.
+   * `low` shifts the low-key end (50), `high` the high-key end (950); shifts
+   * blend to 0° at the lock step (or the middle step when not locked), so the
+   * input hue is preserved there. The per-step gamut clamp follows the
+   * shifted hue.
+   *
+   * Values must be within [-180, 180].
+   *
+   * @default 0
+   */
+  hueShift?: number | ScaleRange;
   /**
    * The lightness tuning factor for the scale.
    * - 1: Linear lightness distribution.
@@ -124,6 +139,17 @@ export interface ScaleOptions {
   variant?: ScaleVariant;
 }
 
+/**
+ * Endpoint values for an asymmetric scale option.
+ *
+ * `low` applies at the low-key end (50), `high` at the high-key end (950),
+ * regardless of `mode` — keys, not lightness, define the ends.
+ */
+export interface ScaleRange {
+  high: number;
+  low: number;
+}
+
 const chromaScale: Record<string, number> = {
   deep: 0.8,
   neutral: 0.5,
@@ -141,6 +167,7 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
     baseChroma,
     chromaCurve,
     hue,
+    hueShift,
     inputLightness,
     keys,
     lightnessCurve,
@@ -197,12 +224,27 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   }
 
   // Generate LCH colors
-  for (const key of keys) {
-    const lightness = lightnessMap[key];
-    const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
-    const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: hue });
+  const anchorIndex = lock !== undefined ? keys.indexOf(lock) : Math.floor((keys.length - 1) / 2);
+  const hasHueShift = hueShift.low !== 0 || hueShift.high !== 0;
 
-    palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: hue };
+  for (let index = 0; index < keys.length; index++) {
+    const key = keys[index];
+    const lightness = lightnessMap[key];
+    let stepHue = hue;
+
+    if (hasHueShift && index !== anchorIndex) {
+      const shift =
+        index < anchorIndex
+          ? hueShift.low * (1 - index / anchorIndex)
+          : hueShift.high * ((index - anchorIndex) / (keys.length - 1 - anchorIndex));
+
+      stepHue = (hue + shift + 360) % 360;
+    }
+
+    const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
+    const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: stepHue });
+
+    palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: stepHue };
   }
 
   return palette;
@@ -238,6 +280,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
   const {
     chromaCurve = 0,
     format,
+    hueShift = 0,
     lightnessCurve = 1.5,
     lock: lockOption,
     maxLightness = 0.97,
@@ -251,6 +294,15 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
   invariant(
     maxLightness > minLightness && maxLightness <= 1 && minLightness >= 0,
     'maxLightness must be greater than minLightness and within the range [0, 1].',
+  );
+
+  const hueShiftRange: ScaleRange = isNumber(hueShift)
+    ? { low: -hueShift, high: hueShift }
+    : hueShift;
+
+  invariant(
+    isNumberInRange(hueShiftRange.low, -180, 180) && isNumberInRange(hueShiftRange.high, -180, 180),
+    'hueShift values must be within the range [-180, 180].',
   );
 
   const steps = stepsOption !== undefined ? Math.round(stepsOption) : 11;
@@ -288,6 +340,7 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     baseChroma,
     chromaCurve,
     hue: lch.h,
+    hueShift: hueShiftRange,
     inputLightness: lock !== undefined ? lch.l : undefined,
     keys,
     lightnessCurve,
