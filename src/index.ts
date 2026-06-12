@@ -60,7 +60,7 @@ export type { ReadableColorMethod, ReadableColorOptions } from '~/readable-color
 export { default as rotate } from '~/rotate';
 export { default as saturate } from '~/saturate';
 export { default as scale } from '~/scale';
-export type { ScaleOptions, ScaleRange, ScaleVariant } from '~/scale';
+export type { ScaleChromaPeak, ScaleOptions, ScaleRange, ScaleVariant } from '~/scale';
 export { default as scheme } from '~/scheme';
 export type { Scheme, SchemeOptions } from '~/scheme';
 export { default as toGamut } from '~/to-gamut';

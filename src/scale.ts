@@ -8,10 +8,16 @@ import { getP3MaxChroma } from '~/p3';
 
 import type { ColorType, LCH } from '~/types';
 
+/** Normalized chromaCurve: the parabola family or relative endpoints. */
+type ChromaCurveConfig =
+  | { amount: number; peak: number; type: 'parabola' }
+  | { high: number; low: number; mid: number; type: 'endpoints' };
+
 interface GeneratePaletteOptions extends Required<
-  Pick<ScaleOptions, 'chromaCurve' | 'lightnessCurve' | 'maxLightness' | 'minLightness' | 'mode'>
+  Pick<ScaleOptions, 'lightnessCurve' | 'maxLightness' | 'minLightness' | 'mode'>
 > {
   baseChroma: number;
+  chromaCurve: ChromaCurveConfig;
   hue: number;
   hueShift: ScaleRange;
   inputLightness: number | undefined;
@@ -24,6 +30,19 @@ export type ScaleMode = 'light' | 'dark';
 export type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
 
 /**
+ * Parabolic chroma curve with a movable center.
+ */
+export interface ScaleChromaPeak {
+  /** Blend between constant chroma (0) and the full parabola (1). */
+  amount: number;
+  /**
+   * Lightness (exclusive 0-1) where chroma stays at full base.
+   * @default 0.5
+   */
+  peak?: number;
+}
+
+/**
  * Options for generating a color scale.
  *
  * **Option Precedence:**
@@ -33,14 +52,29 @@ export type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
  */
 export interface ScaleOptions {
   /**
-   * Controls chroma distribution across lightness levels (0-1).
+   * Controls how chroma flows across the scale. Three forms:
+   *
+   * Scalar (0-1) — parabolic blend centered at mid-lightness:
    * - 0: Constant chroma across all steps (default).
-   * - 1: Parabolic curve — full chroma at mid-lightness, reduced toward extremes.
-   * - Values between interpolate between constant and parabolic.
+   * - 1: Full parabola — peak chroma at mid-lightness, reduced toward extremes.
+   * Shorthand for `{ amount: x }`.
+   *
+   * `{ amount, peak }` — the same parabola with a movable center.
+   * `peak` is the lightness (exclusive 0-1) that keeps full base chroma;
+   * sides away from it are reduced. Defaults to 0.5.
+   *
+   * `{ low, high }` — fractions (0-1) of the maximum P3 chroma at each step,
+   * blended from `low` (50-end) through the input color's own fraction at the
+   * lock/middle step to `high` (950-end). NOT equivalent to the scalar form —
+   * it is a different model: values set chroma relative to the gamut ceiling
+   * instead of bending the input's chroma. Being gamut-relative, the input's
+   * chroma matters only at the anchor step; an achromatic input collapses the
+   * anchor fraction to 0, yielding a V-shaped, colored scale (full at the ends,
+   * gray at the anchor).
    *
    * @default 0
    */
-  chromaCurve?: number;
+  chromaCurve?: number | ScaleChromaPeak | ScaleRange;
   /**
    * Output color format.
    *
@@ -241,8 +275,11 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
       stepHue = (hue + shift + 360) % 360;
     }
 
-    const chroma = getStepChroma(lightness, baseChroma, chromaCurve);
     const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: stepHue });
+    const chroma =
+      chromaCurve.type === 'endpoints'
+        ? getStepRelativeChroma(chromaCurve, index, anchorIndex, keys.length) * maxChroma
+        : getStepChroma(lightness, baseChroma, chromaCurve.amount, chromaCurve.peak);
 
     palette[key] = { l: lightness, c: Math.min(chroma, maxChroma), h: stepHue };
   }
@@ -251,17 +288,48 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
 }
 
 /**
- * Calculate chroma for a step, applying chromaCurve if set.
+ * Calculate chroma for a step from the parabola family.
  */
-function getStepChroma(lightness: number, baseChroma: number, chromaCurve: number): number {
-  if (chromaCurve === 0) {
+function getStepChroma(
+  lightness: number,
+  baseChroma: number,
+  amount: number,
+  peak: number,
+): number {
+  if (amount === 0) {
     return baseChroma;
   }
 
-  const parabolic = 4 * lightness * (1 - lightness);
-  const curveScale = 1 - chromaCurve * (1 - parabolic);
+  // peak 0.5 keeps the legacy expression so scalar output stays bit-identical
+  const parabolic =
+    peak === 0.5
+      ? 4 * lightness * (1 - lightness)
+      : Math.max(0, 1 - ((lightness - peak) / Math.max(peak, 1 - peak)) ** 2);
+  const curveScale = 1 - amount * (1 - parabolic);
 
   return Math.max(0, baseChroma * curveScale);
+}
+
+/**
+ * Fraction of the gamut ceiling for a step: low → mid (anchor) → high.
+ */
+function getStepRelativeChroma(
+  curve: Extract<ChromaCurveConfig, { type: 'endpoints' }>,
+  index: number,
+  anchorIndex: number,
+  total: number,
+): number {
+  const { high, low, mid } = curve;
+
+  if (index === anchorIndex) {
+    return mid;
+  }
+
+  if (index < anchorIndex) {
+    return low + (mid - low) * (index / anchorIndex);
+  }
+
+  return mid + (high - mid) * ((index - anchorIndex) / (total - 1 - anchorIndex));
 }
 
 /**
@@ -335,10 +403,44 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
 
   const colorFormat = format ?? parsed.type;
 
+  // Normalize chromaCurve: scalar → parabola at 0.5; objects discriminate by key
+  let chromaCurveConfig: ChromaCurveConfig;
+
+  if (isNumber(chromaCurve)) {
+    invariant(isNumberInRange(chromaCurve, 0, 1), 'chromaCurve must be within the range [0, 1].');
+    chromaCurveConfig = { amount: chromaCurve, peak: 0.5, type: 'parabola' };
+  } else if ('amount' in chromaCurve) {
+    const { amount, peak = 0.5 } = chromaCurve;
+
+    invariant(isNumberInRange(amount, 0, 1), 'chromaCurve amount must be within the range [0, 1].');
+    invariant(
+      isNumber(peak) && peak > 0 && peak < 1,
+      'chromaCurve peak must be within the range (0, 1).',
+    );
+    chromaCurveConfig = { amount, peak, type: 'parabola' };
+  } else {
+    const { high, low } = chromaCurve;
+
+    invariant(
+      isNumberInRange(low, 0, 1) && isNumberInRange(high, 0, 1),
+      'chromaCurve low/high must be within the range [0, 1].',
+    );
+
+    // guard near-black/white inputs where the ceiling collapses to 0
+    const maxChromaAtInput = getP3MaxChroma(lch);
+
+    chromaCurveConfig = {
+      high,
+      low,
+      mid: maxChromaAtInput > 0 ? clamp(baseChroma / maxChromaAtInput, 0, 1) : 0,
+      type: 'endpoints',
+    };
+  }
+
   // Generate the color palette
   const palette = generatePalette({
     baseChroma,
-    chromaCurve,
+    chromaCurve: chromaCurveConfig,
     hue: lch.h,
     hueShift: hueShiftRange,
     inputLightness: lock !== undefined ? lch.l : undefined,

@@ -118,6 +118,11 @@ describe('scale', () => {
       expect(result).toMatchSnapshot();
     });
 
+    it('should throw for out-of-range scalar values', () => {
+      expect(() => scale(violet.hex, { chromaCurve: 1.2 })).toThrow('chromaCurve');
+      expect(() => scale(violet.hex, { chromaCurve: -0.1 })).toThrow('chromaCurve');
+    });
+
     it('should have different chroma values between chromaCurve 0 and 1', () => {
       const constantChroma = scale(violet.hex, { chromaCurve: 0, format: 'oklch' });
       const parabolicChroma = scale(violet.hex, { chromaCurve: 1, format: 'oklch' });
@@ -138,6 +143,98 @@ describe('scale', () => {
       // because the parabolic curve peaks at mid-lightness
       expect(extractChroma(parabolicChroma[500])).toBeGreaterThan(
         extractChroma(parabolicChroma[50]),
+      );
+    });
+  });
+
+  describe('chromaCurve object forms', () => {
+    const input = 'oklch(61.1% 0.144 227.18)';
+
+    const extractChroma = (color: string) => {
+      const match = color.match(/oklch\([\d.]+% ([\d.]+)/);
+
+      return match ? parseFloat(match[1]) : -1;
+    };
+
+    it('should treat a scalar as { amount: x } with peak 0.5', () => {
+      expect(scale(input, { chromaCurve: 0.7 })).toEqual(
+        scale(input, { chromaCurve: { amount: 0.7 } }),
+      );
+      expect(scale(input, { chromaCurve: 0.7 })).toEqual(
+        scale(input, { chromaCurve: { amount: 0.7, peak: 0.5 } }),
+      );
+    });
+
+    it('should move the chroma peak toward the configured side', () => {
+      // muted input keeps the parabola below the gamut ceiling on both sides
+      const muted = 'oklch(61.1% 0.07 227.18)';
+      const lightPeak = scale(muted, { chromaCurve: { amount: 1, peak: 0.8 }, format: 'oklch' });
+      const darkPeak = scale(muted, { chromaCurve: { amount: 1, peak: 0.3 }, format: 'oklch' });
+
+      // peak 0.8 protects the light side; peak 0.3 drains it
+      expect(extractChroma(lightPeak[200])).toBeGreaterThan(extractChroma(darkPeak[200]));
+      // and vice versa on the dark side
+      expect(extractChroma(darkPeak[800])).toBeGreaterThan(extractChroma(lightPeak[800]));
+    });
+
+    it('should preserve the input chroma at the locked step with { low, high }', () => {
+      const result = scale(input, {
+        chromaCurve: { low: 0.5, high: 0.9 },
+        format: 'oklch',
+        lock: 500,
+      });
+
+      expect(extractChroma(result[500])).toBeCloseTo(0.144, 3);
+    });
+
+    it('should not equal the scalar form for { low: x, high: x }', () => {
+      expect(scale(input, { chromaCurve: { low: 0.5, high: 0.5 } })).not.toEqual(
+        scale(input, { chromaCurve: 0.5 }),
+      );
+    });
+
+    it('should desaturate the configured end with { low, high }', () => {
+      const result = scale(input, {
+        chromaCurve: { low: 0.9, high: 0.2 },
+        format: 'oklch',
+        lock: 500,
+      });
+      const reference = scale(input, { format: 'oklch', lock: 500 });
+
+      expect(extractChroma(result[950])).toBeLessThan(extractChroma(reference[950]));
+    });
+
+    it('should derive the anchor fraction from saturation overrides', () => {
+      const result = scale(input, {
+        chromaCurve: { low: 0.5, high: 0.5 },
+        format: 'oklch',
+        saturation: 50,
+      });
+
+      expect(Object.keys(result)).toHaveLength(11);
+      expect(extractChroma(result[500])).toBeGreaterThan(0);
+    });
+
+    it('should work with variants', () => {
+      const result = scale(input, {
+        chromaCurve: { low: 0.3, high: 0.6 },
+        format: 'oklch',
+        variant: 'pastel',
+      });
+
+      expect(Object.keys(result)).toHaveLength(11);
+    });
+
+    it('should throw for out-of-range object values', () => {
+      expect(() => scale(input, { chromaCurve: { amount: 1.2 } })).toThrow('chromaCurve amount');
+      expect(() => scale(input, { chromaCurve: { amount: 1, peak: 0 } })).toThrow(
+        'chromaCurve peak',
+      );
+      expect(() => scale(input, { chromaCurve: { amount: 1, peak: 1 } })).toThrow(
+        'chromaCurve peak',
+      );
+      expect(() => scale(input, { chromaCurve: { low: -0.1, high: 0.5 } })).toThrow(
+        'chromaCurve low/high',
       );
     });
   });
