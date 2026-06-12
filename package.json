@@ -32,25 +32,25 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.2",
+    "@arethetypeswrong/cli": "^0.18.3",
     "@gilbarbara/eslint-config": "^1.2.1",
     "@gilbarbara/prettier-config": "^1.0.0",
     "@gilbarbara/tsconfig": "^1.0.0",
-    "@size-limit/preset-small-lib": "^12.0.1",
+    "@size-limit/preset-small-lib": "^12.1.0",
     "@types/node": "^24.12.2",
-    "@vitest/coverage-v8": "^4.1.4",
-    "baseline-browser-mapping": "^2.10.17",
+    "@vitest/coverage-v8": "^4.1.8",
+    "baseline-browser-mapping": "^2.10.36",
     "del-cli": "^7.0.0",
     "eslint": "^9.39.4",
     "husky": "^9.1.7",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.4",
     "repo-tools": "^0.3.1",
-    "size-limit": "^12.0.1",
+    "size-limit": "^12.1.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.8"
   },
   "scripts": {
     "build": "pnpm clean && tsup",
@@ -69,7 +69,11 @@
     "prepare": "husky"
   },
   "tsup": {
-    "dts": true,
+    "dts": {
+      "compilerOptions": {
+        "ignoreDeprecations": "6.0"
+      }
+    },
     "entry": [
       "src/index.ts"
     ],

@@ -1,15 +1,16 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
     "module": "Preserve",
     "moduleResolution": "bundler",
     "noEmit": true,
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"]
     },
     "outDir": "./dist",
+    "rootDir": ".",
     "target": "ES2020",
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }
