@@ -14,7 +14,7 @@ scale(input: string, options?: ScaleOptions): Record<number, string>
 
 | Parameter      | Description                                                        | Type           | Default |
 |----------------|--------------------------------------------------------------------|----------------|---------|
-| chromaCurve    | Controls chroma distribution (0-1)                                 | `number`       | **0**   |
+| chromaCurve    | Controls chroma distribution across the scale                      | `number \| ScaleChromaPeak \| ScaleRange` | **0** |
 | format         | Output format                                                      | `ColorType`    |         |
 | hueShift       | Hue rotation across the scale, in degrees                          | `number \| ScaleRange` | **0** |
 | lightnessCurve | Controls lightness distribution                                    | `number`       | **1.5** |
@@ -71,6 +71,28 @@ scale('#3366ff', { steps: 3 });
 ```
 
 Use `getScaleStepKeys(steps)` from the utilities to see which step keys are generated for a given step count.
+
+## Chroma Curve
+
+Three forms control how saturation flows across the scale:
+
+```typescript
+// scalar (legacy): parabolic blend centered at mid-lightness
+scale('#3366ff', { chromaCurve: 0.5 });
+
+// movable peak: choose the lightness that keeps full chroma
+scale('#3366ff', { chromaCurve: { amount: 1, peak: 0.7 } });
+
+// relative endpoints: % of the max P3 chroma at each end,
+// blended through the input color at the lock/middle step
+scale('#3366ff', { chromaCurve: { low: 0.9, high: 0.5 } });
+```
+
+The `{ low, high }` form speaks in fractions of what the gamut allows at each step — `1` rides the most vivid color possible, `0` is gray — so values stay meaningful for every hue at every lightness. It is a different model from the scalar form: `{ low: 0.5, high: 0.5 }` is not the same as `0.5`.
+
+Because it is gamut-relative, the input's own chroma matters only at the anchor (lock/middle) step. An achromatic input drops the anchor fraction to `0`, producing a V-shaped, colored scale — vivid at the ends, gray in the middle.
+
+<LiveExample client:load code="scale('#3366ff', { chromaCurve: { low: 0.9, high: 0.5 } })" />
 
 ## Hue Shift
 
