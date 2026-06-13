@@ -3,28 +3,30 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@astrojs/react": "^5.0.3",
-    "@astrojs/starlight": "^0.38.3",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/starlight": "^0.40.0",
     "@floating-ui/react": "^0.27.19",
-    "astro": "^6.1.5",
+    "astro": "^6.4.6",
     "colorizr": "../",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "sharp": "^0.34.5"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "sharp": "^0.35.1"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@gilbarbara/eslint-config": "^1.2.1",
     "@gilbarbara/prettier-config": "^1.0.0",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.2.0",
-    "prettier": "^3.8.2"
+    "eslint": "^10.4.1",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "lint": "eslint --fix src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "astro check"
   }
 }
