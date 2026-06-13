@@ -12,19 +12,19 @@ scale(input: string, options?: ScaleOptions): Record<number, string>
 ```
 
 
-| Parameter      | Description                                                        | Type           | Default |
-|----------------|--------------------------------------------------------------------|----------------|---------|
-| chromaCurve    | Controls chroma distribution across the scale                      | `number \| ScaleChromaPeak \| ScaleRange` | **0** |
-| format         | Output format                                                      | `ColorType`    |         |
-| hueShift       | Hue rotation across the scale, in degrees                          | `number \| ScaleRange` | **0** |
-| lightnessCurve | Controls lightness distribution                                    | `number \| ScaleRange` | **1.5** |
-| lock           | Anchor input color at this step                                    | `number`       |         |
-| maxLightness   | Maximum lightness (0-1)                                            | `number`       | **0.97**  |
-| minLightness   | Minimum lightness (0-1)                                            | `number`       | **0.2**   |
-| mode           | `'light'` or `'dark'`                                              | `ScaleMode`    | **'light'** |
-| saturation     | Override variant saturation (0-100)                                | `number`       |         |
-| steps          | Number of steps (3-20)                                             | `number`       | **11**  |
-| variant        | Preset: `'deep'`, `'neutral'`, `'pastel'`, `'subtle'`, `'vibrant'` | `ScaleVariant` |         |
+| Parameter                          | Description                                                        | Type                                      | Default     |
+|------------------------------------|--------------------------------------------------------------------|-------------------------------------------|-------------|
+| [chromaCurve](#chroma-curve)       | Controls chroma distribution across the scale                      | `number \| ScaleChromaPeak \| ScaleRange` | **0**       |
+| format                             | Output format                                                      | `ColorType`                               |             |
+| [hueShift](#hue-shift)             | Hue rotation across the scale, in degrees                          | `number \| ScaleRange`                    | **0**       |
+| [lightnessCurve](#lightness-curve) | Controls lightness distribution                                    | `number \| ScaleRange`                    | **1.5**     |
+| lock                               | Anchor input color at this step                                    | `number`                                  |             |
+| maxLightness                       | Maximum lightness (0-1)                                            | `number`                                  | **0.97**    |
+| minLightness                       | Minimum lightness (0-1)                                            | `number`                                  | **0.2**     |
+| mode                               | `'light'` or `'dark'`                                              | `ScaleMode`                               | **'light'** |
+| saturation                         | Override variant saturation (0-100)                                | `number`                                  |             |
+| steps                              | Number of steps (3-20)                                             | `number`                                  | **11**      |
+| variant                            | Preset: `'deep'`, `'neutral'`, `'pastel'`, `'subtle'`, `'vibrant'` | `ScaleVariant`                            |             |
 
 
 ## Basic Usage
@@ -74,7 +74,7 @@ Use `getScaleStepKeys(steps)` from the utilities to see which step keys are gene
 
 ## Lightness Curve
 
-A scalar applies one exponent across the whole scale. With `{ low, high }` each half gets its own — `low` shapes the light-key half, `high` the dark-key half. Reference palettes (Tailwind, Open Color) consistently fit `{ low: 1.5, high: 1 }`: decelerating lights, near-linear darks.
+A scalar applies one exponent across the whole scale. With `{ low, high }` each half gets its own — `low` shapes the low-key half (toward 50), `high` the high-key half (toward 950). Reference palettes (Tailwind, Open Color) consistently fit `{ low: 1.5, high: 1 }`: decelerating lights, near-linear darks.
 
 ```typescript
 scale('#3366ff', { lightnessCurve: { low: 1.5, high: 1 } });
@@ -124,7 +124,7 @@ scale('#3366ff', { hueShift: { low: -15, high: 10 } });
 
 ```typescript
 scale('#3366ff', { format: 'oklch' });
-// { 50: 'oklch(0.97 0.02 264)', 100: 'oklch(0.91 0.05 264)', ... }
+// { 50: 'oklch(97% 0.01549 265.28)', 100: 'oklch(94.565% 0.02829 265.28)', ... }
 ```
 
 ## Interactive Tool
