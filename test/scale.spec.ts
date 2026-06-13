@@ -202,6 +202,12 @@ describe('scale', () => {
         'lightnessCurve',
       );
     });
+
+    it('should throw a clean error for a non-object lightnessCurve', () => {
+      expect(() => scale(input, { lightnessCurve: null as never })).toThrow(
+        'lightnessCurve must be a number or an object.',
+      );
+    });
   });
 
   describe('chromaCurve object forms', () => {
@@ -294,6 +300,12 @@ describe('scale', () => {
         'chromaCurve low/high',
       );
     });
+
+    it('should throw a clean error for a non-object chromaCurve', () => {
+      expect(() => scale(input, { chromaCurve: null as never })).toThrow(
+        'chromaCurve must be a number or an object.',
+      );
+    });
   });
 
   describe('hueShift option', () => {
@@ -358,6 +370,9 @@ describe('scale', () => {
     it('should throw for shifts outside [-180, 180]', () => {
       expect(() => scale(input, { hueShift: 200 })).toThrow('hueShift');
       expect(() => scale(input, { hueShift: { low: -200, high: 0 } })).toThrow('hueShift');
+      expect(() => scale(input, { hueShift: null as never })).toThrow(
+        'hueShift must be a number or an object.',
+      );
     });
   });
 
@@ -447,12 +462,84 @@ describe('scale', () => {
       warnSpy.mockRestore();
     });
 
+    it('should ignore invalid variant value and warn', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { variant: 'bogus' as ScaleOptions['variant'] });
+
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('variant: bogus is not valid'));
+      warnSpy.mockRestore();
+    });
+
     it('should work with different step counts', () => {
       const result = scale(violet.hex, { steps: 5, lock: 500, format: 'oklch' });
       const keys = Object.keys(result).map(Number);
 
       expect(keys).toEqual([100, 300, 500, 700, 900]);
       expect(result).toMatchSnapshot();
+    });
+
+    it('should warn when lock at first key ignores hueShift.low', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { lock: 50, hueShift: 30 });
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('lock at 50 ignores hueShift.low'),
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('should warn when lock at last key ignores lightnessCurve.high', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { lock: 950, lightnessCurve: { low: 1.5, high: 1 } });
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('lock at 950 ignores lightnessCurve.high'),
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('should warn when lock at extreme ignores endpoint chromaCurve', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { lock: 50, chromaCurve: { low: 0.3, high: 0.9 } });
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('lock at 50 ignores chromaCurve.low'),
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('should not warn at extreme lock for symmetric options', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { lock: 50, hueShift: 0, lightnessCurve: 1.5 });
+
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('should not warn for an interior lock with asymmetric options', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      scale(violet.hex, { lock: 500, hueShift: { low: -15, high: 10 } });
+
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
+    });
+
+    it('should produce a colored scale from an achromatic endpoint chromaCurve', () => {
+      const result = scale('oklch(0% 0 0)', {
+        chromaCurve: { low: 0.5, high: 0.5 },
+        format: 'oklch',
+      });
+      const chroma = (value: string) => Number(value.split(' ')[1]);
+
+      expect(chroma(result[50])).toBeGreaterThan(0);
+      expect(chroma(result[950])).toBeGreaterThan(0);
+      expect(chroma(result[500])).toBe(0);
     });
   });
 

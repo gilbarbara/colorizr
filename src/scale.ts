@@ -3,7 +3,7 @@ import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { clamp, getScaleStepKeys, warn } from '~/modules/utils';
-import { isNumber, isNumberInRange, isString } from '~/modules/validators';
+import { isNumber, isNumberInRange, isPlainObject, isString } from '~/modules/validators';
 import { getP3MaxChroma } from '~/p3';
 
 import type { ColorType, LCH } from '~/types';
@@ -124,6 +124,11 @@ export interface ScaleOptions {
    * Must be a valid step key for the current step count.
    * Default step keys (11 steps): 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950.
    * Step keys vary based on the `steps` option (3-20 steps supported).
+   *
+   * When locked at the first or last step, only one side of the scale remains,
+   * so the unused-side value (`low`/`high`) of asymmetric options
+   * (`hueShift`, `lightnessCurve`, endpoint `chromaCurve`) has no effect and
+   * emits a warning.
    */
   lock?: number;
   /**
@@ -202,9 +207,116 @@ const chromaScale: Record<string, number> = {
 };
 
 /**
+ * Guard a non-scalar scale option: a consumer passing a non-object (e.g. `null`)
+ * gets a colorizr invariant instead of a raw `TypeError` from later key access.
+ */
+function assertScaleObject(
+  value: unknown,
+  label: string,
+): asserts value is Record<string, unknown> {
+  invariant(isPlainObject(value), `${label} must be a number or an object.`);
+}
+
+/**
+ * Lightness map for a locked scale: the anchor holds the input lightness and
+ * each half eases toward its endpoint with its own exponent.
+ */
+function computeLightnessMapWithLock(
+  lock: number,
+  inputLightness: number,
+  keys: number[],
+  lightnessCurve: ScaleRange,
+  maxLightness: number,
+  minLightness: number,
+  mode: ScaleMode,
+): Record<number, number> {
+  const lightnessMap: Record<number, number> = {};
+  const lockIndex = keys.indexOf(lock);
+
+  lightnessMap[lock] = inputLightness;
+
+  // Keys before lock
+  if (lockIndex > 0) {
+    const target = mode === 'light' ? maxLightness : minLightness;
+
+    for (let index = 0; index < lockIndex; index++) {
+      const t = index / lockIndex;
+
+      lightnessMap[keys[index]] = target + (inputLightness - target) * t ** lightnessCurve.low;
+    }
+  }
+
+  // Keys after lock
+  const remaining = keys.length - 1 - lockIndex;
+
+  if (remaining > 0) {
+    const target = mode === 'light' ? minLightness : maxLightness;
+
+    for (let index = lockIndex + 1; index < keys.length; index++) {
+      const t = (index - lockIndex) / remaining;
+
+      lightnessMap[keys[index]] =
+        inputLightness + (target - inputLightness) * t ** lightnessCurve.high;
+    }
+  }
+
+  return lightnessMap;
+}
+
+/**
+ * Lightness map for an unlocked scale: a single eased ramp from one endpoint to
+ * the other, with the exponent interpolated continuously across the steps.
+ */
+function computeLightnessMapWithoutLock(
+  keys: number[],
+  lightnessCurve: ScaleRange,
+  maxLightness: number,
+  minLightness: number,
+  mode: ScaleMode,
+): Record<number, number> {
+  const lightnessMap: Record<number, number> = {};
+
+  for (let index = 0; index < keys.length; index++) {
+    const tBase = index / (keys.length - 1);
+    // continuous exponent interpolation keeps { x, x } identical to scalar x
+    const exponent = lightnessCurve.low + (lightnessCurve.high - lightnessCurve.low) * tBase;
+    const t = tBase ** exponent;
+
+    lightnessMap[keys[index]] =
+      mode === 'light'
+        ? maxLightness - (maxLightness - minLightness) * t
+        : minLightness + (maxLightness - minLightness) * t;
+  }
+
+  return lightnessMap;
+}
+
+/**
+ * Hue for a single step: the per-side shift blends to 0° at the anchor, so the
+ * input hue is preserved there.
+ */
+function computeStepHue(
+  hue: number,
+  hueShift: ScaleRange,
+  index: number,
+  anchorIndex: number,
+  keysLength: number,
+): number {
+  if ((hueShift.low === 0 && hueShift.high === 0) || index === anchorIndex) {
+    return hue;
+  }
+
+  const shift =
+    index < anchorIndex
+      ? hueShift.low * (1 - index / anchorIndex)
+      : hueShift.high * ((index - anchorIndex) / (keysLength - 1 - anchorIndex));
+
+  return (hue + shift + 360) % 360;
+}
+
+/**
  * Generate the color palette for the scale.
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
 function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
   const {
     baseChroma,
@@ -222,70 +334,26 @@ function generatePalette(options: GeneratePaletteOptions): Record<number, LCH> {
 
   const palette: Record<number, LCH> = {};
 
-  // Calculate lightness values
-  const lightnessMap: Record<number, number> = {};
-
-  if (lock !== undefined && inputLightness !== undefined) {
-    const lockIndex = keys.indexOf(lock);
-
-    lightnessMap[lock] = inputLightness;
-
-    // Keys before lock
-    if (lockIndex > 0) {
-      const target = mode === 'light' ? maxLightness : minLightness;
-
-      for (let index = 0; index < lockIndex; index++) {
-        const t = index / lockIndex;
-
-        lightnessMap[keys[index]] = target + (inputLightness - target) * t ** lightnessCurve.low;
-      }
-    }
-
-    // Keys after lock
-    const remaining = keys.length - 1 - lockIndex;
-
-    if (remaining > 0) {
-      const target = mode === 'light' ? minLightness : maxLightness;
-
-      for (let index = lockIndex + 1; index < keys.length; index++) {
-        const t = (index - lockIndex) / remaining;
-
-        lightnessMap[keys[index]] =
-          inputLightness + (target - inputLightness) * t ** lightnessCurve.high;
-      }
-    }
-  } else {
-    // Standard calculation (no lock)
-    for (let index = 0; index < keys.length; index++) {
-      const tBase = index / (keys.length - 1);
-      // continuous exponent interpolation keeps { x, x } identical to scalar x
-      const exponent = lightnessCurve.low + (lightnessCurve.high - lightnessCurve.low) * tBase;
-      const t = tBase ** exponent;
-
-      lightnessMap[keys[index]] =
-        mode === 'light'
-          ? maxLightness - (maxLightness - minLightness) * t
-          : minLightness + (maxLightness - minLightness) * t;
-    }
-  }
+  const lightnessMap =
+    lock !== undefined && inputLightness !== undefined
+      ? computeLightnessMapWithLock(
+          lock,
+          inputLightness,
+          keys,
+          lightnessCurve,
+          maxLightness,
+          minLightness,
+          mode,
+        )
+      : computeLightnessMapWithoutLock(keys, lightnessCurve, maxLightness, minLightness, mode);
 
   // Generate LCH colors
   const anchorIndex = lock !== undefined ? keys.indexOf(lock) : Math.floor((keys.length - 1) / 2);
-  const hasHueShift = hueShift.low !== 0 || hueShift.high !== 0;
 
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];
     const lightness = lightnessMap[key];
-    let stepHue = hue;
-
-    if (hasHueShift && index !== anchorIndex) {
-      const shift =
-        index < anchorIndex
-          ? hueShift.low * (1 - index / anchorIndex)
-          : hueShift.high * ((index - anchorIndex) / (keys.length - 1 - anchorIndex));
-
-      stepHue = (hue + shift + 360) % 360;
-    }
+    const stepHue = computeStepHue(hue, hueShift, index, anchorIndex, keys.length);
 
     const maxChroma = getP3MaxChroma({ l: lightness, c: 0, h: stepHue });
     const chroma =
@@ -345,6 +413,118 @@ function getStepRelativeChroma(
 }
 
 /**
+ * Normalize the chromaCurve option into its internal config: scalar → parabola
+ * at 0.5; objects discriminate by key (`amount` → movable peak, else endpoints).
+ */
+function normalizeChromaCurve(
+  chromaCurve: number | ScaleChromaPeak | ScaleRange,
+  lch: LCH,
+  baseChroma: number,
+): ChromaCurveConfig {
+  if (isNumber(chromaCurve)) {
+    invariant(isNumberInRange(chromaCurve, 0, 1), 'chromaCurve must be within the range [0, 1].');
+
+    return { amount: chromaCurve, peak: 0.5, type: 'parabola' };
+  }
+
+  assertScaleObject(chromaCurve, 'chromaCurve');
+
+  if ('amount' in chromaCurve) {
+    const { amount, peak = 0.5 } = chromaCurve;
+
+    invariant(isNumberInRange(amount, 0, 1), 'chromaCurve amount must be within the range [0, 1].');
+    invariant(
+      isNumber(peak) && peak > 0 && peak < 1,
+      'chromaCurve peak must be within the range (0, 1).',
+    );
+
+    return { amount, peak, type: 'parabola' };
+  }
+
+  const { high, low } = chromaCurve;
+
+  invariant(
+    isNumberInRange(low, 0, 1) && isNumberInRange(high, 0, 1),
+    'chromaCurve low/high must be within the range [0, 1].',
+  );
+
+  // guard near-black/white inputs where the ceiling collapses to 0
+  const maxChromaAtInput = getP3MaxChroma(lch);
+
+  return {
+    high,
+    low,
+    mid: maxChromaAtInput > 0 ? clamp(baseChroma / maxChromaAtInput, 0, 1) : 0,
+    type: 'endpoints',
+  };
+}
+
+/**
+ * Resolve the base chroma: `saturation` (% of gamut ceiling) wins, then a
+ * `variant` multiplier, otherwise the input's own chroma.
+ */
+function resolveBaseChroma(
+  saturation: number | undefined,
+  variant: ScaleVariant | undefined,
+  lch: LCH,
+): number {
+  if (saturation !== undefined) {
+    // saturation overrides: % of max P3 chroma at input's lightness
+    return (clamp(saturation, 0, 100) / 100) * getP3MaxChroma(lch);
+  }
+
+  if (variant && chromaScale[variant]) {
+    return lch.c * chromaScale[variant];
+  }
+
+  if (variant) {
+    warn(`variant: ${variant} is not valid, ignoring`);
+  }
+
+  return lch.c;
+}
+
+/**
+ * Warn when an endpoint lock makes one side of an asymmetric option unreachable.
+ */
+function warnIgnoredLockEndpoints(
+  lock: number | undefined,
+  keys: number[],
+  options: {
+    chromaCurve: ChromaCurveConfig;
+    hueShift: ScaleRange;
+    lightnessCurve: ScaleRange;
+  },
+): void {
+  if (lock === undefined) {
+    return;
+  }
+
+  const lockIndex = keys.indexOf(lock);
+
+  if (lockIndex !== 0 && lockIndex !== keys.length - 1) {
+    return;
+  }
+
+  const { chromaCurve, hueShift, lightnessCurve } = options;
+  const ignored = lockIndex === 0 ? 'low' : 'high';
+  const ranges: Array<[string, ScaleRange]> = [
+    ['hueShift', hueShift],
+    ['lightnessCurve', lightnessCurve],
+  ];
+
+  if (chromaCurve.type === 'endpoints') {
+    ranges.push(['chromaCurve', { high: chromaCurve.high, low: chromaCurve.low }]);
+  }
+
+  for (const [name, range] of ranges) {
+    if (range.low !== range.high) {
+      warn(`lock at ${lock} ignores ${name}.${ignored} (${range[ignored]})`);
+    }
+  }
+}
+
+/**
  * Generate a scale of colors based on the input color.
  *
  * This utility is ideal for designers and developers who need dynamic color
@@ -376,6 +556,10 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     'maxLightness must be greater than minLightness and within the range [0, 1].',
   );
 
+  if (!isNumber(hueShift)) {
+    assertScaleObject(hueShift, 'hueShift');
+  }
+
   const hueShiftRange: ScaleRange = isNumber(hueShift)
     ? { low: -hueShift, high: hueShift }
     : hueShift;
@@ -384,6 +568,10 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     isNumberInRange(hueShiftRange.low, -180, 180) && isNumberInRange(hueShiftRange.high, -180, 180),
     'hueShift values must be within the range [-180, 180].',
   );
+
+  if (!isNumber(lightnessCurve)) {
+    assertScaleObject(lightnessCurve, 'lightnessCurve');
+  }
 
   const lightnessCurveRange: ScaleRange = isNumber(lightnessCurve)
     ? { low: lightnessCurve, high: lightnessCurve }
@@ -411,55 +599,15 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
   const parsed = resolveColor(input);
   const lch = parsed.oklch;
 
-  // Determine base chroma
-  let baseChroma: number;
-
-  if (saturation !== undefined) {
-    // saturation overrides: % of max P3 chroma at input's lightness
-    const maxChroma = getP3MaxChroma(lch);
-
-    baseChroma = (clamp(saturation, 0, 100) / 100) * maxChroma;
-  } else if (variant && chromaScale[variant]) {
-    baseChroma = lch.c * chromaScale[variant];
-  } else {
-    baseChroma = lch.c;
-  }
-
+  const baseChroma = resolveBaseChroma(saturation, variant, lch);
   const colorFormat = format ?? parsed.type;
+  const chromaCurveConfig = normalizeChromaCurve(chromaCurve, lch, baseChroma);
 
-  // Normalize chromaCurve: scalar → parabola at 0.5; objects discriminate by key
-  let chromaCurveConfig: ChromaCurveConfig;
-
-  if (isNumber(chromaCurve)) {
-    invariant(isNumberInRange(chromaCurve, 0, 1), 'chromaCurve must be within the range [0, 1].');
-    chromaCurveConfig = { amount: chromaCurve, peak: 0.5, type: 'parabola' };
-  } else if ('amount' in chromaCurve) {
-    const { amount, peak = 0.5 } = chromaCurve;
-
-    invariant(isNumberInRange(amount, 0, 1), 'chromaCurve amount must be within the range [0, 1].');
-    invariant(
-      isNumber(peak) && peak > 0 && peak < 1,
-      'chromaCurve peak must be within the range (0, 1).',
-    );
-    chromaCurveConfig = { amount, peak, type: 'parabola' };
-  } else {
-    const { high, low } = chromaCurve;
-
-    invariant(
-      isNumberInRange(low, 0, 1) && isNumberInRange(high, 0, 1),
-      'chromaCurve low/high must be within the range [0, 1].',
-    );
-
-    // guard near-black/white inputs where the ceiling collapses to 0
-    const maxChromaAtInput = getP3MaxChroma(lch);
-
-    chromaCurveConfig = {
-      high,
-      low,
-      mid: maxChromaAtInput > 0 ? clamp(baseChroma / maxChromaAtInput, 0, 1) : 0,
-      type: 'endpoints',
-    };
-  }
+  warnIgnoredLockEndpoints(lock, keys, {
+    chromaCurve: chromaCurveConfig,
+    hueShift: hueShiftRange,
+    lightnessCurve: lightnessCurveRange,
+  });
 
   // Generate the color palette
   const palette = generatePalette({
