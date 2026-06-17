@@ -14,7 +14,7 @@ type ChromaCurveConfig =
   | { high: number; low: number; mid: number; type: 'endpoints' };
 
 interface GeneratePaletteOptions extends Required<
-  Pick<ScaleOptions, 'maxLightness' | 'minLightness' | 'mode'>
+  Pick<ScaleOptions, 'maxLightness' | 'minLightness'>
 > {
   baseChroma: number;
   chromaCurve: ChromaCurveConfig;
@@ -24,9 +24,10 @@ interface GeneratePaletteOptions extends Required<
   keys: number[];
   lightnessCurve: ScaleRange;
   lock: number | undefined;
+  mode: Exclude<ScaleMode, 'reversed'>;
 }
 
-export type ScaleMode = 'light' | 'dark';
+export type ScaleMode = 'light' | 'dark' | 'reversed';
 
 export type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
 
@@ -154,7 +155,14 @@ export interface ScaleOptions {
    * Theme-aware lightness direction.
    *
    * - 'light': Low keys (50) are lightest, high keys (950) are darkest
-   * - 'dark': Low keys (50) are darkest, high keys (950) are lightest
+   * - 'dark': Low keys (50) are darkest, high keys (950) are lightest, re-derived
+   *   with the lightness ramp running in the dark direction
+   * - 'reversed': the 'light' palette with its keys reversed — identical colors in
+   *   mirrored order (50↔950, 100↔900, …)
+   *
+   * `dark` re-derives the scale, so its intermediate steps are not a reversal of
+   * `light` (they coincide only when `lightnessCurve` is linear). `reversed`
+   * re-labels the `light` palette, so it mirrors exactly at any curve.
    *
    * @default 'light'
    */
@@ -621,10 +629,16 @@ export default function scale(input: string, options: ScaleOptions = {}): Record
     lock,
     maxLightness,
     minLightness,
-    mode,
+    mode: mode === 'reversed' ? 'light' : mode,
   });
 
+  // `reversed` re-labels the light palette: same colors, mirrored keys.
+  const ordered =
+    mode === 'reversed'
+      ? Object.fromEntries(keys.map((key, index) => [key, palette[keys[keys.length - 1 - index]]]))
+      : palette;
+
   return Object.fromEntries(
-    Object.entries(palette).map(([key, value]) => [key, formatCSS(value, { format: colorFormat })]),
+    Object.entries(ordered).map(([key, value]) => [key, formatCSS(value, { format: colorFormat })]),
   );
 }

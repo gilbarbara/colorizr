@@ -21,7 +21,7 @@ scale(input: string, options?: ScaleOptions): Record<number, string>
 | lock                               | Anchor input color at this step                                    | `number`                                  |             |
 | maxLightness                       | Maximum lightness (0-1)                                            | `number`                                  | **0.97**    |
 | minLightness                       | Minimum lightness (0-1)                                            | `number`                                  | **0.2**     |
-| mode                               | `'light'` or `'dark'`                                              | `ScaleMode`                               | **'light'** |
+| [mode](#mode)                      | `'light'`, `'dark'`, or `'reversed'`                               | `ScaleMode`                               | **'light'** |
 | saturation                         | Override variant saturation (0-100)                                | `number`                                  |             |
 | steps                              | Number of steps (3-20)                                             | `number`                                  | **11**      |
 | variant                            | Preset: `'deep'`, `'neutral'`, `'pastel'`, `'subtle'`, `'vibrant'` | `ScaleVariant`                            |             |
@@ -71,6 +71,17 @@ scale('#3366ff', { steps: 3 });
 ```
 
 Use `getScaleStepKeys(steps)` from the utilities to see which step keys are generated for a given step count.
+
+## Mode
+
+`'light'` (default) puts the lightest color at the low keys; `'dark'` and `'reversed'` both put it at the high keys, but differ in how:
+
+- `'dark'` re-derives the scale with the lightness ramp running the other way.
+- `'reversed'` takes the `'light'` palette and reverses its keys — identical colors, mirrored order (`50↔950`, `100↔900`, …). Use this when a dark theme must be an exact inversion of the light one.
+
+They produce the same result only when `lightnessCurve` is linear (`1`).
+
+<LiveExample client:load code="scale('#3366ff', { mode: 'reversed' })" />
 
 ## Lightness Curve
 
