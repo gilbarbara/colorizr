@@ -97,6 +97,35 @@ describe('scale', () => {
       expect(extractLightness(lightResult[50])).toBeGreaterThan(extractLightness(lightResult[950]));
       expect(extractLightness(darkResult[50])).toBeLessThan(extractLightness(darkResult[950]));
     });
+
+    it.each([1.5, { low: 1.5, high: 1 }, { low: 1, high: 2 }])(
+      'should make reversed an exact key-reversal of light (lightnessCurve: %o)',
+      lightnessCurve => {
+        const light = scale(violet.hex, { lightnessCurve, mode: 'light' });
+        const reversed = scale(violet.hex, { lightnessCurve, mode: 'reversed' });
+        const keys = Object.keys(light).map(Number);
+
+        keys.forEach((key, index) => {
+          expect(reversed[key]).toBe(light[keys[keys.length - 1 - index]]);
+        });
+      },
+    );
+
+    it('should match dark only when lightnessCurve is linear', () => {
+      expect(scale(violet.hex, { lightnessCurve: 1, mode: 'reversed' })).toEqual(
+        scale(violet.hex, { lightnessCurve: 1, mode: 'dark' }),
+      );
+      expect(scale(violet.hex, { lightnessCurve: 1.5, mode: 'reversed' })).not.toEqual(
+        scale(violet.hex, { lightnessCurve: 1.5, mode: 'dark' }),
+      );
+    });
+
+    it('should move a locked color to the mirrored key', () => {
+      const light = scale(violet.hex, { lock: 300, mode: 'light' });
+      const reversed = scale(violet.hex, { lock: 300, mode: 'reversed' });
+
+      expect(reversed[700]).toBe(light[300]);
+    });
   });
 
   describe('chromaCurve option', () => {
