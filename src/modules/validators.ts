@@ -1,7 +1,7 @@
 import { COLOR_KEYS } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 
-import { ColorModel, HEX, HSL, LAB, LCH, PlainObject, RGB } from '~/types';
+import { ColorModel, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
 const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i;
 
@@ -123,7 +123,7 @@ export function isNumberInRange(input: unknown, min: number, max: number): input
 /**
  * Check if the input is an object
  */
-export function isPlainObject(input: unknown): input is PlainObject {
+export function isPlainObject(input: unknown): input is Record<string, any> {
   if (!input) {
     return false;
   }

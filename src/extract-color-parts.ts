@@ -4,7 +4,7 @@ import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { hasValidMatches, isHex, isString } from '~/modules/validators';
 
-import { ColorModelKey, PlainObject } from '~/types';
+import { ColorModelKey } from '~/types';
 
 // Regex components for parsing CSS color strings
 const MODEL = '(rgb|hsl|oklab|oklch)a?';
@@ -20,7 +20,7 @@ const colorRegex = new RegExp(
 export type ExtractColorPartsReturn = {
   alpha?: number;
   model: ColorModelKey;
-} & PlainObject<number>;
+} & Record<string, number>;
 
 /**
  * Convert angle value with units to degrees
@@ -60,7 +60,7 @@ export default function extractColorParts(input: string): ExtractColorPartsRetur
     const alpha = extractAlphaFromHex(input);
 
     return {
-      model: 'rgb' as ColorModelKey,
+      model: 'rgb',
       [keys[0]]: r,
       [keys[1]]: g,
       [keys[2]]: b,

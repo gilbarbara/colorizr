@@ -3,7 +3,7 @@ import { clamp } from '~/modules/utils';
 
 import { ColorType } from '~/types';
 
-interface RandomOptions {
+export interface RandomOptions {
   /**
    * The color format to return.
    * @default 'hex'
