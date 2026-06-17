@@ -33,12 +33,12 @@
   "sideEffects": false,
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.3",
-    "@gilbarbara/eslint-config": "^1.2.1",
+    "@gilbarbara/eslint-config": "^1.2.3",
     "@gilbarbara/prettier-config": "^1.0.0",
     "@gilbarbara/tsconfig": "^1.0.0",
     "@size-limit/preset-small-lib": "^12.1.0",
     "@types/node": "^24.13.2",
-    "@vitest/coverage-v8": "^4.1.8",
+    "@vitest/coverage-v8": "^4.1.9",
     "baseline-browser-mapping": "^2.10.37",
     "del-cli": "^7.0.0",
     "eslint": "^9.39.4",
@@ -50,7 +50,7 @@
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "scripts": {
     "build": "pnpm clean && tsup",
