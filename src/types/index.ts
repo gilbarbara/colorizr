@@ -37,8 +37,6 @@ export type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple
 
 export type HEX = `#${string}`;
 
-export type PlainObject<T = any> = Record<string, T>;
-
 export interface Analysis {
   brightnessDifference: number;
   colorDifference: number;

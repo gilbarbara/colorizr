@@ -87,10 +87,61 @@ type ColorModelKey = 'hsl' | 'oklab' | 'oklch' | 'rgb';
 type ColorTuple = [number, number, number];
 ```
 
+### ColorKeysTuple
+
+```typescript
+type ColorKeysTuple = [string, string, string];
+```
+
 ### ColorModel
 
 ```typescript
 type ColorModel = HSL | LAB | LCH | RGB;
+```
+
+### ColorValue
+
+```typescript
+type ColorValue = ColorModel | HEX;
+```
+
+## Generic Helpers
+
+Conditional/generic types used by the converters and color accessors.
+
+### ColorReturn
+
+Maps a `ColorType` to its concrete model — the return type of format-aware functions.
+
+```typescript
+type ColorReturn<T extends ColorType> =
+  T extends 'hex' ? HEX
+  : T extends 'hsl' ? HSL
+  : T extends 'oklab' ? LAB
+  : T extends 'oklch' ? LCH
+  : T extends 'rgb' ? RGB
+  : never;
+```
+
+### ColorModelKeys
+
+The channel keys (excluding `alpha`) for a given color model.
+
+```typescript
+type ColorModelKeys<TModel extends ColorModelKey> =
+  TModel extends 'hsl' ? keyof Omit<HSL, 'alpha'>
+  : TModel extends 'oklab' ? keyof Omit<LAB, 'alpha'>
+  : TModel extends 'oklch' ? keyof Omit<LCH, 'alpha'>
+  : TModel extends 'rgb' ? keyof Omit<RGB, 'alpha'>
+  : never;
+```
+
+### ConverterParameters
+
+Accepted input for a converter: either the model object or its `ColorTuple`.
+
+```typescript
+type ConverterParameters<TModel extends ColorModel> = TModel | ColorTuple;
 ```
 
 ## Analysis
@@ -137,27 +188,42 @@ interface FormatCSSOptions {
 interface MixOptions {
   format?: ColorType;
   space?: ColorModelKey;
-  hue?: 'shorter' | 'longer' | 'increasing' | 'decreasing';
+  hue?: HueMode;
 }
+
+type HueMode = 'shorter' | 'longer' | 'increasing' | 'decreasing';
 ```
 
 ### ScaleOptions
 
 ```typescript
 interface ScaleOptions {
-  steps?: number;          // 3-20
+  steps?: number;          // 3-20, default 11
   variant?: ScaleVariant;
   saturation?: number;     // 0-100
-  mode?: 'light' | 'dark';
-  lightnessCurve?: number;
-  chromaCurve?: number;    // 0-1
-  minLightness?: number;   // 0-1
-  maxLightness?: number;   // 0-1
+  mode?: ScaleMode;        // default 'light'
+  lightnessCurve?: number | ScaleRange;            // default 1.5
+  chromaCurve?: number | ScaleChromaPeak | ScaleRange; // default 0
+  hueShift?: number | ScaleRange;                  // -180 to 180, default 0
+  minLightness?: number;   // 0-1, default 0.2
+  maxLightness?: number;   // 0-1, default 0.97
   lock?: number;
   format?: ColorType;
 }
 
+type ScaleMode = 'light' | 'dark';
+
 type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
+
+interface ScaleChromaPeak {
+  amount: number;          // 0-1
+  peak?: number;           // 0-1, default 0.5
+}
+
+interface ScaleRange {
+  high: number;            // high-key end (950)
+  low: number;             // low-key end (50)
+}
 ```
 
 ### PaletteOptions
@@ -187,11 +253,13 @@ type Scheme = 'analogous' | 'complementary' | 'rectangle' | 'split' | 'split-com
 
 ```typescript
 interface ReadableColorOptions {
-  method?: 'yiq' | 'wcag' | 'contrast' | 'oklab' | 'apca';
+  method?: ReadableColorMethod;
   darkColor?: string;
   lightColor?: string;
   threshold?: number;
 }
+
+type ReadableColorMethod = 'apca' | 'contrast' | 'oklab' | 'wcag' | 'yiq';
 ```
 
 ### RandomOptions
