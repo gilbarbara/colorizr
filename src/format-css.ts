@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
-import { addAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
+import { addAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -24,6 +24,7 @@ import { ColorModel, ColorReturn, ColorType, ColorValue } from '~/types';
 export interface FormatCSSOptions {
   /**
    * The alpha value of the color (0-1).
+   * Overrides the input's alpha; 1 removes it.
    */
   alpha?: number;
   /**
@@ -92,6 +93,7 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
 
 /**
  * Format a color model to a CSS color string.
+ * The input's alpha is kept unless the `alpha` option overrides it.
  *
  * @param input - The color model or hex string.
  * @param formatOrOptions - Output format or formatting options object.
@@ -114,7 +116,8 @@ export default function formatCSS<T extends ColorValue>(
 
   invariant(!isNumber(alpha) || isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
 
-  const normalizedAlpha = isNumber(alpha) ? alpha : undefined;
+  const inputAlpha = isHex(input) ? extractAlphaFromHex(input) : input.alpha;
+  const normalizedAlpha = isNumber(alpha) ? alpha : inputAlpha;
   const opacity =
     normalizedAlpha !== undefined && normalizedAlpha !== 1
       ? `${round(normalizedAlpha * 100)}%`

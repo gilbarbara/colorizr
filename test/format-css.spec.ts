@@ -18,7 +18,20 @@ describe('formatCSS', () => {
     },
     { input: '#f00', options: { alpha: 0.5 }, expected: '#ff000080' },
     { input: '#f00', options: { alpha: 1 }, expected: '#f00' },
-    { input: '#f008', options: undefined, expected: '#f00' },
+    { input: '#f008', options: undefined, expected: '#ff000088' },
+    { input: '#ff000080', options: { alpha: 1 }, expected: '#ff0000' },
+    { input: '#ff000080', options: { format: 'rgb' }, expected: 'rgb(255 0 0 / 50%)' },
+    {
+      input: { r: 255, g: 0, b: 0, alpha: 0.5 },
+      options: undefined,
+      expected: 'rgb(255 0 0 / 50%)',
+    },
+    { input: { r: 255, g: 0, b: 0, alpha: 0.5 }, options: 'hex', expected: '#ff000080' },
+    {
+      input: { r: 255, g: 0, b: 0, alpha: 0.5 },
+      options: { format: 'hsl', alpha: 1 },
+      expected: 'hsl(0 100% 50%)',
+    },
     { input: green.hsl, options: undefined, expected: green.hslString },
     {
       input: green.hsl,
