@@ -5,10 +5,18 @@ import { ColorModel, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
 const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i;
 
+/**
+ * Check if a color-function regex match has all six entries:
+ * the full match, the function name, three channels, and the optional alpha.
+ */
 export function hasValidMatches(input: unknown): input is string[] {
   return Array.isArray(input) && input.length === 6;
 }
 
+/**
+ * Check if the input is a hex color string: `#rgb`, `#rgba`, `#rrggbb`, or `#rrggbbaa`.
+ * Surrounding whitespace is not allowed.
+ */
 export function isHex(input: unknown): input is HEX {
   if (!isString(input)) {
     return false;
@@ -177,6 +185,9 @@ export function isString(input: unknown, validate = true): input is string {
   return isValid;
 }
 
+/**
+ * Check if the input is a color object of any supported model (HSL, RGB, OkLab, or OkLCH).
+ */
 export function isValidColorModel<T extends ColorModel>(input: T): input is T {
   return isHSL(input) || isRGB(input) || isLAB(input) || isLCH(input);
 }

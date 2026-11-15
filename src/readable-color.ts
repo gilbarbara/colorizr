@@ -6,8 +6,10 @@ import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
 
+/** The method `readableColor` uses to decide between the light and dark color. */
 export type ReadableColorMethod = 'apca' | 'contrast' | 'oklab' | 'wcag' | 'yiq';
 
+/** Options for `readableColor`. */
 export interface ReadableColorOptions {
   /**
    * The dark color to return if the background is light.

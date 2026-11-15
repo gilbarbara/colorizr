@@ -11,8 +11,12 @@ import { ColorModelKey, ColorTuple, ColorType, ColorValue, HEX, HSL, LAB, LCH, R
 
 type ModelConverterFn = (input: ColorTuple) => ColorValue;
 
+/** Any color input the library resolves: a CSS string, a parsed color, or a color object. */
 export type ColorInput = string | ParsedColor | HSL | LAB | LCH | RGB;
 
+/**
+ * A resolved color: its source type and alpha, with lazily computed, cached conversions.
+ */
 export interface ParsedColor {
   readonly __parsed: true;
   readonly alpha: number;
@@ -65,6 +69,7 @@ const modelConverters: Record<ColorModelKey, Partial<Record<ColorModelKey, Model
   },
 };
 
+/** `ParsedColor` implementation that converts from the source value on first access and caches the result. */
 class ParsedColorImpl implements ParsedColor {
   readonly __parsed = true;
   readonly type: ColorType;
@@ -80,26 +85,37 @@ class ParsedColorImpl implements ParsedColor {
     this._cache[type] = value;
   }
 
+  /** The color as hex. Alpha below 1 is appended, except for hex input, whose alpha is only in `alpha`. */
   get hex(): HEX {
     return this._getAs('hex') as HEX;
   }
 
+  /** The color as HSL. */
   get hsl(): HSL {
     return this._getAs('hsl') as HSL;
   }
 
+  /** The color as RGB. */
   get rgb(): RGB {
     return this._getAs('rgb') as RGB;
   }
 
+  /** The color as OkLab. */
   get oklab(): LAB {
     return this._getAs('oklab') as LAB;
   }
 
+  /** The color as OkLCH. */
   get oklch(): LCH {
     return this._getAs('oklch') as LCH;
   }
 
+  /**
+   * Format the color as a CSS string.
+   *
+   * @param options - Format options; the format defaults to the source type.
+   * @returns The CSS string.
+   */
   toCSS(options?: FormatCSSOptions): string {
     const format = options?.format ?? this.type;
     const alpha = options?.alpha ?? (this.alpha < 1 ? this.alpha : undefined);
@@ -117,6 +133,7 @@ class ParsedColorImpl implements ParsedColor {
     return formatCSS(this[format], { ...options, format, alpha });
   }
 
+  /** Convert the source value to the target format, caching the result. */
   private _getAs(target: ColorType): ColorValue {
     if (this._cache[target]) {
       return this._cache[target];
@@ -154,12 +171,23 @@ class ParsedColorImpl implements ParsedColor {
   }
 }
 
+/**
+ * Check if the input is a color already resolved by `resolveColor`.
+ */
 export function isParsedColor(input: unknown): input is ParsedColor {
   return (
     typeof input === 'object' && input !== null && '__parsed' in input && input.__parsed === true
   );
 }
 
+/**
+ * Resolve any color input into a `ParsedColor`.
+ * Objects must pass their type guard; strings go through `parseColorString`,
+ * and out-of-range values throw `MESSAGES.invalidRange` (use `parseCSS` to resolve them as CSS does).
+ *
+ * @param input - A CSS color string, a color object, or a `ParsedColor`.
+ * @returns The parsed color.
+ */
 export function resolveColor(input: ColorInput): ParsedColor {
   if (isParsedColor(input)) {
     return input;

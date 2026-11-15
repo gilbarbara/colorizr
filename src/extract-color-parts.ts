@@ -8,6 +8,7 @@ export type { ExtractColorPartsReturn } from '~/modules/color-string';
 /**
  * Extract the color parts from a CSS color string.
  * Hex and named colors are returned as RGB parts.
+ * Out-of-range values are returned as written, not clamped or wrapped.
  *
  * @param input - The CSS color string.
  * @returns An object with the color model and component values.

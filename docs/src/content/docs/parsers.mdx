@@ -38,7 +38,7 @@ Parse a CSS color string into its individual components.
 extractColorParts(input: string): ExtractColorPartsReturn
 ```
 
-Returns an object with the color model and its channel values. Hex and named colors return RGB parts:
+Returns an object with the color model and its channel values. Hex and named colors return RGB parts. Out-of-range values are returned as written, not clamped or wrapped; use `parseCSS` to resolve them as CSS does:
 
 ```typescript
 import { extractColorParts } from 'colorizr';
@@ -57,6 +57,9 @@ extractColorParts('oklch(63% 0.29 17)');
 
 extractColorParts('red');
 // { model: 'rgb', r: 255, g: 0, b: 0 }
+
+extractColorParts('rgb(300 0 0)');
+// { model: 'rgb', r: 300, g: 0, b: 0 }
 ```
 
 <LiveExample client:load code="extractColorParts('oklch(0.63 0.29 17)')" />

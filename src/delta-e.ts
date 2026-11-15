@@ -4,6 +4,10 @@ import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
 import { isString } from '~/modules/validators';
 
+/**
+ * Just noticeable difference for Delta E OK: two colors closer than this look the same.
+ * Used by `toGamut` (CSS Color 4 gamut mapping).
+ */
 export const DELTA_E_JND = 0.02;
 
 /**

@@ -27,8 +27,10 @@ interface GeneratePaletteOptions extends Required<
   mode: Exclude<ScaleMode, 'reversed'>;
 }
 
+/** Which end of a scale is lightest: `light` (low keys), `dark` (high keys), or `reversed` (the light scale with its keys mirrored). */
 export type ScaleMode = 'light' | 'dark' | 'reversed';
 
+/** Chroma presets for `scale`. */
 export type ScaleVariant = 'deep' | 'neutral' | 'pastel' | 'subtle' | 'vibrant';
 
 /**

@@ -20,6 +20,7 @@ import {
 
 import { ColorModel, ColorReturn, ColorType, ColorValue } from '~/types';
 
+/** Options for `formatCSS`. */
 export interface FormatCSSOptions {
   /**
    * The alpha value of the color (0-1).

@@ -6,11 +6,26 @@ import { isNumberInRange, isString } from '~/modules/validators';
 
 import { ColorModel, ColorModelKey, ColorType, HSL, LAB, LCH, RGB } from '~/types';
 
+/** How hue is interpolated between two colors (the CSS Color 4 hue interpolation methods). */
 export type HueMode = 'shorter' | 'longer' | 'increasing' | 'decreasing';
 
+/** Options for `mix`. */
 export interface MixOptions {
+  /**
+   * Output color format.
+   *
+   * If not specified, the output will use the format of the first color.
+   */
   format?: ColorType;
+  /**
+   * Hue interpolation method, for the hsl and oklch spaces.
+   * @default 'shorter'
+   */
   hue?: HueMode;
+  /**
+   * Color space to interpolate in.
+   * @default 'oklch'
+   */
   space?: ColorModelKey;
 }
 
