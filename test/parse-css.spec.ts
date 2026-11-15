@@ -68,6 +68,13 @@ describe('parseCSS', () => {
     expect(parseCSS('oklab(0.7 1.2 -1.5)', 'rgb')).toEqual(expect.any(Object));
   });
 
+  it.each(['rgb(255 0 0 / 0)', 'rgb(255 0 0 / 0%)', 'rgb(255 0 0 / none)', 'hsl(0 100% 50% / 0)'])(
+    'should keep a zero alpha in hex output for %s',
+    input => {
+      expect(parseCSS(input, 'hex')).toBe('#ff000000');
+    },
+  );
+
   it('should ignore surrounding CSS whitespace', () => {
     expect(parseCSS(' #ff0000\n', 'rgb')).toEqual({ r: 255, g: 0, b: 0 });
     expect(parseCSS('\tred ', 'hex')).toBe('#ff0000');

@@ -1,3 +1,4 @@
+import formatHex from '~/format-hex';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -151,7 +152,8 @@ export function parseColorString(input: string): ColorString {
   }
 
   if (isHex(value)) {
-    return { type: 'hex', hex: value };
+    // #rgba becomes #rrggbbaa, so stripping and re-appending a 2-digit alpha keeps it valid
+    return { type: 'hex', hex: value.length === 5 ? formatHex(value) : value };
   }
 
   const parts = parseColorFunction(value);

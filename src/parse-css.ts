@@ -85,7 +85,7 @@ function convertFromCSS(
   const colorTuple = Object.values(color) as ColorTuple;
 
   if (output === 'hex') {
-    const alphaPrefix = alpha ? convertAlphaToHex(alpha) : '';
+    const alphaPrefix = alpha !== undefined ? convertAlphaToHex(alpha) : '';
 
     return `${toHexConverters[model](colorTuple)}${alphaPrefix}` as HEX;
   }

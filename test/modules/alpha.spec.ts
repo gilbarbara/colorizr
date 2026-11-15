@@ -145,8 +145,26 @@ describe('extractAlphaFromHex', () => {
     { input: addOpacityToCssString(green.hex, 0.2), expected: 0.2 },
     { input: addOpacityToCssString(violet.hex, 0.45), expected: 0.45 },
     { input: addOpacityToCssString(yellow.hex, 1), expected: 1 },
+    { input: '#f008', expected: 0.533 },
+    { input: '#f00f', expected: 1 },
+    { input: '#f000', expected: 0 },
+    { input: '#f00', expected: 1 },
   ])(`should extract alpha from $input`, ({ input, expected }) => {
     expect(extractAlphaFromHex(input)).toBe(expected);
+  });
+
+  it('should extract an alpha that converts back to the same hex for every value', () => {
+    for (let value = 0; value < 256; value++) {
+      const hex = value.toString(16).padStart(2, '0');
+
+      expect(convertAlphaToHex(extractAlphaFromHex(`#ff0000${hex}`))).toBe(hex);
+    }
+  });
+
+  it('should keep 2 decimals when they convert back to the same hex', () => {
+    expect(extractAlphaFromHex('#ff000080')).toBe(0.5);
+    expect(extractAlphaFromHex('#ff0000e6')).toBe(0.9);
+    expect(extractAlphaFromHex('#ff000088')).toBe(0.533);
   });
 });
 

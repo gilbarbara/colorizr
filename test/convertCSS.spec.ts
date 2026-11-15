@@ -37,6 +37,12 @@ describe('convertCSS', () => {
     expect(() => convertCSS('oklch(0.7 -0.1 30)', 'hex')).toThrow(MESSAGES.invalidColor);
   });
 
+  it('should keep the alpha of 4-digit hex', () => {
+    expect(convertCSS('#f008', 'hex')).toBe('#ff000088');
+    expect(convertCSS('#f008', 'rgb')).toBe('rgb(255 0 0 / 53.3%)');
+    expect(convertCSS('#f00', 'hex')).toBe('#f00');
+  });
+
   it('should read alpha as written', () => {
     expect(convertCSS('rgb(255 0 0 / 1%)', 'hex')).toBe('#ff000003');
     expect(convertCSS('rgb(255 0 0 / 50%)', 'hex')).toBe('#ff000080');

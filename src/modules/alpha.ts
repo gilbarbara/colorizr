@@ -1,3 +1,4 @@
+import formatHex from '~/format-hex';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
@@ -79,13 +80,18 @@ export function extractAlpha<T extends ColorModel>(
 export function extractAlphaFromHex(input: string): number {
   invariant(isHex(input), MESSAGES.inputString);
 
-  const alpha = input.substring(7, 9);
+  // Expand #rgba to #rrggbbaa so the alpha is always at the same position
+  const alpha = formatHex(input).substring(7, 9);
 
   if (!alpha) {
     return 1;
   }
 
-  return round(parseInt(alpha, 16) / 255);
+  const value = parseInt(alpha, 16);
+  const short = round(value / 255);
+
+  // 2 decimals can't represent all 256 hex values (0x88 → 0.53 → 0x87); 3 decimals always can
+  return Math.round(short * 255) === value ? short : round(value / 255, 3);
 }
 
 /**
