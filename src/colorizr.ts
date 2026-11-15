@@ -42,7 +42,7 @@ export interface ColorizrOptions {
 export default class Colorizr {
   /** The alpha/opacity value (0-1). */
   public alpha: number;
-  /** The color as hex. Alpha below 1 is appended, except for hex input, whose alpha is only in `alpha`. */
+  /** The color as hex. Alpha below 1 is appended. */
   public hex: HEX;
   /** The color as HSL. */
   public hsl: HSL;

@@ -9,6 +9,9 @@ describe('name', () => {
     { input: 'hsl(344, 100, 50)', expected: '#ff0044' },
     { input: '#ffc0cb', expected: 'pink' },
     { input: 'rgb(176, 224, 230)', expected: 'powderblue' },
+    { input: '#ff000080', expected: '#ff000080' },
+    { input: 'rgb(255 0 0 / 50%)', expected: '#ff000080' },
+    { input: '#00000000', expected: 'transparent' },
   ])('$input should return $expected', ({ input, expected }) => {
     expect(name(input)).toBe(expected);
   });

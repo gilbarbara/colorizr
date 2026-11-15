@@ -1179,3 +1179,121 @@ exports[`Colorizr with RGB String > modifiers > transparentize > should have tra
 exports[`Colorizr with RGB String > toGamut > should accept a format override 1`] = `"#ffe66d"`;
 
 exports[`Colorizr with RGB String > toGamut > should return a gamut-mapped color 1`] = `"rgb(255 230 109)"`;
+
+exports[`Colorizr with RGB String with alpha > brightnessDifference > should return the brightness difference 1`] = `223.681`;
+
+exports[`Colorizr with RGB String with alpha > brightnessDifference > should return the brightness difference 2`] = `31.319`;
+
+exports[`Colorizr with RGB String with alpha > colorDifference > should return the color difference 1`] = `594`;
+
+exports[`Colorizr with RGB String with alpha > colorDifference > should return the color difference 2`] = `171`;
+
+exports[`Colorizr with RGB String with alpha > compare > should return a WCAG analysis 1`] = `
+{
+  "brightnessDifference": 223.681,
+  "colorDifference": 594,
+  "compliant": 2,
+  "contrast": 16.79,
+  "largeAA": true,
+  "largeAAA": true,
+  "normalAA": true,
+  "normalAAA": true,
+}
+`;
+
+exports[`Colorizr with RGB String with alpha > compare > should return a WCAG analysis 2`] = `
+{
+  "brightnessDifference": 31.319,
+  "colorDifference": 171,
+  "compliant": 0,
+  "contrast": 1.25,
+  "largeAA": false,
+  "largeAAA": false,
+  "normalAA": false,
+  "normalAAA": false,
+}
+`;
+
+exports[`Colorizr with RGB String with alpha > contrast > should return the contrast 1`] = `16.79`;
+
+exports[`Colorizr with RGB String with alpha > contrast > should return the contrast 2`] = `1.25`;
+
+exports[`Colorizr with RGB String with alpha > deltaE > should return the perceptual color difference 1`] = `0.93333`;
+
+exports[`Colorizr with RGB String with alpha > deltaE > should return the perceptual color difference 2`] = `0.1625`;
+
+exports[`Colorizr with RGB String with alpha > getters > .chroma should return the correct value 1`] = `0.5725`;
+
+exports[`Colorizr with RGB String with alpha > getters > .luminance should return the correct value 1`] = `0.7896`;
+
+exports[`Colorizr with RGB String with alpha > getters > .opacity should return the correct value 1`] = `0.5`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > darken > should have darken the color with 10 1`] = `"rgb(255 221 58 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > darken > should have darken the color with 20 1`] = `"rgb(255 213 7 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > darken > should have darken the color with 40 1`] = `"rgb(160 133 0 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > darken > should have darken the color with 80 1`] = `"rgb(0 0 0 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > desaturate > should have desaturated the color with 10 1`] = `"rgb(248 225 116 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > desaturate > should have desaturated the color with 20 1`] = `"rgb(240 220 124 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > desaturate > should have desaturated the color with 40 1`] = `"rgb(226 211 138 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > desaturate > should have desaturated the color with 80 1`] = `"rgb(197 192 167 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > grayscale > should convert to grayscale 1`] = `"rgb(229 229 229 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > invert > should have invert the color 1`] = `"rgb(109 134 255 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > lighten > should have lighten the color with 10 1`] = `"rgb(255 239 160 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > lighten > should have lighten the color with 20 1`] = `"rgb(255 247 211 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > lighten > should have lighten the color with 40 1`] = `"rgb(255 255 255 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > lighten > should have lighten the color with 80 1`] = `"rgb(255 255 255 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix in hsl space 1`] = `"rgb(255 54 172 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix in oklab space 1`] = `"rgb(115 158 209 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix in rgb space 1`] = `"rgb(128 115 182 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix with another color at 0.5 ratio 1`] = `"rgb(0 195 162 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix with another color at 0.25 ratio 1`] = `"rgb(122 219 95 / 62.5%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix with another color at 0.75 ratio 1`] = `"rgb(0 140 231 / 87.5%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix with format override 1`] = `"oklch(68.718% 0.22798 180.91 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > mix > should mix with longer hue mode 1`] = `"rgb(255 71 146 / 75%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > opacify > should make the color transparent 1`] = `"rgb(255 230 109 / 90%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > rotate > should have rotated the color with 15 1`] = `"rgb(243 255 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > rotate > should have rotated the color with 30 1`] = `"rgb(207 255 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > rotate > should have rotated the color with 60 1`] = `"rgb(134 255 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > rotate > should have rotated the color with 120 1`] = `"rgb(109 255 230 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > rotate > should have rotated the color with 180 1`] = `"rgb(109 134 255 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > saturate > should have saturated the color with 10 1`] = `"rgb(255 230 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > saturate > should have saturated the color with 20 1`] = `"rgb(255 230 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > saturate > should have saturated the color with 40 1`] = `"rgb(255 230 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > saturate > should have saturated the color with 80 1`] = `"rgb(255 230 109 / 50%)"`;
+
+exports[`Colorizr with RGB String with alpha > modifiers > transparentize > should have transparentize the color 1`] = `"rgb(255 230 109 / 30%)"`;
+
+exports[`Colorizr with RGB String with alpha > toGamut > should accept a format override 1`] = `"#ffe66d80"`;
+
+exports[`Colorizr with RGB String with alpha > toGamut > should return a gamut-mapped color 1`] = `"rgb(255 230 109 / 50%)"`;

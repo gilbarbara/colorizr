@@ -60,7 +60,19 @@ describe('parsed-color', () => {
 
         expect(parsed.type).toBe('hex');
         expect(parsed.alpha).toBeCloseTo(0.5, 1);
-        expect(parsed.hex).toBe(brightPink.hex);
+        expect(parsed.hex).toBe(brightPink.hexAlpha);
+        expect(parsed.rgb).toEqual(brightPink.rgb);
+      });
+
+      it('should expand short hex alpha', () => {
+        expect(resolveColor('#f008').hex).toBe('#ff000088');
+      });
+
+      it('should drop an opaque hex alpha', () => {
+        const parsed = resolveColor('#ff0000ff');
+
+        expect(parsed.alpha).toBe(1);
+        expect(parsed.hex).toBe('#ff0000');
       });
     });
 
@@ -182,6 +194,7 @@ describe('parsed-color', () => {
         expect(parsed.alpha).toBe(0.5);
         expect(parsed.type).toBe('hsl');
         expect(parsed.hsl).toEqual(green.hsl);
+        expect(parsed.hex).toBe(`${green.hex}80`);
       });
     });
 

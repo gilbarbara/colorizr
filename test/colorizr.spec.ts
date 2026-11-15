@@ -58,6 +58,14 @@ describe.each([
     title: 'RGB String',
     type: 'rgb',
   },
+  {
+    alpha: 0.5,
+    color: yellow,
+    input: yellow.rgbString,
+    readableColor: '#000000',
+    title: 'RGB String with alpha',
+    type: 'rgb',
+  },
 ] as Array<Item>)(
   `Colorizr with $title`,
   ({ color, input, alpha, readableColor, type, format }) => {
@@ -89,7 +97,7 @@ describe.each([
     describe('initialization', () => {
       it('should create a proper instance', () => {
         expect(colorizr).toBeInstanceOf(Colorizr);
-        expect(colorizr.hex).toBe(hex);
+        expect(colorizr.hex).toBe(hexCSS);
         expect(colorizr.hsl).toEqual(hsl);
         expect(colorizr.rgb).toEqual(rgb);
         expect(colorizr.oklab).toEqual(oklab);
