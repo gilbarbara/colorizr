@@ -1,15 +1,40 @@
-import { oklch2oklab } from '~/converters';
+import { oklch2oklab, rgb2oklab } from '~/converters';
+import { DELTA_E_JND } from '~/delta-e';
 import formatCSS from '~/format-css';
-import { GAMUT_EPSILON, MESSAGES } from '~/modules/constants';
+import { MESSAGES } from '~/modules/constants';
+import { srgbGammaEncode } from '~/modules/gamma';
 import { invariant } from '~/modules/invariant';
 import { isInGamut, oklabToLinearSRGB } from '~/modules/linear-rgb';
 import { resolveColor } from '~/modules/parsed-color';
+import { clamp } from '~/modules/utils';
 import { isString } from '~/modules/validators';
 
-import { ColorType } from '~/types';
+import { ColorType, LAB, LCH, RGB } from '~/types';
+
+// Chroma search precision of the CSS Color 4 algorithm
+const CHROMA_EPSILON = 0.0001;
+
+/** Clip each channel of the color to the sRGB range. */
+function clip(lch: LCH): RGB {
+  const [r, g, b] = toLinearSRGB(lch).map(channel => clamp(srgbGammaEncode(channel), 0, 1) * 255);
+
+  return { r, g, b };
+}
+
+function deltaEOK(left: LAB, right: LAB): number {
+  return Math.sqrt((left.l - right.l) ** 2 + (left.a - right.a) ** 2 + (left.b - right.b) ** 2);
+}
+
+function toLinearSRGB(lch: LCH) {
+  const { l, a, b } = oklch2oklab(lch, 16);
+
+  return oklabToLinearSRGB(l, a, b);
+}
 
 /**
- * Map a color into the sRGB gamut by reducing chroma in OkLCH space.
+ * Map a color into the sRGB gamut with the CSS Color 4 gamut mapping algorithm:
+ * reduce chroma in OkLCH until clipping the color changes it by less than
+ * a just noticeable difference (Delta E OK 0.02), then clip it.
  * Colors already in gamut are returned unchanged.
  *
  * @param input - The input color string.
@@ -34,27 +59,45 @@ export default function toGamut(input: string, format?: ColorType): string {
   }
 
   // Already in gamut?
-  const lab = oklch2oklab(lch, 16);
-
-  if (isInGamut(oklabToLinearSRGB(lab.l, lab.a, lab.b))) {
+  if (isInGamut(toLinearSRGB(lch))) {
     return formatCSS(lch, { format: output, alpha });
   }
 
-  // Binary search: reduce chroma until in sRGB gamut
-  const epsilon = GAMUT_EPSILON;
-  let low = 0;
-  let high = lch.c;
+  const current = { ...lch };
+  let clipped = clip(current);
+  let delta = deltaEOK(rgb2oklab(clipped), oklch2oklab(current, 16));
 
-  while (high - low > epsilon) {
-    const mid = (low + high) / 2;
-    const midLab = oklch2oklab({ l: lch.l, c: mid, h: lch.h }, 16);
+  // Clipping alone is close enough
+  if (delta < DELTA_E_JND) {
+    return formatCSS(clipped, { format: output, alpha });
+  }
 
-    if (isInGamut(oklabToLinearSRGB(midLab.l, midLab.a, midLab.b))) {
-      low = mid;
+  // Binary search on chroma for the color whose clipped version is just under the JND
+  let min = 0;
+  let max = lch.c;
+  let minInGamut = true;
+
+  while (max - min > CHROMA_EPSILON) {
+    current.c = (min + max) / 2;
+
+    if (minInGamut && isInGamut(toLinearSRGB(current))) {
+      min = current.c;
     } else {
-      high = mid;
+      clipped = clip(current);
+      delta = deltaEOK(rgb2oklab(clipped), oklch2oklab(current, 16));
+
+      if (delta < DELTA_E_JND) {
+        if (DELTA_E_JND - delta < CHROMA_EPSILON) {
+          break;
+        }
+
+        minInGamut = false;
+        min = current.c;
+      } else {
+        max = current.c;
+      }
     }
   }
 
-  return formatCSS({ l: lch.l, c: low, h: lch.h }, { format: output, alpha });
+  return formatCSS(clipped, { format: output, alpha });
 }
