@@ -36,6 +36,8 @@ describe('isValidColor', () => {
     { input: addOpacityToCssString(yellow.rgbString, 0.9, true), expected: true },
     { input: 'blue', expected: true },
     { input: 'aliceblue', expected: true },
+    { input: 'transparent', expected: true },
+    { input: 'Transparent', expected: true },
     { input: '#mmff00', expected: false },
     { input: 'blue-ish', expected: false },
     // Surrounding CSS whitespace is allowed; any other surrounding text is not

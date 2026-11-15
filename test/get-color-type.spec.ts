@@ -68,6 +68,7 @@ describe('getColorType', () => {
     it.each([
       { input: 'blue', expected: 'named' },
       { input: 'coral', expected: 'named' },
+      { input: 'transparent', expected: 'named' },
       { input: 'aliceblue', expected: 'named' },
       { input: 'RED', expected: 'named' },
       { input: 'DarkSlateGray', expected: 'named' },

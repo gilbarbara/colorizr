@@ -114,6 +114,11 @@ describe('parseCSS', () => {
     expect(parseCSS(input, 'hex')).toBe(expected);
   });
 
+  it('should parse transparent as transparent black', () => {
+    expect(parseCSS('transparent')).toBe('#00000000');
+    expect(parseCSS('transparent', 'rgb')).toEqual({ r: 0, g: 0, b: 0, alpha: 0 });
+  });
+
   it('should ignore surrounding CSS whitespace', () => {
     expect(parseCSS(' #ff0000\n', 'rgb')).toEqual({ r: 255, g: 0, b: 0 });
     expect(parseCSS('\tred ', 'hex')).toBe('#ff0000');
