@@ -39,6 +39,7 @@ describe('isValidColor', () => {
     { input: 'transparent', expected: true },
     { input: 'Transparent', expected: true },
     { input: '#mmff00', expected: false },
+    { input: '#1234567', expected: false },
     { input: 'blue-ish', expected: false },
     // Surrounding CSS whitespace is allowed; any other surrounding text is not
     { input: '  rgb(1 2 3)  ', expected: true },

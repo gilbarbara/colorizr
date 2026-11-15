@@ -3,7 +3,7 @@ import { CSSColor, cssColors } from '~/modules/css-colors';
 
 import { ColorModel, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
-const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i;
+const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i;
 
 /**
  * Check if a color-function regex match has all six entries:

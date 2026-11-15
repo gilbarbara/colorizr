@@ -137,5 +137,6 @@ describe('parseCSS', () => {
     expect(() => parseCSS('rgs(255, 255, 0)')).toThrow('invalid CSS string');
     expect(() => parseCSS('AliceGreen')).toThrow('invalid CSS string');
     expect(() => parseCSS('green-ish')).toThrow('invalid CSS string');
+    expect(() => parseCSS('#1234567')).toThrow('invalid CSS string');
   });
 });
