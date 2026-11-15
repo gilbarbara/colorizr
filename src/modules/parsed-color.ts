@@ -1,5 +1,4 @@
 import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
 import {
   convertAlphaToHex,
@@ -7,17 +6,9 @@ import {
   normalizeAlpha,
   removeAlphaFromHex,
 } from '~/modules/alpha';
-import { CSSColor, cssColors } from '~/modules/css-colors';
+import { parseColorString } from '~/modules/color-string';
 import { clamp, normalizeOkLightness } from '~/modules/utils';
-import {
-  isHex,
-  isHSL,
-  isLAB,
-  isLCH,
-  isNamedColor,
-  isPlainObject,
-  isRGB,
-} from '~/modules/validators';
+import { isHSL, isLAB, isLCH, isPlainObject, isRGB } from '~/modules/validators';
 
 import { ColorModelKey, ColorTuple, ColorType, ColorValue, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
@@ -206,16 +197,16 @@ export function resolveColor(input: ColorInput): ParsedColor {
     }
   }
 
-  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
+  const result = parseColorString(input);
 
-  if (isHex(value)) {
-    const alpha = extractAlphaFromHex(value);
-    const hex = removeAlphaFromHex(value);
+  if ('hex' in result) {
+    const alpha = extractAlphaFromHex(result.hex);
+    const hex = removeAlphaFromHex(result.hex);
 
     return new ParsedColorImpl('hex', hex, alpha);
   }
 
-  const parts = extractColorParts(value);
+  const { parts } = result;
   const { alpha, model, ...color } = parts;
 
   const colorValue = (['oklab', 'oklch'].includes(model)

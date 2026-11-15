@@ -34,6 +34,13 @@ describe('parseCSS', () => {
     });
   });
 
+  it.each([{ input: 'red' }, { input: 'RED' }])(
+    'should parse named color $input to hex when no format is given',
+    ({ input }) => {
+      expect(parseCSS(input)).toBe('#ff0000');
+    },
+  );
+
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required
     expect(() => parseCSS()).toThrow(MESSAGES.inputString);

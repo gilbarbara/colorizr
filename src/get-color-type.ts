@@ -1,5 +1,5 @@
-import extractColorParts from '~/extract-color-parts';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
+import { parseColorString } from '~/modules/color-string';
+import { isString } from '~/modules/validators';
 
 import { ColorTypeInput } from '~/types';
 
@@ -15,18 +15,8 @@ export default function getColorType(input: string): ColorTypeInput | null {
     return null;
   }
 
-  if (isHex(input)) {
-    return 'hex';
-  }
-
-  if (isNamedColor(input)) {
-    return 'named';
-  }
-
   try {
-    const { model } = extractColorParts(input);
-
-    return model;
+    return parseColorString(input).type;
   } catch {
     return null;
   }

@@ -1,16 +1,12 @@
 import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import {
   addAlpha,
   convertAlphaToHex,
   extractAlphaFromHex,
   removeAlphaFromHex,
 } from '~/modules/alpha';
-import { MESSAGES } from '~/modules/constants';
-import { CSSColor, cssColors } from '~/modules/css-colors';
-import { invariant } from '~/modules/invariant';
+import { ExtractColorPartsReturn, parseColorString } from '~/modules/color-string';
 import { normalizeOkLightness } from '~/modules/utils';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
 
 import {
   ColorModel,
@@ -81,8 +77,11 @@ const converterTables: Record<
   rgb: toRgbConverters,
 };
 
-function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH | RGB {
-  const { alpha, model, ...color } = extractColorParts(value);
+function convertFromCSS(
+  parts: ExtractColorPartsReturn,
+  output: ColorType,
+): HEX | HSL | LAB | LCH | RGB {
+  const { alpha, model, ...color } = parts;
 
   const normalized = ['oklab', 'oklch'].includes(model)
     ? normalizeOkLightness(color as unknown as { l: number })
@@ -123,14 +122,11 @@ function convertFromHex(value: HEX, output: ColorType): HEX | HSL | LAB | LCH | 
  * @returns The parsed color in the specified format.
  */
 export default function parseCSS<T extends ColorType>(input: string, format?: T): ColorReturn<T> {
-  invariant(isString(input), MESSAGES.inputString);
+  const result = parseColorString(input);
 
-  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
-  const output = format ?? (isHex(value) ? 'hex' : extractColorParts(value).model);
-
-  if (isHex(value)) {
-    return convertFromHex(value, output) as ColorReturn<T>;
+  if ('hex' in result) {
+    return convertFromHex(result.hex, format ?? 'hex') as ColorReturn<T>;
   }
 
-  return convertFromCSS(value, output) as ColorReturn<T>;
+  return convertFromCSS(result.parts, format ?? result.type) as ColorReturn<T>;
 }

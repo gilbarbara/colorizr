@@ -131,7 +131,17 @@ describe('extractColorParts', () => {
     expect(extractColorParts(input)).toEqual(expected);
   });
 
+  it.each([
+    { input: 'red', expected: { model: 'rgb', r: 255, g: 0, b: 0 } },
+    { input: 'RED', expected: { model: 'rgb', r: 255, g: 0, b: 0 } },
+    { input: 'coral', expected: { model: 'rgb', r: 255, g: 127, b: 80 } },
+  ])('should return named color $input as RGB parts', ({ input, expected }) => {
+    expect(extractColorParts(input)).toEqual(expected);
+  });
+
   it('should fail with invalid parameters', () => {
+    expect(() => extractColorParts('notacolor')).toThrow(MESSAGES.invalidCSS);
+
     expect(() => extractColorParts('rgb(255, 255)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('rgb(255, 255, aa)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('hsl(255, 80)')).toThrow(MESSAGES.invalidCSS);
