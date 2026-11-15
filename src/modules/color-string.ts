@@ -3,31 +3,109 @@ import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
 import { trimCSSWhitespace } from '~/modules/utils';
-import { hasValidMatches, isHex, isNamedColor, isString } from '~/modules/validators';
+import {
+  hasValidMatches,
+  isHex,
+  isHSL,
+  isLAB,
+  isLCH,
+  isNamedColor,
+  isRGB,
+  isString,
+} from '~/modules/validators';
 
 import { ColorModelKey, HEX } from '~/types';
 
 // Regex components for parsing CSS color strings
-const MODEL = '(rgb|hsl|oklab|oklch)a?';
-const SEP = '(?:\\s*[,/]\\s*|\\s+)';
+// CSS whitespace only: JavaScript's \s also matches other Unicode spaces, such as a non-breaking space
+const WS = '[ \\t\\n\\r\\f]';
 // CSS <number>: optional sign, digits with an optional fraction (or a leading '.'), optional exponent
 const NUMBER = '[+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+)(?:e[+-]?\\d+)?';
 // Accepts: 'none', or a number with an optional percentage or angle unit
-const VALUE = `(none|${NUMBER}(?:%|deg|grad|rad|turn)?)`;
+const VALUE_PATTERN = `none|${NUMBER}(?:%|deg|grad|rad|turn)?`;
+const VALUE = `(${VALUE_PATTERN})`;
+const VALUE_NC = `(?:${VALUE_PATTERN})`;
 const ANGLE_UNIT = /(?:deg|grad|rad|turn)$/;
 
-const colorRegex = new RegExp(
-  `^${MODEL}\\s*\\(\\s*${VALUE}${SEP}${VALUE}${SEP}${VALUE}(?:${SEP}${VALUE})?\\s*\\)$`,
+// Strict CSS Color 4 syntax, used to report whether a string is valid CSS as written.
+// Modern: whitespace between channels, '/' only before alpha. rgba/hsla are aliases of rgb/hsl.
+const modernRegex = new RegExp(
+  `^(?:rgba?|hsla?|oklab|oklch)\\(${WS}*${VALUE_NC}${WS}+${VALUE_NC}${WS}+${VALUE_NC}(?:${WS}*/${WS}*${VALUE_NC})?${WS}*\\)$`,
   'i',
 );
 
+// Legacy: commas between every value, rgb/hsl only
+const legacyRegex = new RegExp(
+  `^(rgba?|hsla?)\\(${WS}*${VALUE}${WS}*,${WS}*${VALUE}${WS}*,${WS}*${VALUE}(?:${WS}*,${WS}*${VALUE})?${WS}*\\)$`,
+  'i',
+);
+
+// Lenient syntax, used for parsing: any of ',', '/' or whitespace between values,
+// and an 'a' suffix on any function name. Values follow the same CSS <number> grammar.
+const LENIENT_SEP = '(?:\\s*[,/]\\s*|\\s+)';
+const lenientRegex = new RegExp(
+  `^((?:rgb|hsl|oklab|oklch)a?)\\s*\\(\\s*${VALUE}${LENIENT_SEP}${VALUE}${LENIENT_SEP}${VALUE}(?:${LENIENT_SEP}${VALUE})?\\s*\\)$`,
+  'i',
+);
+
+// Range checks shared with the object type guards, so strings and objects follow one rule
+const rangeGuards: Record<ColorModelKey, (input: unknown) => boolean> = {
+  hsl: isHSL,
+  oklab: isLAB,
+  oklch: isLCH,
+  rgb: isRGB,
+};
+
 export type ColorString =
-  { hex: HEX; type: 'hex' | 'named' } | { parts: ExtractColorPartsReturn; type: ColorModelKey };
+  | { hex: HEX; type: 'hex' | 'named' }
+  | {
+      /** Whether every value, as written, is within the range of its type guard */
+      inRange: boolean;
+      parts: ExtractColorPartsReturn;
+      /** Whether the string follows the CSS Color 4 syntax (the parser also accepts looser forms) */
+      strictSyntax: boolean;
+      type: ColorModelKey;
+    };
 
 export type ExtractColorPartsReturn = {
   alpha?: number;
   model: ColorModelKey;
 } & Record<string, number>;
+
+/**
+ * Check whether a color function follows the CSS Color 4 syntax: modern (whitespace, '/' before alpha)
+ * or legacy (commas; no 'none', rgb channels all numbers or all percentages,
+ * hsl saturation and lightness as percentages).
+ *
+ * @param input - The trimmed CSS color string.
+ * @returns True if the string is valid CSS as written.
+ */
+function isStrictSyntax(input: string): boolean {
+  if (modernRegex.test(input)) {
+    return true;
+  }
+
+  const matches = legacyRegex.exec(input);
+
+  if (!matches) {
+    return false;
+  }
+
+  const tokens = matches.map(token => token?.toLowerCase());
+  const channels = tokens.slice(2, 5);
+
+  if (tokens.slice(2).includes('none')) {
+    return false;
+  }
+
+  if (tokens[1].startsWith('rgb')) {
+    const percentages = channels.filter(channel => channel.endsWith('%')).length;
+
+    return percentages === 0 || percentages === 3;
+  }
+
+  return channels[1].endsWith('%') && channels[2].endsWith('%');
+}
 
 /**
  * Convert angle value with units to degrees
@@ -55,10 +133,14 @@ function parseAngle(value: string): number {
  * Parse CSS color function syntax (rgb, hsl, oklab, oklch).
  *
  * @param input - The trimmed CSS color string.
- * @returns An object with the color model and component values.
+ * @returns The parsed parts, whether every value was in range as written, and whether the syntax is strict CSS.
  */
-function parseColorFunction(input: string): ExtractColorPartsReturn {
-  const matches = colorRegex.exec(input);
+function parseColorFunction(input: string): {
+  inRange: boolean;
+  parts: ExtractColorPartsReturn;
+  strictSyntax: boolean;
+} {
+  const matches = lenientRegex.exec(input);
 
   invariant(hasValidMatches(matches), MESSAGES.invalidCSS);
 
@@ -75,10 +157,11 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
     alpha = tokens[5].endsWith('%') ? rawAlpha / 100 : rawAlpha;
   }
 
-  const model = tokens[1] as ColorModelKey;
+  // The 'a' suffix is an alias (rgba, hsla), or tolerated by the lenient syntax (oklaba, oklcha)
+  const model = tokens[1].replace(/a$/, '') as ColorModelKey;
   const keys = COLOR_KEYS[model];
 
-  // Parse values and convert percentages/angles for color models
+  // Parse values as written: percentages and angles convert to native units, nothing is clamped
   const parseValue = (value: string, index: number): number => {
     // Handle 'none' keyword - treated as 0 for rendering (CSS Color Level 4)
     if (value === 'none') {
@@ -126,13 +209,13 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
   // Overflow (1e999) and unrecognized keywords parse to non-finite values
   invariant(values.every(Number.isFinite), MESSAGES.invalidRange);
 
+  const color = { [keys[0]]: values[0], [keys[1]]: values[1], [keys[2]]: values[2] };
+
   return {
-    model,
-    [keys[0]]: values[0],
-    [keys[1]]: values[1],
-    [keys[2]]: values[2],
-    alpha: alpha !== 1 ? alpha : undefined,
-  } as ExtractColorPartsReturn;
+    inRange: rangeGuards[model]({ ...color, alpha }),
+    strictSyntax: isStrictSyntax(input),
+    parts: { model, ...color, alpha: alpha !== 1 ? alpha : undefined } as ExtractColorPartsReturn,
+  };
 }
 
 /**
@@ -156,7 +239,7 @@ export function parseColorString(input: string): ColorString {
     return { type: 'hex', hex: value.length === 5 ? formatHex(value) : value };
   }
 
-  const parts = parseColorFunction(value);
+  const { inRange, parts, strictSyntax } = parseColorFunction(value);
 
-  return { type: parts.model, parts };
+  return { type: parts.model, parts, inRange, strictSyntax };
 }

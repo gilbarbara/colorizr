@@ -7,7 +7,7 @@ import LiveExample from '../../components/LiveExample';
 
 ## isValidColor
 
-Check if a string is a valid CSS color. Optionally check for a specific type.
+Check if a string is a valid CSS color: CSS Color 4 syntax, and every value within its range as written. The ranges are the same as the [type guards](#type-guards) below. Optionally check for a specific type.
 
 ```typescript
 isValidColor(input: string, type?: ColorTypeInput): boolean
@@ -21,6 +21,11 @@ isValidColor('rgb(255 0 68)');       // true
 isValidColor('hsl(344 100% 50%)');   // true
 isValidColor('red');                 // true
 isValidColor('not-a-color');         // false
+
+// Values must be in range as written
+isValidColor('rgb(300 0 0)');        // false
+isValidColor('oklch(1.5 0 0)');      // false
+isValidColor('oklch(0.7 0.5 30)');   // true
 
 // Type-specific validation
 isValidColor('#ff0044', 'hex');      // true

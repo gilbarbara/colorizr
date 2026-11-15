@@ -59,7 +59,7 @@ describe('parseCSS', () => {
     'oklab(-0.2 0 0)',
     'oklch(0.7 -0.1 30)',
   ])('should reject out-of-range lightness or chroma in %s', input => {
-    expect(() => parseCSS(input, 'hex')).toThrow(MESSAGES.invalidColor);
+    expect(() => parseCSS(input, 'hex')).toThrow(MESSAGES.invalidRange);
   });
 
   it('should convert chroma and a/b beyond the typical range', () => {
@@ -74,6 +74,22 @@ describe('parseCSS', () => {
       expect(parseCSS(input, 'hex')).toBe('#ff000000');
     },
   );
+
+  it.each([
+    { input: 'hsl(344, 100, 50)', expected: '#ff0044' },
+    { input: 'hsla(344, 100% 50%, 0.5)', expected: '#ff004480' },
+    { input: 'rgb(255, 0 68)', expected: '#ff0044' },
+    { input: 'rgb(255 0 68, 0.5)', expected: '#ff004480' },
+    { input: 'rgb(255 / 0 / 68)', expected: '#ff0044' },
+    { input: 'rgb(255, 0%, 0)', expected: '#ff0000' },
+    { input: 'rgb(none, 0, 0)', expected: '#000000' },
+    { input: 'oklch(0.5, 0.1, 30)', expected: '#944b40' },
+    { input: 'oklcha(0.5 0.1 30)', expected: '#944b40' },
+    { input: 'rgb (255 0 68)', expected: '#ff0044' },
+    { input: 'rgb(255 0 68)', expected: '#ff0044' },
+  ])('should parse $input even though CSS rejects its syntax', ({ input, expected }) => {
+    expect(parseCSS(input, 'hex')).toBe(expected);
+  });
 
   it('should ignore surrounding CSS whitespace', () => {
     expect(parseCSS(' #ff0000\n', 'rgb')).toEqual({ r: 255, g: 0, b: 0 });

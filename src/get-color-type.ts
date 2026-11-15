@@ -5,10 +5,11 @@ import { ColorTypeInput } from '~/types';
 
 /**
  * Detect the color type from a CSS color string.
+ * Detection is syntax-only: out-of-range values still return their type (use isValidColor to check them).
  *
  * @param input - The color string to analyze.
  * @returns The detected color type ('hex', 'hsl', 'rgb', 'oklab', 'oklch', 'named'),
- *          or `null` if the input is not a valid color string.
+ *          or `null` if the input can't be parsed.
  */
 export default function getColorType(input: string): ColorTypeInput | null {
   if (!isString(input)) {

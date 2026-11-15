@@ -279,6 +279,11 @@ describe('extractColorParts', () => {
       input: 'oklab(-.5e-1 -1e-1 +.1)',
       expected: { model: 'oklab', l: -0.05, a: -0.1, b: 0.1 },
     },
+    // Hue as written, not rounded
+    {
+      input: 'hsl(10.123456 50% 50%)',
+      expected: { model: 'hsl', h: 10.123456, s: 50, l: 50 },
+    },
     // Surrounding CSS whitespace
     {
       input: '\t rgb(255 0 0)\n',

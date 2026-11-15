@@ -2,6 +2,8 @@ import * as converters from '~/converters';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
 import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
 import { parseColorString } from '~/modules/color-string';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
 import { clamp } from '~/modules/utils';
 import { isHSL, isLAB, isLCH, isPlainObject, isRGB } from '~/modules/validators';
 
@@ -128,13 +130,13 @@ class ParsedColorImpl implements ParsedColor {
     } else if (target === 'hex') {
       const tuple = Object.values(this._sourceValue) as ColorTuple;
 
-      result = toHexConverters[this.type as ColorModelKey](tuple);
+      result = toHexConverters[this.type](tuple);
 
       if (this.alpha < 1) {
         result = `${result}${convertAlphaToHex(this.alpha)}` as HEX;
       }
     } else {
-      const converter = modelConverters[target]?.[this.type as ColorModelKey];
+      const converter = modelConverters[target]?.[this.type];
 
       if (!converter) {
         // Same-type lookups are served from cache; fallback via hex if invariant breaks
@@ -201,8 +203,9 @@ export function resolveColor(input: ColorInput): ParsedColor {
     return new ParsedColorImpl('hex', hex, alpha);
   }
 
-  const { parts } = result;
-  const { alpha, model, ...color } = parts;
+  invariant(result.inRange, MESSAGES.invalidRange);
+
+  const { alpha, model, ...color } = result.parts;
 
   return new ParsedColorImpl(model, color as unknown as HSL | LAB | LCH | RGB, alpha ?? 1);
 }

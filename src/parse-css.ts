@@ -6,6 +6,8 @@ import {
   removeAlphaFromHex,
 } from '~/modules/alpha';
 import { ExtractColorPartsReturn, parseColorString } from '~/modules/color-string';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
 
 import {
   ColorModel,
@@ -122,6 +124,8 @@ export default function parseCSS<T extends ColorType>(input: string, format?: T)
   if ('hex' in result) {
     return convertFromHex(result.hex, format ?? 'hex') as ColorReturn<T>;
   }
+
+  invariant(result.inRange, MESSAGES.invalidRange);
 
   return convertFromCSS(result.parts, format ?? result.type) as ColorReturn<T>;
 }
