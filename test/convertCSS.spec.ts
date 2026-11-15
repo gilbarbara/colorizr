@@ -29,4 +29,10 @@ describe('convertCSS', () => {
   ])('should convert $input to $expected', ({ input, format, expected }) => {
     expect(convertCSS(input, format as ColorType)).toBe(expected);
   });
+
+  it('should ignore surrounding CSS whitespace', () => {
+    expect(convertCSS(' #ff0000 ', 'rgb')).toBe('rgb(255 0 0)');
+    expect(convertCSS('\nred\t', 'hex')).toBe('#ff0000');
+    expect(() => convertCSS('foo rgb(1 2 3)', 'hex')).toThrow('invalid CSS string');
+  });
 });

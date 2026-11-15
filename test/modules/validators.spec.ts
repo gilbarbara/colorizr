@@ -21,6 +21,7 @@ describe('isHex', () => {
     { hex: '#mmff00', expected: false },
     { hex: '00ff00', expected: false },
     { hex: '74422', expected: false },
+    { hex: ' #ff0000', expected: false },
   ])('$hex should be $expected', ({ hex, expected }) => {
     expect(isHex(hex)).toBe(expected);
   });

@@ -34,12 +34,19 @@ describe('parseCSS', () => {
     });
   });
 
-  it.each([{ input: 'red' }, { input: 'RED' }])(
+  it.each([{ input: 'red' }, { input: ' red ' }, { input: '\tRED\n' }])(
     'should parse named color $input to hex when no format is given',
     ({ input }) => {
       expect(parseCSS(input)).toBe('#ff0000');
     },
   );
+
+  it('should ignore surrounding CSS whitespace', () => {
+    expect(parseCSS(' #ff0000\n', 'rgb')).toEqual({ r: 255, g: 0, b: 0 });
+    expect(parseCSS('\tred ', 'hex')).toBe('#ff0000');
+    expect(parseCSS('  rgb(255 0 0)  ', 'hex')).toBe('#ff0000');
+    expect(() => parseCSS('rgb(255 0 0);')).toThrow('invalid CSS string');
+  });
 
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required

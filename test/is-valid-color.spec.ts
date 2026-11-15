@@ -37,6 +37,19 @@ describe('isValidColor', () => {
     { input: 'aliceblue', expected: true },
     { input: '#mmff00', expected: false },
     { input: 'blue-ish', expected: false },
+    // Surrounding CSS whitespace is allowed; any other surrounding text is not
+    { input: '  rgb(1 2 3)  ', expected: true },
+    { input: ' #ff0000', expected: true },
+    { input: '\tred\n', expected: true },
+    { input: '\r\n hsl(0 50% 50%) \f', expected: true },
+    { input: '\u00a0red', expected: false },
+    { input: 'foo rgb(1 2 3) bar', expected: false },
+    { input: 'notrgb(1 2 3)', expected: false },
+    { input: 'background: hsl(0 50% 50%)', expected: false },
+    { input: 'rgb(1 2 3) rgb(4 5 6)', expected: false },
+    { input: 'rgb(1 2 3);', expected: false },
+    { input: '#ff0000;', expected: false },
+    { input: 'red;', expected: false },
   ])('should validate $input to be $expected', ({ input, expected }) => {
     expect(isValidColor(input)).toBe(expected);
   });

@@ -2,6 +2,7 @@ import { normalizeAlpha } from '~/modules/alpha';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
+import { trimCSSWhitespace } from '~/modules/utils';
 import { hasValidMatches, isHex, isNamedColor, isString } from '~/modules/validators';
 
 import { ColorModelKey, HEX } from '~/types';
@@ -9,11 +10,14 @@ import { ColorModelKey, HEX } from '~/types';
 // Regex components for parsing CSS color strings
 const MODEL = '(rgb|hsl|oklab|oklch)a?';
 const SEP = '(?:\\s*[,/]\\s*|\\s+)';
-// Accepts: numbers, percentages, 'none', and angle units (deg, grad, rad, turn)
-const VALUE = '(none|[\\d%.-]+(?:deg|grad|rad|turn)?)';
+// CSS <number>: optional sign, digits with an optional fraction (or a leading '.'), optional exponent
+const NUMBER = '[+-]?(?:\\d+(?:\\.\\d+)?|\\.\\d+)(?:e[+-]?\\d+)?';
+// Accepts: 'none', or a number with an optional percentage or angle unit
+const VALUE = `(none|${NUMBER}(?:%|deg|grad|rad|turn)?)`;
+const ANGLE_UNIT = /(?:deg|grad|rad|turn)$/;
 
 const colorRegex = new RegExp(
-  `${MODEL}\\s*\\(\\s*${VALUE}${SEP}${VALUE}${SEP}${VALUE}(?:${SEP}${VALUE})?\\s*\\)`,
+  `^${MODEL}\\s*\\(\\s*${VALUE}${SEP}${VALUE}${SEP}${VALUE}(?:${SEP}${VALUE})?\\s*\\)$`,
   'i',
 );
 
@@ -50,7 +54,7 @@ function parseAngle(value: string): number {
 /**
  * Parse CSS color function syntax (rgb, hsl, oklab, oklch).
  *
- * @param input - The CSS color string.
+ * @param input - The trimmed CSS color string.
  * @returns An object with the color model and component values.
  */
 function parseColorFunction(input: string): ExtractColorPartsReturn {
@@ -58,13 +62,17 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
 
   invariant(hasValidMatches(matches), MESSAGES.invalidCSS);
 
+  // Function names, keywords, and units are ASCII case-insensitive (CSS Values 4)
+  const tokens = matches.map(token => token?.toLowerCase());
+
   let rawAlpha = 1;
 
-  if (matches[5]) {
-    rawAlpha = matches[5] === 'none' ? 0 : parseFloat(matches[5]);
+  if (tokens[5]) {
+    invariant(!ANGLE_UNIT.test(tokens[5]), MESSAGES.invalidCSS);
+    rawAlpha = tokens[5] === 'none' ? 0 : parseFloat(tokens[5]);
   }
 
-  const model = matches[1] as ColorModelKey;
+  const model = tokens[1] as ColorModelKey;
   const keys = COLOR_KEYS[model];
   const alpha = normalizeAlpha(rawAlpha);
 
@@ -79,8 +87,14 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
     const isHue = (model === 'hsl' && index === 0) || (model === 'oklch' && index === 2);
 
     if (isHue) {
+      // <hue> is <number> | <angle>; percentages are not allowed (CSS Color 4)
+      invariant(!value.endsWith('%'), MESSAGES.invalidCSS);
+
       return parseAngle(value);
     }
+
+    // Angle units are only valid on hue
+    invariant(!ANGLE_UNIT.test(value), MESSAGES.invalidCSS);
 
     const parsedValue = parseFloat(value);
     const isPercent = value.includes('%');
@@ -105,7 +119,10 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
     return parsedValue;
   };
 
-  const values = [parseValue(matches[2], 0), parseValue(matches[3], 1), parseValue(matches[4], 2)];
+  const values = [parseValue(tokens[2], 0), parseValue(tokens[3], 1), parseValue(tokens[4], 2)];
+
+  // Overflow (1e999) and unrecognized keywords parse to non-finite values
+  invariant(values.every(Number.isFinite), MESSAGES.invalidRange);
 
   // Validate ranges for oklab/oklch after percentage conversion
   if (model === 'oklab') {
@@ -128,7 +145,7 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
 
 /**
  * Classify and parse a CSS color string: hex, named color, or color function.
- * The single entry point for color strings, so parsing rules live in one place.
+ * The single entry point for color strings, so trimming and parsing rules live in one place.
  *
  * @param input - The CSS color string.
  * @returns The hex value for hex and named colors, or the parsed parts for color functions.
@@ -136,15 +153,17 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
 export function parseColorString(input: string): ColorString {
   invariant(isString(input), MESSAGES.inputString);
 
-  if (isNamedColor(input)) {
-    return { type: 'named', hex: cssColors[input.toLowerCase() as CSSColor] as HEX };
+  const value = trimCSSWhitespace(input);
+
+  if (isNamedColor(value)) {
+    return { type: 'named', hex: cssColors[value.toLowerCase() as CSSColor] as HEX };
   }
 
-  if (isHex(input)) {
-    return { type: 'hex', hex: input };
+  if (isHex(value)) {
+    return { type: 'hex', hex: value };
   }
 
-  const parts = parseColorFunction(input);
+  const parts = parseColorFunction(value);
 
   return { type: parts.model, parts };
 }

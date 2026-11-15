@@ -131,6 +131,14 @@ export function round(input: number, precision = 2, forcePrecision = true): numb
 }
 
 /**
+ * Remove leading and trailing CSS whitespace (space, tab, newline, carriage return, form feed).
+ * Unlike String.prototype.trim, other Unicode spaces are kept, so they still fail to parse.
+ */
+export function trimCSSWhitespace(input: string): string {
+  return input.replace(/^[ \t\n\r\f]+|[ \t\n\r\f]+$/g, '');
+}
+
+/**
  * Log a warning in development mode.
  *
  * @param message - The warning message to log.

@@ -127,6 +127,78 @@ describe('extractColorParts', () => {
       input: 'oklch(0.5 none 180)',
       expected: { model: 'oklch', l: 0.5, c: 0, h: 180 },
     },
+    // Function names are case-insensitive
+    {
+      input: 'RGB(255 0 0)',
+      expected: { model: 'rgb', r: 255, g: 0, b: 0 },
+    },
+    {
+      input: 'Hsla(120 50% 50% / 0.5)',
+      expected: { model: 'hsl', h: 120, s: 50, l: 50, alpha: 0.5 },
+    },
+    {
+      input: 'OKLCH(0.5 0 0)',
+      expected: { model: 'oklch', l: 0.5, c: 0, h: 0 },
+    },
+    {
+      input: 'OkLab(0.5 0.1 -0.1)',
+      expected: { model: 'oklab', l: 0.5, a: 0.1, b: -0.1 },
+    },
+    // Keywords and units are case-insensitive
+    {
+      input: 'oklch(NONE 0 0)',
+      expected: { model: 'oklch', l: 0, c: 0, h: 0 },
+    },
+    {
+      input: 'oklch(0.5 0.1 None)',
+      expected: { model: 'oklch', l: 0.5, c: 0.1, h: 0 },
+    },
+    {
+      input: 'oklch(0.5 0 0 / NONE)',
+      expected: { model: 'oklch', l: 0.5, c: 0, h: 0, alpha: 0 },
+    },
+    {
+      input: 'oklch(0.5 0.1 0.5TURN)',
+      expected: { model: 'oklch', l: 0.5, c: 0.1, h: 180 },
+    },
+    {
+      input: 'oklch(0.5 0.1 0.25Turn)',
+      expected: { model: 'oklch', l: 0.5, c: 0.1, h: 90 },
+    },
+    {
+      input: 'hsl(100GRAD 50% 50%)',
+      expected: { model: 'hsl', h: 90, s: 50, l: 50 },
+    },
+    {
+      input: 'hsl(3.141592653589793Rad 50% 50%)',
+      expected: { model: 'hsl', h: 180, s: 50, l: 50 },
+    },
+    {
+      input: 'hsl(90DEG 50% 50%)',
+      expected: { model: 'hsl', h: 90, s: 50, l: 50 },
+    },
+    {
+      input: 'oklch(1E-1 0 0)',
+      expected: { model: 'oklch', l: 0.1, c: 0, h: 0 },
+    },
+    // CSS <number> syntax: sign, leading '.', and scientific notation
+    {
+      input: 'rgb(+255 .5e2 2.55E2)',
+      expected: { model: 'rgb', r: 255, g: 50, b: 255 },
+    },
+    {
+      input: 'oklch(5e-1 1e-1 1.8e2deg / 5e-1)',
+      expected: { model: 'oklch', l: 0.5, c: 0.1, h: 180, alpha: 0.5 },
+    },
+    {
+      input: 'oklab(-.5e-1 -1e-1 +.1)',
+      expected: { model: 'oklab', l: -0.05, a: -0.1, b: 0.1 },
+    },
+    // Surrounding CSS whitespace
+    {
+      input: '\t rgb(255 0 0)\n',
+      expected: { model: 'rgb', r: 255, g: 0, b: 0 },
+    },
   ])('should return properly for $input', ({ input, expected }) => {
     expect(extractColorParts(input)).toEqual(expected);
   });
@@ -134,7 +206,7 @@ describe('extractColorParts', () => {
   it.each([
     { input: 'red', expected: { model: 'rgb', r: 255, g: 0, b: 0 } },
     { input: 'RED', expected: { model: 'rgb', r: 255, g: 0, b: 0 } },
-    { input: 'coral', expected: { model: 'rgb', r: 255, g: 127, b: 80 } },
+    { input: '\tcoral\n', expected: { model: 'rgb', r: 255, g: 127, b: 80 } },
   ])('should return named color $input as RGB parts', ({ input, expected }) => {
     expect(extractColorParts(input)).toEqual(expected);
   });
@@ -147,6 +219,36 @@ describe('extractColorParts', () => {
     expect(() => extractColorParts('hsl(255, 80)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('oklab(0.34, 0.5)')).toThrow(MESSAGES.invalidCSS);
     expect(() => extractColorParts('oklch(34%, 0.5)')).toThrow(MESSAGES.invalidCSS);
+
+    // Malformed numbers
+    expect(() => extractColorParts('oklch(63%% 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(6%3 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(.% 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(-% 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(2-5 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(12. 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(+-12 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(1.2.3 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(1e 0 0)')).toThrow(MESSAGES.invalidCSS);
+
+    // Angle units outside hue
+    expect(() => extractColorParts('rgb(10deg 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('hsl(120 50deg 50%)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(0.5turn 0 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(0.5 0.1GRAD 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklab(0.5 1rad 0)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(0 0 0 / 50deg)')).toThrow(MESSAGES.invalidCSS);
+
+    // Percentages on hue
+    expect(() => extractColorParts('hsl(50% 50% 50%)')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('oklch(0.5 0.1 50%)')).toThrow(MESSAGES.invalidCSS);
+
+    // Text around the color
+    expect(() => extractColorParts('foo rgb(1 2 3) bar')).toThrow(MESSAGES.invalidCSS);
+    expect(() => extractColorParts('rgb(1 2 3);')).toThrow(MESSAGES.invalidCSS);
+
+    // Non-finite values
+    expect(() => extractColorParts('rgb(1e999 0 0)')).toThrow(MESSAGES.invalidRange);
 
     // Invalid percentage ranges
     expect(() => extractColorParts('oklab(50% 200% 0%)')).toThrow(MESSAGES.invalidRange);
