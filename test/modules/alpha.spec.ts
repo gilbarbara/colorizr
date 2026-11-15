@@ -22,6 +22,9 @@ describe('addAlphaToHex', () => {
       alpha: 0.9,
       expected: addOpacityToCssString(green.hex, 0.9),
     },
+    { input: '#f00', alpha: 1, expected: '#f00' },
+    { input: '#f00', alpha: 0.5, expected: '#ff000080' },
+    { input: '#f008', alpha: 0.5, expected: '#ff000080' },
   ])('should return $expected with $input and $alpha', ({ input, alpha, expected }) => {
     expect(addAlphaToHex(input, alpha)).toBe(expected);
   });

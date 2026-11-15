@@ -16,6 +16,9 @@ describe('formatCSS', () => {
       options: { alpha: 0.9, format: 'rgb', separator: ', ' },
       expected: 'rgb(255, 0, 68, 90%)',
     },
+    { input: '#f00', options: { alpha: 0.5 }, expected: '#ff000080' },
+    { input: '#f00', options: { alpha: 1 }, expected: '#f00' },
+    { input: '#f008', options: undefined, expected: '#f00' },
     { input: green.hsl, options: undefined, expected: green.hslString },
     {
       input: green.hsl,

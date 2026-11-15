@@ -38,7 +38,8 @@ export function addAlphaToHex(input: string, alpha: number): HEX {
     return removeAlphaFromHex(input);
   }
 
-  return `${removeAlphaFromHex(input)}${convertAlphaToHex(alpha)}` as HEX;
+  // #rgb must become #rrggbb, or a 2-digit alpha yields an invalid 5-digit hex
+  return `${formatHex(removeAlphaFromHex(input))}${convertAlphaToHex(alpha)}` as HEX;
 }
 
 /**

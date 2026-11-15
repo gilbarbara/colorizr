@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
-import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
+import { addAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -150,13 +150,11 @@ export default function formatCSS<T extends ColorValue>(
       break;
     }
     default: {
-      const hex = removeAlphaFromHex(getColorValue(input, 'hex'));
+      const hex = getColorValue(input, 'hex');
 
-      if (normalizedAlpha !== undefined && normalizedAlpha !== 1) {
-        return `${hex}${convertAlphaToHex(normalizedAlpha)}`;
-      }
-
-      return hex;
+      return normalizedAlpha === undefined
+        ? removeAlphaFromHex(hex)
+        : addAlphaToHex(hex, normalizedAlpha);
     }
   }
 
