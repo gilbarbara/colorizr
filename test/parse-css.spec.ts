@@ -52,14 +52,37 @@ describe('parseCSS', () => {
     expect(parseCSS(input, format as 'oklab' | 'oklch').l).toBe(expected);
   });
 
+  // Expected values follow CSS Color 4: channels and alpha clamped, hue wrapped to [0, 360)
   it.each([
-    'oklch(150% 0 0)',
-    'oklab(-1% 0 0)',
-    'oklch(1.2 0 0)',
-    'oklab(-0.2 0 0)',
-    'oklch(0.7 -0.1 30)',
-  ])('should reject out-of-range lightness or chroma in %s', input => {
-    expect(() => parseCSS(input, 'hex')).toThrow(MESSAGES.invalidRange);
+    { input: 'rgb(300 0 0)', expected: '#ff0000' },
+    { input: 'rgb(-10 0 0)', expected: '#000000' },
+    { input: 'rgb(200% 0 0)', expected: '#ff0000' },
+    { input: 'hsl(400 50% 50%)', expected: '#bf9540' },
+    { input: 'hsl(-30 50% 50%)', expected: '#bf4080' },
+    { input: 'hsl(120 150% 50%)', expected: '#00ff00' },
+    // Saturation above 100% is capped as Chrome does; at 50% lightness capping is indistinguishable
+    { input: 'hsl(0 150% 25%)', expected: '#800000' },
+    { input: 'hsl(120 200% 30%)', expected: '#009900' },
+    { input: 'hsl(120 50% -10%)', expected: '#000000' },
+    { input: 'oklch(150% 0 0)', expected: '#ffffff' },
+    { input: 'oklch(1.2 0 0)', expected: '#ffffff' },
+    { input: 'oklab(-1% 0 0)', expected: '#000000' },
+    { input: 'oklab(-0.2 0 0)', expected: '#000000' },
+    { input: 'oklab(1.2 0 0)', expected: '#ffffff' },
+    { input: 'oklch(0.7 -0.1 30)', expected: '#9e9e9e' },
+    { input: 'oklch(0.7 0.1 400)', expected: '#d4896e' },
+    { input: 'oklch(0.7 0.1 -30)', expected: '#c287bc' },
+    { input: 'rgb(255 0 0 / 2)', expected: '#ff0000' },
+    { input: 'rgb(255 0 0 / 150%)', expected: '#ff0000' },
+    { input: 'rgb(255 0 0 / -0.5)', expected: '#ff000000' },
+  ])('should resolve out-of-range $input as CSS does', ({ input, expected }) => {
+    expect(parseCSS(input, 'hex')).toBe(expected);
+  });
+
+  it('should clamp and wrap values in the input model', () => {
+    expect(parseCSS('rgb(300 -10 128 / 2)')).toEqual({ r: 255, g: 0, b: 128 });
+    expect(parseCSS('hsl(-30 150% 50%)')).toEqual({ h: 330, s: 100, l: 50 });
+    expect(parseCSS('oklch(1.5 -0.1 400)')).toEqual({ l: 1, c: 0, h: 40 });
   });
 
   it('should convert chroma and a/b beyond the typical range', () => {

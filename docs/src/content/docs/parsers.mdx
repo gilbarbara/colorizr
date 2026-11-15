@@ -7,7 +7,7 @@ import LiveExample from '../../components/LiveExample';
 
 ## parseCSS
 
-Parse a CSS color string and optionally convert to a specific format. Supports CSS Color Level 4 syntax including space-separated values, `none` keyword, and angle units.
+Parse a CSS color string and optionally convert to a specific format. Supports CSS Color Level 4 syntax including space-separated values, `none` keyword, and angle units. Out-of-range values are resolved as CSS does: clamped, with hue wrapped to [0, 360). Use `isValidColor` to check a string as written.
 
 ```typescript
 parseCSS(input: string, format?: ColorType): HEX | HSL | LAB | LCH | RGB
@@ -25,6 +25,7 @@ parseCSS('hsl(344 100% 50%)');    // { h: 344, s: 100, l: 50 }
 parseCSS('#ff0044', 'hsl');       // { h: 344, s: 100, l: 50 }
 parseCSS('red');                  // '#ff0000'
 parseCSS('oklch(0.63 0.29 17)');  // { l: 0.63, c: 0.29, h: 17 }
+parseCSS('rgb(300 0 0)');         // { r: 255, g: 0, b: 0 }
 ```
 
 <LiveExample client:load code="parseCSS('oklch(0.63 0.29 17)')" hideInputs />

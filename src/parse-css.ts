@@ -5,9 +5,11 @@ import {
   extractAlphaFromHex,
   removeAlphaFromHex,
 } from '~/modules/alpha';
-import { ExtractColorPartsReturn, parseColorString } from '~/modules/color-string';
-import { MESSAGES } from '~/modules/constants';
-import { invariant } from '~/modules/invariant';
+import {
+  ExtractColorPartsReturn,
+  normalizeColorParts,
+  parseColorString,
+} from '~/modules/color-string';
 
 import {
   ColorModel,
@@ -113,6 +115,7 @@ function convertFromHex(value: HEX, output: ColorType): HEX | HSL | LAB | LCH | 
 
 /**
  * Parse a CSS color string and optionally convert to a specific format.
+ * Out-of-range values are resolved as CSS Color 4 does: clamped, with hue wrapped to [0, 360).
  *
  * @param input - The CSS color string.
  * @param format - Optional output color format.
@@ -125,7 +128,6 @@ export default function parseCSS<T extends ColorType>(input: string, format?: T)
     return convertFromHex(result.hex, format ?? 'hex') as ColorReturn<T>;
   }
 
-  invariant(result.inRange, MESSAGES.invalidRange);
-
-  return convertFromCSS(result.parts, format ?? result.type) as ColorReturn<T>;
+  // Out-of-range values resolve as CSS does (clamped, hue wrapped); isValidColor reports them as invalid
+  return convertFromCSS(normalizeColorParts(result.parts), format ?? result.type) as ColorReturn<T>;
 }

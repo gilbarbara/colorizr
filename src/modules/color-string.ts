@@ -2,7 +2,7 @@ import formatHex from '~/format-hex';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
-import { trimCSSWhitespace } from '~/modules/utils';
+import { clamp, trimCSSWhitespace } from '~/modules/utils';
 import {
   hasValidMatches,
   isHex,
@@ -216,6 +216,57 @@ function parseColorFunction(input: string): {
     strictSyntax: isStrictSyntax(input),
     parts: { model, ...color, alpha: alpha !== 1 ? alpha : undefined } as ExtractColorPartsReturn,
   };
+}
+
+/**
+ * Normalize out-of-range values the way CSS Color 4 resolves them:
+ * channels and alpha are clamped to their ranges, hue wraps to [0, 360),
+ * and negative OkLCH chroma becomes 0. OkLab a/b are unbounded.
+ *
+ * @param parts - The parsed parts, as written.
+ * @returns The parts with every value in range.
+ */
+export function normalizeColorParts(parts: ExtractColorPartsReturn): ExtractColorPartsReturn {
+  const { alpha, model, ...color } = parts;
+
+  // `hue % 360` keeps in-range values exact; adding 360 to every hue would introduce float error
+  const wrapHue = (hue: number) => {
+    const remainder = hue % 360;
+
+    return remainder < 0 ? remainder + 360 : remainder;
+  };
+
+  let normalized: Record<string, number>;
+
+  switch (model) {
+    case 'hsl': {
+      normalized = { h: wrapHue(color.h), s: clamp(color.s), l: clamp(color.l) };
+      break;
+    }
+    case 'oklab': {
+      normalized = { l: clamp(color.l, 0, 1), a: color.a, b: color.b };
+      break;
+    }
+    case 'oklch': {
+      normalized = { l: clamp(color.l, 0, 1), c: Math.max(color.c, 0), h: wrapHue(color.h) };
+      break;
+    }
+    default: {
+      normalized = {
+        r: clamp(color.r, 0, 255),
+        g: clamp(color.g, 0, 255),
+        b: clamp(color.b, 0, 255),
+      };
+    }
+  }
+
+  const normalizedAlpha = alpha === undefined ? undefined : clamp(alpha, 0, 1);
+
+  return {
+    model,
+    ...normalized,
+    alpha: normalizedAlpha !== 1 ? normalizedAlpha : undefined,
+  } as ExtractColorPartsReturn;
 }
 
 /**

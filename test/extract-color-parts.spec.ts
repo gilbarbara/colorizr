@@ -115,7 +115,7 @@ describe('extractColorParts', () => {
       input: 'oklab(1% 0 0)',
       expected: { model: 'oklab', l: 0.01, a: 0, b: 0 },
     },
-    // Out-of-range lightness is kept as written; conversion rejects it
+    // Out-of-range lightness is kept as written
     {
       input: 'oklch(150% 0 0)',
       expected: { model: 'oklch', l: 1.5, c: 0, h: 0 },
