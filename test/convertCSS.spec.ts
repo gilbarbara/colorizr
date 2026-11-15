@@ -1,4 +1,6 @@
 import convertCSS from '~/convertCSS';
+import { MESSAGES } from '~/modules/constants';
+import scale from '~/scale';
 
 import { ColorType } from '~/types';
 
@@ -28,6 +30,27 @@ describe('convertCSS', () => {
     { input: yellow.rgbString, format: 'oklch', expected: yellow.oklchString },
   ])('should convert $input to $expected', ({ input, format, expected }) => {
     expect(convertCSS(input, format as ColorType)).toBe(expected);
+  });
+
+  it('should convert chroma beyond the typical range', () => {
+    expect(convertCSS('oklch(0.7 1.5 30)', 'hex')).toBe('#ff0000');
+    expect(() => convertCSS('oklch(0.7 -0.1 30)', 'hex')).toThrow(MESSAGES.invalidColor);
+  });
+
+  it('should scale RGB percentages to 0-255', () => {
+    expect(convertCSS('rgb(100% 0% 0%)', 'hex')).toBe('#ff0000');
+    expect(convertCSS('rgb(0% 100% 0%)', 'rgb')).toBe('rgb(0 255 0)');
+    expect(convertCSS('rgb(50% 0% 0%)', 'hex')).toBe('#800000');
+    expect(() => convertCSS('rgb(200% 0 0)', 'hex')).toThrow(MESSAGES.invalidColor);
+  });
+
+  it('should round-trip scale output with lightness at or below 1%', () => {
+    const input = 'oklch(23.28% 0.098 274.96)';
+    const options = { minLightness: 0.01, maxLightness: 0.97, lightnessCurve: 1.3 };
+    const step = scale(input, options)['950'];
+
+    expect(step).toBe('oklch(1% 0.00887 274.96)');
+    expect(convertCSS(step, 'hex')).toBe(scale(input, { ...options, format: 'hex' })['950']);
   });
 
   it('should ignore surrounding CSS whitespace', () => {

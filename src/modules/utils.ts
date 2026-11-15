@@ -30,17 +30,6 @@ export function constrainDegrees(input: number, amount: number): number {
 }
 
 /**
- * Normalize OkLab/OkLCH lightness from percentage (0-100) to 0-1 range.
- */
-export function normalizeOkLightness<T extends { l: number }>(color: T): T {
-  if (color.l > 1) {
-    return { ...color, l: parseFloat((color.l / 100).toPrecision(15)) };
-  }
-
-  return color;
-}
-
-/**
  * Parse the input parameters for converters.
  *
  * @param input - The converter parameters (object or tuple).

@@ -13,6 +13,8 @@ describe('rgb2hex', () => {
     { input: violet.rgb, expected: violet.hex },
     { input: yellow.rgb, expected: yellow.hex },
     { input: { r: 0, g: 0, b: 0 }, expected: '#000000' },
+    // Fractional channels round to the nearest integer
+    { input: { r: 127.5, g: 127.4, b: 254.6 }, expected: '#807fff' },
   ])('$input should return $expected', ({ input, expected }) => {
     expect(rgb2hex(input)).toEqual(expected);
   });

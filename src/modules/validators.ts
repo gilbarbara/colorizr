@@ -47,7 +47,7 @@ export function isHSL(input: unknown): input is HSL {
 
 /**
  * Check if an object contains LAB values
- * The input must be an object with keys 'l', 'a', and 'b' with values between -1 and 1.
+ * The input must be an object with keys 'l' (0-1), 'a', and 'b' (any finite number).
  */
 export function isLAB(input: unknown): input is LAB {
   if (!isPlainObject(input)) {
@@ -60,21 +60,21 @@ export function isLAB(input: unknown): input is LAB {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 100;
+        return value >= 0 && value <= 1;
       }
 
       if (key === 'alpha') {
         return value >= 0 && value <= 1;
       }
 
-      return COLOR_KEYS.oklab.includes(key) && value >= -1 && value <= 1;
+      return COLOR_KEYS.oklab.includes(key) && Number.isFinite(value);
     })
   );
 }
 
 /**
- * Check if an object contains LAB values
- * The input must be an object with keys 'l', 'c', and 'h' with values between 0 and 360.
+ * Check if an object contains LCH values
+ * The input must be an object with keys 'l' (0-1), 'c' (finite, >= 0), and 'h' (0-360).
  */
 export function isLCH(input: unknown): input is LCH {
   if (!isPlainObject(input)) {
@@ -87,14 +87,18 @@ export function isLCH(input: unknown): input is LCH {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 100;
+        return value >= 0 && value <= 1;
       }
 
       if (key === 'alpha') {
         return value >= 0 && value <= 1;
       }
 
-      return COLOR_KEYS.oklch.includes(key) && value >= 0 && value <= (key === 'h' ? 360 : 1);
+      if (key === 'c') {
+        return Number.isFinite(value) && value >= 0;
+      }
+
+      return COLOR_KEYS.oklch.includes(key) && value >= 0 && value <= 360;
     })
   );
 }

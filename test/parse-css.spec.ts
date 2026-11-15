@@ -41,6 +41,33 @@ describe('parseCSS', () => {
     },
   );
 
+  it.each([
+    { input: 'oklch(0.5% 0 0)', format: 'oklch', expected: 0.005 },
+    { input: 'oklch(1% 0 0)', format: 'oklch', expected: 0.01 },
+    { input: 'oklch(1.5% 0 0)', format: 'oklch', expected: 0.015 },
+    { input: 'oklab(0.5% 0 0)', format: 'oklab', expected: 0.005 },
+    { input: 'oklab(1% 0 0)', format: 'oklab', expected: 0.01 },
+    { input: 'oklab(1.5% 0 0)', format: 'oklab', expected: 0.015 },
+  ])('should parse $input lightness as a percentage', ({ input, format, expected }) => {
+    expect(parseCSS(input, format as 'oklab' | 'oklch').l).toBe(expected);
+  });
+
+  it.each([
+    'oklch(150% 0 0)',
+    'oklab(-1% 0 0)',
+    'oklch(1.2 0 0)',
+    'oklab(-0.2 0 0)',
+    'oklch(0.7 -0.1 30)',
+  ])('should reject out-of-range lightness or chroma in %s', input => {
+    expect(() => parseCSS(input, 'hex')).toThrow(MESSAGES.invalidColor);
+  });
+
+  it('should convert chroma and a/b beyond the typical range', () => {
+    expect(parseCSS('oklch(0.7 1.5 30)', 'oklch')).toEqual({ l: 0.7, c: 1.5, h: 30 });
+    expect(parseCSS('oklch(0.7 1.5 30)', 'hex')).toEqual(expect.any(String));
+    expect(parseCSS('oklab(0.7 1.2 -1.5)', 'rgb')).toEqual(expect.any(Object));
+  });
+
   it('should ignore surrounding CSS whitespace', () => {
     expect(parseCSS(' #ff0000\n', 'rgb')).toEqual({ r: 255, g: 0, b: 0 });
     expect(parseCSS('\tred ', 'hex')).toBe('#ff0000');

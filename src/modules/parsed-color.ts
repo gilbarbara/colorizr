@@ -7,7 +7,7 @@ import {
   removeAlphaFromHex,
 } from '~/modules/alpha';
 import { parseColorString } from '~/modules/color-string';
-import { clamp, normalizeOkLightness } from '~/modules/utils';
+import { clamp } from '~/modules/utils';
 import { isHSL, isLAB, isLCH, isPlainObject, isRGB } from '~/modules/validators';
 
 import { ColorModelKey, ColorTuple, ColorType, ColorValue, HEX, HSL, LAB, LCH, RGB } from '~/types';
@@ -209,10 +209,5 @@ export function resolveColor(input: ColorInput): ParsedColor {
   const { parts } = result;
   const { alpha, model, ...color } = parts;
 
-  const colorValue = (['oklab', 'oklch'].includes(model)
-    ? normalizeOkLightness(color as unknown as { l: number })
-    : color) as unknown as HSL | LAB | LCH | RGB;
-  const colorType: ColorType = model;
-
-  return new ParsedColorImpl(colorType, colorValue, alpha ?? 1);
+  return new ParsedColorImpl(model, color as unknown as HSL | LAB | LCH | RGB, alpha ?? 1);
 }

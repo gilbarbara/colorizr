@@ -97,22 +97,22 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
     invariant(!ANGLE_UNIT.test(value), MESSAGES.invalidCSS);
 
     const parsedValue = parseFloat(value);
-    const isPercent = value.includes('%');
 
-    if (!isPercent) {
+    if (!value.includes('%')) {
       return parsedValue;
     }
 
-    // Convert percentages based on color model and position
-    if (model === 'oklch') {
-      // oklch: L (0-100), C (0-0.4), H (0-360)
-      if (index === 1) {
-        // Chroma: 100% = 0.4
-        return (parsedValue * 0.4) / 100;
-      }
-      // oklab: L (0-100), a (-0.4 to 0.4), b (-0.4 to 0.4)
-    } else if (model === 'oklab' && (index === 1 || index === 2)) {
-      // a/b: ±100% = ±0.4
+    // Percentages scale to native units: RGB 100% = 255, OkLab/OkLCH L 100% = 1,
+    // C 100% = 0.4, a/b ±100% = ±0.4 (scales, not caps). HSL S/L stay 0-100.
+    if (model === 'rgb') {
+      return (parsedValue * 255) / 100;
+    }
+
+    if ((model === 'oklab' || model === 'oklch') && index === 0) {
+      return parseFloat((parsedValue / 100).toPrecision(15));
+    }
+
+    if ((model === 'oklch' && index === 1) || (model === 'oklab' && index > 0)) {
       return (parsedValue * 0.4) / 100;
     }
 
@@ -123,16 +123,6 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
 
   // Overflow (1e999) and unrecognized keywords parse to non-finite values
   invariant(values.every(Number.isFinite), MESSAGES.invalidRange);
-
-  // Validate ranges for oklab/oklch after percentage conversion
-  if (model === 'oklab') {
-    // a and b must be in range -0.4 to 0.4
-    invariant(values[1] >= -0.4 && values[1] <= 0.4, MESSAGES.invalidRange);
-    invariant(values[2] >= -0.4 && values[2] <= 0.4, MESSAGES.invalidRange);
-  } else if (model === 'oklch') {
-    // chroma must be in range 0 to 0.4
-    invariant(values[1] >= 0 && values[1] <= 0.4, MESSAGES.invalidRange);
-  }
 
   return {
     model,

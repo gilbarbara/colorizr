@@ -95,7 +95,7 @@ isRGB({ r: 300, g: 0, b: 68 });              // false (r > 255)
 isLAB(input: unknown): boolean
 ```
 
-Validates OkLab objects (`l`: 0-1, `a`: -0.4 to 0.4, `b`: -0.4 to 0.4):
+Validates OkLab objects (`l`: 0-1, `a` and `b`: any finite number, typically within ±0.4):
 
 ```typescript
 import { isLAB } from 'colorizr';
@@ -113,13 +113,13 @@ isLAB({ l: 2, a: 0, b: 0 });           // false (l > 1)
 isLCH(input: unknown): boolean
 ```
 
-Validates OkLCH objects (`l`: 0-1, `c`: 0-0.4, `h`: 0-360):
+Validates OkLCH objects (`l`: 0-1, `c`: 0 or greater, typically up to 0.4, `h`: 0-360):
 
 ```typescript
 import { isLCH } from 'colorizr';
 
 isLCH({ l: 0.63, c: 0.29, h: 17 });  // true
-isLCH({ l: 0.63, c: 0.5, h: 17 });   // false (c > 0.4)
+isLCH({ l: 0.63, c: -0.1, h: 17 });  // false (c < 0)
 ```
 
 <LiveExample client:load code="isLCH({ l: 0.63, c: 0.29, h: 17 })" hideInputs />

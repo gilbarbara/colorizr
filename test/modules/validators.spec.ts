@@ -54,6 +54,10 @@ describe('isLAB', () => {
     expect(isLAB({ ...violet.oklab, alpha: 0.9 })).toBe(true);
     expect(isLAB(violet.oklabString)).toBe(false);
     expect(isLAB({ l: 100, a: 100, b: 100 })).toBe(false);
+    expect(isLAB({ l: 50, a: 0.1, b: 0.1 })).toBe(false);
+    expect(isLAB({ l: 0.7, a: 1.2, b: -1.5 })).toBe(true);
+    expect(isLAB({ l: 0.7, a: Number.NaN, b: 0 })).toBe(false);
+    expect(isLAB({ l: 0.7, a: Infinity, b: 0 })).toBe(false);
     expect(isLAB({})).toBe(false);
     expect(isLAB([])).toBe(false);
     expect(isLAB('')).toBe(false);
@@ -67,6 +71,11 @@ describe('isLHC', () => {
     expect(isLCH({ ...yellow.oklch, alpha: 0.8 })).toBe(true);
     expect(isLCH(yellow.oklchString)).toBe(false);
     expect(isLCH({ l: 100, c: 100, h: 100 })).toBe(false);
+    expect(isLCH({ l: 50, c: 0.1, h: 180 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: 1.5, h: 30 })).toBe(true);
+    expect(isLCH({ l: 0.7, c: -0.1, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: Infinity, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: 0.1, h: 361 })).toBe(false);
     expect(isLCH({})).toBe(false);
     expect(isLCH([])).toBe(false);
     expect(isLCH('')).toBe(false);

@@ -6,7 +6,6 @@ import {
   removeAlphaFromHex,
 } from '~/modules/alpha';
 import { ExtractColorPartsReturn, parseColorString } from '~/modules/color-string';
-import { normalizeOkLightness } from '~/modules/utils';
 
 import {
   ColorModel,
@@ -83,11 +82,7 @@ function convertFromCSS(
 ): HEX | HSL | LAB | LCH | RGB {
   const { alpha, model, ...color } = parts;
 
-  const normalized = ['oklab', 'oklch'].includes(model)
-    ? normalizeOkLightness(color as unknown as { l: number })
-    : color;
-
-  const colorTuple = Object.values(normalized) as ColorTuple;
+  const colorTuple = Object.values(color) as ColorTuple;
 
   if (output === 'hex') {
     const alphaPrefix = alpha ? convertAlphaToHex(alpha) : '';
@@ -99,7 +94,7 @@ function convertFromCSS(
 
   // When converter is undefined, model matches output format, so color already has correct shape
   return addAlpha(
-    converter ? converter(colorTuple) : (normalized as unknown as HSL | LAB | LCH | RGB),
+    converter ? converter(colorTuple) : (color as unknown as HSL | LAB | LCH | RGB),
     alpha,
   );
 }
