@@ -19,7 +19,7 @@ formatCSS(input: HSL | LAB | LCH | RGB | HEX, formatOrOptions?: ColorType | Form
 | alpha     | Alpha value (0-1) | `number`            |         |
 | format    | Output format     | `ColorType`         |         |
 | precision | Decimal precision | `number`            | **5**   |
-| separator | Value separator   | `string`            | **' '** |
+| separator | Value separator (rgb and hsl). With `', '`, alpha also follows a comma | `string` | **' '** |
 
 ```typescript
 import { formatCSS } from 'colorizr';
@@ -31,6 +31,7 @@ formatCSS({ r: 255, g: 0, b: 68 }, 'rgb');               // 'rgb(255 0 68)'
 formatCSS('#ff0044', 'oklch');                            // 'oklch(63.269% 0.25404 19.902)'
 formatCSS({ r: 255, g: 0, b: 68 }, { format: 'rgb', alpha: 0.5 }); // 'rgb(255 0 68 / 50%)'
 formatCSS({ r: 255, g: 0, b: 68 }, { format: 'rgb', separator: ', ' }); // 'rgb(255, 0, 68)'
+formatCSS({ r: 255, g: 0, b: 68 }, { alpha: 0.5, format: 'rgb', separator: ', ' }); // 'rgb(255, 0, 68, 50%)'
 ```
 
 <LiveExample client:load code="formatCSS({ h: 344, s: 100, l: 50 }, 'oklch')" />

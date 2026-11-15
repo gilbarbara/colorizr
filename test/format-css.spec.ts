@@ -14,7 +14,7 @@ describe('formatCSS', () => {
     {
       input: brightPink.hex,
       options: { alpha: 0.9, format: 'rgb', separator: ', ' },
-      expected: addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 0.9, true),
+      expected: 'rgb(255, 0, 68, 90%)',
     },
     { input: green.hsl, options: undefined, expected: green.hslString },
     {

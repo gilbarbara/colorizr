@@ -38,6 +38,7 @@ export interface FormatCSSOptions {
    * The separator between the values.
    *
    * oklab and oklch always use space as a separator.
+   * With a comma separator, alpha follows a comma (legacy syntax) instead of '/'.
    * @default ' '
    */
   separator?: string;
@@ -158,5 +159,8 @@ export default function formatCSS<T extends ColorValue>(
     }
   }
 
-  return `${colorFormat}(${params.join(separator)}${opacity ? ` / ${opacity}` : ''})`;
+  // Legacy (comma) syntax puts alpha after a comma; modern syntax puts it after '/'
+  const alphaSeparator = separator.trim() === ',' ? separator : ' / ';
+
+  return `${colorFormat}(${params.join(separator)}${opacity ? `${alphaSeparator}${opacity}` : ''})`;
 }
