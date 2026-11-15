@@ -1,11 +1,6 @@
 import * as converters from '~/converters';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
-import {
-  convertAlphaToHex,
-  extractAlphaFromHex,
-  normalizeAlpha,
-  removeAlphaFromHex,
-} from '~/modules/alpha';
+import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
 import { parseColorString } from '~/modules/color-string';
 import { clamp } from '~/modules/utils';
 import { isHSL, isLAB, isLCH, isPlainObject, isRGB } from '~/modules/validators';
@@ -169,8 +164,8 @@ export function resolveColor(input: ColorInput): ParsedColor {
   }
 
   if (isPlainObject(input)) {
-    const { alpha: rawAlpha = 1 } = input;
-    const alpha = clamp(normalizeAlpha(rawAlpha), 0, 1);
+    // The type guards below only accept alpha between 0 and 1
+    const { alpha = 1 } = input;
 
     if (isHSL(input)) {
       return new ParsedColorImpl(

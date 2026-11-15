@@ -59,4 +59,10 @@ describe('formatCSS', () => {
     // @ts-expect-error - invalid hex (no #)
     expect(() => formatCSS('f04')).toThrow('invalid input');
   });
+
+  it.each([2, 50, -0.5])('should throw for alpha %s outside 0-1', alpha => {
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'rgb', alpha })).toThrow(
+      'alpha must be a number between 0 and 1',
+    );
+  });
 });

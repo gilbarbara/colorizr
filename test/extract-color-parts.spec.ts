@@ -71,6 +71,19 @@ describe('extractColorParts', () => {
       input: 'oklch(100% 100% 360)',
       expected: { model: 'oklch', l: 1, c: 0.4, h: 360 },
     },
+    // Alpha is read as written: a percentage is divided by 100, a number is kept
+    {
+      input: 'rgb(255 0 0 / 1%)',
+      expected: { model: 'rgb', r: 255, g: 0, b: 0, alpha: 0.01 },
+    },
+    {
+      input: 'rgb(255 0 0 / 0.5%)',
+      expected: { model: 'rgb', r: 255, g: 0, b: 0, alpha: 0.005 },
+    },
+    {
+      input: 'rgb(255 0 0 / 2)',
+      expected: { model: 'rgb', r: 255, g: 0, b: 0, alpha: 2 },
+    },
     // RGB percentages scale to 0-255
     {
       input: 'rgb(100% 0% 0%)',

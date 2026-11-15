@@ -37,6 +37,11 @@ describe('convertCSS', () => {
     expect(() => convertCSS('oklch(0.7 -0.1 30)', 'hex')).toThrow(MESSAGES.invalidColor);
   });
 
+  it('should read alpha as written', () => {
+    expect(convertCSS('rgb(255 0 0 / 1%)', 'hex')).toBe('#ff000003');
+    expect(convertCSS('rgb(255 0 0 / 50%)', 'hex')).toBe('#ff000080');
+  });
+
   it('should scale RGB percentages to 0-255', () => {
     expect(convertCSS('rgb(100% 0% 0%)', 'hex')).toBe('#ff0000');
     expect(convertCSS('rgb(0% 100% 0%)', 'rgb')).toBe('rgb(0 255 0)');

@@ -2,25 +2,11 @@ import {
   addAlphaToHex,
   convertAlphaToHex,
   extractAlphaFromHex,
-  normalizeAlpha,
   removeAlphaFromHex,
 } from '~/modules/alpha';
+import { MESSAGES } from '~/modules/constants';
 
 import { addOpacityToCssString, brightPink, green, violet, yellow } from '../__fixtures__';
-
-describe('normalizeAlpha', () => {
-  it.each([
-    { input: 0, expected: 0 },
-    { input: 0.5, expected: 0.5 },
-    { input: 1, expected: 1 },
-    { input: 50, expected: 0.5 },
-    { input: 90, expected: 0.9 },
-    { input: 100, expected: 1 },
-    { input: undefined, expected: undefined },
-  ])('should normalize $input to $expected', ({ input, expected }) => {
-    expect(normalizeAlpha(input)).toBe(expected);
-  });
-});
 
 describe('addAlphaToHex', () => {
   it.each([
@@ -144,10 +130,12 @@ describe('convertAlphaToHex', () => {
     { input: 0.98, expected: 'fa' },
     { input: 0.99, expected: 'fc' },
     { input: 1, expected: 'ff' },
-    { input: 90, expected: 'e6' },
-    { input: 100, expected: 'ff' },
   ])(`should convert $input to $expected`, ({ input, expected }) => {
     expect(convertAlphaToHex(input)).toBe(expected);
+  });
+
+  it.each([2, 50, 100, -0.5])('should throw for alpha %s outside 0-1', input => {
+    expect(() => convertAlphaToHex(input)).toThrow(MESSAGES.alpha);
   });
 });
 

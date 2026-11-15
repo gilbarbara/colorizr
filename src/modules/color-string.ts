@@ -1,4 +1,3 @@
-import { normalizeAlpha } from '~/modules/alpha';
 import { COLOR_KEYS, MESSAGES } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -65,16 +64,18 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
   // Function names, keywords, and units are ASCII case-insensitive (CSS Values 4)
   const tokens = matches.map(token => token?.toLowerCase());
 
-  let rawAlpha = 1;
+  // Alpha as written: a percentage is divided by 100, a number is kept
+  let alpha = 1;
 
   if (tokens[5]) {
     invariant(!ANGLE_UNIT.test(tokens[5]), MESSAGES.invalidCSS);
-    rawAlpha = tokens[5] === 'none' ? 0 : parseFloat(tokens[5]);
+    const rawAlpha = tokens[5] === 'none' ? 0 : parseFloat(tokens[5]);
+
+    alpha = tokens[5].endsWith('%') ? rawAlpha / 100 : rawAlpha;
   }
 
   const model = tokens[1] as ColorModelKey;
   const keys = COLOR_KEYS[model];
-  const alpha = normalizeAlpha(rawAlpha);
 
   // Parse values and convert percentages/angles for color models
   const parseValue = (value: string, index: number): number => {
@@ -129,7 +130,7 @@ function parseColorFunction(input: string): ExtractColorPartsReturn {
     [keys[0]]: values[0],
     [keys[1]]: values[1],
     [keys[2]]: values[2],
-    alpha: alpha < 1 ? alpha : undefined,
+    alpha: alpha !== 1 ? alpha : undefined,
   } as ExtractColorPartsReturn;
 }
 

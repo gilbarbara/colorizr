@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
-import { convertAlphaToHex, normalizeAlpha, removeAlphaFromHex } from '~/modules/alpha';
+import { convertAlphaToHex, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
@@ -12,6 +12,7 @@ import {
   isLCH,
   isNamedColor,
   isNumber,
+  isNumberInRange,
   isRGB,
   isString,
   isValidColorModel,
@@ -108,7 +109,10 @@ export default function formatCSS<T extends ColorValue>(
   } = isString(formatOrOptions, false) ? { format: formatOrOptions } : (formatOrOptions ?? {});
 
   const colorFormat = format || getColorModel(input);
-  const normalizedAlpha = isNumber(alpha) ? normalizeAlpha(alpha) : undefined;
+
+  invariant(!isNumber(alpha) || isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
+
+  const normalizedAlpha = isNumber(alpha) ? alpha : undefined;
   const opacity =
     normalizedAlpha !== undefined && normalizedAlpha !== 1
       ? `${round(normalizedAlpha * 100)}%`
