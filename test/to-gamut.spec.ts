@@ -79,6 +79,11 @@ describe('toGamut', () => {
   });
 
   describe('format option', () => {
+    it('should round rgb output of out-of-gamut colors', () => {
+      expect(toGamut('oklch(0.7 0.4 30)', 'rgb')).toBe('rgb(255 88.009 67.467)');
+      expect(toGamut('oklch(0.7 0.4 30)', 'hsl')).toBe('hsl(6.57 100% 63.23%)');
+    });
+
     it('should allow format override', () => {
       const result = toGamut('oklch(0.9 0.4 150)', 'hsl');
 

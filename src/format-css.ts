@@ -129,7 +129,11 @@ export default function formatCSS<T extends ColorValue>(
     case 'hsl': {
       const { h, s, l } = getColorValue(input, 'hsl');
 
-      params = [h, `${s}%`, `${l}%`];
+      params = [
+        round(h, precision, false),
+        `${round(s, precision, false)}%`,
+        `${round(l, precision, false)}%`,
+      ];
       break;
     }
     case 'oklab': {
@@ -149,7 +153,7 @@ export default function formatCSS<T extends ColorValue>(
     case 'rgb': {
       const { r, g, b } = getColorValue(input, 'rgb');
 
-      params = [r, g, b];
+      params = [r, g, b].map(value => round(value, precision, false));
       break;
     }
     default: {

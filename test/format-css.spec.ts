@@ -69,6 +69,16 @@ describe('formatCSS', () => {
     });
   });
 
+  it('should round rgb and hsl channels to the precision', () => {
+    expect(formatCSS({ r: 255, g: 88.00944361065868, b: 67.466651796988 })).toBe(
+      'rgb(255 88.009 67.467)',
+    );
+    expect(formatCSS({ h: 6.571234567, s: 100, l: 63.2345678 })).toBe('hsl(6.5712 100% 63.235%)');
+    expect(formatCSS({ r: 255, g: 88.00944361065868, b: 0 }, { precision: 3 })).toBe(
+      'rgb(255 88 0)',
+    );
+  });
+
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
