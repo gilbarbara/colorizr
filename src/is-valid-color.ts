@@ -1,9 +1,10 @@
-import getColorType from '~/get-color-type';
+import { ColorString, parseColorString } from '~/modules/color-string';
 
 import { ColorTypeInput } from '~/types';
 
 /**
- * Check if a string is a valid CSS color.
+ * Check if a string is a valid CSS color: CSS Color 4 syntax, and every value within
+ * its range as written (the same ranges as the isRGB, isHSL, isLAB, and isLCH type guards).
  * Optionally validate against a specific color type.
  *
  * @param input - The color string to validate.
@@ -11,15 +12,17 @@ import { ColorTypeInput } from '~/types';
  * @returns True if the input is a valid color (of the specified type, if given).
  */
 export default function isValidColor(input: string, type?: ColorTypeInput): boolean {
-  const detectedType = getColorType(input);
+  let result: ColorString;
 
-  if (detectedType === null) {
+  try {
+    result = parseColorString(input);
+  } catch {
     return false;
   }
 
-  if (type === undefined) {
-    return true;
+  if ('inRange' in result && (!result.strictSyntax || !result.inRange)) {
+    return false;
   }
 
-  return detectedType === type;
+  return type === undefined || result.type === type;
 }

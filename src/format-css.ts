@@ -1,10 +1,10 @@
 /* eslint-disable sonarjs/no-redundant-assignments */
 import * as converters from '~/converters';
-import { convertAlphaToHex, normalizeAlpha, removeAlphaFromHex } from '~/modules/alpha';
+import { addAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
-import { restrictValues, round } from '~/modules/utils';
+import { clamp, restrictValues, round } from '~/modules/utils';
 import {
   isHex,
   isHSL,
@@ -12,6 +12,8 @@ import {
   isLCH,
   isNamedColor,
   isNumber,
+  isNumberInRange,
+  isPrecision,
   isRGB,
   isString,
   isValidColorModel,
@@ -19,9 +21,11 @@ import {
 
 import { ColorModel, ColorReturn, ColorType, ColorValue } from '~/types';
 
+/** Options for `formatCSS`. */
 export interface FormatCSSOptions {
   /**
    * The alpha value of the color (0-1).
+   * Overrides the input's alpha; 1 removes it.
    */
   alpha?: number;
   /**
@@ -37,6 +41,7 @@ export interface FormatCSSOptions {
    * The separator between the values.
    *
    * oklab and oklch always use space as a separator.
+   * With a comma separator, alpha follows a comma (legacy syntax) instead of '/'.
    * @default ' '
    */
   separator?: string;
@@ -89,6 +94,7 @@ function getColorValue<TInput extends ColorModel | string, TOutput extends Color
 
 /**
  * Format a color model to a CSS color string.
+ * The input's alpha is kept unless the `alpha` option overrides it.
  *
  * @param input - The color model or hex string.
  * @param formatOrOptions - Output format or formatting options object.
@@ -108,7 +114,13 @@ export default function formatCSS<T extends ColorValue>(
   } = isString(formatOrOptions, false) ? { format: formatOrOptions } : (formatOrOptions ?? {});
 
   const colorFormat = format || getColorModel(input);
-  const normalizedAlpha = isNumber(alpha) ? normalizeAlpha(alpha) : undefined;
+
+  invariant(alpha === undefined || isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
+  // Significant digits: 0 rounds every channel away
+  invariant(isPrecision(precision, 1), MESSAGES.precisionCSS);
+
+  const inputAlpha = isHex(input) ? extractAlphaFromHex(input) : input.alpha;
+  const normalizedAlpha = isNumber(alpha) ? alpha : inputAlpha;
   const opacity =
     normalizedAlpha !== undefined && normalizedAlpha !== 1
       ? `${round(normalizedAlpha * 100)}%`
@@ -120,7 +132,12 @@ export default function formatCSS<T extends ColorValue>(
     case 'hsl': {
       const { h, s, l } = getColorValue(input, 'hsl');
 
-      params = [h, `${s}%`, `${l}%`];
+      // Significant-digit rounding can carry past the range (355 → 400, 255 → 260 at low precision)
+      params = [
+        clamp(round(h, precision, false), 0, 360),
+        `${round(s, precision, false)}%`,
+        `${round(l, precision, false)}%`,
+      ];
       break;
     }
     case 'oklab': {
@@ -134,25 +151,26 @@ export default function formatCSS<T extends ColorValue>(
       separator = ' ';
       const { l, c, h } = restrictValues(getColorValue(input, 'oklch'), precision, false);
 
-      params = [`${round(l * 100, precision, false)}%`, c, c === 0 ? 'none' : h];
+      params = [`${round(l * 100, precision, false)}%`, c, c === 0 ? 'none' : clamp(h, 0, 360)];
       break;
     }
     case 'rgb': {
       const { r, g, b } = getColorValue(input, 'rgb');
 
-      params = [r, g, b];
+      params = [r, g, b].map(value => clamp(round(value, precision, false), 0, 255));
       break;
     }
     default: {
-      const hex = removeAlphaFromHex(getColorValue(input, 'hex'));
+      const hex = getColorValue(input, 'hex');
 
-      if (normalizedAlpha !== undefined && normalizedAlpha !== 1) {
-        return `${hex}${convertAlphaToHex(normalizedAlpha)}`;
-      }
-
-      return hex;
+      return normalizedAlpha === undefined
+        ? removeAlphaFromHex(hex)
+        : addAlphaToHex(hex, normalizedAlpha);
     }
   }
 
-  return `${colorFormat}(${params.join(separator)}${opacity ? ` / ${opacity}` : ''})`;
+  // Legacy (comma) syntax puts alpha after a comma; modern syntax puts it after '/'
+  const alphaSeparator = separator.trim() === ',' ? separator : ' / ';
+
+  return `${colorFormat}(${params.join(separator)}${opacity ? `${alphaSeparator}${opacity}` : ''})`;
 }

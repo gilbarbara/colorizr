@@ -5,6 +5,7 @@ import {
   isLCH,
   isNumber,
   isPlainObject,
+  isPrecision,
   isRGB,
   isString,
 } from '~/modules/validators';
@@ -19,8 +20,12 @@ describe('isHex', () => {
     { hex: addOpacityToCssString(brightPink.hex, 0.5), expected: true },
     { hex: '#f040', expected: true },
     { hex: '#mmff00', expected: false },
+    { hex: '#12345', expected: false },
+    { hex: '#1234567', expected: false },
+    { hex: '#123456789', expected: false },
     { hex: '00ff00', expected: false },
     { hex: '74422', expected: false },
+    { hex: ' #ff0000', expected: false },
   ])('$hex should be $expected', ({ hex, expected }) => {
     expect(isHex(hex)).toBe(expected);
   });
@@ -44,6 +49,12 @@ describe('isHSL', () => {
     expect(isHSL(green.rgb)).toBe(false);
     expect(isHSL(green.hex)).toBe(false);
   });
+
+  it('should reject values that are not numbers', () => {
+    expect(isHSL({ h: '120', s: 50, l: 50 })).toBe(false);
+    expect(isHSL({ h: 120, s: null, l: 50 })).toBe(false);
+    expect(isHSL({ h: 120, s: 50, l: 50, alpha: '0.5' })).toBe(false);
+  });
 });
 
 describe('isLAB', () => {
@@ -53,9 +64,19 @@ describe('isLAB', () => {
     expect(isLAB({ ...violet.oklab, alpha: 0.9 })).toBe(true);
     expect(isLAB(violet.oklabString)).toBe(false);
     expect(isLAB({ l: 100, a: 100, b: 100 })).toBe(false);
+    expect(isLAB({ l: 50, a: 0.1, b: 0.1 })).toBe(false);
+    expect(isLAB({ l: 0.7, a: 1.2, b: -1.5 })).toBe(true);
+    expect(isLAB({ l: 0.7, a: Number.NaN, b: 0 })).toBe(false);
+    expect(isLAB({ l: 0.7, a: Infinity, b: 0 })).toBe(false);
     expect(isLAB({})).toBe(false);
     expect(isLAB([])).toBe(false);
     expect(isLAB('')).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isLAB({ l: '0.5', a: 0, b: 0 })).toBe(false);
+    expect(isLAB({ l: null, a: 0, b: 0 })).toBe(false);
+    expect(isLAB({ l: 0.5, a: 0, b: 0, alpha: '0.5' })).toBe(false);
   });
 });
 
@@ -66,9 +87,20 @@ describe('isLHC', () => {
     expect(isLCH({ ...yellow.oklch, alpha: 0.8 })).toBe(true);
     expect(isLCH(yellow.oklchString)).toBe(false);
     expect(isLCH({ l: 100, c: 100, h: 100 })).toBe(false);
+    expect(isLCH({ l: 50, c: 0.1, h: 180 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: 1.5, h: 30 })).toBe(true);
+    expect(isLCH({ l: 0.7, c: -0.1, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: Infinity, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.7, c: 0.1, h: 361 })).toBe(false);
     expect(isLCH({})).toBe(false);
     expect(isLCH([])).toBe(false);
     expect(isLCH('')).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isLCH({ l: '0.5', c: 0.1, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.5, c: 0.1, h: '30' })).toBe(false);
+    expect(isLCH({ l: 0.5, c: 0.1, h: 30, alpha: null })).toBe(false);
   });
 });
 
@@ -77,6 +109,22 @@ describe('isNumber', () => {
     expect(isNumber(10)).toBe(true);
     expect(isNumber('10')).toBe(false);
     expect(isNumber({})).toBe(false);
+  });
+});
+
+describe('isPrecision', () => {
+  it.each([
+    { input: 0, min: 0, expected: true },
+    { input: 5, min: 1, expected: true },
+    { input: 0, min: 1, expected: false },
+    { input: -1, min: 0, expected: false },
+    { input: 1.5, min: 0, expected: false },
+    { input: NaN, min: 0, expected: false },
+    { input: Infinity, min: 0, expected: false },
+    { input: '2', min: 0, expected: false },
+    { input: undefined, min: 0, expected: false },
+  ])('should return $expected for $input with min $min', ({ input, min, expected }) => {
+    expect(isPrecision(input, min)).toBe(expected);
   });
 });
 
@@ -110,5 +158,11 @@ describe('isRGB', () => {
     expect(isRGB({ r: 20, g: 100, x: 50 })).toBe(false);
     expect(isRGB({ h: 20, s: 100, l: 50 })).toBe(false);
     expect(isRGB(brightPink.hex)).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isRGB({ r: '255', g: 0, b: 0 })).toBe(false);
+    expect(isRGB({ r: 255, g: null, b: 0 })).toBe(false);
+    expect(isRGB({ r: 255, g: 0, b: 0, alpha: '0.5' })).toBe(false);
   });
 });

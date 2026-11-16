@@ -1,7 +1,9 @@
 import { addAlpha, extractAlpha } from '~/modules/alpha';
-import { LMS_TO_LRGB, OKLAB_TO_CLMS } from '~/modules/constants';
+import { LMS_TO_LRGB, MESSAGES, OKLAB_TO_CLMS } from '~/modules/constants';
 import { srgbGammaEncode } from '~/modules/gamma';
+import { invariant } from '~/modules/invariant';
 import { clamp, parseInput, round } from '~/modules/utils';
+import { isPrecision } from '~/modules/validators';
 
 import { ConverterParameters, LAB, RGB } from '~/types';
 
@@ -13,6 +15,7 @@ import { ConverterParameters, LAB, RGB } from '~/types';
  * @returns The RGB color object.
  */
 export default function oklab2rgb(input: ConverterParameters<LAB>, precision = 0): RGB {
+  invariant(isPrecision(precision, 0), MESSAGES.precision);
   const { l: L, a: A, b: B } = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);
 

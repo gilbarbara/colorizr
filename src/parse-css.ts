@@ -1,16 +1,15 @@
 import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import {
   addAlpha,
   convertAlphaToHex,
   extractAlphaFromHex,
   removeAlphaFromHex,
 } from '~/modules/alpha';
-import { MESSAGES } from '~/modules/constants';
-import { CSSColor, cssColors } from '~/modules/css-colors';
-import { invariant } from '~/modules/invariant';
-import { normalizeOkLightness } from '~/modules/utils';
-import { isHex, isNamedColor, isString } from '~/modules/validators';
+import {
+  ExtractColorPartsReturn,
+  normalizeColorParts,
+  parseColorString,
+} from '~/modules/color-string';
 
 import {
   ColorModel,
@@ -81,17 +80,16 @@ const converterTables: Record<
   rgb: toRgbConverters,
 };
 
-function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH | RGB {
-  const { alpha, model, ...color } = extractColorParts(value);
+function convertFromCSS(
+  parts: ExtractColorPartsReturn,
+  output: ColorType,
+): HEX | HSL | LAB | LCH | RGB {
+  const { alpha, model, ...color } = parts;
 
-  const normalized = ['oklab', 'oklch'].includes(model)
-    ? normalizeOkLightness(color as unknown as { l: number })
-    : color;
-
-  const colorTuple = Object.values(normalized) as ColorTuple;
+  const colorTuple = Object.values(color) as ColorTuple;
 
   if (output === 'hex') {
-    const alphaPrefix = alpha ? convertAlphaToHex(alpha) : '';
+    const alphaPrefix = alpha !== undefined ? convertAlphaToHex(alpha) : '';
 
     return `${toHexConverters[model](colorTuple)}${alphaPrefix}` as HEX;
   }
@@ -100,7 +98,7 @@ function convertFromCSS(value: string, output: ColorType): HEX | HSL | LAB | LCH
 
   // When converter is undefined, model matches output format, so color already has correct shape
   return addAlpha(
-    converter ? converter(colorTuple) : (normalized as unknown as HSL | LAB | LCH | RGB),
+    converter ? converter(colorTuple) : (color as unknown as HSL | LAB | LCH | RGB),
     alpha,
   );
 }
@@ -117,20 +115,19 @@ function convertFromHex(value: HEX, output: ColorType): HEX | HSL | LAB | LCH | 
 
 /**
  * Parse a CSS color string and optionally convert to a specific format.
+ * Out-of-range values are resolved as CSS Color 4 does: clamped, with hue wrapped to [0, 360).
  *
  * @param input - The CSS color string.
  * @param format - Optional output color format.
  * @returns The parsed color in the specified format.
  */
 export default function parseCSS<T extends ColorType>(input: string, format?: T): ColorReturn<T> {
-  invariant(isString(input), MESSAGES.inputString);
+  const result = parseColorString(input);
 
-  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
-  const output = format ?? (isHex(value) ? 'hex' : extractColorParts(value).model);
-
-  if (isHex(value)) {
-    return convertFromHex(value, output) as ColorReturn<T>;
+  if ('hex' in result) {
+    return convertFromHex(result.hex, format ?? 'hex') as ColorReturn<T>;
   }
 
-  return convertFromCSS(value, output) as ColorReturn<T>;
+  // Out-of-range values resolve as CSS does (clamped, hue wrapped); isValidColor reports them as invalid
+  return convertFromCSS(normalizeColorParts(result.parts), format ?? result.type) as ColorReturn<T>;
 }

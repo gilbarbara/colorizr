@@ -3,6 +3,7 @@ import { clamp } from '~/modules/utils';
 
 import { ColorType } from '~/types';
 
+/** Options for `random`. */
 export interface RandomOptions {
   /**
    * The color format to return.

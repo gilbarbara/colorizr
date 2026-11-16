@@ -41,7 +41,7 @@ srgbGammaEncode(input: number): number
 import { srgbGammaEncode } from 'colorizr';
 
 srgbGammaEncode(0.214); // ~0.5
-srgbGammaEncode(1.0);   // 1.0
+srgbGammaEncode(1.0);   // ~1.0
 srgbGammaEncode(0.0);   // 0.0
 ```
 
@@ -60,7 +60,7 @@ oklabToLinearSRGB(L: number, a: number, b: number): ColorTuple
 ```typescript
 import { oklabToLinearSRGB } from 'colorizr';
 
-oklabToLinearSRGB(0.63, 0.26, 0.015); // [0.579..., 0.011..., 0.036...]
+oklabToLinearSRGB(0.63, 0.26, 0.015); // [0.954..., -0.007..., 0.191...] (green < 0: outside sRGB)
 ```
 
 ### oklabToLinearP3
@@ -74,7 +74,7 @@ oklabToLinearP3(L: number, a: number, b: number): ColorTuple
 ```typescript
 import { oklabToLinearP3 } from 'colorizr';
 
-oklabToLinearP3(0.63, 0.26, 0.015); // [0.486..., 0.031..., 0.050...]
+oklabToLinearP3(0.63, 0.26, 0.015); // [0.783..., 0.025..., 0.190...] (inside P3)
 ```
 
 ## Gamut Check

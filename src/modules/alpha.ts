@@ -1,7 +1,8 @@
+import formatHex from '~/format-hex';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { round } from '~/modules/utils';
-import { isHex, isNumber, isNumberInRange, isValidColorModel } from '~/modules/validators';
+import { isHex, isNumberInRange, isValidColorModel } from '~/modules/validators';
 
 import { ColorModel, ConverterParameters, HEX } from '~/types';
 
@@ -9,19 +10,17 @@ import { ColorModel, ConverterParameters, HEX } from '~/types';
  * Add an alpha value to a color model.
  *
  * @param input - The color model object.
- * @param alpha - A number between 0 and 1 (values > 1 are divided by 100).
+ * @param alpha - A number between 0 and 1.
  * @returns The color model with alpha applied.
  */
 export function addAlpha<T extends ColorModel>(input: T, alpha?: number): T {
   invariant(isValidColorModel(input), MESSAGES.invalid);
 
-  const value = normalizeAlpha(alpha);
-
-  if (value === undefined || value === 1) {
+  if (alpha === undefined || alpha === 1) {
     return input;
   }
 
-  return { ...input, alpha: value };
+  return { ...input, alpha };
 }
 
 /**
@@ -39,21 +38,20 @@ export function addAlphaToHex(input: string, alpha: number): HEX {
     return removeAlphaFromHex(input);
   }
 
-  return `${removeAlphaFromHex(input)}${convertAlphaToHex(alpha)}` as HEX;
+  // #rgb must become #rrggbb, or a 2-digit alpha yields an invalid 5-digit hex
+  return `${formatHex(removeAlphaFromHex(input))}${convertAlphaToHex(alpha)}` as HEX;
 }
 
 /**
  * Convert an alpha value to a hex value.
  *
- * @param input - A number between 0 and 1 (values > 1 are divided by 100).
+ * @param input - A number between 0 and 1.
  * @returns The two-character hex string.
  */
 export function convertAlphaToHex(input: number): string {
-  invariant(isNumber(input), MESSAGES.inputNumber);
+  invariant(isNumberInRange(input, 0, 1), MESSAGES.alpha);
 
-  const alpha = normalizeAlpha(input);
-
-  return Math.round(alpha * 255)
+  return Math.round(input * 255)
     .toString(16)
     .padStart(2, '0');
 }
@@ -83,27 +81,18 @@ export function extractAlpha<T extends ColorModel>(
 export function extractAlphaFromHex(input: string): number {
   invariant(isHex(input), MESSAGES.inputString);
 
-  const alpha = input.substring(7, 9);
+  // Expand #rgba to #rrggbbaa so the alpha is always at the same position
+  const alpha = formatHex(input).substring(7, 9);
 
   if (!alpha) {
     return 1;
   }
 
-  return round(parseInt(alpha, 16) / 255);
-}
+  const value = parseInt(alpha, 16);
+  const short = round(value / 255);
 
-/**
- * Normalize an alpha value to the 0-1 range.
- * Values > 1 are treated as percentages and divided by 100.
- */
-export function normalizeAlpha(value: number): number;
-export function normalizeAlpha(value: number | undefined): number | undefined;
-export function normalizeAlpha(value: number | undefined): number | undefined {
-  if (value === undefined) {
-    return undefined;
-  }
-
-  return Math.min(1, Math.max(0, value > 1 ? value / 100 : value));
+  // 2 decimals can't represent all 256 hex values (0x88 → 0.53 → 0x87); 3 decimals always can
+  return Math.round(short * 255) === value ? short : round(value / 255, 3);
 }
 
 /**

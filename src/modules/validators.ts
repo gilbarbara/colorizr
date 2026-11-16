@@ -3,12 +3,20 @@ import { CSSColor, cssColors } from '~/modules/css-colors';
 
 import { ColorModel, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
-const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6,8})$/i;
+const hexRegex = /^#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i;
 
+/**
+ * Check if a color-function regex match has all six entries:
+ * the full match, the function name, three channels, and the optional alpha.
+ */
 export function hasValidMatches(input: unknown): input is string[] {
   return Array.isArray(input) && input.length === 6;
 }
 
+/**
+ * Check if the input is a hex color string: `#rgb`, `#rgba`, `#rrggbb`, or `#rrggbbaa`.
+ * Surrounding whitespace is not allowed.
+ */
 export function isHex(input: unknown): input is HEX {
   if (!isString(input)) {
     return false;
@@ -33,21 +41,21 @@ export function isHSL(input: unknown): input is HSL {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'h') {
-        return value >= 0 && value <= 360;
+        return isNumberInRange(value, 0, 360);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.hsl.includes(key) && value >= 0 && value <= 100;
+      return COLOR_KEYS.hsl.includes(key) && isNumberInRange(value, 0, 100);
     })
   );
 }
 
 /**
  * Check if an object contains LAB values
- * The input must be an object with keys 'l', 'a', and 'b' with values between -1 and 1.
+ * The input must be an object with keys 'l' (0-1), 'a', and 'b' (any finite number).
  */
 export function isLAB(input: unknown): input is LAB {
   if (!isPlainObject(input)) {
@@ -60,21 +68,21 @@ export function isLAB(input: unknown): input is LAB {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 100;
+        return isNumberInRange(value, 0, 1);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.oklab.includes(key) && value >= -1 && value <= 1;
+      return COLOR_KEYS.oklab.includes(key) && Number.isFinite(value);
     })
   );
 }
 
 /**
- * Check if an object contains LAB values
- * The input must be an object with keys 'l', 'c', and 'h' with values between 0 and 360.
+ * Check if an object contains LCH values
+ * The input must be an object with keys 'l' (0-1), 'c' (finite, >= 0), and 'h' (0-360).
  */
 export function isLCH(input: unknown): input is LCH {
   if (!isPlainObject(input)) {
@@ -87,14 +95,18 @@ export function isLCH(input: unknown): input is LCH {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 100;
+        return isNumberInRange(value, 0, 1);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.oklch.includes(key) && value >= 0 && value <= (key === 'h' ? 360 : 1);
+      if (key === 'c') {
+        return Number.isFinite(value) && value >= 0;
+      }
+
+      return COLOR_KEYS.oklch.includes(key) && isNumberInRange(value, 0, 360);
     })
   );
 }
@@ -138,6 +150,13 @@ export function isPlainObject(input: unknown): input is Record<string, any> {
 }
 
 /**
+ * Check if the input is a valid precision: an integer of at least `min`.
+ */
+export function isPrecision(input: unknown, min: number): input is number {
+  return Number.isInteger(input) && (input as number) >= min;
+}
+
+/**
  * Check if an object contains RGB values.
  * The input must be an object with keys 'r', 'g', and 'b' with values between 0 and 255.
  */
@@ -152,10 +171,10 @@ export function isRGB(input: unknown): input is RGB {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.rgb.includes(key) && value >= 0 && value <= 255;
+      return COLOR_KEYS.rgb.includes(key) && isNumberInRange(value, 0, 255);
     })
   );
 }
@@ -173,6 +192,9 @@ export function isString(input: unknown, validate = true): input is string {
   return isValid;
 }
 
+/**
+ * Check if the input is a color object of any supported model (HSL, RGB, OkLab, or OkLCH).
+ */
 export function isValidColorModel<T extends ColorModel>(input: T): input is T {
   return isHSL(input) || isRGB(input) || isLAB(input) || isLCH(input);
 }

@@ -38,8 +38,8 @@ interface RGB {
 ```typescript
 interface LAB {
   l: number;  // Lightness: 0-1
-  a: number;  // Green-red axis: -0.4 to 0.4
-  b: number;  // Blue-yellow axis: -0.4 to 0.4
+  a: number;  // Green-red axis: unbounded, typically -0.4 to 0.4
+  b: number;  // Blue-yellow axis: unbounded, typically -0.4 to 0.4
   alpha?: number; // 0-1
 }
 ```
@@ -49,7 +49,7 @@ interface LAB {
 ```typescript
 interface LCH {
   l: number;  // Lightness: 0-1
-  c: number;  // Chroma: 0-0.4
+  c: number;  // Chroma: 0 or greater, typically up to 0.4
   h: number;  // Hue: 0-360
   alpha?: number; // 0-1
 }

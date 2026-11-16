@@ -30,17 +30,6 @@ export function constrainDegrees(input: number, amount: number): number {
 }
 
 /**
- * Normalize OkLab/OkLCH lightness from percentage (0-100) to 0-1 range.
- */
-export function normalizeOkLightness<T extends { l: number }>(color: T): T {
-  if (color.l > 1) {
-    return { ...color, l: parseFloat((color.l / 100).toPrecision(15)) };
-  }
-
-  return color;
-}
-
-/**
  * Parse the input parameters for converters.
  *
  * @param input - The converter parameters (object or tuple).
@@ -128,6 +117,14 @@ export function round(input: number, precision = 2, forcePrecision = true): numb
   const factor = 10 ** (precision - digits);
 
   return Math.floor(input * factor + 0.5) / factor;
+}
+
+/**
+ * Remove leading and trailing CSS whitespace (space, tab, newline, carriage return, form feed).
+ * Unlike String.prototype.trim, other Unicode spaces are kept, so they still fail to parse.
+ */
+export function trimCSSWhitespace(input: string): string {
+  return input.replace(/^[ \t\n\r\f]+|[ \t\n\r\f]+$/g, '');
 }
 
 /**

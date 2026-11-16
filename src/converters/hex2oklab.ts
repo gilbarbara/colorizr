@@ -3,7 +3,7 @@ import rgb2oklab from '~/converters/rgb2oklab';
 import { addAlpha, extractAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex } from '~/modules/validators';
+import { isHex, isPrecision } from '~/modules/validators';
 
 import { LAB } from '~/types';
 
@@ -15,6 +15,7 @@ import { LAB } from '~/types';
  * @returns The OkLab color object.
  */
 export default function hex2oklab(input: string, precision?: number): LAB {
+  invariant(precision === undefined || isPrecision(precision, 0), MESSAGES.precision);
   invariant(isHex(input), MESSAGES.inputHex);
 
   const alpha = extractAlphaFromHex(input);

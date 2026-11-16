@@ -14,7 +14,7 @@ export default function rgb2hex(input: ConverterParameters<RGB>): HEX {
   const alpha = extractAlpha(input);
 
   const hex: HEX = `#${[rgb.r, rgb.g, rgb.b]
-    .map(d => `0${Math.floor(d).toString(16)}`.slice(-2))
+    .map(d => `0${Math.round(d).toString(16)}`.slice(-2))
     .join('')}`;
 
   return alpha !== undefined && alpha < 1 ? addAlphaToHex(hex, alpha) : hex;

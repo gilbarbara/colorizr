@@ -2,7 +2,7 @@ import { MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
-import { isString } from '~/modules/validators';
+import { isPrecision, isString } from '~/modules/validators';
 
 /**
  * Get the brightness difference between 2 colors.
@@ -17,6 +17,7 @@ export default function brightnessDifference(
   right: string,
   precision = PRECISION,
 ): number {
+  invariant(isPrecision(precision, 0), MESSAGES.precision);
   invariant(isString(left), MESSAGES.left);
   invariant(isString(right), MESSAGES.right);
 

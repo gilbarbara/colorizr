@@ -14,7 +14,23 @@ describe('formatCSS', () => {
     {
       input: brightPink.hex,
       options: { alpha: 0.9, format: 'rgb', separator: ', ' },
-      expected: addOpacityToCssString(brightPink.rgbString.replace(/ /g, ', '), 0.9, true),
+      expected: 'rgb(255, 0, 68, 90%)',
+    },
+    { input: '#f00', options: { alpha: 0.5 }, expected: '#ff000080' },
+    { input: '#f00', options: { alpha: 1 }, expected: '#f00' },
+    { input: '#f008', options: undefined, expected: '#ff000088' },
+    { input: '#ff000080', options: { alpha: 1 }, expected: '#ff0000' },
+    { input: '#ff000080', options: { format: 'rgb' }, expected: 'rgb(255 0 0 / 50%)' },
+    {
+      input: { r: 255, g: 0, b: 0, alpha: 0.5 },
+      options: undefined,
+      expected: 'rgb(255 0 0 / 50%)',
+    },
+    { input: { r: 255, g: 0, b: 0, alpha: 0.5 }, options: 'hex', expected: '#ff000080' },
+    {
+      input: { r: 255, g: 0, b: 0, alpha: 0.5 },
+      options: { format: 'hsl', alpha: 1 },
+      expected: 'hsl(0 100% 50%)',
     },
     { input: green.hsl, options: undefined, expected: green.hslString },
     {
@@ -53,10 +69,62 @@ describe('formatCSS', () => {
     });
   });
 
+  it('should round rgb and hsl channels to the precision', () => {
+    expect(formatCSS({ r: 255, g: 88.00944361065868, b: 67.466651796988 })).toBe(
+      'rgb(255 88.009 67.467)',
+    );
+    expect(formatCSS({ h: 6.571234567, s: 100, l: 63.2345678 })).toBe('hsl(6.5712 100% 63.235%)');
+    expect(formatCSS({ r: 255, g: 88.00944361065868, b: 0 }, { precision: 3 })).toBe(
+      'rgb(255 88 0)',
+    );
+  });
+
+  it('should keep rounded channels within their range at low precision', () => {
+    expect(formatCSS({ r: 255, g: 0, b: 0 }, { precision: 2 })).toBe('rgb(255 0 0)');
+    expect(formatCSS({ h: 355, s: 100, l: 50 }, { precision: 1 })).toBe('hsl(360 100% 50%)');
+    expect(formatCSS({ l: 0.5, c: 0.1, h: 355 }, { format: 'oklch', precision: 1 })).toBe(
+      'oklch(50% 0.1 360)',
+    );
+  });
+
+  it.each(['rgb', 'hex'] as const)(
+    'should throw for a color object with a string alpha in %s output',
+    format => {
+      // @ts-expect-error - invalid alpha type
+      expect(() => formatCSS({ r: 255, g: 0, b: 0, alpha: '0.5' }, format)).toThrow(
+        'invalid input',
+      );
+    },
+  );
+
+  it('should throw for a color object with a string channel', () => {
+    // @ts-expect-error - invalid channel type
+    expect(() => formatCSS({ r: '255', g: 0, b: 0 })).toThrow('invalid input');
+  });
+
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
     // @ts-expect-error - invalid hex (no #)
     expect(() => formatCSS('f04')).toThrow('invalid input');
+  });
+
+  it.each([0, -1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { precision })).toThrow(
+      'precision must be an integer of 1 or more',
+    );
+  });
+
+  it('should throw with an invalid precision for hex output, which does not round', () => {
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'hex', precision: 0 })).toThrow(
+      'precision must be an integer of 1 or more',
+    );
+  });
+
+  it.each([2, 50, -0.5, NaN, '0.5'])('should throw for alpha %s outside 0-1', alpha => {
+    // @ts-expect-error - '0.5' is an invalid alpha type
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'rgb', alpha })).toThrow(
+      'alpha must be a number between 0 and 1',
+    );
   });
 });

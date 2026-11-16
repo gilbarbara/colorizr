@@ -1,4 +1,5 @@
 import formatCSS from '~/format-css';
+import { MESSAGES } from '~/modules/constants';
 import { isParsedColor, resolveColor } from '~/modules/parsed-color';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
@@ -60,7 +61,19 @@ describe('parsed-color', () => {
 
         expect(parsed.type).toBe('hex');
         expect(parsed.alpha).toBeCloseTo(0.5, 1);
-        expect(parsed.hex).toBe(brightPink.hex);
+        expect(parsed.hex).toBe(brightPink.hexAlpha);
+        expect(parsed.rgb).toEqual(brightPink.rgb);
+      });
+
+      it('should expand short hex alpha', () => {
+        expect(resolveColor('#f008').hex).toBe('#ff000088');
+      });
+
+      it('should drop an opaque hex alpha', () => {
+        const parsed = resolveColor('#ff0000ff');
+
+        expect(parsed.alpha).toBe(1);
+        expect(parsed.hex).toBe('#ff0000');
       });
     });
 
@@ -182,6 +195,16 @@ describe('parsed-color', () => {
         expect(parsed.alpha).toBe(0.5);
         expect(parsed.type).toBe('hsl');
         expect(parsed.hsl).toEqual(green.hsl);
+        expect(parsed.hex).toBe(`${green.hex}80`);
+      });
+
+      it.each([
+        { name: 'OkLab lightness above 1', input: { l: 50, a: 0, b: 0 } },
+        { name: 'alpha above 1', input: { r: 255, g: 0, b: 0, alpha: 50 } },
+        { name: 'no color keys', input: {} },
+      ])('should throw invalid input for $name', ({ input }) => {
+        // @ts-expect-error - invalid input
+        expect(() => resolveColor(input)).toThrow(MESSAGES.invalid);
       });
     });
 

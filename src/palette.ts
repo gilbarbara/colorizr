@@ -8,6 +8,7 @@ import rotate from '~/rotate';
 
 import { ColorType, HEX } from '~/types';
 
+/** Options for `palette`. */
 export interface PaletteOptions {
   /**
    * Output color format.

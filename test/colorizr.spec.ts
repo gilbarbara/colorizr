@@ -1,6 +1,7 @@
 import Colorizr from '~/colorizr';
 import { ColorModel, ColorType } from '~/index';
 import { addAlpha } from '~/modules/alpha';
+import { MESSAGES } from '~/modules/constants';
 import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
 
@@ -58,6 +59,14 @@ describe.each([
     title: 'RGB String',
     type: 'rgb',
   },
+  {
+    alpha: 0.5,
+    color: yellow,
+    input: yellow.rgbString,
+    readableColor: '#000000',
+    title: 'RGB String with alpha',
+    type: 'rgb',
+  },
 ] as Array<Item>)(
   `Colorizr with $title`,
   ({ color, input, alpha, readableColor, type, format }) => {
@@ -89,7 +98,7 @@ describe.each([
     describe('initialization', () => {
       it('should create a proper instance', () => {
         expect(colorizr).toBeInstanceOf(Colorizr);
-        expect(colorizr.hex).toBe(hex);
+        expect(colorizr.hex).toBe(hexCSS);
         expect(colorizr.hsl).toEqual(hsl);
         expect(colorizr.rgb).toEqual(rgb);
         expect(colorizr.oklab).toEqual(oklab);
@@ -324,5 +333,9 @@ describe('Colorizr with invalid input', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _colorizr = new Colorizr(input);
     }).toThrow();
+  });
+
+  it('should throw invalid input for an object that fails its type guard', () => {
+    expect(() => new Colorizr({ l: 50, a: 0, b: 0 })).toThrow(MESSAGES.invalid);
   });
 });

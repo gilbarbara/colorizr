@@ -68,12 +68,21 @@ describe('getColorType', () => {
     it.each([
       { input: 'blue', expected: 'named' },
       { input: 'coral', expected: 'named' },
+      { input: 'transparent', expected: 'named' },
       { input: 'aliceblue', expected: 'named' },
       { input: 'RED', expected: 'named' },
       { input: 'DarkSlateGray', expected: 'named' },
     ])('should detect $input as $expected', ({ input, expected }) => {
       expect(getColorType(input)).toBe(expected);
     });
+  });
+
+  it.each([
+    { input: 'rgb(300 0 0)', expected: 'rgb' },
+    { input: 'hsl(400 50% 50%)', expected: 'hsl' },
+    { input: 'oklch(1.5 0 0)', expected: 'oklch' },
+  ])('should detect the type of out-of-range $input', ({ input, expected }) => {
+    expect(getColorType(input)).toBe(expected);
   });
 
   describe('invalid inputs', () => {

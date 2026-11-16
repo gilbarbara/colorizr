@@ -25,6 +25,7 @@ import transparentize from '~/transparentize';
 
 import { Analysis, ColorModel, ColorType, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
+/** Options for the `Colorizr` class. */
 export interface ColorizrOptions {
   /**
    * Output color format.
@@ -34,16 +35,30 @@ export interface ColorizrOptions {
   format?: ColorType;
 }
 
+/**
+ * A color with conversion, manipulation, analysis, and formatting methods.
+ * Methods return new values and leave the instance unchanged.
+ */
 export default class Colorizr {
   /** The alpha/opacity value (0-1). */
   public alpha: number;
+  /** The color as hex. Alpha below 1 is appended. */
   public hex: HEX;
+  /** The color as HSL. */
   public hsl: HSL;
+  /** The color as OkLab. */
   public oklab: LAB;
+  /** The color as OkLCH. */
   public oklch: LCH;
+  /** The color as RGB. */
   public rgb: RGB;
+  /** The output format used by the methods that return a color string. */
   public type: ColorType;
 
+  /**
+   * @param color - A CSS color string or a color object (HSL, RGB, OkLab, or OkLCH).
+   * @param options - Output format; defaults to the input's format.
+   */
   constructor(color: string | ColorModel, options: ColorizrOptions = {}) {
     invariant(!!color, MESSAGES.colorRequired);
 

@@ -41,7 +41,7 @@ getP3MaxColor('#00ff44'); // 'oklch(0.86876 0.30921 144.66)'
 
 ## toGamut
 
-Map a color into the sRGB gamut by progressively reducing chroma in OkLCH space. Useful when working with wide-gamut colors that need to display correctly on standard screens.
+Map a color into the sRGB gamut with the CSS Color 4 gamut mapping algorithm: reduce chroma in OkLCH until clipping the color changes it by less than a just noticeable difference (Delta E OK 0.02), then clip it. Lightness and hue can shift slightly. Useful when working with wide-gamut colors that need to display correctly on standard screens.
 
 ```typescript
 toGamut(input: string, format?: ColorType): string
@@ -56,7 +56,7 @@ toGamut(input: string, format?: ColorType): string
 import { toGamut } from 'colorizr';
 
 // An out-of-gamut OkLCH color mapped to sRGB
-toGamut('oklch(0.7 0.4 150)'); // 'oklch(70% 0.19278 150)'
+toGamut('oklch(0.7 0.4 150)'); // 'oklch(70.914% 0.21039 147.06)'
 
 // Already in-gamut colors pass through unchanged
 toGamut('#ff0044'); // '#ff0044'

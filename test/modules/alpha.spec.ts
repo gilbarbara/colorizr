@@ -2,25 +2,11 @@ import {
   addAlphaToHex,
   convertAlphaToHex,
   extractAlphaFromHex,
-  normalizeAlpha,
   removeAlphaFromHex,
 } from '~/modules/alpha';
+import { MESSAGES } from '~/modules/constants';
 
 import { addOpacityToCssString, brightPink, green, violet, yellow } from '../__fixtures__';
-
-describe('normalizeAlpha', () => {
-  it.each([
-    { input: 0, expected: 0 },
-    { input: 0.5, expected: 0.5 },
-    { input: 1, expected: 1 },
-    { input: 50, expected: 0.5 },
-    { input: 90, expected: 0.9 },
-    { input: 100, expected: 1 },
-    { input: undefined, expected: undefined },
-  ])('should normalize $input to $expected', ({ input, expected }) => {
-    expect(normalizeAlpha(input)).toBe(expected);
-  });
-});
 
 describe('addAlphaToHex', () => {
   it.each([
@@ -36,6 +22,9 @@ describe('addAlphaToHex', () => {
       alpha: 0.9,
       expected: addOpacityToCssString(green.hex, 0.9),
     },
+    { input: '#f00', alpha: 1, expected: '#f00' },
+    { input: '#f00', alpha: 0.5, expected: '#ff000080' },
+    { input: '#f008', alpha: 0.5, expected: '#ff000080' },
   ])('should return $expected with $input and $alpha', ({ input, alpha, expected }) => {
     expect(addAlphaToHex(input, alpha)).toBe(expected);
   });
@@ -144,10 +133,12 @@ describe('convertAlphaToHex', () => {
     { input: 0.98, expected: 'fa' },
     { input: 0.99, expected: 'fc' },
     { input: 1, expected: 'ff' },
-    { input: 90, expected: 'e6' },
-    { input: 100, expected: 'ff' },
   ])(`should convert $input to $expected`, ({ input, expected }) => {
     expect(convertAlphaToHex(input)).toBe(expected);
+  });
+
+  it.each([2, 50, 100, -0.5])('should throw for alpha %s outside 0-1', input => {
+    expect(() => convertAlphaToHex(input)).toThrow(MESSAGES.alpha);
   });
 });
 
@@ -157,8 +148,26 @@ describe('extractAlphaFromHex', () => {
     { input: addOpacityToCssString(green.hex, 0.2), expected: 0.2 },
     { input: addOpacityToCssString(violet.hex, 0.45), expected: 0.45 },
     { input: addOpacityToCssString(yellow.hex, 1), expected: 1 },
+    { input: '#f008', expected: 0.533 },
+    { input: '#f00f', expected: 1 },
+    { input: '#f000', expected: 0 },
+    { input: '#f00', expected: 1 },
   ])(`should extract alpha from $input`, ({ input, expected }) => {
     expect(extractAlphaFromHex(input)).toBe(expected);
+  });
+
+  it('should extract an alpha that converts back to the same hex for every value', () => {
+    for (let value = 0; value < 256; value++) {
+      const hex = value.toString(16).padStart(2, '0');
+
+      expect(convertAlphaToHex(extractAlphaFromHex(`#ff0000${hex}`))).toBe(hex);
+    }
+  });
+
+  it('should keep 2 decimals when they convert back to the same hex', () => {
+    expect(extractAlphaFromHex('#ff000080')).toBe(0.5);
+    expect(extractAlphaFromHex('#ff0000e6')).toBe(0.9);
+    expect(extractAlphaFromHex('#ff000088')).toBe(0.533);
   });
 });
 

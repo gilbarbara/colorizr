@@ -37,22 +37,21 @@ describe('toGamut', () => {
       expect(isValidSRGB(result)).toBe(true);
     });
 
-    it('should reduce chroma, not lightness', () => {
-      const result = toGamut('oklch(0.7 0.4 150)');
-      const mapped = parseCSS(result, 'oklch');
+    it('should reduce chroma', () => {
+      const mapped = parseCSS(toGamut('oklch(0.7 0.4 150)'), 'oklch');
 
-      // Lightness should be preserved
-      expect(mapped.l).toBeCloseTo(0.7, 2);
-      // Chroma should be reduced from 0.4
       expect(mapped.c).toBeLessThan(0.4);
       expect(mapped.c).toBeGreaterThan(0);
     });
 
-    it('should preserve hue', () => {
-      const result = toGamut('oklch(0.7 0.4 150)');
-      const mapped = parseCSS(result, 'oklch');
-
-      expect(mapped.h).toBeCloseTo(150, 0);
+    // Expected values follow the CSS Color 4 gamut mapping algorithm
+    it.each([
+      { input: 'oklch(0.63 0.29 17)', expected: '#ff0049' },
+      { input: 'oklch(0.9 0.3 140)', expected: '#62ff30' },
+      { input: 'oklch(0.7 0.5 30)', expected: '#ff5843' },
+      { input: 'oklab(0.5 0.4 0.4)', expected: '#ac3600' },
+    ])('should map $input as the CSS Color 4 algorithm does', ({ input, expected }) => {
+      expect(toGamut(input, 'hex')).toBe(expected);
     });
   });
 
@@ -80,6 +79,11 @@ describe('toGamut', () => {
   });
 
   describe('format option', () => {
+    it('should round rgb output of out-of-gamut colors', () => {
+      expect(toGamut('oklch(0.7 0.4 30)', 'rgb')).toBe('rgb(255 88.009 67.467)');
+      expect(toGamut('oklch(0.7 0.4 30)', 'hsl')).toBe('hsl(6.57 100% 63.23%)');
+    });
+
     it('should allow format override', () => {
       const result = toGamut('oklch(0.9 0.4 150)', 'hsl');
 

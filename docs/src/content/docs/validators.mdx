@@ -7,7 +7,7 @@ import LiveExample from '../../components/LiveExample';
 
 ## isValidColor
 
-Check if a string is a valid CSS color. Optionally check for a specific type.
+Check if a string is a valid CSS color: CSS Color 4 syntax, and every value within its range as written. The ranges are the same as the [type guards](#type-guards) below. Optionally check for a specific type.
 
 ```typescript
 isValidColor(input: string, type?: ColorTypeInput): boolean
@@ -21,6 +21,11 @@ isValidColor('rgb(255 0 68)');       // true
 isValidColor('hsl(344 100% 50%)');   // true
 isValidColor('red');                 // true
 isValidColor('not-a-color');         // false
+
+// Values must be in range as written
+isValidColor('rgb(300 0 0)');        // false
+isValidColor('oklch(1.5 0 0)');      // false
+isValidColor('oklch(0.7 0.5 30)');   // true
 
 // Type-specific validation
 isValidColor('#ff0044', 'hex');      // true
@@ -95,7 +100,7 @@ isRGB({ r: 300, g: 0, b: 68 });              // false (r > 255)
 isLAB(input: unknown): boolean
 ```
 
-Validates OkLab objects (`l`: 0-1, `a`: -0.4 to 0.4, `b`: -0.4 to 0.4):
+Validates OkLab objects (`l`: 0-1, `a` and `b`: any finite number, typically within ±0.4):
 
 ```typescript
 import { isLAB } from 'colorizr';
@@ -113,13 +118,13 @@ isLAB({ l: 2, a: 0, b: 0 });           // false (l > 1)
 isLCH(input: unknown): boolean
 ```
 
-Validates OkLCH objects (`l`: 0-1, `c`: 0-0.4, `h`: 0-360):
+Validates OkLCH objects (`l`: 0-1, `c`: 0 or greater, typically up to 0.4, `h`: 0-360):
 
 ```typescript
 import { isLCH } from 'colorizr';
 
 isLCH({ l: 0.63, c: 0.29, h: 17 });  // true
-isLCH({ l: 0.63, c: 0.5, h: 17 });   // false (c > 0.4)
+isLCH({ l: 0.63, c: -0.1, h: 17 });  // false (c < 0)
 ```
 
 <LiveExample client:load code="isLCH({ l: 0.63, c: 0.29, h: 17 })" hideInputs />

@@ -3,7 +3,7 @@ import { GAMUT_EPSILON, MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { isInGamut, oklabToLinearP3 } from '~/modules/linear-rgb';
 import { round } from '~/modules/utils';
-import { isNumberInRange, isString } from '~/modules/validators';
+import { isNumberInRange, isPrecision, isString } from '~/modules/validators';
 import parseCSS from '~/parse-css';
 
 import { LCH } from '~/types';
@@ -16,6 +16,7 @@ import { LCH } from '~/types';
  * @returns The maximum chroma value within P3 gamut.
  */
 export function getP3MaxChroma(input: string | LCH, precision = PRECISION): number {
+  invariant(isPrecision(precision, 0), MESSAGES.precision);
   const { l, h } = isString(input) ? parseCSS(input, 'oklch') : input;
 
   invariant(isNumberInRange(l, 0, 1), MESSAGES.lightnessRange);

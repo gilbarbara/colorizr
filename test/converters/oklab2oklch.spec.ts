@@ -55,6 +55,14 @@ describe('oklab2oklch', () => {
     expect(oklab2oklch(input, 5)).toEqual(expected);
   });
 
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => oklab2oklch(orange.oklab, precision)).toThrow(MESSAGES.precision);
+  });
+
+  it('should accept precision 0', () => {
+    expect(() => oklab2oklch(orange.oklab, 0)).not.toThrow();
+  });
+
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required
     expect(() => oklab2oklch()).toThrow(MESSAGES.invalid);

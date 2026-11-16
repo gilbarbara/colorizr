@@ -32,6 +32,10 @@ describe('hex2oklch', () => {
     expect(() => hex2oklch([255, 255, 0])).toThrow(MESSAGES.inputHex);
   });
 
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => hex2oklch(orange.hex, precision)).toThrow(MESSAGES.precision);
+  });
+
   describe('alpha handling', () => {
     it.each([
       { input: brightPink.hexAlpha, expected: { ...brightPink.oklchLong, alpha: alphaCases.semi } },

@@ -1,30 +1,22 @@
 import * as converters from '~/converters';
-import extractColorParts from '~/extract-color-parts';
 import formatCSS, { FormatCSSOptions } from '~/format-css';
-import {
-  convertAlphaToHex,
-  extractAlphaFromHex,
-  normalizeAlpha,
-  removeAlphaFromHex,
-} from '~/modules/alpha';
-import { CSSColor, cssColors } from '~/modules/css-colors';
-import { clamp, normalizeOkLightness } from '~/modules/utils';
-import {
-  isHex,
-  isHSL,
-  isLAB,
-  isLCH,
-  isNamedColor,
-  isPlainObject,
-  isRGB,
-} from '~/modules/validators';
+import { convertAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/modules/alpha';
+import { parseColorString } from '~/modules/color-string';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
+import { clamp } from '~/modules/utils';
+import { isHSL, isLAB, isLCH, isPlainObject, isRGB } from '~/modules/validators';
 
 import { ColorModelKey, ColorTuple, ColorType, ColorValue, HEX, HSL, LAB, LCH, RGB } from '~/types';
 
 type ModelConverterFn = (input: ColorTuple) => ColorValue;
 
+/** Any color input the library resolves: a CSS string, a parsed color, or a color object. */
 export type ColorInput = string | ParsedColor | HSL | LAB | LCH | RGB;
 
+/**
+ * A resolved color: its source type and alpha, with lazily computed, cached conversions.
+ */
 export interface ParsedColor {
   readonly __parsed: true;
   readonly alpha: number;
@@ -77,6 +69,7 @@ const modelConverters: Record<ColorModelKey, Partial<Record<ColorModelKey, Model
   },
 };
 
+/** `ParsedColor` implementation that converts from the source value on first access and caches the result. */
 class ParsedColorImpl implements ParsedColor {
   readonly __parsed = true;
   readonly type: ColorType;
@@ -89,29 +82,42 @@ class ParsedColorImpl implements ParsedColor {
     this.type = type;
     this.alpha = alpha;
     this._sourceValue = value;
-    this._cache[type] = value;
+    // The source stays opaque for the hex → model converters; only the hex output carries alpha
+    this._cache[type] =
+      type === 'hex' && alpha < 1 ? (`${value}${convertAlphaToHex(alpha)}` as HEX) : value;
   }
 
+  /** The color as hex. Alpha below 1 is appended. */
   get hex(): HEX {
     return this._getAs('hex') as HEX;
   }
 
+  /** The color as HSL. */
   get hsl(): HSL {
     return this._getAs('hsl') as HSL;
   }
 
+  /** The color as RGB. */
   get rgb(): RGB {
     return this._getAs('rgb') as RGB;
   }
 
+  /** The color as OkLab. */
   get oklab(): LAB {
     return this._getAs('oklab') as LAB;
   }
 
+  /** The color as OkLCH. */
   get oklch(): LCH {
     return this._getAs('oklch') as LCH;
   }
 
+  /**
+   * Format the color as a CSS string.
+   *
+   * @param options - Format options; the format defaults to the source type.
+   * @returns The CSS string.
+   */
   toCSS(options?: FormatCSSOptions): string {
     const format = options?.format ?? this.type;
     const alpha = options?.alpha ?? (this.alpha < 1 ? this.alpha : undefined);
@@ -129,6 +135,7 @@ class ParsedColorImpl implements ParsedColor {
     return formatCSS(this[format], { ...options, format, alpha });
   }
 
+  /** Convert the source value to the target format, caching the result. */
   private _getAs(target: ColorType): ColorValue {
     if (this._cache[target]) {
       return this._cache[target];
@@ -142,13 +149,13 @@ class ParsedColorImpl implements ParsedColor {
     } else if (target === 'hex') {
       const tuple = Object.values(this._sourceValue) as ColorTuple;
 
-      result = toHexConverters[this.type as ColorModelKey](tuple);
+      result = toHexConverters[this.type](tuple);
 
       if (this.alpha < 1) {
         result = `${result}${convertAlphaToHex(this.alpha)}` as HEX;
       }
     } else {
-      const converter = modelConverters[target]?.[this.type as ColorModelKey];
+      const converter = modelConverters[target]?.[this.type];
 
       if (!converter) {
         // Same-type lookups are served from cache; fallback via hex if invariant breaks
@@ -166,20 +173,31 @@ class ParsedColorImpl implements ParsedColor {
   }
 }
 
+/**
+ * Check if the input is a color already resolved by `resolveColor`.
+ */
 export function isParsedColor(input: unknown): input is ParsedColor {
   return (
     typeof input === 'object' && input !== null && '__parsed' in input && input.__parsed === true
   );
 }
 
+/**
+ * Resolve any color input into a `ParsedColor`.
+ * Objects must pass their type guard; strings go through `parseColorString`,
+ * and out-of-range values throw `MESSAGES.invalidRange` (use `parseCSS` to resolve them as CSS does).
+ *
+ * @param input - A CSS color string, a color object, or a `ParsedColor`.
+ * @returns The parsed color.
+ */
 export function resolveColor(input: ColorInput): ParsedColor {
   if (isParsedColor(input)) {
     return input;
   }
 
   if (isPlainObject(input)) {
-    const { alpha: rawAlpha = 1 } = input;
-    const alpha = clamp(normalizeAlpha(rawAlpha), 0, 1);
+    // The type guards below only accept alpha between 0 and 1
+    const { alpha = 1 } = input;
 
     if (isHSL(input)) {
       return new ParsedColorImpl(
@@ -204,24 +222,23 @@ export function resolveColor(input: ColorInput): ParsedColor {
     if (isLCH(input)) {
       return new ParsedColorImpl('oklch', { l: input.l, c: input.c, h: input.h }, alpha);
     }
+
+    // An object that fails every guard must not reach the string parser and its "must be a string" error
+    throw new Error(MESSAGES.invalid);
   }
 
-  const value = isNamedColor(input) ? cssColors[input.toLowerCase() as CSSColor] : input;
+  const result = parseColorString(input);
 
-  if (isHex(value)) {
-    const alpha = extractAlphaFromHex(value);
-    const hex = removeAlphaFromHex(value);
+  if ('hex' in result) {
+    const alpha = extractAlphaFromHex(result.hex);
+    const hex = removeAlphaFromHex(result.hex);
 
     return new ParsedColorImpl('hex', hex, alpha);
   }
 
-  const parts = extractColorParts(value);
-  const { alpha, model, ...color } = parts;
+  invariant(result.inRange, MESSAGES.invalidRange);
 
-  const colorValue = (['oklab', 'oklch'].includes(model)
-    ? normalizeOkLightness(color as unknown as { l: number })
-    : color) as unknown as HSL | LAB | LCH | RGB;
-  const colorType: ColorType = model;
+  const { alpha, model, ...color } = result.parts;
 
-  return new ParsedColorImpl(colorType, colorValue, alpha ?? 1);
+  return new ParsedColorImpl(model, color as unknown as HSL | LAB | LCH | RGB, alpha ?? 1);
 }

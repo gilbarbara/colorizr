@@ -6,6 +6,7 @@ import { isString } from '~/modules/validators';
 
 // APCA W3 Constants (version 0.0.98G-4g)
 // Based on official SAPC-APCA implementation from Myndex/SAPC-APCA
+/** The APCA (SAPC-APCA W3) version that `apcaContrast` implements. */
 export const APCA_VERSION = '0.0.98G-4g';
 
 // Exponents

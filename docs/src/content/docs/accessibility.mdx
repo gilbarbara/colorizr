@@ -19,8 +19,8 @@ Returns the Lc (Lightness Contrast) value, typically ranging from -108 to +106.
 ```typescript
 import { apcaContrast } from 'colorizr';
 
-apcaContrast('#000000', '#ffffff'); // 106.04067
-apcaContrast('#ffffff', '#000000'); // -107.88473
+apcaContrast('#ffffff', '#000000'); // 106.04067 (dark text on light background)
+apcaContrast('#000000', '#ffffff'); // -107.88473 (light text on dark background)
 apcaContrast('#ff0044', '#ffffff'); // -69.23659
 ```
 :::note
@@ -68,7 +68,7 @@ import { readableColor } from 'colorizr';
 readableColor('#ff0044');          // '#ffffff'
 readableColor('#ffffff');          // '#000000'
 readableColor('#ff0044', 'apca');  // '#ffffff'
-readableColor('#ff0044', { method: 'apca', darkColor: '#1a1a2e' }); // '#1a1a2e'
+readableColor('#ffcc00', { method: 'apca', darkColor: '#1a1a2e' }); // '#1a1a2e'
 ```
 
 <LiveExample client:load code="readableColor('#ff0044')" />

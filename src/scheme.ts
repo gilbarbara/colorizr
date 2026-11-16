@@ -7,6 +7,7 @@ import rotate from '~/rotate';
 
 import { ColorType } from '~/types';
 
+/** Color harmony schemes for `scheme`. */
 export type Scheme =
   | 'analogous'
   | 'complementary'
@@ -17,6 +18,7 @@ export type Scheme =
   | 'tetradic'
   | 'triadic';
 
+/** Options for `scheme`. */
 export interface SchemeOptions {
   /**
    * Output color format.

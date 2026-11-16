@@ -27,15 +27,15 @@ const d = new Colorizr('#ff0044', { format: 'oklch' });
 
 ## Properties
 
-| Property | Type        | Description           |
-|----------|-------------|-----------------------|
-| `hex`    | `HEX`       | Hex representation    |
-| `hsl`    | `HSL`       | HSL object            |
-| `rgb`    | `RGB`       | RGB object            |
-| `oklab`  | `LAB`       | OkLab object          |
-| `oklch`  | `LCH`       | OkLCH object          |
-| `alpha`  | `number`    | Alpha value (0-1)     |
-| `type`   | `ColorType` | Current output format |
+| Property | Type        | Description                                 |
+|----------|-------------|---------------------------------------------|
+| `hex`    | `HEX`       | Hex representation, with alpha when below 1 |
+| `hsl`    | `HSL`       | HSL object                                  |
+| `rgb`    | `RGB`       | RGB object                                  |
+| `oklab`  | `LAB`       | OkLab object                                |
+| `oklch`  | `LCH`       | OkLCH object                                |
+| `alpha`  | `number`    | Alpha value (0-1)                           |
+| `type`   | `ColorType` | Current output format                       |
 
 ```typescript
 const color = new Colorizr('#ff0044');
