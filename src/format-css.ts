@@ -4,7 +4,7 @@ import { addAlphaToHex, extractAlphaFromHex, removeAlphaFromHex } from '~/module
 import { MESSAGES, PRECISION } from '~/modules/constants';
 import { CSSColor, cssColors } from '~/modules/css-colors';
 import { invariant } from '~/modules/invariant';
-import { restrictValues, round } from '~/modules/utils';
+import { clamp, restrictValues, round } from '~/modules/utils';
 import {
   isHex,
   isHSL,
@@ -129,8 +129,9 @@ export default function formatCSS<T extends ColorValue>(
     case 'hsl': {
       const { h, s, l } = getColorValue(input, 'hsl');
 
+      // Significant-digit rounding can carry past the range (355 → 400, 255 → 260 at low precision)
       params = [
-        round(h, precision, false),
+        clamp(round(h, precision, false), 0, 360),
         `${round(s, precision, false)}%`,
         `${round(l, precision, false)}%`,
       ];
@@ -147,13 +148,13 @@ export default function formatCSS<T extends ColorValue>(
       separator = ' ';
       const { l, c, h } = restrictValues(getColorValue(input, 'oklch'), precision, false);
 
-      params = [`${round(l * 100, precision, false)}%`, c, c === 0 ? 'none' : h];
+      params = [`${round(l * 100, precision, false)}%`, c, c === 0 ? 'none' : clamp(h, 0, 360)];
       break;
     }
     case 'rgb': {
       const { r, g, b } = getColorValue(input, 'rgb');
 
-      params = [r, g, b].map(value => round(value, precision, false));
+      params = [r, g, b].map(value => clamp(round(value, precision, false), 0, 255));
       break;
     }
     default: {

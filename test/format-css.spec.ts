@@ -79,6 +79,14 @@ describe('formatCSS', () => {
     );
   });
 
+  it('should keep rounded channels within their range at low precision', () => {
+    expect(formatCSS({ r: 255, g: 0, b: 0 }, { precision: 2 })).toBe('rgb(255 0 0)');
+    expect(formatCSS({ h: 355, s: 100, l: 50 }, { precision: 1 })).toBe('hsl(360 100% 50%)');
+    expect(formatCSS({ l: 0.5, c: 0.1, h: 355 }, { format: 'oklch', precision: 1 })).toBe(
+      'oklch(50% 0.1 360)',
+    );
+  });
+
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');
