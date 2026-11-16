@@ -106,7 +106,8 @@ describe('formatCSS', () => {
     );
   });
 
-  it.each([2, 50, -0.5])('should throw for alpha %s outside 0-1', alpha => {
+  it.each([2, 50, -0.5, NaN, '0.5'])('should throw for alpha %s outside 0-1', alpha => {
+    // @ts-expect-error - '0.5' is an invalid alpha type
     expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'rgb', alpha })).toThrow(
       'alpha must be a number between 0 and 1',
     );

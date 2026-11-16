@@ -115,7 +115,7 @@ export default function formatCSS<T extends ColorValue>(
 
   const colorFormat = format || getColorModel(input);
 
-  invariant(!isNumber(alpha) || isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
+  invariant(alpha === undefined || isNumberInRange(alpha, 0, 1), MESSAGES.alpha);
   // Significant digits: 0 rounds every channel away
   invariant(isPrecision(precision, 1), MESSAGES.precisionCSS);
 
