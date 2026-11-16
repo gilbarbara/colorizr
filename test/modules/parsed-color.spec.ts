@@ -1,4 +1,5 @@
 import formatCSS from '~/format-css';
+import { MESSAGES } from '~/modules/constants';
 import { isParsedColor, resolveColor } from '~/modules/parsed-color';
 
 import { brightPink, green, orange, violet, yellow } from '../__fixtures__';
@@ -195,6 +196,15 @@ describe('parsed-color', () => {
         expect(parsed.type).toBe('hsl');
         expect(parsed.hsl).toEqual(green.hsl);
         expect(parsed.hex).toBe(`${green.hex}80`);
+      });
+
+      it.each([
+        { name: 'OkLab lightness above 1', input: { l: 50, a: 0, b: 0 } },
+        { name: 'alpha above 1', input: { r: 255, g: 0, b: 0, alpha: 50 } },
+        { name: 'no color keys', input: {} },
+      ])('should throw invalid input for $name', ({ input }) => {
+        // @ts-expect-error - invalid input
+        expect(() => resolveColor(input)).toThrow(MESSAGES.invalid);
       });
     });
 

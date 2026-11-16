@@ -222,6 +222,9 @@ export function resolveColor(input: ColorInput): ParsedColor {
     if (isLCH(input)) {
       return new ParsedColorImpl('oklch', { l: input.l, c: input.c, h: input.h }, alpha);
     }
+
+    // An object that fails every guard must not reach the string parser and its "must be a string" error
+    throw new Error(MESSAGES.invalid);
   }
 
   const result = parseColorString(input);

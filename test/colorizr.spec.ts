@@ -1,6 +1,7 @@
 import Colorizr from '~/colorizr';
 import { ColorModel, ColorType } from '~/index';
 import { addAlpha } from '~/modules/alpha';
+import { MESSAGES } from '~/modules/constants';
 import { resolveColor } from '~/modules/parsed-color';
 import { isString } from '~/modules/validators';
 
@@ -332,5 +333,9 @@ describe('Colorizr with invalid input', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _colorizr = new Colorizr(input);
     }).toThrow();
+  });
+
+  it('should throw invalid input for an object that fails its type guard', () => {
+    expect(() => new Colorizr({ l: 50, a: 0, b: 0 })).toThrow(MESSAGES.invalid);
   });
 });
