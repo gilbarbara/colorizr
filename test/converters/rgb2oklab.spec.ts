@@ -26,6 +26,14 @@ describe('rgb2oklab', () => {
     expect(rgb2oklab(input)).toEqual(expected);
   });
 
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => rgb2oklab(orange.rgb, precision)).toThrow(MESSAGES.precision);
+  });
+
+  it('should accept precision 0', () => {
+    expect(() => rgb2oklab(orange.rgb, 0)).not.toThrow();
+  });
+
   it('should fail with invalid parameters', () => {
     // @ts-expect-error - input is required
     expect(() => rgb2oklab()).toThrow(MESSAGES.invalid);

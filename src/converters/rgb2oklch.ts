@@ -1,7 +1,10 @@
 import oklab2oklch from '~/converters/oklab2oklch';
 import rgb2oklab from '~/converters/rgb2oklab';
 import { addAlpha, extractAlpha } from '~/modules/alpha';
+import { MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
 import { parseInput } from '~/modules/utils';
+import { isPrecision } from '~/modules/validators';
 
 import { ConverterParameters, LCH, RGB } from '~/types';
 
@@ -13,6 +16,7 @@ import { ConverterParameters, LCH, RGB } from '~/types';
  * @returns The OkLCH color object.
  */
 export default function rgb2oklch(input: ConverterParameters<RGB>, precision?: number): LCH {
+  invariant(precision === undefined || isPrecision(precision, 0), MESSAGES.precision);
   const value = parseInput(input, 'rgb');
   const alpha = extractAlpha(input);
 

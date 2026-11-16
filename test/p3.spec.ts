@@ -35,6 +35,10 @@ describe('getP3MaxChroma', () => {
     // @ts-expect-error - invalid parameters
     expect(() => getP3MaxColor({ l: 0.5, c: 0.1, h: '120' })).toThrow(MESSAGES.hueRange);
   });
+
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => getP3MaxChroma({ l: 0.5, c: 0.1, h: 120 }, precision)).toThrow(MESSAGES.precision);
+  });
 });
 
 describe('getP3MaxColor', () => {

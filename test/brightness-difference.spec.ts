@@ -20,4 +20,8 @@ describe('brightnessDifference', () => {
     expect(() => brightnessDifference('')).toThrow(MESSAGES.left);
     expect(() => brightnessDifference('black', '')).toThrow(MESSAGES.right);
   });
+
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => brightnessDifference('#fff', '#000', precision)).toThrow(MESSAGES.precision);
+  });
 });

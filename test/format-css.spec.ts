@@ -94,6 +94,18 @@ describe('formatCSS', () => {
     expect(() => formatCSS('f04')).toThrow('invalid input');
   });
 
+  it.each([0, -1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { precision })).toThrow(
+      'precision must be an integer of 1 or more',
+    );
+  });
+
+  it('should throw with an invalid precision for hex output, which does not round', () => {
+    expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'hex', precision: 0 })).toThrow(
+      'precision must be an integer of 1 or more',
+    );
+  });
+
   it.each([2, 50, -0.5])('should throw for alpha %s outside 0-1', alpha => {
     expect(() => formatCSS({ r: 255, g: 0, b: 0 }, { format: 'rgb', alpha })).toThrow(
       'alpha must be a number between 0 and 1',

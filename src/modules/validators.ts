@@ -150,6 +150,13 @@ export function isPlainObject(input: unknown): input is Record<string, any> {
 }
 
 /**
+ * Check if the input is a valid precision: an integer of at least `min`.
+ */
+export function isPrecision(input: unknown, min: number): input is number {
+  return Number.isInteger(input) && (input as number) >= min;
+}
+
+/**
  * Check if an object contains RGB values.
  * The input must be an object with keys 'r', 'g', and 'b' with values between 0 and 255.
  */

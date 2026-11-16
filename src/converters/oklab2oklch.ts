@@ -1,6 +1,8 @@
 import { addAlpha, extractAlpha } from '~/modules/alpha';
-import { RAD2DEG } from '~/modules/constants';
+import { MESSAGES, RAD2DEG } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
 import { parseInput, restrictValues } from '~/modules/utils';
+import { isPrecision } from '~/modules/validators';
 
 import { ConverterParameters, LAB, LCH } from '~/types';
 
@@ -14,6 +16,7 @@ const { atan2, sqrt } = Math;
  * @returns The OkLCH color object.
  */
 export default function oklab2oklch(input: ConverterParameters<LAB>, precision?: number): LCH {
+  invariant(precision === undefined || isPrecision(precision, 0), MESSAGES.precision);
   const { l, a, b } = parseInput(input, 'oklab');
   const alpha = extractAlpha(input);
 

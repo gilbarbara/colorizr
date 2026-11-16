@@ -5,6 +5,7 @@ import {
   isLCH,
   isNumber,
   isPlainObject,
+  isPrecision,
   isRGB,
   isString,
 } from '~/modules/validators';
@@ -90,6 +91,22 @@ describe('isNumber', () => {
     expect(isNumber(10)).toBe(true);
     expect(isNumber('10')).toBe(false);
     expect(isNumber({})).toBe(false);
+  });
+});
+
+describe('isPrecision', () => {
+  it.each([
+    { input: 0, min: 0, expected: true },
+    { input: 5, min: 1, expected: true },
+    { input: 0, min: 1, expected: false },
+    { input: -1, min: 0, expected: false },
+    { input: 1.5, min: 0, expected: false },
+    { input: NaN, min: 0, expected: false },
+    { input: Infinity, min: 0, expected: false },
+    { input: '2', min: 0, expected: false },
+    { input: undefined, min: 0, expected: false },
+  ])('should return $expected for $input with min $min', ({ input, min, expected }) => {
+    expect(isPrecision(input, min)).toBe(expected);
   });
 });
 

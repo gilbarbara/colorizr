@@ -63,6 +63,10 @@ describe('deltaE', () => {
     expect(() => deltaE(123, '#fff')).toThrow(MESSAGES.left);
   });
 
+  it.each([-1, 1.5, NaN])('should throw with precision %s', precision => {
+    expect(() => deltaE('#fff', '#000', precision)).toThrow(MESSAGES.precision);
+  });
+
   it('should export DELTA_E_JND constant', () => {
     expect(DELTA_E_JND).toBe(0.02);
   });

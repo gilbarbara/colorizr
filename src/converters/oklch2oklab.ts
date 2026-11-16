@@ -1,7 +1,9 @@
 /* eslint-disable prefer-const */
 import { addAlpha, extractAlpha } from '~/modules/alpha';
-import { DEG2RAD } from '~/modules/constants';
+import { DEG2RAD, MESSAGES } from '~/modules/constants';
+import { invariant } from '~/modules/invariant';
 import { parseInput, restrictValues } from '~/modules/utils';
+import { isPrecision } from '~/modules/validators';
 
 import { ConverterParameters, LAB, LCH } from '~/types';
 
@@ -15,6 +17,7 @@ const { sin, cos } = Math;
  * @returns The OkLab color object.
  */
 export default function oklch2oklab(input: ConverterParameters<LCH>, precision?: number): LAB {
+  invariant(precision === undefined || isPrecision(precision, 0), MESSAGES.precision);
   let { l, c, h } = parseInput(input, 'oklch');
   const alpha = extractAlpha(input);
 

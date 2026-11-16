@@ -2,7 +2,7 @@ import { MESSAGES, PRECISION } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
 import { resolveColor } from '~/modules/parsed-color';
 import { round } from '~/modules/utils';
-import { isString } from '~/modules/validators';
+import { isPrecision, isString } from '~/modules/validators';
 
 /**
  * Just noticeable difference for Delta E OK: two colors closer than this look the same.
@@ -20,6 +20,7 @@ export const DELTA_E_JND = 0.02;
  * @returns The Delta E OK value.
  */
 export default function deltaE(left: string, right: string, precision = PRECISION): number {
+  invariant(isPrecision(precision, 0), MESSAGES.precision);
   invariant(isString(left), MESSAGES.left);
   invariant(isString(right), MESSAGES.right);
 

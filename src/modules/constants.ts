@@ -99,6 +99,8 @@ export const MESSAGES = {
   left: 'left is required and must be a string',
   lightnessRange: 'lightness must be a number between 0 and 1',
   options: 'invalid options',
+  precision: 'precision must be an integer of 0 or more',
+  precisionCSS: 'precision must be an integer of 1 or more',
   paletteSize: 'palette size must be at least 2',
   ratioRange: 'ratio must be a number between 0 and 1',
   right: 'right is required and must be a string',

@@ -3,7 +3,7 @@ import rgb2oklch from '~/converters/rgb2oklch';
 import { addAlpha, extractAlphaFromHex } from '~/modules/alpha';
 import { MESSAGES } from '~/modules/constants';
 import { invariant } from '~/modules/invariant';
-import { isHex } from '~/modules/validators';
+import { isHex, isPrecision } from '~/modules/validators';
 
 import { LCH } from '~/types';
 
@@ -15,6 +15,7 @@ import { LCH } from '~/types';
  * @returns The OkLCH color object.
  */
 export default function hex2oklch(input: string, precision?: number): LCH {
+  invariant(precision === undefined || isPrecision(precision, 0), MESSAGES.precision);
   invariant(isHex(input), MESSAGES.inputHex);
 
   const alpha = extractAlphaFromHex(input);
