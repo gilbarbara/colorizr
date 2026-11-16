@@ -47,6 +47,12 @@ describe('convertCSS', () => {
     expect(() => convertCSS('hsl(360.000001 50% 50%)', 'hex')).toThrow(MESSAGES.invalidRange);
   });
 
+  it('should throw on a lightness percentage just outside the range', () => {
+    expect(() => convertCSS('oklch(100.00000000000004% 0 0)', 'hex')).toThrow(
+      MESSAGES.invalidRange,
+    );
+  });
+
   it('should keep the alpha of 4-digit hex', () => {
     expect(convertCSS('#f008', 'hex')).toBe('#ff000088');
     expect(convertCSS('#f008', 'rgb')).toBe('rgb(255 0 0 / 53.3%)');

@@ -129,6 +129,7 @@ describe('isValidColor', () => {
       { input: 'hsl(0 50% -10%)', expected: false },
       { input: 'oklch(1.5 0 0)', expected: false },
       { input: 'oklch(150% 0 0)', expected: false },
+      { input: 'oklch(100.00000000000004% 0 0)', expected: false },
       { input: 'oklch(-0.01 0 0)', expected: false },
       { input: 'oklch(0.7 -0.1 30)', expected: false },
       { input: 'oklch(0.5 0.1 400)', expected: false },

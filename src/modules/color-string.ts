@@ -194,7 +194,7 @@ function parseColorFunction(input: string): {
     }
 
     if ((model === 'oklab' || model === 'oklch') && index === 0) {
-      return parseFloat((parsedValue / 100).toPrecision(15));
+      return percentToFraction(value);
     }
 
     if ((model === 'oklch' && index === 1) || (model === 'oklab' && index > 0)) {
@@ -216,6 +216,20 @@ function parseColorFunction(input: string): {
     strictSyntax: isStrictSyntax(input),
     parts: { model, ...color, alpha: alpha !== 1 ? alpha : undefined } as ExtractColorPartsReturn,
   };
+}
+
+/**
+ * Convert a CSS percentage to a fraction exactly, by shifting the decimal exponent instead of dividing.
+ * Dividing by 100 adds float noise (33.3 / 100 = 0.33299999999999996), and rounding it away
+ * would hide values just past a range limit (100.00000000000004% must stay above 1).
+ *
+ * @param value - The percentage token, such as '33.3%' or '1e2%'.
+ * @returns The fraction, such as 0.333 or 1.
+ */
+function percentToFraction(value: string): number {
+  const [mantissa, exponent = '0'] = value.slice(0, -1).split('e');
+
+  return Number(`${mantissa}e${Number(exponent) - 2}`);
 }
 
 /**

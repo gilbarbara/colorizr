@@ -279,6 +279,19 @@ describe('extractColorParts', () => {
       input: 'oklab(-.5e-1 -1e-1 +.1)',
       expected: { model: 'oklab', l: -0.05, a: -0.1, b: 0.1 },
     },
+    // Lightness percentages convert exactly: no float noise, no rounding
+    {
+      input: 'oklch(33.3% 0.1 120)',
+      expected: { model: 'oklch', l: 0.333, c: 0.1, h: 120 },
+    },
+    {
+      input: 'oklch(100.00000000000004% 0 0)',
+      expected: { model: 'oklch', l: 1.0000000000000004, c: 0, h: 0 },
+    },
+    {
+      input: 'oklab(1e2% 0 0)',
+      expected: { model: 'oklab', l: 1, a: 0, b: 0 },
+    },
     // Hue as written, not rounded
     {
       input: 'hsl(10.123456 50% 50%)',
