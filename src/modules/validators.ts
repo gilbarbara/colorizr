@@ -41,14 +41,14 @@ export function isHSL(input: unknown): input is HSL {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'h') {
-        return value >= 0 && value <= 360;
+        return isNumberInRange(value, 0, 360);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.hsl.includes(key) && value >= 0 && value <= 100;
+      return COLOR_KEYS.hsl.includes(key) && isNumberInRange(value, 0, 100);
     })
   );
 }
@@ -68,11 +68,11 @@ export function isLAB(input: unknown): input is LAB {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
       return COLOR_KEYS.oklab.includes(key) && Number.isFinite(value);
@@ -95,18 +95,18 @@ export function isLCH(input: unknown): input is LCH {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'l') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
       if (key === 'c') {
         return Number.isFinite(value) && value >= 0;
       }
 
-      return COLOR_KEYS.oklch.includes(key) && value >= 0 && value <= 360;
+      return COLOR_KEYS.oklch.includes(key) && isNumberInRange(value, 0, 360);
     })
   );
 }
@@ -171,10 +171,10 @@ export function isRGB(input: unknown): input is RGB {
     !!entries.length &&
     entries.every(([key, value]) => {
       if (key === 'alpha') {
-        return value >= 0 && value <= 1;
+        return isNumberInRange(value, 0, 1);
       }
 
-      return COLOR_KEYS.rgb.includes(key) && value >= 0 && value <= 255;
+      return COLOR_KEYS.rgb.includes(key) && isNumberInRange(value, 0, 255);
     })
   );
 }

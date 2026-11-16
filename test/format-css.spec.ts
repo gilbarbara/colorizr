@@ -87,6 +87,21 @@ describe('formatCSS', () => {
     );
   });
 
+  it.each(['rgb', 'hex'] as const)(
+    'should throw for a color object with a string alpha in %s output',
+    format => {
+      // @ts-expect-error - invalid alpha type
+      expect(() => formatCSS({ r: 255, g: 0, b: 0, alpha: '0.5' }, format)).toThrow(
+        'invalid input',
+      );
+    },
+  );
+
+  it('should throw for a color object with a string channel', () => {
+    // @ts-expect-error - invalid channel type
+    expect(() => formatCSS({ r: '255', g: 0, b: 0 })).toThrow('invalid input');
+  });
+
   it('should throw with invalid input', () => {
     // @ts-expect-error - invalid color model shape
     expect(() => formatCSS({ r: 10, g: 10, s: 10 })).toThrow('invalid input');

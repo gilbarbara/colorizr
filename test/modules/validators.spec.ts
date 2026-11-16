@@ -49,6 +49,12 @@ describe('isHSL', () => {
     expect(isHSL(green.rgb)).toBe(false);
     expect(isHSL(green.hex)).toBe(false);
   });
+
+  it('should reject values that are not numbers', () => {
+    expect(isHSL({ h: '120', s: 50, l: 50 })).toBe(false);
+    expect(isHSL({ h: 120, s: null, l: 50 })).toBe(false);
+    expect(isHSL({ h: 120, s: 50, l: 50, alpha: '0.5' })).toBe(false);
+  });
 });
 
 describe('isLAB', () => {
@@ -65,6 +71,12 @@ describe('isLAB', () => {
     expect(isLAB({})).toBe(false);
     expect(isLAB([])).toBe(false);
     expect(isLAB('')).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isLAB({ l: '0.5', a: 0, b: 0 })).toBe(false);
+    expect(isLAB({ l: null, a: 0, b: 0 })).toBe(false);
+    expect(isLAB({ l: 0.5, a: 0, b: 0, alpha: '0.5' })).toBe(false);
   });
 });
 
@@ -83,6 +95,12 @@ describe('isLHC', () => {
     expect(isLCH({})).toBe(false);
     expect(isLCH([])).toBe(false);
     expect(isLCH('')).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isLCH({ l: '0.5', c: 0.1, h: 30 })).toBe(false);
+    expect(isLCH({ l: 0.5, c: 0.1, h: '30' })).toBe(false);
+    expect(isLCH({ l: 0.5, c: 0.1, h: 30, alpha: null })).toBe(false);
   });
 });
 
@@ -140,5 +158,11 @@ describe('isRGB', () => {
     expect(isRGB({ r: 20, g: 100, x: 50 })).toBe(false);
     expect(isRGB({ h: 20, s: 100, l: 50 })).toBe(false);
     expect(isRGB(brightPink.hex)).toBe(false);
+  });
+
+  it('should reject values that are not numbers', () => {
+    expect(isRGB({ r: '255', g: 0, b: 0 })).toBe(false);
+    expect(isRGB({ r: 255, g: null, b: 0 })).toBe(false);
+    expect(isRGB({ r: 255, g: 0, b: 0, alpha: '0.5' })).toBe(false);
   });
 });
